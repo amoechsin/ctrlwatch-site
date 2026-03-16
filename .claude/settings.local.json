@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(node:*)",
+      "Bash(head:*)",
+      "Bash(wget:*)",
+      "Bash(python3:*)",
+      "WebSearch",
+      "WebFetch(domain:socialblade.com)",
+      "Bash(cp:*)",
+      "Bash(yes)"
+    ]
+  }
+}

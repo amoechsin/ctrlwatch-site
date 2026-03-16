@@ -1,0 +1,175 @@
+---
+interface Props {
+  slug: string;
+  number: string;
+  date: string;
+  title: string;
+  subtitle: string;
+  coverColor: string;
+  tag: string;
+  published: boolean;
+  animationDelay?: number;
+}
+
+const {
+  slug,
+  number,
+  date,
+  title,
+  subtitle,
+  coverColor,
+  tag,
+  published,
+  animationDelay = 0,
+} = Astro.props;
+
+const issueUrl = `/issues/${slug}/`;
+---
+
+<article
+  class="issue-card stagger-in"
+  style={`animation-delay: ${animationDelay}ms; --cover-color: ${coverColor};`}
+>
+  <a href={issueUrl} class="issue-card-link" aria-label={`${number} — ${title}`}>
+    <div class="issue-cover" style={`border-color: ${coverColor}; box-shadow: 0 0 8px ${coverColor}60, 0 0 20px ${coverColor}20;`}>
+      <span class="issue-cover-number">{number}</span>
+      {!published && (
+        <div class="issue-cover-overlay">
+          <span class="coming-soon-text">COMING<br/>SOON</span>
+        </div>
+      )}
+    </div>
+
+    <div class="issue-meta">
+      <div class="issue-meta-top">
+        <span class="tag" style={`color: ${coverColor}; border-color: ${coverColor};`}>{tag}</span>
+        <span class="issue-date">{date}</span>
+      </div>
+
+      <h2 class="issue-title">{title}</h2>
+      <p class="issue-subtitle">{subtitle}</p>
+
+      {published ? (
+        <span class="btn issue-btn">READ NOW ▶</span>
+      ) : (
+        <span class="issue-btn-disabled">COMING SOON</span>
+      )}
+    </div>
+  </a>
+</article>
+
+<style>
+  .issue-card {
+    display: block;
+  }
+
+  .issue-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: border-color 0.2s ease;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+  }
+
+  .issue-card-link:hover {
+    border-color: var(--cover-color, var(--green));
+  }
+
+  .issue-cover {
+    aspect-ratio: 3/4;
+    border: 3px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: var(--bg);
+    overflow: hidden;
+  }
+
+  .issue-cover-number {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(24px, 5vw, 48px);
+    color: var(--cover-color, var(--green));
+    text-shadow: 0 0 20px currentColor;
+    letter-spacing: 0.05em;
+  }
+
+  .issue-cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 8, 8, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--text-muted);
+  }
+
+  .coming-soon-text {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(10px, 2vw, 14px);
+    color: var(--text-secondary);
+    text-align: center;
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+  }
+
+  .issue-meta {
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .issue-meta-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
+
+  .issue-date {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .issue-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(8px, 1.5vw, 11px);
+    color: var(--text-primary);
+    line-height: 1.8;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+
+  .issue-subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .issue-btn {
+    font-size: 8px;
+    padding: 8px 16px;
+    align-self: flex-start;
+    margin-top: var(--space-xs);
+  }
+
+  .issue-btn-disabled {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    padding: 8px 16px;
+    color: var(--text-muted);
+    border: 1px dashed var(--text-muted);
+    display: inline-block;
+    letter-spacing: 0.1em;
+    margin-top: var(--space-xs);
+  }
+</style>

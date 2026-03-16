@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ctrl-watch.xyz/sitemap-index.xml

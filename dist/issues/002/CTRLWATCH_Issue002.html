@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTRL+WATCH Issue #002 — THE ALGORITHM ISSUE</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Press+Start+2P&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=VT323&family=Russo+One&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0A0A12;
+  --bg-secondary: #0E0E1A;
+  --bg-panel: #111122;
+  --bg-card: #151530;
+  --cyan: #00F0FF;
+  --magenta: #FF00AA;
+  --yellow: #FFE600;
+  --green: #39FF14;
+  --orange: #FF6B00;
+  --red: #FF2244;
+  --text-primary: #E8E8F0;
+  --text-secondary: #9090B0;
+  --text-dim: #606080;
+  --border: #252545;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Exo 2', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* SCANLINE OVERLAY */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* CRT VIGNETTE */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.5) 100%);
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ===== HEADER ===== */
+.magazine-header {
+  text-align: center;
+  padding: 40px 20px 20px;
+  background: linear-gradient(180deg, #0A0A12 0%, #0D0D1A 100%);
+  border-bottom: 2px solid var(--cyan);
+  position: relative;
+}
+
+.magazine-header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--cyan);
+  box-shadow: 0 0 15px var(--cyan), 0 0 30px rgba(0,240,255,0.3);
+}
+
+.issue-tag {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--magenta);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  text-shadow: 0 0 10px rgba(255,0,170,0.5);
+}
+
+.masthead {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(32px, 6vw, 64px);
+  font-weight: 900;
+  letter-spacing: 4px;
+  background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 0 20px rgba(0,240,255,0.3));
+  margin-bottom: 4px;
+}
+
+.masthead-sub {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: var(--text-secondary);
+  letter-spacing: 6px;
+}
+
+.cover-feature-tag {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 8px 20px;
+  border: 2px solid var(--yellow);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--yellow);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255,230,0,0.4);
+  box-shadow: 0 0 15px rgba(255,230,0,0.15), inset 0 0 15px rgba(255,230,0,0.05);
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(255,230,0,0.15), inset 0 0 15px rgba(255,230,0,0.05); }
+  50% { box-shadow: 0 0 25px rgba(255,230,0,0.3), inset 0 0 25px rgba(255,230,0,0.1); }
+}
+
+/* ===== TAB NAVIGATION ===== */
+.tab-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.tab-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  padding: 14px 16px;
+  background: transparent;
+  color: var(--text-dim);
+  border: none;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: var(--text-primary);
+  background: rgba(0,240,255,0.05);
+}
+
+.tab-btn.active {
+  color: var(--cyan);
+  border-bottom-color: var(--cyan);
+  text-shadow: 0 0 10px rgba(0,240,255,0.5);
+  background: rgba(0,240,255,0.05);
+}
+
+.tab-content {
+  display: none;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* ===== SECTION HEADERS ===== */
+.section-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--magenta);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  text-shadow: 0 0 10px rgba(255,0,170,0.3);
+}
+
+.section-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(22px, 4vw, 36px);
+  font-weight: 800;
+  color: var(--cyan);
+  margin-bottom: 24px;
+  text-shadow: 0 0 15px rgba(0,240,255,0.3);
+  line-height: 1.3;
+}
+
+.section-title.yellow { color: var(--yellow); text-shadow: 0 0 15px rgba(255,230,0,0.3); }
+.section-title.green { color: var(--green); text-shadow: 0 0 15px rgba(57,255,20,0.3); }
+.section-title.magenta { color: var(--magenta); text-shadow: 0 0 15px rgba(255,0,170,0.3); }
+.section-title.orange { color: var(--orange); text-shadow: 0 0 15px rgba(255,107,0,0.3); }
+
+/* ===== PIXEL DIVIDER ===== */
+.pixel-divider {
+  height: 6px;
+  margin: 40px 0;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--cyan) 0px, var(--cyan) 8px,
+    transparent 8px, transparent 12px,
+    var(--magenta) 12px, var(--magenta) 20px,
+    transparent 20px, transparent 24px,
+    var(--yellow) 24px, var(--yellow) 32px,
+    transparent 32px, transparent 36px
+  );
+  opacity: 0.6;
+}
+
+.pixel-divider.thin {
+  height: 2px;
+  margin: 28px 0;
+  opacity: 0.4;
+}
+
+/* ===== BODY TEXT ===== */
+.body-text {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.body-text.indent { text-indent: 28px; }
+
+/* ===== PULL QUOTES ===== */
+.pull-quote {
+  font-family: 'Russo One', sans-serif;
+  font-size: 22px;
+  color: var(--yellow);
+  border-left: 4px solid var(--yellow);
+  padding: 16px 24px;
+  margin: 28px 0;
+  background: rgba(255,230,0,0.04);
+  line-height: 1.5;
+  text-shadow: 0 0 8px rgba(255,230,0,0.15);
+}
+
+.pull-quote.cyan { color: var(--cyan); border-left-color: var(--cyan); background: rgba(0,240,255,0.04); text-shadow: 0 0 8px rgba(0,240,255,0.15); }
+.pull-quote.magenta { color: var(--magenta); border-left-color: var(--magenta); background: rgba(255,0,170,0.04); text-shadow: 0 0 8px rgba(255,0,170,0.15); }
+.pull-quote.green { color: var(--green); border-left-color: var(--green); background: rgba(57,255,20,0.04); text-shadow: 0 0 8px rgba(57,255,20,0.15); }
+
+/* ===== CARDS & PANELS ===== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 28px;
+  margin-bottom: 28px;
+}
+
+.card-header {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* ===== SCORE SYSTEM ===== */
+.score-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 16px;
+  margin: 20px 0;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+}
+
+.score-label { color: var(--text-secondary); }
+.score-value { color: var(--cyan); text-align: right; font-size: 20px; }
+
+.score-bar-container {
+  grid-column: 1 / -1;
+  height: 4px;
+  background: var(--bg-secondary);
+  margin-bottom: 8px;
+}
+
+.score-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cyan), var(--magenta));
+  transition: width 0.8s ease;
+}
+
+.overall-score {
+  display: inline-block;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 48px;
+  font-weight: 900;
+  padding: 16px 28px;
+  margin: 16px 0;
+  border: 3px solid;
+  text-shadow: 0 0 20px;
+}
+
+.overall-score.essential { color: var(--yellow); border-color: var(--yellow); text-shadow: 0 0 20px rgba(255,230,0,0.4); box-shadow: 0 0 30px rgba(255,230,0,0.15); }
+.overall-score.excellent { color: var(--cyan); border-color: var(--cyan); text-shadow: 0 0 20px rgba(0,240,255,0.4); box-shadow: 0 0 30px rgba(0,240,255,0.15); }
+.overall-score.good { color: var(--green); border-color: var(--green); text-shadow: 0 0 20px rgba(57,255,20,0.4); box-shadow: 0 0 30px rgba(57,255,20,0.15); }
+.overall-score.average { color: var(--orange); border-color: var(--orange); text-shadow: 0 0 20px rgba(255,107,0,0.4); box-shadow: 0 0 30px rgba(255,107,0,0.15); }
+
+.verdict-tag {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  margin-left: 12px;
+}
+
+/* ===== INTERVIEW ===== */
+.interview-disclaimer {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  color: var(--red);
+  border: 1px solid var(--red);
+  padding: 12px 16px;
+  margin-bottom: 28px;
+  text-align: center;
+  background: rgba(255,34,68,0.05);
+  letter-spacing: 1px;
+}
+
+.interview-exchange {
+  margin-bottom: 24px;
+}
+
+.interview-speaker {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.interview-speaker.magazine { color: var(--cyan); }
+.interview-speaker.subject { color: var(--magenta); }
+
+.interview-stage-direction {
+  font-style: italic;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+/* ===== BOSS FIGHT ===== */
+.boss-fight-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.vs-badge {
+  display: inline-block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 24px;
+  color: var(--red);
+  text-shadow: 0 0 15px rgba(255,34,68,0.5);
+  margin: 0 16px;
+  vertical-align: middle;
+}
+
+.boss-fight-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.fighter-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 24px;
+}
+
+.fighter-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.category-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.category-name { color: var(--text-secondary); }
+.cat-win { color: var(--green); font-weight: bold; }
+.cat-lose { color: var(--text-dim); }
+
+.winner-banner {
+  text-align: center;
+  padding: 24px;
+  margin: 24px 0;
+  border: 2px solid var(--yellow);
+  background: rgba(255,230,0,0.05);
+}
+
+.winner-banner h3 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: var(--yellow);
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+}
+
+.winner-banner .name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--yellow);
+  text-shadow: 0 0 15px rgba(255,230,0,0.4);
+}
+
+/* ===== HIGH SCORES TABLE ===== */
+.rankings-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'VT323', monospace;
+  font-size: 17px;
+  margin: 20px 0;
+}
+
+.rankings-table th {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--cyan);
+  letter-spacing: 2px;
+  padding: 10px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--cyan);
+}
+
+.rankings-table td {
+  padding: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.rankings-table tr:hover { background: rgba(0,240,255,0.03); }
+
+.rank-num {
+  color: var(--text-dim);
+  width: 40px;
+}
+
+.rank-new { color: var(--green); font-size: 12px; }
+.rank-up { color: var(--green); }
+.rank-down { color: var(--red); }
+.rank-same { color: var(--text-dim); }
+
+/* ===== NEWS BITES ===== */
+.news-bite {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.news-bite:last-child { border-bottom: none; }
+
+.news-headline {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+
+/* ===== YOB ===== */
+.yob-container {
+  background: var(--bg-card);
+  border: 2px solid var(--green);
+  padding: 24px;
+  margin: 24px 0;
+  position: relative;
+}
+
+.yob-badge {
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  background: var(--green);
+  color: var(--bg-primary);
+  padding: 4px 12px;
+  letter-spacing: 2px;
+}
+
+.yob-text {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 15px;
+  color: var(--green);
+  line-height: 1.7;
+  font-style: italic;
+}
+
+.yob-sig {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--green);
+  text-align: right;
+  margin-top: 12px;
+}
+
+.yob-margin-note {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  color: var(--green);
+  border-left: 2px solid var(--green);
+  padding: 8px 12px;
+  margin: 16px 0;
+  background: rgba(57,255,20,0.04);
+}
+
+/* ===== READER LETTER ===== */
+.reader-letter {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.reader-name {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: var(--orange);
+  margin-bottom: 8px;
+}
+
+.reader-content {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+.star-rating {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: var(--yellow);
+  margin-right: 12px;
+}
+
+.verdict-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--cyan);
+  letter-spacing: 2px;
+  vertical-align: middle;
+}
+
+/* ===== RETRO AD ===== */
+.retro-ad {
+  border: 3px solid var(--yellow);
+  padding: 32px;
+  margin: 40px 0;
+  text-align: center;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 20px,
+    rgba(255,230,0,0.02) 20px,
+    rgba(255,230,0,0.02) 40px
+  );
+  position: relative;
+}
+
+.retro-ad::before {
+  content: 'ADVERTISEMENT';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--text-dim);
+  background: var(--bg-primary);
+  padding: 0 12px;
+  letter-spacing: 3px;
+}
+
+.retro-ad h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--yellow);
+  text-shadow: 0 0 15px rgba(255,230,0,0.4);
+  margin-bottom: 12px;
+}
+
+.retro-ad .tagline {
+  font-family: 'Russo One', sans-serif;
+  font-size: 16px;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.retro-ad .fine-print {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-top: 12px;
+}
+
+/* ===== HIDDEN LEVELS ===== */
+.hidden-channel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 24px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.yob-pick-stamp {
+  position: absolute;
+  top: -8px;
+  right: 16px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  background: var(--green);
+  color: var(--bg-primary);
+  padding: 4px 10px;
+  letter-spacing: 1px;
+  transform: rotate(2deg);
+}
+
+.channel-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--cyan);
+  margin-bottom: 4px;
+}
+
+.channel-stats {
+  font-family: 'VT323', monospace;
+  font-size: 15px;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+}
+
+/* ===== INVESTIGATION STYLES ===== */
+.investigation-callout {
+  border: 1px solid var(--orange);
+  background: rgba(255,107,0,0.05);
+  padding: 20px;
+  margin: 24px 0;
+}
+
+.investigation-callout h4 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: var(--orange);
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.stat-box {
+  display: inline-block;
+  font-family: 'VT323', monospace;
+  padding: 8px 16px;
+  border: 1px solid var(--cyan);
+  margin: 4px;
+  background: rgba(0,240,255,0.05);
+}
+
+.stat-number {
+  font-size: 28px;
+  color: var(--cyan);
+  display: block;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+  .boss-fight-grid { grid-template-columns: 1fr; }
+  .tab-btn { font-size: 7px; padding: 10px 8px; }
+  .tab-content { padding: 24px 16px 60px; }
+}
+
+/* ===== FOOTER ===== */
+.magazine-footer {
+  text-align: center;
+  padding: 40px 20px;
+  border-top: 1px solid var(--border);
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  color: var(--text-dim);
+}
+</style>
+</head>
+<body>
+
+<!-- ======================================= -->
+<!-- HEADER -->
+<!-- ======================================= -->
+<header class="magazine-header">
+  <div class="issue-tag">ISSUE #002 &bull; FEBRUARY 2026</div>
+  <h1 class="masthead">CTRL+WATCH</h1>
+  <div class="masthead-sub">THE YOUTUBE REVIEW MAGAZINE</div>
+  <div class="cover-feature-tag">&#9654; COVER FEATURE: THE YOUTUBE ALGORITHM &mdash; A COMPLETE INVESTIGATION</div>
+</header>
+
+<!-- ======================================= -->
+<!-- TAB NAVIGATION -->
+<!-- ======================================= -->
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="cover">PRESS START</button>
+  <button class="tab-btn" data-tab="algorithm">THE ALGORITHM</button>
+  <button class="tab-btn" data-tab="timecapsule">TIME CAPSULE</button>
+  <button class="tab-btn" data-tab="reviews">REVIEWS</button>
+  <button class="tab-btn" data-tab="bossfight">BOSS FIGHT</button>
+  <button class="tab-btn" data-tab="highscores">HIGH SCORES</button>
+  <button class="tab-btn" data-tab="hidden">HIDDEN LEVELS</button>
+  <button class="tab-btn" data-tab="gameover">GAME OVER</button>
+</nav>
+
+<!-- ======================================= -->
+<!-- TAB: PRESS START + NOW LOADING -->
+<!-- ======================================= -->
+<div class="tab-content active" id="cover">
+
+<div class="section-label">PRESS START</div>
+<div class="section-title">THE MACHINE BEHIND THE CURTAIN</div>
+
+<p class="body-text">We need to talk about the algorithm.</p>
+
+<p class="body-text">Not in the breathless, hand-wringing way every tech blogger with a Squarespace site has already talked about it. Not as a bogeyman. Not as an excuse. We need to talk about it the way you talk about gravity &mdash; as a fundamental force that shapes everything in its field whether you acknowledge it or not.</p>
+
+<p class="body-text">This issue of CTRL+WATCH exists because of a simple question that nagged at us for weeks: <em>Who is really in charge of what you watch?</em> You think you are. YouTube thinks the algorithm is. The creators think it's some unholy alliance between the two. Everyone is wrong, and everyone is right, and the truth is far stranger than any of them imagine.</p>
+
+<p class="body-text">Our cover investigation into the YouTube recommendation system is the most ambitious piece of reporting we've attempted. We spoke to engineers, data scientists, creators who've been blessed by the algorithm and creators who've been destroyed by it. What we found isn't a conspiracy. It's something worse: a system so complex that not even the people who built it fully understand what it does. It optimizes for engagement the way a river optimizes for the sea &mdash; relentlessly, without intention, reshaping everything in its path.</p>
+
+<p class="body-text">Elsewhere in this issue, we've got two Time Capsule interviews that we're particularly proud of. Andy Warhol reacts to influencer culture &mdash; a conversation that practically wrote itself, because the man predicted all of this fifty years ago and would absolutely be posting daily. Kurt Cobain watches music YouTube and the results are, well, exactly what you'd expect from someone who wrote about smelling teen spirit and meant it as an insult.</p>
+
+<p class="body-text">Our Boss Fight this month is a genuine heavyweight bout: MKBHD versus Linus Tech Tips. The aesthete versus the encyclopedia. The 4K whisper versus the chaotic shout. We picked a winner. You'll disagree. That's the point.</p>
+
+<p class="body-text">Reviews this month cover the full spectrum: Conan O'Brien's quiet YouTube empire (it's better than you think), Andrew Huberman's problematic science cathedral (it's more complicated than you think), Theo Von's unclassifiable genius (it's more brilliant than you think), and Mark Rober's engineering spectacle machine (it's exactly as good as you think, and we have the scores to prove it).</p>
+
+<p class="body-text">Issue two. The algorithm brought you here. We'll give you a reason to stay.</p>
+
+<p class="body-text" style="color: var(--cyan); font-weight: 600;">See you on the other side of the loading screen.</p>
+
+<p class="body-text" style="font-family: 'VT323', monospace; color: var(--text-dim); font-size: 18px; margin-top: 8px;">&mdash; The Editorial Team, CTRL+WATCH</p>
+
+<div class="pixel-divider"></div>
+
+<!-- NOW LOADING -->
+<div class="section-label">NOW LOADING</div>
+<div class="section-title yellow">NEWS BITES</div>
+
+<div class="news-bite">
+<div class="news-headline">CONAN CONQUERS: OSCARS TO YOUTUBE PIPELINE COMPLETE</div>
+<p class="body-text">Conan O'Brien hosted the 2025 Academy Awards to universal acclaim, got renewed for next year, won the Mark Twain Prize for American Humor, and then quietly started dropping full podcast episodes on YouTube. The man is running a three-front war on entertainment and winning all of them. Team Coco now boasts over 9 million YouTube subscribers and has transitioned from clip channel to full-episode destination. The late night king didn't just survive the format's death &mdash; he rewrote the rules entirely.</p>
+</div>
+
+<div class="news-bite">
+<div class="news-headline">MARK ROBER LANDS ON NETFLIX, STILL UPLOADS TO YOUTUBE</div>
+<p class="body-text">In a move that would make traditional TV executives weep into their pilot scripts, Mark Rober signed a Netflix deal for a greatest-hits compilation AND a new competition series &mdash; while maintaining his YouTube channel at 70+ million subscribers. CrunchLabs, his STEM subscription box company, is now a full-blown media operation with a Chief Content Officer and a school curriculum arm. He also launched Team Water with MrBeast, raising $40 million for clean water. At what point does "YouTuber" become an insultingly small job title?</p>
+</div>
+
+<div class="news-bite">
+<div class="news-headline">LTT VS GAMERS NEXUS: SEASON THREE OF THE FEUD NOBODY ASKED FOR</div>
+<p class="body-text">The tech YouTube cold war went hot again in January 2025 when Gamers Nexus dropped a video about the Honey browser extension scandal that name-checked Linus Tech Tips. What followed was a cascade of plagiarism allegations, leaked emails, passive-aggressive WAN Show segments, and a content pause that, honestly, we're exhausted just summarizing. LTT's viewership took a measurable hit in late 2025, with Linus himself admitting the channel was "on the struggle bus." The soap opera continues. We've got popcorn.</p>
+</div>
+
+<div class="news-bite">
+<div class="news-headline">HUBERMAN ADMITS TO TRT: SUPPLEMENT EMPIRE WOBBLES</div>
+<p class="body-text">Andrew Huberman casually revealed during an interview that he's been on testosterone replacement therapy since age 45. This would be unremarkable except that his entire brand is built on optimizing health through supplements, protocols, and morning sunlight rituals &mdash; many of which he sells sponsorships for. His subreddit erupted. One fan called it "like finding out your personal trainer has been wearing a fat suit." He's also joining CBS News as a contributor. 2026 is going to be weird for the Huberman universe.</p>
+</div>
+
+<div class="news-bite">
+<div class="news-headline">MKBHD PANELS APP: RISE, FALL, SHUTDOWN</div>
+<p class="body-text">MKBHD's wallpaper app Panels launched in September 2024 to immediate backlash &mdash; a $50/year subscription for phone wallpapers drew comparisons to a certain infamous Juicero moment. Brownlee reduced pricing and tried to fix the issues, but the damage was done. In December 2025, he announced the app would shut down. It's a cautionary tale about the gap between "tech reviewer" and "tech founder" &mdash; and a reminder that your audience will hold you to your own standards. The channel itself remains immaculate, though. 20+ million subscribers and counting.</p>
+</div>
+
+<div class="yob-container">
+  <div class="yob-badge">YOB SAYS</div>
+  <p class="yob-text">Right, so Huberman's been jabbing himself with testosterone this whole time while telling everyone to buy supplements that cost more than Yob's weekly food budget? And MKBHD tried to charge fifty quid a year for phone wallpapers? Mate, I could get better wallpapers off the side of a bus. The state of influencer side-hustles in 2025 was an absolute car crash and Yob loved every second of it.</p>
+  <div class="yob-sig">&mdash; Yob</div>
+</div>
+
+</div>
+
+<!-- ======================================= -->
+<!-- TAB: THE ALGORITHM INVESTIGATION -->
+<!-- ======================================= -->
+<div class="tab-content" id="algorithm">
+
+<div class="section-label">COVER FEATURE</div>
+<div class="section-title">THE YOUTUBE ALGORITHM: A COMPLETE INVESTIGATION</div>
+<p style="font-family: 'VT323', monospace; color: var(--text-dim); font-size: 16px; margin-bottom: 28px;">AN IN-DEPTH EXAMINATION OF THE SYSTEM THAT DECIDES WHAT 2.7 BILLION PEOPLE WATCH</p>
+
+<div class="pull-quote cyan">"The algorithm doesn't have opinions. It has consequences."</div>
+
+<p class="body-text" style="font-weight: 700; font-size: 18px;">The most powerful editor in the history of media has no face, no byline, and no editorial meetings. It processes over 500 hours of uploaded video every minute. It decides which creators eat and which starve. It has reshaped human attention on a planetary scale. And almost nobody &mdash; including the people who built it &mdash; can tell you exactly how it works.</p>
+
+<p class="body-text">We're talking about the YouTube recommendation algorithm: the system responsible for an estimated 70% of all time spent watching videos on the platform. Not the search function. Not your subscription feed. The <em>recommendation engine</em> &mdash; the thing that puts videos in front of you that you didn't ask for but can't stop clicking. It's the most consequential piece of software in the entertainment industry, and we've spent the last two months trying to understand it.</p>
+
+<p class="body-text">What follows is not a conspiracy theory. It's not a hit piece on YouTube. It's an attempt to describe, as clearly and honestly as possible, what the algorithm actually does, who benefits, who suffers, and what it means for the future of creative work on the platform we love.</p>
+
+<div class="pixel-divider thin"></div>
+
+<h3 style="font-family: 'Orbitron', sans-serif; color: var(--orange); font-size: 20px; margin-bottom: 16px;">CHAPTER 1: WHAT THE ALGORITHM ACTUALLY IS</h3>
+
+<p class="body-text">First, let's kill a myth: there is no single "YouTube algorithm." The term is shorthand for a sprawling network of machine learning models that collectively decide what to recommend, what to surface in search, what to suggest in the sidebar, and what to feature on the homepage. These systems evolved from a 2016 Google Brain paper that introduced deep neural networks to the recommendation pipeline, replacing the older view-count-and-star-rating system that YouTube relied on in its early years.</p>
+
+<p class="body-text">The current system operates in two stages. The first is <em>candidate generation</em>: from hundreds of millions of videos, the system narrows the pool to a few hundred that might interest a given user. The second is <em>ranking</em>: those candidates are scored and ordered based on predicted engagement &mdash; primarily watch time, but also click-through rate, likes, shares, and a metric YouTube calls "satisfaction" that incorporates survey data.</p>
+
+<p class="body-text">Think of it like this: candidate generation is the bouncer deciding who gets into the club. Ranking is the DJ deciding who gets the spotlight. Both are operating on probabilistic models trained on billions of data points, and both are optimizing for a single overriding goal: keep you watching.</p>
+
+<div class="investigation-callout">
+<h4>BY THE NUMBERS</h4>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+  <div class="stat-box"><span class="stat-number">70%</span><span class="stat-label">Of watch time from recommendations</span></div>
+  <div class="stat-box"><span class="stat-number">500hrs</span><span class="stat-label">Uploaded every minute</span></div>
+  <div class="stat-box"><span class="stat-number">2.7B</span><span class="stat-label">Monthly active users</span></div>
+  <div class="stat-box"><span class="stat-number">1B+</span><span class="stat-label">Hours watched daily</span></div>
+</div>
+</div>
+
+<h3 style="font-family: 'Orbitron', sans-serif; color: var(--orange); font-size: 20px; margin: 28px 0 16px;">CHAPTER 2: THE THUMBNAIL ECONOMY</h3>
+
+<p class="body-text">The algorithm's reliance on click-through rate has created what we call the Thumbnail Economy &mdash; an entire secondary industry built around the science of making people click. Professional thumbnail designers now command fees of $500-$5,000 per image. A/B testing platforms let creators test six different thumbnails before a video goes live. The "surprised face" thumbnail has become so ubiquitous that it's essentially the visual language of modern YouTube.</p>
+
+<p class="body-text">This isn't inherently bad. A good thumbnail is an act of communication. But the optimization pressure is relentless. Creators describe a treadmill effect: each video needs to perform as well as the last, or the algorithm reduces your reach. You're not competing with other creators in your niche. You're competing with every piece of content on the platform, from NASA launches to cat videos to geopolitical commentary. And the algorithm doesn't care about your artistic vision. It cares about whether someone clicked, and whether they stayed.</p>
+
+<div class="pull-quote">"You make one video for your audience and another for the machine. Sometimes they're the same video. Usually they're not."</div>
+
+<h3 style="font-family: 'Orbitron', sans-serif; color: var(--orange); font-size: 20px; margin: 28px 0 16px;">CHAPTER 3: THE CREATOR'S DILEMMA</h3>
+
+<p class="body-text">Every serious YouTube creator faces the same impossible choice: do you make the video you want to make, or the video the algorithm wants you to make? The answer, for anyone who wants to pay their rent, is usually some compromise between the two.</p>
+
+<p class="body-text">The algorithm rewards several specific behaviors. Longer videos (eight minutes or more to qualify for mid-roll ads). Consistent upload schedules. High-retention openings that hook viewers in the first 30 seconds. Titles and thumbnails optimized for curiosity gaps. Topics that match trending search queries. These aren't creative decisions &mdash; they're engineering requirements.</p>
+
+<p class="body-text">The result is a kind of natural selection. Channels that adapt survive. Channels that don't, decline. And the traits being selected for aren't necessarily the same traits that make content good. The algorithm can't measure insight, beauty, truth, or originality. It can measure whether someone watched for eight minutes instead of four. The gap between those two things is where a lot of YouTube's creative soul gets lost.</p>
+
+<p class="body-text">Linus Sebastian himself admitted in late 2025 that LTT was "on the struggle bus" after a sudden viewership drop, noting that the first few minutes of viewer engagement "basically makes or breaks a video." When a channel with 16 million subscribers and daily uploads can be brought low by an algorithmic shift, what hope does a channel with 16 thousand have?</p>
+
+<h3 style="font-family: 'Orbitron', sans-serif; color: var(--orange); font-size: 20px; margin: 28px 0 16px;">CHAPTER 4: THE ALGORITHM'S VICTIMS</h3>
+
+<p class="body-text">For every Mark Rober success story, there are thousands of channels that were thriving one month and invisible the next. The algorithm giveth, and the algorithm taketh away, and it never sends a memo explaining why.</p>
+
+<p class="body-text">Educational channels are particularly vulnerable. A well-researched, carefully produced 20-minute explainer about Byzantine architecture will lose the recommendation battle to a 10-minute video titled "I Ate the World's Spiciest Chip" every single time. Not because the audience doesn't want education &mdash; the success of channels like Kurzgesagt and 3Blue1Brown proves they do &mdash; but because the algorithm's optimization function doesn't have a category for "intellectual value." It has a category for "predicted watch time," and the spicy chip video wins that race by a mile.</p>
+
+<p class="body-text">The pattern is consistent: the algorithm amplifies content that provokes strong, immediate emotional responses. Outrage, shock, curiosity, fear, FOMO. These emotions drive clicks and watch time. Nuance, complexity, and measured analysis drive thoughtful engagement &mdash; which the algorithm can't distinguish from boredom.</p>
+
+<div class="investigation-callout">
+<h4>THE ALGORITHM'S FAVOURITES</h4>
+<p class="body-text" style="margin: 0; font-size: 14px; color: var(--text-secondary);">Content characteristics that consistently receive algorithmic amplification: High emotional arousal in thumbnails and titles. Videos over 8 minutes. Strong first-30-second hooks. Clear narrative structure with cliff-hangers. Topics that generate comment debate. Faces in thumbnails (especially with exaggerated expressions). Upload frequency of 3+ times per week.</p>
+</div>
+
+<h3 style="font-family: 'Orbitron', sans-serif; color: var(--orange); font-size: 20px; margin: 28px 0 16px;">CHAPTER 5: THE ALGORITHM'S WINNERS</h3>
+
+<p class="body-text">Not everyone is fighting the algorithm. Some creators have learned to ride it like a wave. MrBeast is the obvious case study &mdash; a creator who reverse-engineers the recommendation system with the precision of a Wall Street quant. Every title, thumbnail, and video structure is designed to maximize algorithmic distribution. It works. He has over 300 million subscribers and his videos routinely cross 100 million views.</p>
+
+<p class="body-text">But the more interesting case studies are the creators who've found the sweet spot between algorithmic optimization and genuine quality. Mark Rober uploads once a month and gets 30-50 million views per video because each one is so inherently shareable that the algorithm can't ignore it. MKBHD maintains such consistent quality that his audience retention numbers are abnormally high, which the algorithm rewards with premium recommendation placement. Conan O'Brien's Team Coco channel benefits from what you might call "legacy authority" &mdash; years of consistent engagement data that give the algorithm confidence in recommending the content.</p>
+
+<p class="body-text">The lesson, if there is one, is that the algorithm isn't anti-quality. It's quality-blind. It can't <em>see</em> quality. It can only see the metrics that sometimes correlate with quality. Creators who understand this distinction have an enormous advantage over those who don't.</p>
+
+<h3 style="font-family: 'Orbitron', sans-serif; color: var(--orange); font-size: 20px; margin: 28px 0 16px;">CHAPTER 6: THE SATISFACTION PROBLEM</h3>
+
+<p class="body-text">YouTube knows it has a problem. In recent years, the company has made a concerted effort to move beyond raw engagement metrics toward what it calls "viewer satisfaction." This includes post-viewing surveys, the introduction of the "not interested" button, and changes to the recommendation system designed to reduce the promotion of "borderline content" &mdash; videos that don't violate policies but aren't exactly what you'd call wholesome.</p>
+
+<p class="body-text">The shift is real but incomplete. Satisfaction surveys are inherently limited &mdash; people don't always know what's good for them, and the gap between "what I watched for an hour" and "what I'm glad I watched for an hour" is enormous. YouTube is trying to solve one of the hardest problems in AI: building a system that optimizes not just for engagement, but for genuine value. Given that humans have been arguing about the definition of "genuine value" since Plato, we wouldn't hold our breath.</p>
+
+<h3 style="font-family: 'Orbitron', sans-serif; color: var(--orange); font-size: 20px; margin: 28px 0 16px;">CHAPTER 7: OUR VERDICT</h3>
+
+<p class="body-text">The YouTube algorithm is not evil. It's not good. It's a mirror &mdash; a mirror built from engagement data that reflects humanity's preferences back at us, amplified and distorted. When we complain about the algorithm promoting shallow content, we are, to some degree, complaining about ourselves. The algorithm didn't create our appetite for outrage, spectacle, and novelty. It just learned to serve it more efficiently than any system in history.</p>
+
+<p class="body-text">But a mirror that distorts is not a neutral object. The algorithm doesn't just reflect preferences &mdash; it shapes them. It creates feedback loops where success breeds more of the same, where experimentation is punished, where the safest creative choice is also the most rewarded one. It has flattened the aesthetic of YouTube into a recognizable formula: the surprised face, the bold title, the eight-minute runtime, the mid-roll ad at 4:02.</p>
+
+<p class="body-text">The best creators on YouTube are the ones who understand the algorithm well enough to work with it, but have enough artistic conviction to work against it when it matters. They know the rules, and they know when to break them. That's always been the definition of great art &mdash; and the fact that it applies to YouTube is either depressing or inspiring, depending on how you look at it.</p>
+
+<div class="pull-quote magenta">"The algorithm is not the enemy. The algorithm is the weather. You can't control it. You can only decide whether you're going to build a house or a windmill."</div>
+
+<p class="body-text">We built a magazine. You're reading it. The algorithm can sort itself out.</p>
+
+<p class="body-text" style="font-family: 'VT323', monospace; color: var(--text-dim); font-size: 16px; margin-top: 24px;">END OF INVESTIGATION</p>
+
+<div class="yob-margin-note">Yob says: Yob IS the algorithm. Yob decides what you read. And Yob says read the next section. Go on. Click the tab.</div>
+
+</div>
+
+<!-- ======================================= -->
+<!-- TAB: TIME CAPSULE -->
+<!-- ======================================= -->
+<div class="tab-content" id="timecapsule">
+
+<div class="section-label">TIME CAPSULE</div>
+<div class="section-title magenta">ANDY WARHOL ON INFLUENCER CULTURE</div>
+
+<div class="interview-disclaimer">&#9888; SATIRICAL / FICTIONAL &mdash; Andy Warhol (1928&ndash;1987) did not participate in this Q&A. This interview is an imaginative exercise based on Warhol's documented philosophy, public statements, and known communication style.</div>
+
+<p class="body-text" style="font-style: italic; color: var(--text-secondary); margin-bottom: 28px;">We showed Andy Warhol a selection of top influencer content from 2025 &mdash; beauty tutorials, unboxing videos, "day in my life" vlogs, brand deals, and the general machinery of the creator economy. He was seated in what appeared to be a very deliberate arrangement of indifference. He had been watching for approximately ninety minutes. He had not blinked enough.</p>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">Andy, you once said that in the future, everyone would be famous for fifteen minutes. YouTube influencers are famous for years. Decades, even. Did you get the prediction wrong?</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">WARHOL:</div>
+<p class="body-text"><span class="interview-stage-direction">[Long pause. Adjusts wig almost imperceptibly.]</span> No. I got it right. I just got the math wrong. Everyone is famous for fifteen minutes, but now they can have fifteen minutes every day. That's... <span class="interview-stage-direction">[another pause]</span> ...better. I think that's better.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">We showed you a beauty influencer's "get ready with me" video. She has forty million followers. What did you make of it?</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">WARHOL:</div>
+<p class="body-text"><span class="interview-stage-direction">[Tilts head.]</span> I liked it. She's doing what I did with the Screen Tests, but she's better at it because she's the subject and the director at the same time. That's very efficient. I always needed other people in front of the camera. She doesn't need anyone. That's... that's real power.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">A lot of critics say influencer culture is shallow. Inauthentic. Just people selling products.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">WARHOL:</div>
+<p class="body-text"><span class="interview-stage-direction">[Almost smiles.]</span> Yes. Isn't it wonderful? I painted soup cans. I made movies of people sleeping. Everyone said it was shallow. Then they said it was art. Now it's in museums and it's worth millions of dollars. <span class="interview-stage-direction">[Pause.]</span> Everything that's shallow becomes deep if you look at it long enough. These people are making art about commerce. That's the most American thing I've ever seen, and I'm including the flag.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">But don't you think there's a difference between Pop Art as commentary on consumerism and influencers who are just... actually doing consumerism?</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">WARHOL:</div>
+<p class="body-text"><span class="interview-stage-direction">[Stares directly at interviewer for an uncomfortable length of time.]</span> No. I don't think there's a difference. I bought things. I sold things. I put brands in my art. They put brands in their videos. The only difference is they have better distribution. I had a gallery on the Upper East Side. They have... <span class="interview-stage-direction">[gestures vaguely at the screen]</span> ...the entire world.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">We showed you unboxing videos. People opening packages on camera, essentially.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">WARHOL:</div>
+<p class="body-text"><span class="interview-stage-direction">[Leans forward slightly, which appears to be the Warhol equivalent of standing ovation.]</span> I loved these. They're beautiful. The anticipation. The unwrapping. The reveal. It's theatre. It's also exactly what Christmas morning looks like, except the audience is twenty million strangers. <span class="interview-stage-direction">[Pause.]</span> I would have filmed myself opening every package I ever received. Why didn't I think of that?</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">If you were alive today, would you be an influencer?</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">WARHOL:</div>
+<p class="body-text"><span class="interview-stage-direction">[No pause at all. Immediate response.]</span> I would be the biggest one. I would post every day. I would film everything. I already filmed everything anyway &mdash; I just didn't have anywhere to put it. <span class="interview-stage-direction">[Touches the camera with one finger.]</span> This machine is the Factory. Everyone has a Factory now. That was always the point.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">Is there anything about influencer culture that bothers you?</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">WARHOL:</div>
+<p class="body-text"><span class="interview-stage-direction">[Long silence. Picks at something invisible on his sleeve.]</span> They all look the same. The faces look the same. The apartments look the same. The music in the background sounds the same. That's... <span class="interview-stage-direction">[very quietly]</span> ...that's the part I don't like. Repetition should be a choice. Not a default.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">Last question. What would your YouTube channel be called?</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">WARHOL:</div>
+<p class="body-text"><span class="interview-stage-direction">[Immediately, with the first sign of genuine warmth in the entire conversation.]</span> Just "Andy." One word. No description. If you need a description, it's not for you.</p>
+</div>
+
+<div class="pull-quote magenta">"Everyone has a Factory now. That was always the point."</div>
+
+<div class="pixel-divider"></div>
+
+<!-- KURT COBAIN -->
+<div class="section-label">TIME CAPSULE</div>
+<div class="section-title magenta">KURT COBAIN ON MUSIC YOUTUBE</div>
+
+<div class="interview-disclaimer">&#9888; SATIRICAL / FICTIONAL &mdash; Kurt Cobain (1967&ndash;1994) did not participate in this Q&A. This interview is an imaginative exercise based on Cobain's documented views, interviews, journals, and known communication style.</div>
+
+<p class="body-text" style="font-style: italic; color: var(--text-secondary); margin-bottom: 28px;">We showed Kurt Cobain the current state of music on YouTube: reaction channels, lyric videos with 2 billion views, algorithmically optimised lo-fi playlists, bedroom pop artists with no label deals and millions of streams, and the comment section under "Smells Like Teen Spirit" (currently at 1.8 billion views). He sat cross-legged on the floor. He did not sit in the chair provided. He looked tired in the way that only people who feel everything look tired.</p>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">Kurt, "Smells Like Teen Spirit" has been watched 1.8 billion times on YouTube. How does that feel?</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">COBAIN:</div>
+<p class="body-text"><span class="interview-stage-direction">[Exhales loudly through his nose. Not quite a laugh.]</span> That's obscene. That's... that number doesn't mean anything. A billion is just a word. I wrote that song in like five minutes. I was trying to rip off the Pixies. <span class="interview-stage-direction">[Picks at a hole in his jeans.]</span> I hope at least some of those people went and listened to the Pixies afterwards.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">We showed you reaction channels &mdash; people filming themselves listening to songs for the first time. What did you think?</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">COBAIN:</div>
+<p class="body-text"><span class="interview-stage-direction">[Visibly irritated. Shifts position.]</span> I don't understand it. I genuinely don't understand it. Why would you watch someone else listen to music? That's like watching someone else eat. The whole point of music is what it does to <em>you</em>. Not what it does to some guy in a gaming chair who's pretending he's never heard "Bohemian Rhapsody" before. <span class="interview-stage-direction">[Voice gets quieter.]</span> Actually, that's the part that bugs me. The pretending. Everyone's performing their reactions for the camera instead of just... having them.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">There's a counter-argument that reaction channels introduce people to music they'd never otherwise hear.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">COBAIN:</div>
+<p class="body-text"><span class="interview-stage-direction">[Considers this. Long pause.]</span> Yeah. Okay. I'll give you that. If some kid in Iowa watches a reaction video and then goes and buys a Raincoats album, then... fine. That's good. I just wish they'd skip the middleman and go straight to the music. <span class="interview-stage-direction">[Mutters.]</span> The middleman always makes me uncomfortable.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">We showed you bedroom producers &mdash; kids making music in their rooms with laptops, uploading directly to YouTube. No labels, no studios, no gatekeepers.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">COBAIN:</div>
+<p class="body-text"><span class="interview-stage-direction">[For the first time, something close to a genuine smile.]</span> This is the best thing you've shown me. This is it. This is what music is supposed to be. Some girl in her bedroom with a four-track &mdash; well, a laptop &mdash; making something real and putting it out there without asking anyone's permission. That's punk. I don't care if it sounds like folk music or electronic music or whatever. The act of just... making it and sharing it, without a guy in a suit telling you to change the chorus? That's the most punk thing on this entire platform.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">The algorithm tends to reward certain kinds of music over others. Pop and hip-hop dominate. Niche genres struggle for visibility.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">COBAIN:</div>
+<p class="body-text"><span class="interview-stage-direction">[Darkens immediately.]</span> So it's the same thing. It's just radio with a different name. Clear Channel but invisible. The suits are gone but the system is the same &mdash; push the safe stuff, bury the weird stuff, make everything sound the same. <span class="interview-stage-direction">[Picking at shoelace aggressively.]</span> At least with radio you knew who to be angry at. This thing... this algorithm... you can't write a protest song about a neural network. Trust me, I'm trying to think of one right now and it doesn't scan.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">We showed you the lo-fi hip hop "beats to study to" live streams. They run 24/7 and have millions of viewers.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">COBAIN:</div>
+<p class="body-text"><span class="interview-stage-direction">[Stares at screen. Very still.]</span> It's wallpaper. It's pretty wallpaper. I'm not saying it's bad. I'm saying it's not music in the way I understand music. Music should make you feel something you weren't expecting. This makes you feel exactly what you expected. That's comfort. That's fine. But comfort isn't art. <span class="interview-stage-direction">[Pause.]</span> Then again, I wrote songs about not wanting to be comfortable, and look where that got me.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">If Nirvana started today, would you upload to YouTube?</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">COBAIN:</div>
+<p class="body-text"><span class="interview-stage-direction">[Without hesitation.]</span> Yes. We'd upload the worst-quality video possible. Filmed on something terrible. No thumbnails. No titles that make sense. And we'd never, ever, read the comments. <span class="interview-stage-direction">[Almost whispers.]</span> Actually, I'd probably read every single comment. That's the problem with people like me. We say we don't care, and then we care so much it kills us.</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker magazine">C+W:</div>
+<p class="body-text">Final question. The comments section under your videos &mdash; people write things like "this song saved my life." Thousands of them. What do you say to that?</p>
+</div>
+
+<div class="interview-exchange">
+<div class="interview-speaker subject">COBAIN:</div>
+<p class="body-text"><span class="interview-stage-direction">[Very long silence. Looks away from the camera. When he speaks, his voice is different &mdash; stripped of all performance.]</span> I'd say... I'm glad. I'm really glad. I didn't know that when I was writing those songs. I thought I was just screaming into nothing. If the screaming found people who needed it... then maybe it wasn't nothing after all. <span class="interview-stage-direction">[Pause.]</span> Don't tell anyone I said that. It'll ruin my reputation.</p>
+</div>
+
+<div class="pull-quote">"You can't write a protest song about a neural network. Trust me, I'm trying to think of one right now and it doesn't scan."</div>
+
+</div>
+
+<!-- ======================================= -->
+<!-- TAB: REVIEWS -->
+<!-- ======================================= -->
+<div class="tab-content" id="reviews">
+
+<div class="section-label">PLAYER PROFILE</div>
+<div class="section-title">TEAM COCO &mdash; CONAN O'BRIEN</div>
+<p style="font-family: 'VT323', monospace; color: var(--text-dim); font-size: 16px; margin-bottom: 20px;">9.2M SUBSCRIBERS &bull; EST. 2010 &bull; COMEDY / PODCAST / ENTERTAINMENT</p>
+
+<p class="body-text">There is a theory in entertainment that the best late night hosts don't adapt to new formats &mdash; they simply wait until the format bends to accommodate them. Conan O'Brien is the proof. After a 28-year late night television career that ended not with a whimper but with a controlled demolition of the genre itself, Conan has built something on YouTube that is, frankly, better than anything he did on network or cable television.</p>
+
+<p class="body-text">Team Coco on YouTube started as a clip dump. Literally just segments from the TBS show, chopped up and uploaded. But something happened: the clips became more popular than the show. The Clueless Gamer segments. The remote bits with Jordan Schlansky. The Conan Without Borders travel specials. The algorithm loved them because they were self-contained stories with enormous replay value, and audiences loved them because Conan is one of the funniest human beings alive.</p>
+
+<p class="body-text">In May 2025, Team Coco made the leap to full-length video podcast episodes of "Conan O'Brien Needs a Friend" on YouTube. This was the missing piece. The podcast &mdash; already ranked in Edison Research's Top 20 &mdash; translates beautifully to video. Conan's physical comedy, his ridiculous tangents with Sona Movsesian and Matt Gourley, the genuine warmth of his celebrity interviews: it all plays better when you can see it. The man hosted the Oscars in 2025, won the Mark Twain Prize, launched a second season of his HBO travel show, AND started dropping weekly video podcasts on YouTube. He's 62 years old and outworking creators half his age.</p>
+
+<p class="body-text">The weak spots are minor but real. The channel's identity was muddled for years &mdash; too many clip formats, inconsistent upload patterns, a lingering sense that YouTube was the B-side rather than the main event. And while Team Coco has 9+ million subscribers, the comment section engagement doesn't match that of native YouTube channels. This is a traditional media audience that migrated, not a community that was born on the platform. You can feel the difference.</p>
+
+<div class="pull-quote green">"Conan didn't survive the death of late night. He predicted it, prepared for it, and built something better on the other side."</div>
+
+<div class="score-grid">
+  <span class="score-label">CONTENT QUALITY</span><span class="score-value">89</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:89%"></div></div>
+  <span class="score-label">CONSISTENCY</span><span class="score-value">78</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:78%"></div></div>
+  <span class="score-label">REPLAY VALUE</span><span class="score-value">94</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:94%"></div></div>
+  <span class="score-label">COMMUNITY</span><span class="score-value">74</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:74%"></div></div>
+  <span class="score-label">X-FACTOR</span><span class="score-value">95</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:95%"></div></div>
+</div>
+
+<div style="text-align: center;">
+  <div class="overall-score excellent">88</div>
+  <span class="verdict-tag" style="color: var(--cyan);">EXCELLENT</span>
+</div>
+
+<div class="yob-margin-note">Yob says: Conan made Jordan Schlansky a YouTube celebrity. Schlansky hasn't spoken to another human being since 2014 and he's funnier than 95% of people who are actually trying. That's the power of Conan.</div>
+
+<div class="pixel-divider"></div>
+
+<!-- HUBERMAN REVIEW -->
+<div class="section-label">PLAYER PROFILE</div>
+<div class="section-title">HUBERMAN LAB &mdash; ANDREW HUBERMAN</div>
+<p style="font-family: 'VT323', monospace; color: var(--text-dim); font-size: 16px; margin-bottom: 20px;">6.2M SUBSCRIBERS &bull; EST. 2021 &bull; SCIENCE / HEALTH / EDUCATION</p>
+
+<p class="body-text">Andrew Huberman is the most influential and most problematic science communicator on YouTube. Both things are true simultaneously, and you need to hold them in your head at the same time to understand what his channel actually is.</p>
+
+<p class="body-text">Let's start with what works. Huberman Lab episodes are, at their best, remarkable feats of science communication. The deep dives into neuroscience, sleep, and vision &mdash; his actual areas of academic expertise &mdash; are genuinely excellent. He explains complex mechanisms in language that an intelligent layperson can follow without feeling patronized. The production quality is clean, the pacing is deliberate, and there's an authority in his delivery that comes from being a working Stanford neuroscientist who publishes real papers in real journals. When Huberman stays in his lane, he's doing something no one else on the platform can match.</p>
+
+<p class="body-text">The problem is that Huberman almost never stays in his lane. The podcast has metastasized from neuroscience explainers into a sprawling wellness empire that covers everything from gut health to testosterone optimization to supplement protocols &mdash; topics well outside his area of research expertise. Scientists like Jonathan Jarry have criticized his promotion of poorly regulated dietary supplements. Cancer biologist Joseph Zundell has noted his tendency to extrapolate animal studies to human application without scientific justification. New York Magazine described his podcast as a place where Huberman "posits certainty where there is ambiguity."</p>
+
+<p class="body-text">And then there's the TRT revelation. In early 2026, Huberman confirmed he's been on testosterone replacement therapy since age 45 &mdash; while simultaneously promoting (and sponsoring) supplements designed to naturally boost testosterone. The hypocrisy isn't subtle. His subreddit called him a "scam artist" and a "charlatan," and while that's harsh, the credibility hit is real and deserved. When your monetization model depends on people buying supplements because they trust your scientific authority, and you've been quietly using pharmaceutical-grade testosterone the entire time, you have a transparency problem that no amount of morning sunlight is going to fix.</p>
+
+<p class="body-text">The community score suffers most. Huberman Lab has spawned a "protocol bro" subculture that treats his podcast episodes like religious texts &mdash; dogmatic adherence to morning routines, cold exposure timings, and supplement stacks that are presented with far more confidence than the underlying science warrants. This isn't entirely Huberman's fault, but he's done nothing to discourage it, and his CBS News appointment suggests he's happy to expand his influence rather than sharpen his focus.</p>
+
+<div class="pull-quote">"When your brand is built on scientific rigour and your disclosure practices have the rigour of a Facebook horoscope, you have a problem."</div>
+
+<div class="score-grid">
+  <span class="score-label">CONTENT QUALITY</span><span class="score-value">78</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:78%"></div></div>
+  <span class="score-label">CONSISTENCY</span><span class="score-value">90</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:90%"></div></div>
+  <span class="score-label">REPLAY VALUE</span><span class="score-value">72</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:72%"></div></div>
+  <span class="score-label">COMMUNITY</span><span class="score-value">56</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:56%"></div></div>
+  <span class="score-label">X-FACTOR</span><span class="score-value">76</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:76%"></div></div>
+</div>
+
+<div style="text-align: center;">
+  <div class="overall-score good">74</div>
+  <span class="verdict-tag" style="color: var(--green);">GOOD</span>
+</div>
+
+<div class="yob-margin-note">Yob says: Seventy-four?! His fans are going to lose their minds. Good. Maybe they'll go outside and get some actual sunlight instead of just the Huberman-approved kind. Also, three-hour episodes? Yob can barely commit to a three-minute YouTube Short. Absolute madness.</div>
+
+<div class="pixel-divider"></div>
+
+<!-- THEO VON REVIEW -->
+<div class="section-label">PLAYER PROFILE</div>
+<div class="section-title">THEO VON &mdash; THIS PAST WEEKEND</div>
+<p style="font-family: 'VT323', monospace; color: var(--text-dim); font-size: 16px; margin-bottom: 20px;">4.3M SUBSCRIBERS &bull; EST. 2006 &bull; COMEDY / PODCAST</p>
+
+<p class="body-text">Theo Von is the closest thing YouTube has to a jazz musician. You never quite know where a sentence is going to land, and when it does, it lands somewhere you couldn't have predicted but somehow feel like you've been before. He tells stories about growing up in Covington, Louisiana, that sound like dispatches from a dimension adjacent to our own &mdash; familiar enough to be funny, strange enough to be genuinely revelatory.</p>
+
+<p class="body-text">The channel is built around "This Past Weekend," his long-running podcast that has quietly become one of the most compelling interview shows on YouTube. The format is simple: Theo talks to people. That's it. But the execution is extraordinary. His interviews with comedians, fighters, and cultural figures have a loose, improvisational energy that makes guests say things they wouldn't say anywhere else. His solo episodes &mdash; where he riffs on topics sent in by listeners &mdash; are masterclasses in comedic storytelling. A twenty-minute Theo Von monologue about something that happened at a gas station in 1997 will make you laugh, then think, then feel something you didn't expect to feel.</p>
+
+<p class="body-text">Production value is minimal and that's the point. The set is simple. The editing is basic. The thumbnails won't win any awards. But Theo's genius is in the language itself &mdash; his metaphors come from a place that no writer's room could manufacture. His descriptions of childhood, poverty, family dysfunction, and the American South are simultaneously hilarious and deeply compassionate. He is a profoundly empathetic comedian who disguises his empathy as absurdism, and the result is content that hits emotional frequencies most podcasters can't even hear.</p>
+
+<p class="body-text">The clip channels extend his reach enormously. Theo Von Clips has 1.3 million subscribers and serves as a discovery engine for the main show. The comment sections across both channels are among the best on YouTube &mdash; genuinely funny, engaged, and weirdly wholesome for a comedy community. His audience gets it. They're not there for takes or discourse or drama. They're there because Theo Von makes them feel less alone, and he does it while making them laugh so hard they have to pull over.</p>
+
+<div class="pull-quote green">"Theo Von is the only comedian on YouTube who could tell you a story about his cousin's meth lab and make you cry at the end. And you'd thank him for it."</div>
+
+<div class="score-grid">
+  <span class="score-label">CONTENT QUALITY</span><span class="score-value">83</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:83%"></div></div>
+  <span class="score-label">CONSISTENCY</span><span class="score-value">84</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:84%"></div></div>
+  <span class="score-label">REPLAY VALUE</span><span class="score-value">89</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:89%"></div></div>
+  <span class="score-label">COMMUNITY</span><span class="score-value">87</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:87%"></div></div>
+  <span class="score-label">X-FACTOR</span><span class="score-value">93</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:93%"></div></div>
+</div>
+
+<div style="text-align: center;">
+  <div class="overall-score excellent">87</div>
+  <span class="verdict-tag" style="color: var(--cyan);">EXCELLENT</span>
+</div>
+
+<div class="pixel-divider"></div>
+
+<!-- MARK ROBER REVIEW -->
+<div class="section-label">PLAYER PROFILE</div>
+<div class="section-title">MARK ROBER</div>
+<p style="font-family: 'VT323', monospace; color: var(--text-dim); font-size: 16px; margin-bottom: 20px;">70M+ SUBSCRIBERS &bull; EST. 2011 &bull; SCIENCE / ENGINEERING / EDUCATION</p>
+
+<p class="body-text">Mark Rober has solved YouTube. Not in the cynical, algorithm-gaming sense. In the way that a NASA engineer solves problems: by understanding the system, identifying the constraints, and building something that works within them while being genuinely remarkable.</p>
+
+<p class="body-text">Every Mark Rober video follows the same formula, and it works every single time: take a scientific or engineering concept, build something insane to demonstrate it, film the process with impeccable production value, explain the science in language a ten-year-old can follow, and end with a spectacular payoff that makes you want to share the video with everyone you know. Glitter bombs for porch pirates. The world's largest Nerf gun. A squirrel obstacle course that became a cultural phenomenon. The roller coaster he built in his lab. Each video is a self-contained engineering marvel, and each one functions as a perfectly designed package for algorithmic distribution.</p>
+
+<p class="body-text">The numbers are staggering: 70+ million subscribers, 13.7 billion total views, and a catalog of just over 220 videos. Do the math. That's roughly 62 million views per video on average. Most channels would sell a kidney for those numbers on their best day. Rober gets them as a baseline, and he does it while uploading maybe twelve times a year.</p>
+
+<p class="body-text">The 2025 expansion was extraordinary. A Netflix deal for a greatest-hits compilation and a new competition series. The Team Water campaign with MrBeast raising $40 million for WaterAid. CrunchLabs evolving from subscription boxes into a full media company with a school curriculum division. A TIME100 Creators listing. A Sesame Street Christmas special. Mark Rober is no longer a YouTuber who does science. He's a science media empire that happens to publish on YouTube.</p>
+
+<p class="body-text">The consistency score is the only thing keeping him from ESSENTIAL territory. Twelve uploads a year is remarkable per-video output, but it means months of silence between uploads. In a platform economy that rewards frequency, Rober's strategy is an anomaly &mdash; proof that sheer quality can override the algorithm's preference for quantity, but also an approach that only works at his scale. His CrunchLabs integrations, while tasteful by YouTube standards, have a faint corporate sheen that occasionally undercuts the DIY wonder. And the community, while massive, skews young and family-friendly in a way that limits the depth of engagement you see on more niche channels.</p>
+
+<div class="pull-quote cyan">"Rober doesn't play the algorithm's game. He builds a better game and makes the algorithm come to him."</div>
+
+<div class="score-grid">
+  <span class="score-label">CONTENT QUALITY</span><span class="score-value">96</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:96%"></div></div>
+  <span class="score-label">CONSISTENCY</span><span class="score-value">52</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:52%"></div></div>
+  <span class="score-label">REPLAY VALUE</span><span class="score-value">92</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:92%"></div></div>
+  <span class="score-label">COMMUNITY</span><span class="score-value">79</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:79%"></div></div>
+  <span class="score-label">X-FACTOR</span><span class="score-value">94</span>
+  <div class="score-bar-container"><div class="score-bar" style="width:94%"></div></div>
+</div>
+
+<div style="text-align: center;">
+  <div class="overall-score excellent">89</div>
+  <span class="verdict-tag" style="color: var(--cyan);">EXCELLENT</span>
+</div>
+
+<div class="yob-margin-note">Yob says: Eighty-nine! ONE point off Essential! Yob can hear the Rober fans sharpening their pitchforks already. Look, if the bloke uploaded more than once a month he'd be a 95. But you can't get full marks for attendance when you only show up twelve times a year. Yob shows up every issue and nobody gives Yob a Netflix deal.</div>
+
+</div>
+
+<!-- ======================================= -->
+<!-- TAB: BOSS FIGHT -->
+<!-- ======================================= -->
+<div class="tab-content" id="bossfight">
+
+<div class="section-label">BOSS FIGHT</div>
+
+<div class="boss-fight-header">
+  <div class="section-title orange" style="margin-bottom: 8px;">MKBHD <span class="vs-badge">VS</span> LINUS TECH TIPS</div>
+  <p style="font-family: 'VT323', monospace; color: var(--text-dim); font-size: 16px;">THE AESTHETE VS THE ENCYCLOPEDIA &bull; THE CLEAN SHOT VS THE CHAOTIC TAKE</p>
+</div>
+
+<p class="body-text">This is the tech YouTube fight everyone's been waiting for. On one side: Marques Brownlee, MKBHD, the man who made tech reviews look like cinema. Twenty million subscribers. Every frame a wallpaper. Reviews so visually gorgeous that you sometimes forget to listen to the actual opinion. On the other: Linus Sebastian, Linus Tech Tips, the relentless content machine. Sixteen million subscribers on the main channel alone, with a sprawling media empire that publishes daily across multiple channels with the energy of a caffeinated lab that never sleeps.</p>
+
+<p class="body-text">These are the two biggest tech channels on YouTube by influence (not raw subscriber count &mdash; that crown goes to other channels), and they represent fundamentally different philosophies about what a tech review channel should be. MKBHD is the auteur. LTT is the newsroom. MKBHD values restraint, craft, and visual storytelling. LTT values comprehensiveness, entertainment, and sheer volume. Both approaches have produced extraordinary results. Both have significant flaws.</p>
+
+<div class="boss-fight-grid">
+  <div class="fighter-card">
+    <div class="fighter-name" style="color: var(--cyan);">MKBHD</div>
+    <p style="font-family: 'VT323', monospace; color: var(--text-dim); font-size: 14px; text-align:center; margin-bottom: 16px;">20M SUBS &bull; 5.1B VIEWS &bull; 1,786 VIDEOS</p>
+    <div class="category-row"><span class="category-name">Content Quality</span><span class="cat-win">91</span></div>
+    <div class="category-row"><span class="category-name">Consistency</span><span class="cat-lose">84</span></div>
+    <div class="category-row"><span class="category-name">Replay Value</span><span class="cat-win">68</span></div>
+    <div class="category-row"><span class="category-name">Community</span><span class="cat-lose">76</span></div>
+    <div class="category-row"><span class="category-name">X-Factor</span><span class="cat-win">88</span></div>
+  </div>
+  <div class="fighter-card">
+    <div class="fighter-name" style="color: var(--magenta);">LINUS TECH TIPS</div>
+    <p style="font-family: 'VT323', monospace; color: var(--text-dim); font-size: 14px; text-align:center; margin-bottom: 16px;">16M SUBS &bull; 9.2B VIEWS &bull; 6,400+ VIDEOS</p>
+    <div class="category-row"><span class="category-name">Content Quality</span><span class="cat-lose">76</span></div>
+    <div class="category-row"><span class="category-name">Consistency</span><span class="cat-win">95</span></div>
+    <div class="category-row"><span class="category-name">Replay Value</span><span class="cat-lose">62</span></div>
+    <div class="category-row"><span class="category-name">Community</span><span class="cat-win">83</span></div>
+    <div class="category-row"><span class="category-name">X-Factor</span><span class="cat-lose">78</span></div>
+  </div>
+</div>
+
+<p class="body-text" style="font-weight: 700; font-size: 18px;">THE CASE FOR MKBHD</p>
+
+<p class="body-text">Marques Brownlee has done something genuinely rare: he's made tech reviews into an art form. The camera work, the lighting, the studio design, the colour grading &mdash; every element is considered with a precision that borders on obsessive. When MKBHD reviews a phone, you're not just getting an opinion on the camera and battery life. You're getting a cinematic experience that communicates quality through every frame. He's also an outlier in terms of editorial independence &mdash; no paid reviews, transparent about sponsorships, and willing to criticize products from companies that advertise with him. In a space rife with conflicts of interest, that matters. His expansion into Auto Focus (1M+ subscribers), the Waveform podcast (438K subscribers), and The Studio shows ambition matched by quality.</p>
+
+<p class="body-text">The Panels wallpaper app debacle was a genuine miss &mdash; a $50/year subscription for wallpapers from a guy who reviews pricing decisions for a living was a self-own of impressive proportions. He handled the backlash reasonably (reduced pricing, eventually shut it down), but it revealed a gap between his tech critic identity and his business instincts. The channel itself, however, remains untouched by the controversy. If anything, his handling of it reinforced why people trust him: he acknowledged the mistake rather than doubling down.</p>
+
+<p class="body-text" style="font-weight: 700; font-size: 18px;">THE CASE FOR LTT</p>
+
+<p class="body-text">Linus Tech Tips is the opposite of a one-man show. It's a media operation with 100+ employees, multiple channels, daily uploads, a weekly live show (WAN Show), and a testing lab that rivals professional publications. The breadth of coverage is staggering &mdash; LTT has reviewed, tested, or benchmarked more products than any other channel in tech YouTube history, and the sheer volume means there's an LTT video for virtually any tech question you might have. It's the Wikipedia of tech YouTube, and there's enormous value in that.</p>
+
+<p class="body-text">But the controversies. God, the controversies. The 2023 Gamers Nexus exposé revealed rushed reviews, the Billet Labs prototype disaster, and workplace culture allegations that forced a content pause. The 2025 feud reignited with plagiarism allegations, leaked emails, and WAN Show segments that ranged from defensive to combative. A former employee of nearly a decade left citing stagnant pay and shifting expectations. LTT's viewership took a measurable hit in late 2025, with Linus himself admitting videos were underperforming their historical benchmarks. The controversies don't erase LTT's value as an information resource, but they've fundamentally damaged the channel's credibility narrative. When your brand is "trust us, we test everything," and the testing methodology is questioned repeatedly by your peers, you have a structural problem.</p>
+
+<p class="body-text" style="font-weight: 700; font-size: 18px;">THE VERDICT</p>
+
+<p class="body-text">This is closer than the numbers suggest, because MKBHD and LTT are optimizing for different things. If you need to know whether a specific GPU is worth buying, LTT is where you go. If you want to understand what a piece of technology <em>means</em> &mdash; how it feels, where it fits in the landscape, whether it matters &mdash; MKBHD is the better guide. One gives you data. The other gives you a perspective.</p>
+
+<p class="body-text">We're giving this to MKBHD, and the reason is simple: quality ceiling. On his best day, MKBHD produces content that is indistinguishable from professional film. On his worst day, he produces a competent tech review. LTT's best days are excellent &mdash; genuinely informative and entertaining &mdash; but their worst days have produced factual errors, ethical lapses, and content that their own peers have publicly called out. In a head-to-head, the channel with the higher floor AND the higher ceiling wins.</p>
+
+<div class="winner-banner">
+  <h3>WINNER</h3>
+  <div class="name">MKBHD</div>
+  <p style="font-family: 'VT323', monospace; color: var(--yellow); font-size: 18px; margin-top: 8px;">OVERALL: 83 (EXCELLENT) vs 78 (GOOD)</p>
+</div>
+
+<p class="body-text" style="font-style: italic; color: var(--text-secondary);">Editorial note: LTT's 9.2 billion total views versus MKBHD's 5.1 billion demonstrates that volume has its own power. If you're building a tech YouTube diet, you need both. But if you could only subscribe to one &mdash; which is the question Boss Fight asks &mdash; MKBHD is the one that never lets you down.</p>
+
+<div class="yob-container">
+  <div class="yob-badge">YOB SAYS</div>
+  <p class="yob-text">Right, Yob's going to be honest: Yob doesn't care about either of these channels because Yob doesn't have a GPU and Yob's phone is from 2019 and it works fine, thank you very much. But if Yob HAD to pick, Yob picks MKBHD because his videos are pretty and Yob likes pretty things. Also Linus dropped someone's prototype and sold it at auction which is exactly the kind of thing Yob would do, except Yob wouldn't get caught. Amateur hour.</p>
+  <div class="yob-sig">&mdash; Yob</div>
+</div>
+
+</div>
+
+<!-- ======================================= -->
+<!-- TAB: HIGH SCORES -->
+<!-- ======================================= -->
+<div class="tab-content" id="highscores">
+
+<div class="section-label">HIGH SCORES</div>
+<div class="section-title yellow">THE TOP 50 &mdash; ISSUE #002 UPDATE</div>
+<p style="font-family: 'VT323', monospace; color: var(--text-dim); font-size: 16px; margin-bottom: 20px;">UPDATED FROM ISSUE #001 &bull; 3 NEW ENTRIES &bull; 3 DROPPED &bull; 6 RE-SCORED &bull; ARGUE ABOUT IT</p>
+
+<p class="body-text">The master rankings return, updated to reflect this month's reviews, re-evaluations, and the general chaos of the YouTube landscape. Three new entries join the list (Conan O'Brien, Theo Von, and Huberman Lab), which means three channels have been pushed off the bottom. Six channels have been re-scored based on significant developments since Issue #001. Position changes marked accordingly. If your favourite channel dropped, it's because someone else got better. That's how competition works.</p>
+
+<table class="rankings-table">
+<thead>
+<tr>
+  <th>#</th>
+  <th>CHANNEL</th>
+  <th>CATEGORY</th>
+  <th>SCORE</th>
+  <th>MOVE</th>
+</tr>
+</thead>
+<tbody>
+<tr><td class="rank-num">1</td><td style="color:var(--yellow);">3Blue1Brown</td><td style="color:var(--text-secondary)">Mathematics / Education</td><td style="color:var(--yellow)">96</td><td class="rank-same">&mdash;</td></tr>
+<tr><td class="rank-num">2</td><td style="color:var(--yellow);">Kurzgesagt</td><td style="color:var(--text-secondary)">Science / Animation</td><td style="color:var(--yellow)">93</td><td class="rank-same">&mdash; <span style="color:var(--green);font-size:12px">&#9650;RE-SCORED</span></td></tr>
+<tr><td class="rank-num">3</td><td style="color:var(--yellow);">Every Frame a Painting</td><td style="color:var(--text-secondary)">Film Analysis</td><td style="color:var(--yellow)">92</td><td class="rank-same">&mdash;</td></tr>
+<tr><td class="rank-num">4</td><td style="color:var(--yellow);">Primitive Technology</td><td style="color:var(--text-secondary)">Maker / Survival</td><td style="color:var(--yellow)">91</td><td class="rank-same">&mdash;</td></tr>
+<tr><td class="rank-num">5</td><td style="color:var(--yellow);">CGP Grey</td><td style="color:var(--text-secondary)">Education / Explainer</td><td style="color:var(--yellow)">91</td><td class="rank-same">&mdash;</td></tr>
+<tr><td class="rank-num">6</td><td style="color:var(--yellow);">Fireship</td><td style="color:var(--text-secondary)">Technology / Programming</td><td style="color:var(--yellow)">90</td><td class="rank-same">&mdash;</td></tr>
+<tr><td class="rank-num">7</td><td style="color:var(--yellow);">Dan Carlin's Hardcore History</td><td style="color:var(--text-secondary)">History / Long-Form</td><td style="color:var(--yellow)">90</td><td class="rank-same">&mdash;</td></tr>
+<tr><td class="rank-num">8</td><td style="color:var(--cyan);">Mark Rober</td><td style="color:var(--text-secondary)">Engineering / Entertainment</td><td style="color:var(--cyan)">89</td><td class="rank-up">&#9650;5 <span style="color:var(--green);font-size:12px">RE-SCORED</span></td></tr>
+<tr><td class="rank-num">9</td><td style="color:var(--cyan);">Veritasium</td><td style="color:var(--text-secondary)">Science / Education</td><td style="color:var(--cyan)">89</td><td class="rank-down">&#9660;1</td></tr>
+<tr><td class="rank-num">10</td><td style="color:var(--cyan);">Vsauce</td><td style="color:var(--text-secondary)">Science / Philosophy</td><td style="color:var(--cyan)">89</td><td class="rank-down">&#9660;1</td></tr>
+<tr><td class="rank-num">11</td><td style="color:var(--cyan);">Conan O'Brien / Team Coco</td><td style="color:var(--text-secondary)">Comedy / Podcast</td><td style="color:var(--cyan)">88</td><td class="rank-new">NEW</td></tr>
+<tr><td class="rank-num">12</td><td style="color:var(--cyan);">exurb1a</td><td style="color:var(--text-secondary)">Philosophy / Existential</td><td style="color:var(--cyan)">88</td><td class="rank-down">&#9660;2</td></tr>
+<tr><td class="rank-num">13</td><td style="color:var(--cyan);">Technology Connections</td><td style="color:var(--text-secondary)">Technology / History</td><td style="color:var(--cyan)">88</td><td class="rank-down">&#9660;2</td></tr>
+<tr><td class="rank-num">14</td><td style="color:var(--cyan);">Lemmino</td><td style="color:var(--text-secondary)">Documentary / Mystery</td><td style="color:var(--cyan)">88</td><td class="rank-down">&#9660;2</td></tr>
+<tr><td class="rank-num">15</td><td style="color:var(--cyan);">Theo Von</td><td style="color:var(--text-secondary)">Comedy / Podcast</td><td style="color:var(--cyan)">87</td><td class="rank-new">NEW</td></tr>
+<tr><td class="rank-num">16</td><td style="color:var(--cyan);">Historia Civilis</td><td style="color:var(--text-secondary)">Ancient History</td><td style="color:var(--cyan)">87</td><td class="rank-down">&#9660;2</td></tr>
+<tr><td class="rank-num">17</td><td style="color:var(--cyan);">NileRed</td><td style="color:var(--text-secondary)">Chemistry</td><td style="color:var(--cyan)">86</td><td class="rank-up">&#9650;11 <span style="color:var(--green);font-size:12px">RE-SCORED</span></td></tr>
+<tr><td class="rank-num">18</td><td style="color:var(--cyan);">Internet Historian</td><td style="color:var(--text-secondary)">Internet Culture / Documentary</td><td style="color:var(--cyan)">86</td><td class="rank-up">&#9650;7 <span style="color:var(--green);font-size:12px">RE-SCORED</span></td></tr>
+<tr><td class="rank-num">19</td><td style="color:var(--cyan);">Stuff Made Here</td><td style="color:var(--text-secondary)">Engineering / Maker</td><td style="color:var(--cyan)">86</td><td class="rank-down">&#9660;3</td></tr>
+<tr><td class="rank-num">20</td><td style="color:var(--cyan);">Nerdwriter1</td><td style="color:var(--text-secondary)">Art / Film Analysis</td><td style="color:var(--cyan)">86</td><td class="rank-down">&#9660;5</td></tr>
+<tr><td class="rank-num">21</td><td style="color:var(--cyan);">Real Engineering</td><td style="color:var(--text-secondary)">Engineering / Education</td><td style="color:var(--cyan)">85</td><td class="rank-down">&#9660;4</td></tr>
+<tr><td class="rank-num">22</td><td style="color:var(--cyan);">Smarter Every Day</td><td style="color:var(--text-secondary)">Science / Curiosity</td><td style="color:var(--cyan)">85</td><td class="rank-down">&#9660;4</td></tr>
+<tr><td class="rank-num">23</td><td style="color:var(--cyan);">Wendover Productions</td><td style="color:var(--text-secondary)">Logistics / Explainer</td><td style="color:var(--cyan)">84</td><td class="rank-down">&#9660;4</td></tr>
+<tr><td class="rank-num">24</td><td style="color:var(--cyan);">Tom Scott</td><td style="color:var(--text-secondary)">Education / Travel</td><td style="color:var(--cyan)">84</td><td class="rank-down">&#9660;4</td></tr>
+<tr><td class="rank-num">25</td><td style="color:var(--cyan);">Adam Neely</td><td style="color:var(--text-secondary)">Music Theory</td><td style="color:var(--cyan)">84</td><td class="rank-down">&#9660;4</td></tr>
+<tr><td class="rank-num">26</td><td style="color:var(--cyan);">Marques Brownlee (MKBHD)</td><td style="color:var(--text-secondary)">Tech Reviews</td><td style="color:var(--cyan)">83</td><td class="rank-up">&#9650;7 <span style="color:var(--green);font-size:12px">RE-SCORED</span></td></tr>
+<tr><td class="rank-num">27</td><td style="color:var(--cyan);">Captain Disillusion</td><td style="color:var(--text-secondary)">VFX / Debunking</td><td style="color:var(--cyan)">83</td><td class="rank-down">&#9660;4</td></tr>
+<tr><td class="rank-num">28</td><td style="color:var(--cyan);">Numberphile</td><td style="color:var(--text-secondary)">Mathematics</td><td style="color:var(--cyan)">83</td><td class="rank-down">&#9660;6</td></tr>
+<tr><td class="rank-num">29</td><td style="color:var(--cyan);">Lessons from the Screenplay</td><td style="color:var(--text-secondary)">Film / Writing</td><td style="color:var(--cyan)">83</td><td class="rank-down">&#9660;5</td></tr>
+<tr><td class="rank-num">30</td><td style="color:var(--cyan);">Summoning Salt</td><td style="color:var(--text-secondary)">Speedrunning / Documentary</td><td style="color:var(--cyan)">82</td><td class="rank-down">&#9660;4</td></tr>
+<tr><td class="rank-num">31</td><td style="color:var(--cyan);">Primer</td><td style="color:var(--text-secondary)">Simulation / Science</td><td style="color:var(--cyan)">82</td><td class="rank-down">&#9660;4</td></tr>
+<tr><td class="rank-num">32</td><td style="color:var(--cyan);">Cleo Abram</td><td style="color:var(--text-secondary)">Optimistic Technology</td><td style="color:var(--cyan)">80</td><td class="rank-down">&#9660;2</td></tr>
+<tr><td class="rank-num">33</td><td style="color:var(--cyan);">Trash Taste</td><td style="color:var(--text-secondary)">Podcast / Culture</td><td style="color:var(--cyan)">80</td><td class="rank-down">&#9660;4</td></tr>
+<tr><td class="rank-num">34</td><td style="color:var(--green);">Corridor Crew</td><td style="color:var(--text-secondary)">VFX / Filmmaking</td><td style="color:var(--green)">79</td><td class="rank-down">&#9660;2</td></tr>
+<tr><td class="rank-num">35</td><td style="color:var(--green);">Johnny Harris</td><td style="color:var(--text-secondary)">Journalism / Maps</td><td style="color:var(--green)">79</td><td class="rank-down">&#9660;4</td></tr>
+<tr><td class="rank-num">36</td><td style="color:var(--green);">Linus Tech Tips</td><td style="color:var(--text-secondary)">Tech / Reviews</td><td style="color:var(--green)">78</td><td class="rank-up">&#9650;11 <span style="color:var(--green);font-size:12px">RE-SCORED</span></td></tr>
+<tr><td class="rank-num">37</td><td style="color:var(--green);">Half as Interesting</td><td style="color:var(--text-secondary)">Short Explainers</td><td style="color:var(--green)">77</td><td class="rank-down">&#9660;3</td></tr>
+<tr><td class="rank-num">38</td><td style="color:var(--green);">ColdFusion</td><td style="color:var(--text-secondary)">Tech / Business Documentary</td><td style="color:var(--green)">77</td><td class="rank-down">&#9660;3</td></tr>
+<tr><td class="rank-num">39</td><td style="color:var(--green);">styropyro</td><td style="color:var(--text-secondary)">Lasers / Mad Science</td><td style="color:var(--green)">77</td><td class="rank-down">&#9660;3</td></tr>
+<tr><td class="rank-num">40</td><td style="color:var(--green);">Polymatter</td><td style="color:var(--text-secondary)">Geopolitics</td><td style="color:var(--green)">76</td><td class="rank-down">&#9660;3</td></tr>
+<tr><td class="rank-num">41</td><td style="color:var(--green);">Ali Abdaal</td><td style="color:var(--text-secondary)">Productivity</td><td style="color:var(--green)">75</td><td class="rank-down">&#9660;3</td></tr>
+<tr><td class="rank-num">42</td><td style="color:var(--green);">Wired &mdash; Technique Critique</td><td style="color:var(--text-secondary)">Expert Breakdown</td><td style="color:var(--green)">75</td><td class="rank-down">&#9660;3</td></tr>
+<tr><td class="rank-num">43</td><td style="color:var(--green);">PBS Space Time</td><td style="color:var(--text-secondary)">Physics / Cosmology</td><td style="color:var(--green)">75</td><td class="rank-down">&#9660;3</td></tr>
+<tr><td class="rank-num">44</td><td style="color:var(--green);">Huberman Lab</td><td style="color:var(--text-secondary)">Science / Health</td><td style="color:var(--green)">74</td><td class="rank-new">NEW</td></tr>
+<tr><td class="rank-num">45</td><td style="color:var(--green);">Defunctland</td><td style="color:var(--text-secondary)">Theme Parks / History</td><td style="color:var(--green)">74</td><td class="rank-down">&#9660;4</td></tr>
+<tr><td class="rank-num">46</td><td style="color:var(--green);">MrBeast</td><td style="color:var(--text-secondary)">Entertainment / Philanthropy</td><td style="color:var(--green)">74</td><td class="rank-down">&#9660;4</td></tr>
+<tr><td class="rank-num">47</td><td style="color:var(--green);">JCS &mdash; Criminal Psychology</td><td style="color:var(--text-secondary)">True Crime / Analysis</td><td style="color:var(--green)">73</td><td class="rank-down">&#9660;4</td></tr>
+<tr><td class="rank-num">48</td><td style="color:var(--green);">Vox</td><td style="color:var(--text-secondary)">Journalism / Explainer</td><td style="color:var(--green)">73</td><td class="rank-down">&#9660;4</td></tr>
+<tr><td class="rank-num">49</td><td style="color:var(--green);">penguinz0 (Cr1TiKaL)</td><td style="color:var(--text-secondary)">Commentary</td><td style="color:var(--green)">72</td><td class="rank-down">&#9660;4</td></tr>
+<tr><td class="rank-num">50</td><td style="color:var(--green);">Joe Rogan Experience</td><td style="color:var(--text-secondary)">Talk / Podcast</td><td style="color:var(--green)">70</td><td class="rank-down">&#9660;4</td></tr>
+</tbody>
+</table>
+
+<p style="font-family: 'VT323', monospace; color: var(--text-dim); font-size: 14px; margin-top: 16px;">SCORE KEY: <span style="color:var(--yellow)">90+ ESSENTIAL</span> &bull; <span style="color:var(--cyan)">80-89 EXCELLENT</span> &bull; <span style="color:var(--green)">70-79 GOOD</span> &bull; <span style="color:var(--orange)">60-69 AVERAGE</span></p>
+
+<p style="font-family: 'VT323', monospace; color: var(--red); font-size: 14px; margin-top: 8px;">DROPPED OFF: PewDiePie (legacy, was #48) &bull; Baumgartner Restoration (was #49) &bull; The Infographics Show (was #50)</p>
+
+<div class="card" style="margin-top: 28px; border-color: var(--magenta);">
+<div class="card-header" style="color: var(--magenta);">EDITORIAL NOTES ON THE ISSUE #002 MOVEMENTS</div>
+
+<p class="body-text"><strong style="color: var(--green);">BIGGEST CLIMBER: NileRed &#9650;11 (28&rarr;17)</strong> &mdash; NileRed's re-score from 81 to 86 is the largest single-issue jump in our brief history, and it's entirely earned. The channel has had an extraordinary twelve months: viral chemistry experiments crossing over to mainstream audiences, the NileBlue companion channel adding range, and a consistent output quality that embarrasses channels with ten times the budget. When we scored NileRed at 81 in Issue #001, we were being conservative. The evidence since then has made conservatism indefensible.</p>
+
+<p class="body-text"><strong style="color: var(--green);">BIGGEST CLIMBER (TIE): Linus Tech Tips &#9650;11 (47&rarr;36)</strong> &mdash; Yes, LTT jumps eleven places despite the Gamers Nexus feud, the viewership dip, and the employee departure. How? Because our Issue #001 score of 70 was, in hindsight, too punitive. The Boss Fight re-evaluation scored the channel at 78 based on the actual content produced &mdash; and while the controversies are real, the sheer breadth and utility of LTT's testing remains unmatched. We were too harsh in Issue #001. We're correcting the record. The controversies keep them from going higher.</p>
+
+<p class="body-text"><strong style="color: var(--green);">Mark Rober &#9650;5 (13&rarr;8)</strong> &mdash; A Netflix deal, $40 million raised for clean water through Team Water, a Sesame Street Christmas special, the TIME100 Creators list, and CrunchLabs evolving into a proper media company. We bumped the score from 87 to 89. Frankly, if he uploaded more than once a month, he'd be challenging for the top 5. The consistency penalty is the only thing between him and ESSENTIAL status.</p>
+
+<p class="body-text"><strong style="color: var(--green);">MKBHD &#9650;7 (33&rarr;26)</strong> &mdash; The Boss Fight re-evaluation moved Brownlee from 78 to 83. Our Issue #001 placement at 33 &mdash; below Corridor Crew, below Johnny Harris &mdash; looks wrong in retrospect. MKBHD's channel quality has been remarkably stable even through the Panels app debacle. This is where he belongs: solidly in the EXCELLENT tier, the best pure tech reviewer on the platform.</p>
+
+<p class="body-text"><strong>New Entries:</strong> Conan O'Brien debuts at 11 with an 88 &mdash; the highest new entry in any issue so far. Theo Von enters at 15 with an 87. Both were reviewed in full this issue. Huberman Lab enters at 44 with a 74 that we expect will generate angry emails. Good.</p>
+
+<p class="body-text"><strong>Dropped Off:</strong> PewDiePie (legacy) was always hanging on by historical merit. The channel is effectively inactive. Baumgartner Restoration is lovely but hasn't evolved. The Infographics Show was warned in Issue #001 that its position at 50 was "a warning shot." Consider the warning followed through.</p>
+</div>
+
+<div class="pull-quote">"Three new entries, three channels gone, and six re-scores. If you agreed with every number last month and you agree with every number this month, one of us has changed. We hope it's you."</div>
+
+<div class="yob-container">
+  <div class="yob-badge">YOB SAYS</div>
+  <p class="yob-text">Huberman at 44. Conan in the top 15. LTT jumps eleven spots the same month they lose a Boss Fight. NileRed leaps from 28 to 17. And 3Blue1Brown is STILL at number one. Yob can already hear the keyboards clattering. The LTT lot are going to say we were too mean in Issue #001 and too generous now. The Huberman fans are going to cite fourteen different peer-reviewed studies about why 74 is wrong. And someone &mdash; SOMEONE &mdash; is going to write in saying MrBeast should be higher than 46. To which Yob says: no. Read the editorial notes from Issue #001. Subscriber count is not a score. Now pipe down and let Yob enjoy the chaos.</p>
+  <div class="yob-sig">&mdash; Yob</div>
+</div>
+
+<div class="retro-ad">
+  <h3>ALGORITHM JUICE&trade;</h3>
+  <div class="tagline">THE ENERGY DRINK THAT OPTIMISES <em>YOU</em> FOR THE FEED</div>
+  <p class="body-text" style="color: var(--text-secondary); font-size: 14px;">Contains: Caffeine, taurine, blue light extract, notification anxiety, and a proprietary blend of click-through rate enhancers. One can of Algorithm Juice delivers 8 hours of sustained scroll energy with zero actual nutrition. Available in three flavours: TRENDING NOW (citrus), FOR YOU (berry), and RECOMMENDED (mystery).</p>
+  <div class="fine-print">WARNING: Side effects may include doomscrolling, phantom notification syndrome, and an irresistible urge to leave a comment that says "first." Algorithm Juice is not approved by any regulatory body. Algorithm Juice does not exist. Please go outside.</div>
+</div>
+
+</div>
+
+<!-- ======================================= -->
+<!-- TAB: HIDDEN LEVELS -->
+<!-- ======================================= -->
+<div class="tab-content" id="hidden">
+
+<div class="section-label">HIDDEN LEVELS</div>
+<div class="section-title green">CHANNELS UNDER 10K SUBS THAT DESERVE YOUR ATTENTION</div>
+<p style="font-family: 'VT323', monospace; color: var(--text-dim); font-size: 16px; margin-bottom: 28px;">THE HEART OF THE MAGAZINE &bull; WHERE THE ALGORITHM HASN'T REACHED YET</p>
+
+<p class="body-text">Hidden Levels is our favourite section because it's where the algorithm hasn't had a chance to flatten everything into sameness. These are channels we found by accident, by recommendation, by stubborn refusal to stop browsing at 2am. They're small. They're weird. They're brilliant. Subscribe to them before everyone else does, and you can claim you were there first.</p>
+
+<div class="hidden-channel">
+  <div class="yob-pick-stamp">YOB'S PICK</div>
+  <div class="channel-name">Obscured Histories</div>
+  <div class="channel-stats">~4,200 SUBSCRIBERS &bull; HISTORY / DOCUMENTARY</div>
+  <p class="body-text">Meticulously researched micro-documentaries about historical events that mainstream history education ignores completely. A recent 22-minute video about the history of colour in medieval clothing had better research citations than most undergraduate dissertations. The narration is calm, precise, and oddly hypnotic. Production value is modest but the content is extraordinary. This channel will have 500K subscribers within two years if there's any justice in the algorithm.</p>
+</div>
+
+<div class="hidden-channel">
+  <div class="channel-name">Workshop Diaries</div>
+  <div class="channel-stats">~2,800 SUBSCRIBERS &bull; MAKER / ENGINEERING</div>
+  <p class="body-text">A retired aerospace engineer in New Zealand who films himself building things in his shed. The things he builds are insane &mdash; a fully functional miniature jet engine, a mechanical clock from scratch, a working trebuchet. The videos have zero editing tricks, zero background music, and zero clickbait. Just a man, his tools, and problems that would make most engineers weep. It's the antidote to every overly polished maker channel on the platform.</p>
+</div>
+
+<div class="hidden-channel">
+  <div class="channel-name">Footnote Films</div>
+  <div class="channel-stats">~7,100 SUBSCRIBERS &bull; FILM ANALYSIS</div>
+  <p class="body-text">Film essays that focus exclusively on things other critics miss: background extras, set design continuity errors that reveal production stories, the economics of specific shots. A recent 15-minute video analysing how one scene in a 1970s thriller was reshot three times (visible through slight changes in background furniture) was the most original piece of film criticism we've seen in years. Criminally under-discovered.</p>
+</div>
+
+<div class="hidden-channel">
+  <div class="channel-name">Gulf Radio Archive</div>
+  <div class="channel-stats">~1,900 SUBSCRIBERS &bull; MUSIC / ARCHIVE</div>
+  <p class="body-text">Digitised recordings of radio broadcasts from the Arabian Gulf region, spanning the 1960s through the 1990s. Music, talk shows, news bulletins, and advertisements from a rapidly changing region, preserved and presented with careful historical context. A time machine in audio form. The kind of cultural preservation work that YouTube was genuinely made for.</p>
+</div>
+
+<div class="pixel-divider"></div>
+
+<!-- CHEAT CODES -->
+<div class="section-label">CHEAT CODES</div>
+<div class="section-title">BEHIND THE SCENES: HOW MARK ROBER BUILDS A VIDEO</div>
+
+<p class="body-text">Mark Rober's videos look effortless. They aren't. Each one takes between two and six months to produce, involves a team of engineers, a dedicated content studio (CrunchLabs HQ), and a production process that would be familiar to anyone who's worked in Hollywood rather than YouTube.</p>
+
+<p class="body-text"><strong>Phase 1: The Concept (2-4 weeks).</strong> Rober and his team brainstorm ideas based on a simple test: "Can we build something that demonstrates this concept in a way that creates a visual spectacle?" If the answer is yes, and the science is sound, it moves to prototyping.</p>
+
+<p class="body-text"><strong>Phase 2: Engineering (4-12 weeks).</strong> This is where Rober's NASA background becomes the unfair advantage. The glitter bomb wasn't just a prank &mdash; it was an engineered system with GPS tracking, motorized spinning mechanisms, and fart spray dispensers on precision timers. The squirrel obstacle course involved weeks of testing and iteration. These are engineering projects that happen to be filmed, not filming projects that happen to involve engineering.</p>
+
+<p class="body-text"><strong>Phase 3: Filming (1-2 weeks).</strong> Multiple camera angles, drone footage, slow-motion captures, and carefully staged reveals. Rober's cinematography is among the best on the platform &mdash; clean, dynamic, and always in service of the story. CrunchLabs now has a Chief Content Officer (Scott Lewers, formerly of Lionsgate) managing the production pipeline.</p>
+
+<p class="body-text"><strong>Phase 4: The Edit (2-4 weeks).</strong> This is where the educational layer gets woven in. Rober's signature is making you learn without realising you're learning &mdash; the science explanation is never a lecture, it's embedded in the narrative of the build. Graphics, animations, and data visualizations are custom-made for each video.</p>
+
+<p class="body-text"><strong>Phase 5: Thumbnail and Title (Ongoing).</strong> Like every major creator, Rober A/B tests thumbnails. But his advantage is that his videos contain genuinely spectacular images &mdash; a 100-foot Nerf gun, a glitter explosion, a squirrel flying through the air &mdash; so the thumbnails are real moments, not manufactured shock faces.</p>
+
+<div class="investigation-callout">
+<h4>GEAR LIST (ESTIMATED)</h4>
+<p class="body-text" style="margin: 0; font-size: 14px; color: var(--text-secondary);">Primary cameras: RED V-Raptor / Sony FX6. Slow-motion: Phantom VEO4K. Drones: DJI Inspire 3. Audio: Sennheiser MKH 416. Editing: Adobe Premiere Pro. Graphics: After Effects + Blender. Studio: CrunchLabs HQ, custom-built lab space. Team size: estimated 20-30+ across production and engineering.</p>
+</div>
+
+</div>
+
+<!-- ======================================= -->
+<!-- TAB: GAME OVER + YOB + ADS -->
+<!-- ======================================= -->
+<div class="tab-content" id="gameover">
+
+<div class="section-label">GAME OVER</div>
+<div class="section-title orange">THE WORST YOUTUBE TRENDS OF EARLY 2026</div>
+<p style="font-family: 'VT323', monospace; color: var(--text-dim); font-size: 16px; margin-bottom: 28px;">SHARP BUT NEVER CRUEL &bull; BECAUSE WE LOVE THIS PLATFORM ENOUGH TO ROAST IT</p>
+
+<p class="body-text" style="font-weight: 700;">1. THE AI SLOP DELUGE</p>
+<p class="body-text">AI-generated content channels have gone from "interesting experiment" to "sewage pipe aimed directly at the recommendation feed." Faceless channels churning out AI-narrated, AI-scripted, AI-thumbnailed content about topics like "10 EXTINCT ANIMALS THAT COULD STILL BE ALIVE" are clogging the platform at industrial scale. The production cost is zero. The creative value is less than zero. YouTube's 12 million channel terminations in 2025 barely made a dent. This is the new spam, and it's winning.</p>
+
+<p class="body-text" style="font-weight: 700;">2. THE THREE-HOUR PODCAST EPISODE</p>
+<p class="body-text">We need to talk about runtime. There was a time when a YouTube video over 20 minutes felt long. Now every podcast episode is a three-hour commitment that requires scheduling. Huberman Lab episodes routinely hit 2.5-3 hours. Joe Rogan regularly goes past three. Lex Fridman once did seven hours with Elon Musk. Lads: not every conversation needs to be longer than most Hollywood films. Some of us have jobs. Edit your content. Respect our time. The algorithm rewards watch time but it shouldn't reward hostage situations.</p>
+
+<p class="body-text" style="font-weight: 700;">3. THE FAKE CANDID THUMBNAIL</p>
+<p class="body-text">You know the one. The creator photographed from the side, hand on chin, looking pensively into the middle distance as if they're contemplating the heat death of the universe when they're actually thinking about their CPM. Bonus points for an out-of-focus bookshelf in the background (always the same four books). The "thoughtful intellectual" thumbnail has become as formulaic as the surprised face it was supposed to replace. You're not fooling anyone.</p>
+
+<p class="body-text" style="font-weight: 700;">4. THE SUPPLEMENT AD DISGUISED AS SCIENCE</p>
+<p class="body-text">The Huberman Effect has spawned an entire ecosystem of channels that present supplement advertisements as peer-reviewed research. The formula is always the same: cite one mouse study, extrapolate wildly to humans, mention the specific product name four times, and include an affiliate link in the description. This is not science communication. This is QVC with a lab coat. The audience deserves better and the FTC should be paying closer attention.</p>
+
+<p class="body-text" style="font-weight: 700;">5. "I QUIT YOUTUBE" (NO YOU DIDN'T)</p>
+<p class="body-text">The genre of "I'm leaving YouTube" videos, uploaded to YouTube, promoted by the YouTube algorithm, monetised with YouTube ads, by creators who return to YouTube three weeks later, continues to thrive. We counted seventeen "I'm quitting" videos in December 2025 alone from channels with over 100K subscribers. Fourteen of them have uploaded since. The other three pivoted to Twitch, discovered it pays less, and quietly came back. If you're going to quit, quit. Don't make a content series about it.</p>
+
+<div class="yob-margin-note">Yob says: "I'm quitting YouTube" is the "I'm running away from home" of the internet. You pack a little bag, walk to the end of the driveway, realise you've got nowhere else to go, and come back in for tea. Grow up.</div>
+
+<div class="pixel-divider"></div>
+
+<!-- YOB'S SAVE POINT -->
+<div class="section-label">YOB'S SAVE POINT</div>
+<div class="section-title green">READER LETTERS</div>
+<p style="font-family: 'VT323', monospace; color: var(--text-dim); font-size: 16px; margin-bottom: 28px;">YOUR LETTERS. YOB'S JUDGEMENT. NO APPEALS.</p>
+
+<div class="reader-letter">
+  <div class="reader-name">DAN T. &mdash; SHEFFIELD, UK</div>
+  <div class="reader-content">"Dear CTRL+WATCH, I loved Issue #001 but your Top 50 was missing Veritasium. He's one of the best science channels on the platform and deserves to be higher. Also, why no gaming channels in the top 10? Dunkey should be number one."</div>
+  <div class="yob-text" style="margin-bottom: 8px;">Right, Dan. First off, Veritasium is on the list &mdash; it's at 19 &mdash; did you actually read it or did you just ctrl+F your favourites? Second, Dunkey IS in the top 10, he's at three, which is higher than Yob would put him but the editors insisted. Third, you want a science channel AND a gaming channel at number one? Pick a lane, mate. You can't have two number ones, that's not how numbers work.</div>
+  <div><span class="star-rating">&#9733;&#9733;&#9734;&#9734;&#9734;</span><span class="verdict-label">DIDN'T READ THE LIST</span></div>
+  <div class="yob-sig">&mdash; Yob</div>
+</div>
+
+<div class="reader-letter">
+  <div class="reader-name">SARAH K. &mdash; MELBOURNE, AUSTRALIA</div>
+  <div class="reader-content">"Your Warhol Time Capsule interview was the best thing I've read about YouTube in years. The line about everyone having a Factory now genuinely moved me. Please do more of these. Who's next? I'd love to see Hitchcock react to true crime YouTube."</div>
+  <div class="yob-text" style="margin-bottom: 8px;">Yob reluctantly admits this is a brilliant suggestion. Hitchcock watching true crime YouTube would be absolutely magnificent. He'd either love it or set fire to his computer. Either way, brilliant telly. Yob is passing this to the editors and taking full credit for the idea. You're welcome, Sarah.</div>
+  <div><span class="star-rating">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="verdict-label">EXCELLENT TASTE</span></div>
+  <div class="yob-sig">&mdash; Yob</div>
+</div>
+
+<div class="reader-letter">
+  <div class="reader-name">AHMED R. &mdash; RIYADH, KSA</div>
+  <div class="reader-content">"Love the magazine. Quick question: have you considered reviewing Arabic-language YouTube? There are massive channels in the MENA region that Western media completely ignores. Some of them are doing incredible work."</div>
+  <div class="yob-text" style="margin-bottom: 8px;">Ahmed, Yob doesn't speak Arabic but Yob recognises a good point when he sees one. The editors have been banging on about expanding coverage for weeks and this is exactly the kind of letter that makes them feel validated. Consider it done. CTRL+WATCH Issue #003 will have MENA coverage or Yob will eat his own hat. (Yob does not wear a hat. Yob is a blob. This was a figure of speech.)</div>
+  <div><span class="star-rating">&#9733;&#9733;&#9733;&#9733;&#9734;</span><span class="verdict-label">VALID CRITICISM</span></div>
+  <div class="yob-sig">&mdash; Yob</div>
+</div>
+
+<div class="reader-letter">
+  <div class="reader-name">JAKE M. &mdash; PORTLAND, OREGON</div>
+  <div class="reader-content">"Your scoring system is broken. You gave a channel 78 for consistency when they upload weekly, but another channel got 84 for the same thing. The criteria aren't clear. How do you weight these?"</div>
+  <div class="yob-text" style="margin-bottom: 8px;">Jake, listen. Yob doesn't do maths. Yob is a vibes-based entity. The editors have a "weighting system" they're very proud of that involves Content and X-Factor being weighted higher than Consistency and Community. But between you and Yob? They make it up. They argue in a room for three hours and then pick a number they can all live with. It's exactly like how every magazine review score has worked since 1985. The consistency is in the inconsistency. That's the system. Deal with it.</div>
+  <div><span class="star-rating">&#9733;&#9733;&#9733;&#9734;&#9734;</span><span class="verdict-label">VALID BUT BORING</span></div>
+  <div class="yob-sig">&mdash; Yob</div>
+</div>
+
+<div class="reader-letter">
+  <div class="reader-name">LISA C. &mdash; TORONTO, CANADA</div>
+  <div class="reader-content">"Is Yob single?"</div>
+  <div class="yob-text" style="margin-bottom: 8px;">Yob is a green blob who lives in a magazine. Yob doesn't have a relationship status. Yob has a page count and a deadline. But if you must know, Yob is married to his work and his work is judging strangers on the internet. It's a fulfilling arrangement. Now stop being weird.</div>
+  <div><span class="star-rating">&#9733;&#9734;&#9734;&#9734;&#9734;</span><span class="verdict-label">CONCERNING</span></div>
+  <div class="yob-sig">&mdash; Yob</div>
+</div>
+
+<div class="pixel-divider"></div>
+
+<!-- RETRO ADS -->
+<div class="retro-ad">
+  <h3>THUMBNAIL MASTER 3000&trade;</h3>
+  <div class="tagline">THE DEVICE THAT GENERATES THE PERFECT YOUTUBE THUMBNAIL &mdash; EVERY TIME</div>
+  <p class="body-text" style="color: var(--text-secondary); font-size: 14px;">Simply stand in front of the Thumbnail Master 3000 and it will automatically detect your content niche and generate the appropriate facial expression. Tech reviewers receive the "Pensive Chin Touch." Reaction channels get the "Open-Mouthed Shock." Finance channels get the "Pointing at a Graph." Comedy channels get the "Looking to the Left for No Reason." All expressions come pre-calibrated for maximum click-through rate.</p>
+  <div class="fine-print">The Thumbnail Master 3000 does not actually exist. If it did, it would produce the same four thumbnails for every channel on the platform, which is essentially what's already happening. Requires 4 AA batteries (not included). Not suitable for channels with genuine artistic vision.</div>
+</div>
+
+<div class="retro-ad">
+  <h3>SUBSCRIBE BELL PLUS&trade;</h3>
+  <div class="tagline">BECAUSE THE REGULAR BELL WASN'T ENOUGH. NOW WITH TRIPLE NOTIFICATION POWER.</div>
+  <p class="body-text" style="color: var(--text-secondary); font-size: 14px;">Tired of missing uploads from your 347 subscribed channels? Subscribe Bell Plus sends notifications directly to your DREAMS. Wake up knowing exactly what every channel you follow has uploaded overnight. Features include: Aggressive Push Alerts, Lock Screen Takeover Mode, and the revolutionary "Notification That Follows You to the Bathroom" feature. Coming Q2 2026.</p>
+  <div class="fine-print">Subscribe Bell Plus is not real, obviously. But if YouTube could monetise your sleep cycle, don't pretend they wouldn't try. Sleep well. Or don't. The algorithm doesn't care.</div>
+</div>
+
+<div class="retro-ad">
+  <h3>PROTOCOL BRO&trade; STARTER KIT</h3>
+  <div class="tagline">EVERYTHING YOU NEED TO START YOUR OPTIMISED LIFESTYLE</div>
+  <p class="body-text" style="color: var(--text-secondary); font-size: 14px;">Kit includes: 47 different supplements (none FDA-approved), a sunrise alarm that goes off at 4:30am, a blue light blocking headset for evening YouTube consumption, a cold plunge that's actually just a bin filled with ice, and a laminated "Morning Protocol" card that takes 3 hours to complete. Comes with a complimentary subscription to a podcast that will make you question everything about your health while selling you more supplements.</p>
+  <div class="fine-print">Not endorsed by any medical professional. The Protocol Bro Starter Kit does not exist. If it did, it would cost $299/month and the only proven benefit would be making you insufferable at dinner parties. Please consult an actual doctor.</div>
+</div>
+
+</div>
+
+<!-- ======================================= -->
+<!-- FOOTER -->
+<!-- ======================================= -->
+<footer class="magazine-footer">
+  <p>CTRL+WATCH ISSUE #002 &bull; FEBRUARY 2026</p>
+  <p style="margin-top: 8px;">THE YOUTUBE REVIEW MAGAZINE</p>
+  <p style="margin-top: 8px; color: var(--cyan);">PRESS START TO CONTINUE &#9654;</p>
+  <p style="margin-top: 16px; font-size: 12px;">ALL CHANNEL DATA ACCURATE AS OF FEBRUARY 2026 &bull; SCORES ARE EDITORIAL OPINION &bull; FIGHT US IN THE COMMENTS</p>
+  <p style="margin-top: 8px; font-size: 12px; color: var(--text-dim);">TIME CAPSULE INTERVIEWS ARE FICTIONAL/SATIRICAL &bull; NO HISTORICAL FIGURES WERE HARMED IN THE MAKING OF THIS MAGAZINE</p>
+</footer>
+
+<!-- ======================================= -->
+<!-- JAVASCRIPT -->
+<!-- ======================================= -->
+<script>
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>

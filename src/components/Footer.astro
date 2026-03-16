@@ -1,0 +1,149 @@
+---
+---
+
+<footer class="footer">
+  <div class="footer-container container">
+    <div class="footer-brand">
+      <pre class="yob-art" aria-label="Yob mascot pixel art">
+  ▄▄▄
+ █o o█
+ █ ▄ █
+  ▀▀▀</pre>
+      <div class="footer-info">
+        <a href="/" class="footer-logo">CTRL+WATCH</a>
+        <p class="footer-tagline">Your algorithm is broken. We're the fix.</p>
+        <p class="footer-copy">© 2025–2026 CTRL+WATCH — All issues are independent publications.</p>
+      </div>
+    </div>
+
+    <div class="footer-links-section">
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/" class="footer-link">HOME</a>
+        <a href="/archive" class="footer-link">ARCHIVE</a>
+        <a href="/about" class="footer-link">ABOUT</a>
+        <a href="/rss.xml" class="footer-link" target="_blank" rel="noopener">RSS</a>
+      </nav>
+      <p class="footer-domain">ctrl-watch.xyz</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border);
+    background: var(--bg-secondary);
+    padding: var(--space-xl) 0;
+    margin-top: auto;
+  }
+
+  .footer-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .yob-art {
+    font-family: monospace;
+    font-size: 16px;
+    color: var(--green);
+    text-shadow: var(--glow-green);
+    line-height: 1.2;
+    white-space: pre;
+    flex-shrink: 0;
+  }
+
+  .footer-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .footer-logo {
+    font-family: 'Press Start 2P', monospace;
+    font-size: var(--text-sm);
+    color: var(--green);
+    text-shadow: var(--glow-green);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+
+  .footer-logo:hover {
+    text-shadow: var(--glow-green), 0 0 40px rgba(0,255,65,0.4);
+  }
+
+  .footer-tagline {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    letter-spacing: 0.02em;
+  }
+
+  .footer-copy {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+  }
+
+  .footer-links-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-md);
+  }
+
+  .footer-nav {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .footer-link {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.2s ease;
+    padding: var(--space-xs);
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .footer-link:hover {
+    color: var(--cyan);
+    text-shadow: var(--glow-cyan);
+  }
+
+  .footer-domain {
+    font-family: 'Press Start 2P', monospace;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 768px) {
+    .footer-container {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+
+    .footer-links-section {
+      align-items: flex-start;
+    }
+
+    .footer-nav {
+      justify-content: flex-start;
+    }
+  }
+</style>

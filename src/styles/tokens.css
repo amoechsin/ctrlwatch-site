@@ -1,0 +1,45 @@
+:root {
+  /* Base */
+  --bg:           #080808;
+  --bg-secondary: #111111;
+  --bg-card:      #0f0f0f;
+  --border:       #1e1e1e;
+
+  /* Brand Colors */
+  --green:        #00ff41;   /* phosphor green — primary accent */
+  --yellow:       #ffe600;   /* highlight / cover star ratings */
+  --cyan:         #00f0ff;   /* secondary accent / links */
+  --orange:       #ff6600;   /* warnings / boss fight / special sections */
+  --red:          #ff2244;   /* scores below 50, danger */
+  --magenta:      #ff00aa;   /* featured / cover story */
+
+  /* Typography */
+  --text-primary:   #e8e8e8;
+  --text-secondary: #888888;
+  --text-muted:     #444444;
+
+  /* Glow effects */
+  --glow-green:   0 0 8px rgba(0,255,65,0.6),  0 0 20px rgba(0,255,65,0.2);
+  --glow-cyan:    0 0 8px rgba(0,240,255,0.6),  0 0 20px rgba(0,240,255,0.2);
+  --glow-yellow:  0 0 8px rgba(255,230,0,0.6),  0 0 20px rgba(255,230,0,0.2);
+
+  /* Spacing scale */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  32px;
+  --space-xl:  64px;
+
+  /* Typography scale */
+  --text-xs:   clamp(8px,  1.5vw, 10px);
+  --text-sm:   clamp(10px, 2vw,   12px);
+  --text-md:   clamp(12px, 2.5vw, 14px);
+  --text-lg:   clamp(14px, 3vw,   18px);
+  --text-xl:   clamp(18px, 4vw,   24px);
+  --text-2xl:  clamp(22px, 5vw,   32px);
+  --text-3xl:  clamp(28px, 6vw,   48px);
+
+  /* Layout */
+  --max-width: 1200px;
+  --border-radius: 2px; /* Keep sharp — retro feel */
+}

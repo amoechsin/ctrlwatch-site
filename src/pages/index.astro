@@ -1,0 +1,391 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BootScreen from '../components/BootScreen.astro';
+import IssueCard from '../components/IssueCard.astro';
+import { issues } from '../data/issues.js';
+
+const publishedIssues = issues.filter(i => i.published);
+const featuredIssue = publishedIssues[publishedIssues.length - 1]; // latest published
+const latestIssues = publishedIssues.slice(-2).reverse(); // 2 most recent
+---
+
+<BaseLayout
+  title="CTRL+WATCH — Your algorithm is broken. We're the fix."
+  description="CTRL+WATCH is a retro gaming magazine reviewing YouTube channels. Loud, opinionated, and unafraid to put a number on things."
+>
+  <!-- SECTION A: BOOT SEQUENCE -->
+  <BootScreen />
+
+  <!-- SECTION B: HERO / LATEST ISSUE COVER -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-text">
+          <div class="hero-label font-display">CTRL+WATCH</div>
+          <div class="hero-issue-number font-display">{featuredIssue.number}</div>
+          <div class="hero-date font-mono">{featuredIssue.date}</div>
+          <h1 class="hero-title">{featuredIssue.title}</h1>
+          <p class="hero-subtitle">"{featuredIssue.subtitle}"</p>
+          <div class="hero-actions">
+            <a href={`/issues/${featuredIssue.slug}/`} class="btn">
+              READ ISSUE {featuredIssue.number} ▶
+            </a>
+            <a href="/archive" class="link-ghost">
+              VIEW ARCHIVE →
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-cover-wrapper">
+          <div class="hero-cover" style={`border-color: ${featuredIssue.coverColor}; box-shadow: 0 0 20px ${featuredIssue.coverColor}60, 0 0 60px ${featuredIssue.coverColor}20;`}>
+            <span class="hero-cover-number" style={`color: ${featuredIssue.coverColor};`}>
+              {featuredIssue.number}
+            </span>
+            <span class="hero-cover-sub">CTRL+WATCH</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION C: TICKER TAPE -->
+  <div class="ticker" aria-label="Announcement ticker" role="marquee">
+    <div class="ticker-track">
+      <span class="ticker-content">
+        ▶ CTRL+WATCH {featuredIssue.number} NOW AVAILABLE ◀ {featuredIssue.title} ◀ YOUR ALGORITHM IS BROKEN ◀ WE'RE THE FIX ◀ 9 ISSUES AND COUNTING ◀ CTRL+WATCH {featuredIssue.number} NOW AVAILABLE ◀ {featuredIssue.title} ◀ YOUR ALGORITHM IS BROKEN ◀ WE'RE THE FIX ◀ 9 ISSUES AND COUNTING ◀&nbsp;
+      </span>
+      <span class="ticker-content" aria-hidden="true">
+        ▶ CTRL+WATCH {featuredIssue.number} NOW AVAILABLE ◀ {featuredIssue.title} ◀ YOUR ALGORITHM IS BROKEN ◀ WE'RE THE FIX ◀ 9 ISSUES AND COUNTING ◀ CTRL+WATCH {featuredIssue.number} NOW AVAILABLE ◀ {featuredIssue.title} ◀ YOUR ALGORITHM IS BROKEN ◀ WE'RE THE FIX ◀ 9 ISSUES AND COUNTING ◀&nbsp;
+      </span>
+    </div>
+  </div>
+
+  <!-- SECTION D: WHAT IS CTRL+WATCH -->
+  <section class="pitch">
+    <div class="container">
+      <h2 class="section-header">▶ WHAT IS CTRL+WATCH</h2>
+      <div class="pitch-grid grid-3">
+        <div class="card pitch-card">
+          <div class="pitch-icon">★</div>
+          <h3 class="pitch-title">RATINGS</h3>
+          <p class="pitch-body">Every channel scored out of 100. No mercy. No algorithm-safe takes. Just honest, loud opinions.</p>
+        </div>
+        <div class="card pitch-card">
+          <div class="pitch-icon">⚔</div>
+          <h3 class="pitch-title">BOSS FIGHT</h3>
+          <p class="pitch-body">Head-to-head battles between creators. Two channels enter. One gets the crown. No rematch clause.</p>
+        </div>
+        <div class="card pitch-card">
+          <div class="pitch-icon">👾</div>
+          <h3 class="pitch-title">TIME CAPSULE</h3>
+          <p class="pitch-body">Fictional interviews with legends who never saw YouTube. What would Cronkite think of MrBeast?</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- SECTION E: LATEST FROM ARCHIVE -->
+  <section class="latest-issues">
+    <div class="container">
+      <h2 class="section-header">▶ LATEST ISSUES</h2>
+      <div class="issues-grid grid-2">
+        {latestIssues.map((issue, index) => (
+          <IssueCard
+            slug={issue.slug}
+            number={issue.number}
+            date={issue.date}
+            title={issue.title}
+            subtitle={issue.subtitle}
+            coverColor={issue.coverColor}
+            tag={issue.tag}
+            published={issue.published}
+            animationDelay={index * 100}
+          />
+        ))}
+      </div>
+      <div class="issues-cta">
+        <a href="/archive" class="btn">VIEW ALL ISSUES ▶</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- SECTION F: MANIFESTO PULL QUOTE -->
+  <section class="manifesto-quote">
+    <div class="container">
+      <div class="quote-block">
+        <div class="quote-mark" aria-hidden="true">"</div>
+        <blockquote class="quote-text">
+          There was a time when someone else decided what you watched.
+          CTRL+WATCH exists because YouTube deserves what gaming had
+          in the 80s and 90s: a magazine that is loud, opinionated,
+          and unafraid to put a number on things.
+        </blockquote>
+        <cite class="quote-attribution">— CTRL+WATCH, ISSUE #001</cite>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ===== HERO ===== */
+  .hero {
+    padding: var(--space-xl) 0;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .hero-label {
+    font-size: var(--text-sm);
+    color: var(--green);
+    text-shadow: var(--glow-green);
+    letter-spacing: 0.2em;
+  }
+
+  .hero-issue-number {
+    font-size: var(--text-2xl);
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
+  }
+
+  .hero-date {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .hero-title {
+    font-size: var(--text-xl);
+    color: var(--text-primary);
+    line-height: 1.8;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-subtitle {
+    font-size: var(--text-md);
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+    margin-top: var(--space-md);
+  }
+
+  .hero-cover-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-cover {
+    aspect-ratio: 3/4;
+    border: 3px solid;
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(0,255,65,0.05) 0%, transparent 70%);
+  }
+
+  .hero-cover-number {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(32px, 6vw, 64px);
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-cover-sub {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(8px, 1.5vw, 12px);
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 768px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-cover-wrapper {
+      order: -1;
+    }
+
+    .hero-cover {
+      max-width: 240px;
+    }
+
+    .hero {
+      min-height: auto;
+      padding: var(--space-lg) 0;
+    }
+  }
+
+  /* ===== TICKER ===== */
+  .ticker {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-sm) 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-track {
+    display: inline-flex;
+    animation: marquee 30s linear infinite;
+  }
+
+  .ticker-content {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+    letter-spacing: 0.1em;
+    padding-right: 0;
+  }
+
+  @keyframes marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ===== PITCH SECTION ===== */
+  .pitch {
+    padding: var(--space-xl) 0;
+  }
+
+  .pitch-grid {
+    margin-top: var(--space-lg);
+  }
+
+  .pitch-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+  }
+
+  .pitch-icon {
+    font-size: 28px;
+    color: var(--yellow);
+    line-height: 1;
+  }
+
+  .pitch-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--text-primary);
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+  }
+
+  .pitch-body {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* ===== LATEST ISSUES ===== */
+  .latest-issues {
+    padding: var(--space-xl) 0;
+  }
+
+  .issues-grid {
+    margin-top: var(--space-lg);
+  }
+
+  .issues-cta {
+    margin-top: var(--space-lg);
+    text-align: center;
+  }
+
+  /* ===== MANIFESTO QUOTE ===== */
+  .manifesto-quote {
+    padding: var(--space-xl) 0;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .quote-block {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    padding: var(--space-lg) 0;
+  }
+
+  .quote-mark {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(60px, 10vw, 120px);
+    color: var(--green);
+    opacity: 0.15;
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .quote-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-lg);
+    color: var(--text-primary);
+    line-height: 1.9;
+    letter-spacing: 0.02em;
+    font-style: normal;
+    position: relative;
+    z-index: 1;
+    margin-bottom: var(--space-lg);
+  }
+
+  .quote-attribution {
+    font-family: 'Press Start 2P', monospace;
+    font-size: var(--text-xs);
+    color: var(--green);
+    letter-spacing: 0.1em;
+    font-style: normal;
+    display: block;
+  }
+</style>

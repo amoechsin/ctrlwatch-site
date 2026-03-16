@@ -1,0 +1,148 @@
+/* ===== BASE RESET ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: var(--text-md);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== TYPOGRAPHY ===== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+p {
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 0.02em;
+  line-height: 1.7;
+}
+
+a {
+  color: var(--cyan);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--green);
+  text-shadow: var(--glow-green);
+}
+
+/* ===== FONT UTILITY CLASSES ===== */
+.font-display {
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+}
+
+.font-mono {
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+
+/* ===== LAYOUT ===== */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-md);
+  }
+}
+
+@media (max-width: 375px) {
+  .container {
+    padding: 0 var(--space-sm);
+  }
+}
+
+/* ===== IMAGES ===== */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ===== LISTS ===== */
+ul, ol {
+  list-style: none;
+}
+
+/* ===== SELECTION ===== */
+::selection {
+  background: var(--green);
+  color: var(--bg);
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--green);
+}
+
+/* ===== FOCUS ===== */
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
+/* ===== FONT DISPLAY SWAP ===== */
+@font-face {
+  font-display: swap;
+}
+
+/* ===== SECTION SPACING ===== */
+section {
+  padding: var(--space-xl) 0;
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: var(--space-lg) 0;
+  }
+}
+
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+@media (max-width: 1024px) {
+  /* Tablet — 3-col grids → 2-col handled per component */
+}
+
+@media (max-width: 768px) {
+  /* Mobile — Press Start 2P sizes reduce ~25% */
+  h1 { font-size: clamp(12px, 3vw, 18px); }
+  h2 { font-size: clamp(10px, 2.5vw, 14px); }
+  h3 { font-size: clamp(9px, 2vw, 12px); }
+}
+
+@media (max-width: 375px) {
+  /* Small mobile */
+  body { font-size: 10px; }
+  .font-display { font-size: 8px; }
+}

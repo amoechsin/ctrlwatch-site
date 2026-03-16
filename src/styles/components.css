@@ -1,0 +1,209 @@
+/* ===== TAG / BADGE CHIPS ===== */
+.tag {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  padding: 4px 8px;
+  border: 1px solid currentColor;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: inline-block;
+  border-radius: var(--border-radius);
+}
+
+/* ===== SCORE BADGE ===== */
+.score-badge {
+  font-family: 'Press Start 2P', monospace;
+  font-size: var(--text-xl);
+  color: var(--yellow);
+  text-shadow: var(--glow-yellow);
+  border: 2px solid var(--yellow);
+  padding: 8px 16px;
+  display: inline-block;
+}
+
+/* ===== SECTION DIVIDER ===== */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: var(--space-lg) 0;
+  position: relative;
+}
+
+.divider::after {
+  content: '///';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg);
+  color: var(--text-muted);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  padding: 0 8px;
+}
+
+/* ===== GLOWING BUTTON ===== */
+.btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  padding: 12px 24px;
+  background: transparent;
+  border: 2px solid var(--green);
+  color: var(--green);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s ease;
+  letter-spacing: 0.05em;
+  border-radius: var(--border-radius);
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.btn:hover {
+  background: var(--green);
+  color: var(--bg);
+  box-shadow: var(--glow-green);
+  text-shadow: none;
+}
+
+.btn-cyan {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.btn-cyan:hover {
+  background: var(--cyan);
+  color: var(--bg);
+  box-shadow: var(--glow-cyan);
+}
+
+.btn-yellow {
+  border-color: var(--yellow);
+  color: var(--yellow);
+}
+
+.btn-yellow:hover {
+  background: var(--yellow);
+  color: var(--bg);
+  box-shadow: var(--glow-yellow);
+}
+
+/* ===== CARD CONTAINER ===== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: var(--space-md);
+  transition: border-color 0.2s ease;
+  border-radius: var(--border-radius);
+}
+
+.card:hover {
+  border-color: var(--green);
+}
+
+/* ===== PIXEL CURSOR BLINK ===== */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor::after {
+  content: '█';
+  color: var(--green);
+  animation: blink 1s step-end infinite;
+}
+
+/* ===== FLICKER ANIMATION ===== */
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 24%, 55% { opacity: 0.4; }
+}
+
+.flicker {
+  animation: flicker 5s infinite;
+}
+
+/* ===== TYPEWRITER ANIMATION ===== */
+@keyframes typewriter {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* ===== MARQUEE / TICKER ===== */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ===== SECTION HEADER ===== */
+.section-header {
+  font-family: 'Press Start 2P', monospace;
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--green);
+  display: inline-block;
+}
+
+/* ===== GHOST LINK ===== */
+.link-ghost {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--cyan);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition: all 0.2s ease;
+  letter-spacing: 0.05em;
+}
+
+.link-ghost:hover {
+  color: var(--cyan);
+  border-bottom-color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+/* ===== STAGGER ANIMATION ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-in {
+  animation: fadeInUp 0.4s ease forwards;
+  opacity: 0;
+}
+
+/* ===== GRID LAYOUTS ===== */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+}
+
+@media (max-width: 1024px) {
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-3,
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}

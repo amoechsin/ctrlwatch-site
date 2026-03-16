@@ -1,0 +1,362 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About — CTRL+WATCH Magazine"
+  description="CTRL+WATCH is a retro gaming magazine reviewing YouTube channels. Read our manifesto, scoring system, and meet Yob."
+>
+  <article class="about">
+    <div class="container">
+
+      <!-- HEADER -->
+      <header class="about-header">
+        <h1 class="about-title">ABOUT CTRL+WATCH</h1>
+      </header>
+
+      <hr class="divider" />
+
+      <!-- MANIFESTO -->
+      <section class="manifesto-section">
+        <div class="manifesto-text">
+          <p>There was a time when someone else decided what you watched.
+          Three networks. A handful of music channels. If you were lucky,
+          a magazine told you what was worth your time — and you trusted it,
+          because the people writing it cared more about the thing than
+          the business of the thing.</p>
+
+          <p>YouTube killed the gatekeeper and replaced it with an algorithm.
+          And the algorithm doesn't care if something is good.
+          It cares if something is sticky.</p>
+
+          <p>CTRL+WATCH exists because we think YouTube deserves what gaming
+          had in the 80s and 90s: a magazine that is loud, opinionated,
+          and unafraid to put a number on things. A magazine that will tell
+          you Dan Carlin's Hardcore History is a 96/100 and explain exactly why.
+          A magazine that will find the channel with 3,000 subscribers that's
+          making better content than creators with 30 million.</p>
+
+          <p class="manifesto-tagline">Your algorithm is broken. We're the fix.</p>
+
+          <p>Welcome to CTRL+WATCH. Press start.</p>
+
+          <p class="manifesto-attribution">— The Editor</p>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- HOW WE SCORE -->
+      <section class="scoring-section">
+        <h2 class="section-title">HOW WE SCORE</h2>
+        <p class="scoring-intro">Every channel reviewed in CTRL+WATCH receives a score from 0 to 100. Here's what the numbers mean:</p>
+
+        <div class="score-table-wrapper">
+          <table class="score-table" role="table" aria-label="Scoring system">
+            <thead>
+              <tr>
+                <th scope="col">RANGE</th>
+                <th scope="col">VERDICT</th>
+                <th scope="col">WHAT IT MEANS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="score-range score-legendary">90–100</span></td>
+                <td class="score-verdict">LEGENDARY</td>
+                <td>Essential viewing. Drop everything.</td>
+              </tr>
+              <tr>
+                <td><span class="score-range score-excellent">75–89</span></td>
+                <td class="score-verdict">EXCELLENT</td>
+                <td>A must-subscribe. Serious craft on display.</td>
+              </tr>
+              <tr>
+                <td><span class="score-range score-good">60–74</span></td>
+                <td class="score-verdict">GOOD</td>
+                <td>Worth your time. Real signal in the noise.</td>
+              </tr>
+              <tr>
+                <td><span class="score-range score-average">45–59</span></td>
+                <td class="score-verdict">AVERAGE</td>
+                <td>Has moments. Algorithm food with flashes of quality.</td>
+              </tr>
+              <tr>
+                <td><span class="score-range score-weak">25–44</span></td>
+                <td class="score-verdict">WEAK</td>
+                <td>Something's off. Watch at your own risk.</td>
+              </tr>
+              <tr>
+                <td><span class="score-range score-skip">0–24</span></td>
+                <td class="score-verdict">SKIP</td>
+                <td>We watched it so you don't have to. You're welcome.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="scoring-note">Scores are final. We don't re-score based on channel complaints. We may re-score based on genuine growth or decline.</p>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- MEET YOB -->
+      <section class="yob-section">
+        <h2 class="section-title">MEET YOB</h2>
+        <div class="yob-content">
+          <div class="yob-art-wrapper">
+            <pre class="yob-art-large" aria-label="Yob mascot pixel art">
+    ▄▄▄▄▄
+  ██o   o██
+  ██  ▄  ██
+  ██  ▀  ██
+   █▄▄▄▄▄█
+    ▀▀ ▀▀</pre>
+            <p class="yob-name">YOB v1.0</p>
+          </div>
+          <div class="yob-bio">
+            <p>Yob was born inside a dead pixel on a phosphor monitor sometime in 1987. Nobody knows exactly when — the monitor's clock had been wrong since 1984.</p>
+            <p>He spent his early years watching test patterns and crash screens, developing a deep appreciation for content that didn't waste his time. He migrated to CRT televisions in the early 90s, absorbing every issue of every gaming magazine he could find.</p>
+            <p>When YouTube launched in 2005, Yob watched the entire platform in three days. His conclusion: most of it was noise. A small fraction was signal. Nobody was writing about the difference.</p>
+            <p>So he founded CTRL+WATCH. He is the magazine's only full-time employee, mascot, and chief opinion officer. He does not take sponsorships. He does not have an algorithm. He has opinions.</p>
+            <p class="yob-catchphrase">His catchphrase: "I've seen better pixels."</p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- CTA -->
+      <section class="about-cta">
+        <a href="/issues/001/" class="btn">READ ISSUE #001 ▶</a>
+      </section>
+
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .about {
+    padding: var(--space-xl) 0;
+  }
+
+  .about-header {
+    padding: var(--space-xl) 0 var(--space-lg);
+  }
+
+  .about-title {
+    font-size: var(--text-2xl);
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+  }
+
+  /* ===== MANIFESTO ===== */
+  .manifesto-section {
+    padding: var(--space-xl) 0;
+  }
+
+  .manifesto-text {
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .manifesto-text p {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-md);
+    color: var(--text-primary);
+    line-height: 1.9;
+    letter-spacing: 0.02em;
+  }
+
+  .manifesto-tagline {
+    font-family: 'Press Start 2P', monospace !important;
+    font-size: var(--text-md) !important;
+    color: var(--green) !important;
+    text-shadow: var(--glow-green);
+    letter-spacing: 0.05em !important;
+    line-height: 1.8 !important;
+  }
+
+  .manifesto-attribution {
+    font-family: 'Press Start 2P', monospace !important;
+    font-size: var(--text-sm) !important;
+    color: var(--text-secondary) !important;
+    letter-spacing: 0.1em !important;
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border);
+  }
+
+  /* ===== SCORING ===== */
+  .scoring-section {
+    padding: var(--space-xl) 0;
+  }
+
+  .section-title {
+    font-size: var(--text-xl);
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-sm);
+    border-bottom: 2px solid var(--green);
+    display: inline-block;
+  }
+
+  .scoring-intro {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-md);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-lg);
+    line-height: 1.7;
+  }
+
+  .score-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: var(--space-lg);
+    border: 1px solid var(--border);
+  }
+
+  .score-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .score-table th {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--text-secondary);
+    text-align: left;
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-secondary);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  .score-table td {
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: 1px solid var(--border);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    vertical-align: middle;
+  }
+
+  .score-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .score-table tr:hover td {
+    background: var(--bg-card);
+  }
+
+  .score-range {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    padding: 4px 8px;
+    border: 1px solid currentColor;
+    white-space: nowrap;
+    display: inline-block;
+  }
+
+  .score-legendary { color: var(--yellow); }
+  .score-excellent { color: var(--green); }
+  .score-good      { color: var(--cyan); }
+  .score-average   { color: var(--text-secondary); }
+  .score-weak      { color: var(--orange); }
+  .score-skip      { color: var(--red); }
+
+  .score-verdict {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: var(--text-primary) !important;
+    white-space: nowrap;
+  }
+
+  .scoring-note {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    line-height: 1.7;
+    border-left: 2px solid var(--green);
+    padding-left: var(--space-md);
+  }
+
+  /* ===== YOB SECTION ===== */
+  .yob-section {
+    padding: var(--space-xl) 0;
+  }
+
+  .yob-content {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .yob-art-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-shrink: 0;
+  }
+
+  .yob-art-large {
+    font-family: monospace;
+    font-size: 18px;
+    color: var(--green);
+    text-shadow: var(--glow-green);
+    line-height: 1.3;
+    white-space: pre;
+  }
+
+  .yob-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    text-align: center;
+  }
+
+  .yob-bio {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .yob-bio p {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-md);
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  .yob-catchphrase {
+    font-family: 'Press Start 2P', monospace !important;
+    font-size: var(--text-sm) !important;
+    color: var(--green) !important;
+    text-shadow: var(--glow-green);
+    letter-spacing: 0.05em !important;
+    margin-top: var(--space-sm);
+  }
+
+  /* ===== CTA ===== */
+  .about-cta {
+    padding: var(--space-xl) 0;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .yob-content {
+      grid-template-columns: 1fr;
+    }
+
+    .yob-art-wrapper {
+      align-items: flex-start;
+    }
+  }
+</style>

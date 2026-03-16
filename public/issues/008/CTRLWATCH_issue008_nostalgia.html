@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTRL+WATCH — Issue #008: THE NOSTALGIA ISSUE</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=VT323&family=Exo+2:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Russo+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A12;
+    --bg2: #0F0F1A;
+    --bg3: #14141F;
+    --cyan: #00F0FF;
+    --magenta: #FF00AA;
+    --yellow: #FFE600;
+    --green: #39FF14;
+    --orange: #FF6B00;
+    --amber: #FFB800;
+    --text: #E0E0E8;
+    --text2: #9090A0;
+    --text3: #6060708;
+    --border: #2A2A3A;
+    --glow-cyan: 0 0 10px #00F0FF, 0 0 20px #00F0FF44;
+    --glow-magenta: 0 0 10px #FF00AA, 0 0 20px #FF00AA44;
+    --glow-yellow: 0 0 10px #FFE600, 0 0 20px #FFE60044;
+    --glow-green: 0 0 10px #39FF14, 0 0 20px #39FF1444;
+    --glow-amber: 0 0 8px #FFB800, 0 0 16px #FFB80044;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* CRT SCANLINE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* CRT FLICKER */
+  @keyframes flicker {
+    0%, 99% { opacity: 1; }
+    100% { opacity: 0.97; }
+  }
+  body { animation: flicker 8s infinite; }
+
+  /* HEADER */
+  .masthead {
+    background: linear-gradient(135deg, #080810 0%, #12121E 50%, #080810 100%);
+    border-bottom: 3px solid var(--cyan);
+    padding: 30px 20px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at center top, rgba(0,240,255,0.08) 0%, transparent 70%);
+  }
+  .masthead-top {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--magenta);
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .masthead-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(36px, 8vw, 72px);
+    font-weight: 900;
+    color: var(--cyan);
+    text-shadow: var(--glow-cyan);
+    letter-spacing: 8px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .masthead-plus {
+    color: var(--magenta);
+    text-shadow: var(--glow-magenta);
+  }
+  .masthead-subtitle {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(10px, 2vw, 14px);
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+    letter-spacing: 6px;
+    margin-bottom: 16px;
+  }
+  .masthead-meta {
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    color: var(--text2);
+    letter-spacing: 3px;
+  }
+  .masthead-meta span { color: var(--cyan); }
+  .issue-badge {
+    display: inline-block;
+    background: var(--magenta);
+    color: #000;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    padding: 6px 12px;
+    margin-top: 14px;
+    clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+    box-shadow: var(--glow-magenta);
+  }
+
+  /* TAB NAV */
+  .tab-nav {
+    background: var(--bg2);
+    border-bottom: 2px solid var(--border);
+    padding: 0 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--text2);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    padding: 12px 10px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+  }
+  .tab-btn:hover { color: var(--cyan); border-bottom-color: var(--cyan); }
+  .tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); background: rgba(0,240,255,0.06); }
+
+  /* CONTENT PANES */
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* MAIN CONTENT WRAPPER */
+  .content-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  /* SECTION HEADERS */
+  .section-header {
+    margin-bottom: 40px;
+    border-left: 4px solid var(--cyan);
+    padding-left: 20px;
+    position: relative;
+  }
+  .section-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--magenta);
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 900;
+    color: var(--cyan);
+    text-shadow: var(--glow-cyan);
+    line-height: 1.1;
+  }
+  .section-theme {
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    color: var(--yellow);
+    margin-top: 8px;
+    letter-spacing: 2px;
+  }
+
+  /* ARTICLE BODY */
+  .article-body { max-width: 780px; }
+  .article-body p {
+    margin-bottom: 20px;
+    line-height: 1.85;
+    font-size: 15.5px;
+    color: var(--text);
+  }
+  .article-body p:first-of-type::first-letter {
+    font-family: 'Russo One', sans-serif;
+    font-size: 64px;
+    float: left;
+    line-height: 0.8;
+    margin: 8px 12px 0 0;
+    color: var(--cyan);
+    text-shadow: var(--glow-cyan);
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 4px solid var(--yellow);
+    border-right: 4px solid var(--yellow);
+    padding: 20px 30px;
+    margin: 36px 0;
+    font-family: 'Russo One', sans-serif;
+    font-size: clamp(16px, 2.5vw, 20px);
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+    text-align: center;
+    line-height: 1.5;
+    background: rgba(255,230,0,0.04);
+    position: relative;
+  }
+  .pull-quote::before { content: '\201C'; font-size: 80px; line-height: 0; position: absolute; top: 30px; left: 14px; color: var(--yellow); opacity: 0.3; }
+
+  /* PIXEL DIVIDER */
+  .pixel-divider {
+    height: 4px;
+    background: repeating-linear-gradient(90deg, var(--cyan) 0px, var(--cyan) 8px, transparent 8px, transparent 16px);
+    margin: 40px 0;
+    opacity: 0.6;
+  }
+
+  /* NEWS BITES */
+  .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+  .news-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--cyan);
+    padding: 20px;
+  }
+  .news-headline {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .news-body { font-size: 14px; color: var(--text); line-height: 1.7; }
+  .news-tag {
+    display: inline-block;
+    background: var(--magenta);
+    color: #000;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    padding: 3px 8px;
+    margin-bottom: 8px;
+  }
+
+  /* TIME CAPSULE */
+  .tc-warning {
+    background: rgba(255,230,0,0.1);
+    border: 1px solid var(--yellow);
+    padding: 12px 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--yellow);
+    margin-bottom: 30px;
+    line-height: 1.8;
+  }
+  .tc-interview {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--magenta);
+    padding: 30px;
+    margin-bottom: 40px;
+  }
+  .tc-subject-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--magenta);
+    text-shadow: var(--glow-magenta);
+    margin-bottom: 4px;
+  }
+  .tc-subject-years {
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    color: var(--text2);
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+  }
+  .tc-exchange { margin-bottom: 22px; }
+  .tc-q {
+    font-weight: 700;
+    color: var(--cyan);
+    font-family: 'Exo 2', sans-serif;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .tc-q::before { content: 'C+W: '; color: var(--cyan); font-family: 'Press Start 2P', monospace; font-size: 8px; letter-spacing: 1px; }
+  .tc-a {
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.8;
+    padding-left: 20px;
+    border-left: 2px solid var(--magenta);
+  }
+  .tc-stage { color: var(--text2); font-style: italic; font-size: 13px; }
+  .tc-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--magenta);
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  /* PLAYER PROFILE */
+  .review-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    margin-bottom: 50px;
+  }
+  .review-header {
+    background: linear-gradient(135deg, var(--bg3) 0%, #1A1A28 100%);
+    border-bottom: 3px solid var(--cyan);
+    padding: 24px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .review-channel-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 900;
+    color: var(--cyan);
+    text-shadow: var(--glow-cyan);
+    margin-bottom: 4px;
+  }
+  .review-channel-meta {
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    color: var(--text2);
+    letter-spacing: 2px;
+  }
+  .review-final-score {
+    text-align: right;
+  }
+  .review-score-num {
+    font-family: 'VT323', monospace;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+  }
+  .review-verdict {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    padding: 5px 12px;
+    display: inline-block;
+    margin-top: 4px;
+  }
+  .verdict-essential { background: var(--cyan); color: #000; box-shadow: var(--glow-cyan); }
+  .verdict-excellent { background: var(--green); color: #000; box-shadow: var(--glow-green); }
+  .verdict-good { background: var(--yellow); color: #000; box-shadow: var(--glow-yellow); }
+  .verdict-average { background: var(--amber); color: #000; box-shadow: var(--glow-amber); }
+  .verdict-mediocre { background: var(--orange); color: #000; }
+  .verdict-gameover { background: var(--magenta); color: #000; box-shadow: var(--glow-magenta); }
+  .review-body { padding: 30px; }
+  .review-body p { margin-bottom: 18px; line-height: 1.85; font-size: 15.5px; }
+
+  /* SCORECARD */
+  .scorecard {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    margin-top: 24px;
+    overflow: hidden;
+  }
+  .scorecard-title {
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+  }
+  .score-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .score-row:last-child { border-bottom: none; }
+  .score-label {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text2);
+    width: 160px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .score-bar-wrap { flex: 1; height: 8px; background: var(--bg3); position: relative; }
+  .score-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan), var(--magenta));
+    box-shadow: 0 0 8px var(--cyan);
+    transition: width 0.8s ease;
+  }
+  .score-val {
+    font-family: 'VT323', monospace;
+    font-size: 26px;
+    color: var(--cyan);
+    width: 44px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* BOSS FIGHT */
+  .boss-fight-arena {
+    background: var(--bg2);
+    border: 2px solid var(--magenta);
+    box-shadow: 0 0 30px rgba(255,0,170,0.15);
+    padding: 30px;
+    margin-bottom: 30px;
+  }
+  .boss-fight-title {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .boss-fight-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--magenta);
+    letter-spacing: 4px;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .boss-fight-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 900;
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+  }
+  .fighters {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .fighter-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 20px;
+    text-align: center;
+  }
+  .fighter-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: 700;
+    color: var(--cyan);
+    text-shadow: var(--glow-cyan);
+    margin-bottom: 8px;
+  }
+  .fighter-stat {
+    font-family: 'VT323', monospace;
+    font-size: 17px;
+    color: var(--text2);
+    line-height: 1.4;
+  }
+  .vs-badge {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--magenta);
+    text-shadow: var(--glow-magenta);
+    text-align: center;
+  }
+  .round-breakdown { margin-bottom: 30px; }
+  .round-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--yellow);
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .round-row {
+    display: grid;
+    grid-template-columns: 1fr 120px 1fr;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 14px;
+    padding: 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+  }
+  .round-score-left {
+    font-family: 'VT323', monospace;
+    font-size: 40px;
+    color: var(--cyan);
+    text-align: right;
+  }
+  .round-score-right {
+    font-family: 'VT323', monospace;
+    font-size: 40px;
+    color: var(--magenta);
+    text-align: left;
+  }
+  .round-cat {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--text2);
+    text-align: center;
+    line-height: 1.8;
+  }
+  .winner-declaration {
+    background: linear-gradient(135deg, rgba(0,240,255,0.08) 0%, rgba(255,0,170,0.08) 100%);
+    border: 2px solid var(--yellow);
+    padding: 24px;
+    text-align: center;
+    box-shadow: var(--glow-yellow);
+    margin-top: 24px;
+  }
+  .winner-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--yellow);
+    letter-spacing: 4px;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .winner-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 900;
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+  }
+
+  /* TOP 50 */
+  .top50-table { width: 100%; border-collapse: collapse; }
+  .top50-table th {
+    background: var(--bg3);
+    border-bottom: 2px solid var(--cyan);
+    padding: 10px 14px;
+    text-align: left;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--cyan);
+    letter-spacing: 1px;
+  }
+  .top50-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    vertical-align: middle;
+  }
+  .top50-table tr:hover td { background: rgba(0,240,255,0.04); }
+  .rank-num {
+    font-family: 'VT323', monospace;
+    font-size: 28px;
+    color: var(--text2);
+    width: 50px;
+  }
+  .rank-num.top3 { color: var(--yellow); text-shadow: var(--glow-yellow); font-size: 32px; }
+  .channel-name-cell {
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .channel-genre-cell {
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .score-cell {
+    font-family: 'VT323', monospace;
+    font-size: 30px;
+    color: var(--cyan);
+    text-align: center;
+    width: 60px;
+  }
+  .movement {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    padding: 3px 6px;
+    display: inline-block;
+    width: 60px;
+    text-align: center;
+  }
+  .move-up { color: var(--green); }
+  .move-down { color: var(--magenta); }
+  .move-same { color: var(--text2); }
+  .move-new { background: var(--cyan); color: #000; }
+  .move-dropped { background: var(--magenta); color: #000; }
+
+  /* HIDDEN LEVELS */
+  .hl-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--green);
+    padding: 24px 28px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .hl-channel-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--green);
+    text-shadow: var(--glow-green);
+    margin-bottom: 4px;
+  }
+  .hl-subs {
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    color: var(--text2);
+    margin-bottom: 16px;
+  }
+  .yob-pick {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--yellow);
+    color: #000;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    padding: 5px 10px;
+    box-shadow: var(--glow-yellow);
+    transform: rotate(2deg);
+  }
+
+  /* GAME OVER SECTION */
+  .gameover-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--magenta);
+    padding: 24px 28px;
+    margin-bottom: 24px;
+  }
+  .gameover-trend {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--magenta);
+    text-shadow: var(--glow-magenta);
+    margin-bottom: 4px;
+  }
+  .gameover-sting {
+    font-family: 'Russo One', sans-serif;
+    font-size: 15px;
+    color: var(--yellow);
+    border-left: 3px solid var(--yellow);
+    padding-left: 14px;
+    margin-top: 16px;
+    font-style: italic;
+  }
+
+  /* YOB LETTERS */
+  .letter-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 24px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .letter-from {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--magenta);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+  .letter-body {
+    font-style: italic;
+    color: var(--text2);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+    padding: 14px;
+    background: var(--bg);
+    border-left: 3px solid var(--border);
+  }
+  .yob-response {
+    font-size: 14.5px;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+  .yob-rating {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--yellow);
+    display: block;
+    margin-top: 10px;
+  }
+  .yob-sig {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--green);
+    text-align: right;
+    display: block;
+    margin-top: 8px;
+  }
+
+  /* RETRO ADS */
+  .retro-ad {
+    background: linear-gradient(135deg, #0A0A20 0%, #150A25 50%, #0A0A20 100%);
+    border: 3px solid var(--yellow);
+    padding: 28px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 40px rgba(255,230,0,0.04), 0 0 20px rgba(255,230,0,0.1);
+  }
+  .retro-ad::before {
+    content: '★ ADVERTISEMENT ★';
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    color: var(--text2);
+    letter-spacing: 2px;
+    opacity: 0.5;
+  }
+  .ad-product {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(22px, 4vw, 38px);
+    font-weight: 900;
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+    margin-bottom: 6px;
+    line-height: 1.1;
+  }
+  .ad-tagline {
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+  }
+  .ad-body {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .ad-features {
+    list-style: none;
+    margin-bottom: 16px;
+  }
+  .ad-features li {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--green);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+  .ad-features li::before { content: '▶ '; color: var(--yellow); }
+  .ad-price {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--magenta);
+    text-shadow: var(--glow-magenta);
+  }
+  .ad-disclaimer {
+    font-size: 8px;
+    color: var(--text2);
+    margin-top: 12px;
+    font-style: italic;
+    opacity: 0.7;
+  }
+
+  /* SPECIAL FEATURE */
+  .feature-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--yellow);
+    padding: 30px;
+    margin-bottom: 30px;
+  }
+  .feature-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 60px;
+    font-weight: 900;
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+    opacity: 0.3;
+    float: left;
+    line-height: 0.9;
+    margin: 4px 16px 0 0;
+  }
+  .feature-item-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--yellow);
+    margin-bottom: 12px;
+  }
+
+  /* EDITOR LETTER */
+  .editor-letter {
+    max-width: 720px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 40px;
+  }
+  .editor-letter p { margin-bottom: 18px; line-height: 1.85; font-size: 16px; }
+  .editor-sig {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    color: var(--cyan);
+    margin-top: 30px;
+    font-size: 14px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg2);
+    border-top: 2px solid var(--border);
+    padding: 30px 20px;
+    text-align: center;
+  }
+  .footer-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--cyan);
+    text-shadow: var(--glow-cyan);
+    margin-bottom: 8px;
+    letter-spacing: 4px;
+  }
+  .footer-meta {
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    color: var(--text2);
+    letter-spacing: 2px;
+  }
+  .page-num {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--text2);
+    margin-top: 10px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .fighters { grid-template-columns: 1fr; }
+    .vs-badge { text-align: center; }
+    .round-row { grid-template-columns: 1fr; }
+    .review-header { flex-direction: column; }
+    .top50-table td { font-size: 12px; padding: 8px; }
+    .channel-genre-cell { display: none; }
+  }
+
+  /* AMBER SPECIAL for nostalgia theme accent */
+  .nostalgia-accent { color: var(--amber); text-shadow: var(--glow-amber); }
+
+  .tc-memorial-header {
+    background: linear-gradient(135deg, #1A0A0A 0%, #200A15 100%);
+    border: 1px solid rgba(255,0,170,0.4);
+    padding: 20px 28px;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .tc-memorial-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(16px, 3vw, 22px);
+    font-weight: 900;
+    color: var(--magenta);
+    text-shadow: var(--glow-magenta);
+    margin-bottom: 8px;
+  }
+  .tc-memorial-sub {
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    color: var(--text2);
+    letter-spacing: 3px;
+  }
+
+  .editorial-note {
+    background: rgba(255,230,0,0.06);
+    border: 1px solid rgba(255,230,0,0.3);
+    padding: 16px 20px;
+    margin: 24px 0;
+    font-size: 14px;
+    color: var(--yellow);
+    font-style: italic;
+  }
+  .editorial-note strong { font-style: normal; font-family: 'Press Start 2P', monospace; font-size: 7px; letter-spacing: 2px; display: block; margin-bottom: 6px; }
+
+  .score-bar-negative { background: linear-gradient(90deg, var(--magenta), var(--orange)); box-shadow: 0 0 8px var(--magenta); }
+
+  .tale-of-tape {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 2px;
+    margin-bottom: 30px;
+    background: var(--border);
+  }
+  .tape-col {
+    background: var(--bg);
+    padding: 12px 16px;
+  }
+  .tape-col.center { background: var(--bg3); text-align: center; }
+  .tape-stat-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    color: var(--text2);
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+  }
+  .tape-stat-val {
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    color: var(--text);
+  }
+  .tape-row { margin-bottom: 12px; }
+  .tape-center-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--cyan);
+    letter-spacing: 1px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════ MASTHEAD ═══════════════════════════════════════ -->
+<header class="masthead">
+  <div class="masthead-top">★ THE YOUTUBE REVIEW MAGAZINE ★</div>
+  <div class="masthead-title">CTRL<span class="masthead-plus">+</span>WATCH</div>
+  <div class="masthead-subtitle">ISSUE #008 // THE NOSTALGIA ISSUE</div>
+  <div class="masthead-meta">FEBRUARY 2026 // <span>ISSUE EIGHT</span> // MONTHLY</div>
+  <div class="issue-badge">★ WHAT WAS LOST WHEN OLD YOUTUBE DIED ★</div>
+</header>
+
+<!-- ═══════════════════════════════════════ TAB NAV ═══════════════════════════════════════ -->
+<nav class="tab-nav" id="tabNav">
+  <button class="tab-btn active" onclick="showTab('press-start')">PRESS START</button>
+  <button class="tab-btn" onclick="showTab('now-loading')">NOW LOADING</button>
+  <button class="tab-btn" onclick="showTab('time-capsule')">TIME CAPSULE</button>
+  <button class="tab-btn" onclick="showTab('player-profile')">PLAYER PROFILE</button>
+  <button class="tab-btn" onclick="showTab('boss-fight')">BOSS FIGHT</button>
+  <button class="tab-btn" onclick="showTab('high-scores')">HIGH SCORES</button>
+  <button class="tab-btn" onclick="showTab('hidden-levels')">HIDDEN LEVELS</button>
+  <button class="tab-btn" onclick="showTab('special-feature')">SPECIAL FEATURE</button>
+  <button class="tab-btn" onclick="showTab('game-over')">GAME OVER</button>
+  <button class="tab-btn" onclick="showTab('yob-save')">YOB'S SAVE POINT</button>
+  <button class="tab-btn" onclick="showTab('retro-ads')">RETRO ADS</button>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<!--                                   PRESS START                                          -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<section id="press-start" class="tab-pane active">
+<div class="content-wrapper">
+  <div class="section-header">
+    <span class="section-label">★ EDITOR'S LETTER ★</span>
+    <h1 class="section-title">PRESS START</h1>
+    <div class="section-theme">The Nostalgia Issue // February 2026</div>
+  </div>
+
+  <div class="editor-letter">
+    <p>Someone uploaded a video to YouTube in 2009 with a camera propped against a stack of books. The white balance is wrong. The audio peaks whenever they laugh, which is often. There are no chapters, no sponsor segments, no "like and subscribe" requests. The video is fourteen minutes long and covers absolutely nothing that an algorithm would recommend to anyone. It has 847 views. It is, objectively, one of the best things you'll ever watch.</p>
+
+    <p>That person doesn't make videos anymore.</p>
+
+    <p>We've been circling this issue for a long time. The Premiere Issue touched it. The Underground Issue was practically writing its obituary. But we've never faced it head-on: the question of what exactly died when YouTube grew up, who killed it, and whether mourning it is something more than rank sentimentality dressed in retro clothing. The Nostalgia Issue asks that question without blinking.</p>
+
+    <p>Here's what we know. Between roughly 2006 and 2015, YouTube was something genuinely strange: a place where discovery was accidental, where success was illegible, and where the barrier to entry was so low that it created a wild, wonderful, unrepeatable diversity. Nobody was optimising for watchtime. Nobody had a content calendar. The front page was genuinely surprising. You clicked on something because the thumbnail was a blurry JPEG and you had no idea what was inside.</p>
+
+    <div class="pull-quote">
+      The YouTube algorithm didn't just change how videos were recommended. It changed who got to be human on camera.
+    </div>
+
+    <p>Then came the monetisation overhaul. The recommendation engine. The Brand Safety Crisis. The Great Adpocalypse. One by one, the conditions that allowed that strange golden era to exist were dismantled, replaced with conditions that rewarded something very different — something legible, consistent, safe, scalable. The platform that had once made room for Harvey Pekar-style confessional weirdness decided it would rather have Harvey Pekar-style confessional weirdness that also had a tight three-act structure, hit 12 minutes for the mid-roll, and integrated a VPN sponsor organically.</p>
+
+    <p>This issue isn't a simple elegy. We're not going to tell you the old days were perfect, because they weren't. We're not going to pretend the algorithm hasn't produced extraordinary channels it never would have supported in 2010. But we are going to be honest about what was lost — the specific, irreplaceable things that lived in that window and don't exist anymore — and whether the nostalgia for them represents something real and worth naming.</p>
+
+    <p>Our Time Capsule this issue takes a different format. Rather than our usual single interviews, we've constructed a Memorial Broadcast — six figures from different disciplines, all of whom understood something profound about the relationship between authenticity and audience, brought together to sit with old YouTube's passing. Gene Siskel is furious. Mitch Hedberg is delighted then sad. Steve Irwin, it turns out, would have been the most dangerous creator of 2009.</p>
+
+    <p>We also review Defunctland — the channel that has turned the archaeology of lost entertainment into one of the most emotionally intelligent things on the platform — against Company Man in a Boss Fight for the ages. We dig into what Whang! and Scott The Woz do differently to every other nostalgia-adjacent creator. And we take the long-overdue swing at WatchMojo, which represents something important: what nostalgia looks like when it's been completely emptied of the thing that made it valuable.</p>
+
+    <p>Old YouTube is gone. That's not a tragedy we can reverse. But understanding what it was — and refusing to let its memory be flattened into top-ten-lists-with-stock-music — feels like something worth doing.</p>
+
+    <p>Press Start.</p>
+
+    <div class="editor-sig">— THE EDITOR<br><span style="font-size:12px; color: var(--text2); font-family: 'VT323', monospace; letter-spacing: 2px;">FEBRUARY 2026 // CTRL+WATCH MAGAZINE</span></div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<!--                                   NOW LOADING                                          -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<section id="now-loading" class="tab-pane">
+<div class="content-wrapper">
+  <div class="section-header">
+    <span class="section-label">★ NEWS ★</span>
+    <h1 class="section-title">NOW LOADING</h1>
+    <div class="section-theme">YouTube News & Noise // February 2026</div>
+  </div>
+
+  <div class="news-grid">
+
+    <div class="news-card">
+      <div class="news-tag">PRESERVATION</div>
+      <div class="news-headline">YouTube's Archive Problem: 800 Million Videos, Counting Down</div>
+      <div class="news-body">Estimates from the Internet Archive project suggest that somewhere between 40 and 60 percent of videos uploaded to YouTube before 2012 no longer exist on the platform. Some were deleted by creators, others swept in mass account terminations, still others casualties of copyright disputes. The result is a cultural record with more gaps than content. No institution currently has a mandate to preserve them. This is fine, apparently.</div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-tag">ALGORITHM NEWS</div>
+      <div class="news-headline">YouTube Quietly Buries Non-Subscriber Notifications Again</div>
+      <div class="news-body">In what is approximately the nineteenth adjustment to the subscription bell system, YouTube has made further changes to how subscriber notifications are distributed, with internal testing suggesting organic notification reach for channels under 500K subscribers has dropped significantly. The platform's official position is that this improves "viewer experience." Creators' unofficial positions are not printable in a family publication. We are not a family publication, but we respect the sentiment.</div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-tag">CULTURE</div>
+      <div class="news-headline">Nostalgia Channels Now Outnumber Channels About Things That Actually Exist</div>
+      <div class="news-body">C+W analysis of YouTube search trends finds that queries containing the phrase "old YouTube," "YouTube used to be," "I miss early YouTube," and "why did everyone leave YouTube" collectively generate more monthly searches than queries about any currently active content category outside of gaming. The platform has, in a very real sense, become its own most-watched documentary subject. This issue is our contribution to the genre. You're welcome and we're sorry.</div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-tag">PLATFORM ECONOMICS</div>
+      <div class="news-headline">AdSense CPM Rates Hit Record High — Creators See Less of It Than Ever</div>
+      <div class="news-body">Advertising rates per thousand views have reached their highest levels since the post-pandemic spike, which is good news for Google's quarterly earnings and somewhat less transformative for the mid-tier creator trying to make it work on 800K views a month. The gap between gross advertising revenue and what reaches creators continues to widen. Nobody at the YouTube offices has, to our knowledge, cried about this. Several creators have.</div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-tag">LONG READS</div>
+      <div class="news-headline">The Defunctland Disney Song Documentary Clears 20 Million Views — From 2022</div>
+      <div class="news-body">Kevin Perjurer's hour-long analytical music documentary about a Disney park song — which has no right to exist as a format, let alone succeed — has continued to accumulate views at a pace that suggests it will outlast most channels launched this year. It remains one of the most clear demonstrations that YouTube's audience is not as shallow as its algorithm assumes. This month we finally put Defunctland in the ring. See the Boss Fight section. We gave it a lot of thought.</div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-tag">SATIRICAL</div>
+      <div class="news-headline">Creator Academy Course on "Authenticity" Now Thirty-Seven Modules Long</div>
+      <div class="news-body">YouTube's Creator Academy has expanded its course on "being authentic on camera" to include modules on Authentic B-Roll Techniques, Authentic Sponsor Integration, Authentic Emotional Reaction Framing, Authentic Vulnerability Disclosure Pacing, and the new advanced module: Authentic Authenticity — for creators who've noticed their authentic content is starting to feel inauthentic and want to authentically address that. The course costs nothing. What it costs you is something else entirely.</div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-tag">INDUSTRY</div>
+      <div class="news-headline">Shorts Revenue Share Still Not Making Anyone Rich</div>
+      <div class="news-body">YouTube's Shorts monetisation programme, now in its third year of full operation, continues to deliver per-view payouts that make AdSense circa 2013 look generous. Multiple large creators who pivoted to Shorts-first strategies in 2023 have quietly pivoted back. The format generates views with impressive efficiency. It does not generate anything else with comparable efficiency. The platform has declined to comment on the discrepancy between the push to make Shorts and the money available for doing so.</div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-tag">CALLBACK</div>
+      <div class="news-headline">Lemmino's Post-Boss Fight Traffic Proves The C+W Bump Is Real</div>
+      <div class="news-body">Following Issue #007's Boss Fight victory over Internet Historian — and the subsequent Top 50 jump to #6 — traffic analytics from community sources suggest Lemmino's Kickstarter for their next documentary received a measurable spike in pledges in the weeks after publication. This is not something we're claiming credit for in a straightforward way. We're just... noting it. For the record. In the news section. With our name on it. That's all.</div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<!--                                   TIME CAPSULE                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<section id="time-capsule" class="tab-pane">
+<div class="content-wrapper">
+  <div class="section-header">
+    <span class="section-label">★ TIME CAPSULE ★</span>
+    <h1 class="section-title">MEMORIAL BROADCAST</h1>
+    <div class="section-theme">Six Voices on the Death of Old YouTube</div>
+  </div>
+
+  <div class="tc-warning">
+    ⚠ SATIRICAL / FICTIONAL — None of the individuals featured in this section participated in these interviews. All Q&A exchanges are entirely invented for comedic and critical purposes. The views attributed to each figure represent C+W's imaginative reconstruction of how they might have responded, based on their documented personalities, philosophies, and work. No disrespect is intended to any person or their estate.
+  </div>
+
+  <div class="tc-memorial-header">
+    <div class="tc-memorial-title">THE MEMORIAL BROADCAST: OLD YOUTUBE, 2005–2015</div>
+    <div class="tc-memorial-sub">SIX FIGURES REACT TO WHAT WAS BUILT, AND WHAT WAS LOST</div>
+    <p style="color: var(--text2); font-size: 13px; margin-top: 12px; line-height: 1.6;">For this special format, C+W convened a fictional roundtable — six people who never met YouTube but would have had profound things to say about it. They are shown archive footage of the early platform: the shaky-cam confessionals, the bedroom comedy videos, the unedited Q&As, the 2AM uploads that had 2,000 views. They are then told what it became.</p>
+  </div>
+
+  <!-- INTERVIEW 1: GENE SISKEL -->
+  <div class="tc-interview">
+    <div class="tc-subject-name">GENE SISKEL</div>
+    <div class="tc-subject-years">Film Critic // 1946–1999</div>
+    <span class="tc-label">WHAT HE'S BEING SHOWN: Video essays. Reaction videos. Comment sections full of film discourse. Then WatchMojo.</span>
+
+    <div class="tc-exchange">
+      <div class="tc-q">You've just watched a forty-two-minute video essay about the cinematography of 2001: A Space Odyssey made by a nineteen-year-old in their bedroom. Your reaction?</div>
+      <div class="tc-a"><span class="tc-stage">[leans forward, visibly engaged]</span><br>This is remarkable. I mean — do you understand what I'm looking at here? The access. The time a young person spent thinking carefully about a film they love. Roger would call this "democratised criticism." I'd call it something that took us thirty years to make happen in print and this platform apparently achieved in three. The analysis isn't always right, but it's <em>engaged</em>. That's rarer than being right.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">Now watch this. It's a WatchMojo video: "Top 10 Most Iconic Movie Scenes of All Time."</div>
+      <div class="tc-a"><span class="tc-stage">[long silence. The vein in his temple becomes visible.]</span><br>This is film criticism? <em>This?</em> No — don't answer that. I know what it is. It's what happened to film criticism when newspapers stopped paying for it and someone figured out you could replace the work with a list and a narrator who sounds like a radio traffic reporter. There is no argument here. There's no perspective. It's consensus dressed up as judgement. I spent thirty years fighting Roger over what mattered. These people can't be bothered to disagree with themselves.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">The WatchMojo video has eleven million views. The essay has 340,000.</div>
+      <div class="tc-a"><span class="tc-stage">[removes glasses, rubs eyes]</span><br>Of course it does. I know this story. Television taught it to me. The thing that requires nothing of the viewer will always beat the thing that requires something. That's not a law of nature. That's a law of recommendation algorithms. The question isn't why eleven million people watched the list. The question is why the platform built a machine that made the list eleven times more visible than the argument. That's a choice. Someone made it deliberately.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">What do you think the comment section under a film essay does for criticism?</div>
+      <div class="tc-a"><span class="tc-stage">[a genuine smile — rare]</span><br>I think it's the best thing that's ever happened to it. The worst letters we got at the Tribune were brilliant. They were wrong, they were infuriated, they told us exactly where we'd failed to make our case. That's criticism working. A comment section that says "I disagree and here's why" is doing more for film culture than a star rating that just sits there. The terrible comments are terrible, yes. But the good ones — they're what Roger and I were chasing in every episode we ever made. Someone caring enough to fight back.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">If you could have made YouTube videos in this era, would you?</div>
+      <div class="tc-a"><span class="tc-stage">[laughs, surprised by the question]</span><br>In a heartbeat. And I'd have been terrible at it for two years. And then I'd have been very good at it. And Roger would have been better than me, which I would never have admitted to anyone.<br><br><span class="tc-stage">[pause]</span><br>The platform didn't fail the critics who came to it. It failed when it decided the critics weren't worth recommending.</div>
+    </div>
+  </div>
+
+  <!-- INTERVIEW 2: MITCH HEDBERG -->
+  <div class="tc-interview">
+    <div class="tc-subject-name">MITCH HEDBERG</div>
+    <div class="tc-subject-years">Comedian // 1968–2005</div>
+    <span class="tc-label">WHAT HE'S BEING SHOWN: Early comedy YouTube. Bedroom stand-up. Vine's arrival. Shorts.</span>
+
+    <div class="tc-exchange">
+      <div class="tc-q">You died the same year YouTube launched. You're being shown what bedroom comedy looked like on the platform in 2008, 2009, 2010. What do you see?</div>
+      <div class="tc-a"><span class="tc-stage">[immediately leaning in, then grinning in a way that seems involuntary]</span><br>This is what I wanted. This is exactly what I wanted. You could just — you could just say the thing, with a camera, and it'd be out there. No club booker. No network exec who "gets it." No warm-up act. You just upload the thing. If it's funny, someone laughs. If it's not funny, someone else laughs anyway because humour is subjective and people are weird. I love this.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">The format evolved. In 2013 you started needing to be consistent, have a posting schedule, develop a brand—</div>
+      <div class="tc-a"><span class="tc-stage">[the grin dims slightly]</span><br>A brand. Right. You know what a brand does? A brand makes sure every time you go to a Subway, it tastes exactly like the last time. That's great for sandwiches. For comedy it's — I mean, I lived on a tour bus for years because I refused to be a brand. My album had a picture of a duck on it. Not because ducks are part of my brand. Because I liked the duck. <br><br><span class="tc-stage">[quieter]</span><br>I wonder if I would have been allowed to just be weird on there, or if eventually the numbers would have explained to me that the duck was hurting retention.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">YouTube Shorts has launched. Sixty-second maximum. The format rewards volume and speed.</div>
+      <div class="tc-a"><span class="tc-stage">[thinks]</span><br>Sixty seconds. That's interesting. My best jokes were ninety seconds. They had room to go somewhere wrong before they went somewhere right. Sixty seconds you can't afford a wrong turn. That's not comedy. That's a punchline delivery system. Those are different things and I'm not saying one is bad, I'm saying — I'm saying calling them both "comedy" is like calling a photograph and a film both "images." Technically true. Spiritually dishonest.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">What would your channel have been called?</div>
+      <div class="tc-a"><span class="tc-stage">[long pause. Genuinely thinking.]</span><br>Something that made no sense as a channel name but was funny on its own. Like... "PastaHouseFireElevatorJazz." And people would keep asking what it meant and I'd say "I'm not sure, the channel was already taken."<br><br><span class="tc-stage">[soft laugh]</span><br>And then the algorithm would shadow-ban me because it couldn't categorise me and I'd be back playing clubs in Milwaukee. But it was good while it lasted.</div>
+    </div>
+  </div>
+
+  <!-- INTERVIEW 3: PRINCESS DIANA -->
+  <div class="tc-interview">
+    <div class="tc-subject-name">PRINCESS DIANA</div>
+    <div class="tc-subject-years">Public Figure, Humanitarian // 1961–1997</div>
+    <span class="tc-label">WHAT SHE'S BEING SHOWN: Vlogging culture. Parasocial relationships. The confessional genre. Creator breakdowns filmed live.</span>
+
+    <div class="tc-exchange">
+      <div class="tc-q">In 1995, your Panorama interview was called radical because you spoke directly to the public without a royal filter. YouTube creators in 2010 were doing something similar from their bedrooms, every week. Does that resonate with you?</div>
+      <div class="tc-a"><span class="tc-stage">[a flash of recognition — almost startled]</span><br>I understood what I was doing in that interview. I understood that the camera was the only institution I could trust to carry my actual voice. What you're showing me is — these people have discovered the same thing. Not once, not in a controlled hour, but constantly, every week, in their homes. In their pyjamas. That is extraordinary. And terrifying. Because I know what that exposure costs.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">The term is "parasocial relationship." Millions of viewers feeling genuine intimacy with a creator they've never met. You experienced something similar.</div>
+      <div class="tc-a"><span class="tc-stage">[careful]</span><br>The difference is that I had Buckingham Palace trying to manage it — badly, but trying. These creators have no one. They receive the intimacy, which is lovely and suffocating in equal measure, and they receive it without any infrastructure for handling what it does to a person. I watched one of these — I watched a young woman explain, on camera, that she was having a panic attack, and the comments were <em>supportive</em>, genuinely supportive, and I thought: that's wonderful. And I thought: this should not be happening on camera. Both things were true simultaneously.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">YouTube's early period is being described to you — 2008 to 2014 — as a window of relative authenticity before monetisation changed the incentives. What do you think drove that authenticity?</div>
+      <div class="tc-a"><span class="tc-stage">[sits straighter, the public mode dropping slightly]</span><br>Low stakes. I don't mean that dismissively — I mean it clinically. When the cost of being honest is low, people are honest. When it becomes a career, when there are sponsors and an audience and a brand, the calculation changes. You're no longer managing your self. You're managing your representation of your self. That's a full-time job. I had it forced on me. These people chose it. I'm not sure that makes it easier.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">If you had had a YouTube channel in 1996, what would it have been?</div>
+      <div class="tc-a"><span class="tc-stage">[genuine laugh — warm, unguarded]</span><br>Something about landmines, eventually. But first, I think — honestly? A cooking channel. With the boys. No staff. Just us in the kitchen doing something ordinary. I was quite starved of ordinary.<br><br><span class="tc-stage">[quietly]</span><br>It would have been terminated by the Palace within a fortnight. But those two weeks would have been wonderful.</div>
+    </div>
+  </div>
+
+  <!-- INTERVIEW 4: STEVE IRWIN -->
+  <div class="tc-interview">
+    <div class="tc-subject-name">STEVE IRWIN</div>
+    <div class="tc-subject-years">Wildlife Conservationist, Television Presenter // 1962–2006</div>
+    <span class="tc-label">WHAT HE'S BEING SHOWN: Nature channels. Educational YouTube. The YouTube Shorts animal content pipeline.</span>
+
+    <div class="tc-exchange">
+      <div class="tc-q">You died in 2006, the year YouTube was acquired by Google. You never got to see what happened to nature content on the platform. We're showing you the state of wildlife and educational animal channels today. What's your first reaction?</div>
+      <div class="tc-a"><span class="tc-stage">[immediately animated, pointing at the screen]</span><br>Oh, beauty! Look at the production on that — see how they got under the water there? I couldn't do that on budget in 2001. And he's — he's just explaining it! Right to the camera! No studio, no set, just him and the animal and — crikey, mate, this is what telly should have always been. Give me this over a sound stage any day of the week.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">Now we're showing you Shorts. Animal content that's been algorithmically optimised — cute clips, reptile compilations, shock reactions.</div>
+      <div class="tc-a"><span class="tc-stage">[the energy drops. He's still engaged, but differently.]</span><br>Right. Right, I see it. Look, I'm not going to be precious about this — people watching animals is people watching animals, and if a sixty-second clip of a python going up someone's sleeve gets a child interested, that's a win. But there's no context, is there? There's no "this is why" and "this is how." It's just the spectacle. And the spectacle without the science... the spectacle without the respect for the animal... that's how people end up hurt. Or worse, that's how people end up not caring about the animal once the video's finished.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">Channels like Brave Wilderness explicitly cite you as an influence. What do you think of the genre you helped create?</div>
+      <div class="tc-a"><span class="tc-stage">[grinning]</span><br>I think they're brilliant! I think Coyote and his lot — look, the format's the same: enthusiasm, education, access. That's the Steve Irwin format. I didn't invent it; Attenborough was doing the intellectual version forty years before me. But I'm chuffed that the energy transferred. That's conservation. That's the point. If kids are watching those channels and then going to donate or volunteer or just <em>care</em> — I don't need to have invented that for it to matter.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">You would have been, by most estimates, the most dangerous person to give a YouTube channel to in 2009. You know that, right?</div>
+      <div class="tc-a"><span class="tc-stage">[massive grin]</span><br>Dangerous to myself, certainly. Look — in 2009 I'd have uploaded <em>every single day</em>. I'd have been that channel where you couldn't keep up. Eight hundred videos in a year. Me with a croc at midnight because the mood struck. Community posts about gecko breeding. I'd have been insufferable in the best possible way. <br><br><span class="tc-stage">[smile softens]</span><br>And my daughter would have been on it. And that alone would have been worth every subscriber we never got.</div>
+    </div>
+  </div>
+
+  <!-- INTERVIEW 5: ANDY KAUFMAN -->
+  <div class="tc-interview">
+    <div class="tc-subject-name">ANDY KAUFMAN</div>
+    <div class="tc-subject-years">Comedian, Performance Artist // 1949–1984</div>
+    <span class="tc-label">WHAT HE'S BEING SHOWN: Anti-comedy. Deliberately bad YouTube. The "Is this real?" genre. ARGs.</span>
+
+    <div class="tc-exchange">
+      <div class="tc-q">You built an entire career around the audience not knowing whether what they were watching was real or a performance. YouTube has channels built on exactly that premise. How do you feel about your intellectual heirs?</div>
+      <div class="tc-a"><span class="tc-stage">[looks at you for a very long time without speaking]</span><br>They understand half of it. The "is this real" question — yes, they've got that. That's the mechanism. What they don't always have is the purpose. I was trying to make the audience feel something specific: the discomfort of not knowing where the art ends and the person begins. Some of what you're showing me is doing that. The rest is just... chaos for chaos's sake. Which isn't worthless. But it's not the same.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">Would you have had a YouTube channel?</div>
+      <div class="tc-a"><span class="tc-stage">[considers this seriously]</span><br>I would have had seventeen. None of them would have been clearly mine. Some of them would have been documenting a man in Nebraska learning to juggle. The juggling man would have been me. The documenter would have also been me. At some point a news outlet would have done a story on the juggling man, and at the reveal I would have uploaded a video saying there was no reveal, he's still learning to juggle, please subscribe for updates.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">The early YouTube community — 2007 to 2012 — developed its own in-jokes, its own mythology, its own celebrities. Channels like Fred, lonelygirl15, Charlie Bit My Finger. Does that collective mythology feel like a performance to you?</div>
+      <div class="tc-a"><span class="tc-stage">[leaning forward now, genuinely interested]</span><br>lonelygirl15 is the most interesting thing you've told me so far. A fictional diarist who the audience chose to believe was real, and then chose, in a certain sense, to keep watching even after she wasn't. That's not a con. That's a <em>compact</em>. The audience was participating. They knew on some level. That's exactly what I was reaching for on Letterman. You let the audience be complicit and suddenly they're not being fooled anymore — they're collaborating.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">Early YouTube is now described nostalgically as more "authentic." You spent your career arguing that authenticity was itself a performance. Do you have any sympathy for the nostalgia?</div>
+      <div class="tc-a"><span class="tc-stage">[long pause. Something more serious.]</span><br>I have sympathy for people who found something true in a false thing. That happens. The performance was real. The community was real. The connection was real. That the content was constructed doesn't make those things less true. <br><br><span class="tc-stage">[very quietly]</span><br>I have enormous sympathy for anyone who found something real and then watched it get optimised into something hollow. That's not nostalgia. That's grief. I know grief when I hear it.</div>
+    </div>
+  </div>
+
+  <!-- INTERVIEW 6: JOHN BELUSHI -->
+  <div class="tc-interview">
+    <div class="tc-subject-name">JOHN BELUSHI</div>
+    <div class="tc-subject-years">Comedian, Actor // 1949–1982</div>
+    <span class="tc-label">WHAT HE'S BEING SHOWN: SNL clip archiving on YouTube. The viral clip economy. Short-form comedy. The decline of ensemble performance.</span>
+
+    <div class="tc-exchange">
+      <div class="tc-q">Everything you ever performed on SNL is now available online, free, forever. Clips have individually racked up tens of millions of views. How does that feel?</div>
+      <div class="tc-a"><span class="tc-stage">[laughing immediately]</span><br>Are you kidding me? We were worried <em>NBC</em> owned the footage. We were worried it would disappear into a vault somewhere and nobody'd ever see it again. And it's just — it's just out there? For free? Dan's samurai sketches have twenty million views? <span class="tc-stage">[shaking his head]</span> That's the most beautiful thing I've heard all day. Whatever else happens with this platform, that alone makes it worthwhile. The work doesn't disappear. The work survives.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">The SNL clips have millions of views. But most of what performs on current YouTube comedy is single-creator, solo-to-camera content. The ensemble format — the thing SNL was built on — barely exists. Does that concern you?</div>
+      <div class="tc-a"><span class="tc-stage">[the energy shifts — something more thoughtful]</span><br>Ensemble is expensive. Ensemble requires trust and time and rehearsal and failure in front of each other. I get why the platform doesn't really host it. But what you lose — what you genuinely lose — is the energy of people who know each other's timing pushing each other to places you can't reach alone. Every good bit I ever did was in collaboration with someone. Aykroyd in the Blues Brothers. Chevy in the early years. Even the fights made us better. One person and a camera — that's a diary entry. It can be brilliant. But it's missing something.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">If you could watch only one current YouTube channel, based on what we've shown you?</div>
+      <div class="tc-a"><span class="tc-stage">[points at the screen immediately, zero hesitation]</span><br>The cooking video. I want more of the cooking video. <span class="tc-stage">[pause]</span> Which one was it? The — <br><span class="tc-stage">[scrolling back]</span><br>I want three hundred hours of this man making pasta while talking about his childhood. I don't need anything else. This is what television should have been doing in 1978 and nobody figured it out until now. Someone just — talking. Genuinely. About food and where they grew up and why things matter. That is everything.</div>
+    </div>
+
+    <div class="tc-exchange">
+      <div class="tc-q">Old YouTube — the 2008-2015 window — is described as having a particular community energy. Creators who knew each other, collaborated, built a scene. SNL has been described the same way. What created it there?</div>
+      <div class="tc-a">Shared adversity and low budgets. We were underfunded, we were working at one in the morning, we weren't supposed to succeed, and we were all too young to know it was impossible. Any time you get that combination — scarce resources, genuine stakes, people who haven't yet learned to protect themselves — you get extraordinary work. The YouTube window you're describing sounds exactly like that. The tragedy isn't that it ended. Every scene ends. The tragedy is that it was replaced not by the next scene, but by a machine for preventing the next scene from forming.<br><br><span class="tc-stage">[standing, already looking for an exit]</span><br>Give me a place where things can fail. That's all I ever needed.</div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<!--                                 PLAYER PROFILE                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<section id="player-profile" class="tab-pane">
+<div class="content-wrapper">
+  <div class="section-header">
+    <span class="section-label">★ CHANNEL REVIEWS ★</span>
+    <h1 class="section-title">PLAYER PROFILE</h1>
+    <div class="section-theme">Four Reviews // The Nostalgia Issue</div>
+  </div>
+
+  <!-- REVIEW 1: WHANG! -->
+  <div class="review-card">
+    <div class="review-header">
+      <div>
+        <div class="review-channel-name">WHANG!</div>
+        <div class="review-channel-meta">INTERNET HISTORY / ARCHAEOLOGY // ~1.1M SUBSCRIBERS // OCCASIONAL UPLOAD SCHEDULE</div>
+      </div>
+      <div class="review-final-score">
+        <div class="review-score-num">84</div>
+        <div><span class="review-verdict verdict-excellent">EXCELLENT</span></div>
+      </div>
+    </div>
+    <div class="review-body">
+      <p>Justin Whang does not make videos about the internet. He makes videos about what the internet <em>used to feel like</em> — the particular texture of 2003 forum culture, the specific dread of early creepypasta, the kind of story that could only have been born in a time when most of the people online were still surprised to be there. That distinction matters enormously, and it is the thing that separates Whang! from the dozen nostalgia-adjacent channels that produce similar material without understanding what they're excavating.</p>
+
+      <p>The formula sounds simple: find a strange, forgotten, or disturbing piece of early internet history and explain it. A cursed image campaign from 2005. A mysterious forum user who disappeared mid-thread. A video that spread virally in 2007 and was never properly attributed. In lesser hands, this would produce a content mill of "Did you know about THIS creepy thing?" videos with algorithmic thumbnails. What Whang! produces instead is something closer to genuine cultural archaeology — material treated with the care of a researcher and the instincts of a storyteller who understands that the weirdness of early internet culture is inseparable from its context.</p>
+
+      <div class="pull-quote">
+        Whang! understands something most internet history channels don't: the early web wasn't weird despite being new. It was weird because of it. The strangeness and the novelty were the same thing.
+      </div>
+
+      <p>The upload schedule is, to put it generously, unpredictable. Videos have appeared every few months, occasionally vanished into six-month gaps, returned without announcement. For most channels this would be a serious consistency penalty. For Whang! it almost works in the channel's favour — the irregularity is part of the texture, consistent with a content ethos that refuses to subordinate the work to the calendar. When a video drops, it feels like something being surfaced rather than something being published.</p>
+
+      <p>The X-Factor score reflects a quality that's genuinely rare: the ability to make the viewer feel the emotional temperature of a time they may not have lived through, or remind those who did of something they'd genuinely forgotten. A successful Whang! video doesn't just inform you about a piece of internet history. It briefly places you inside the experience of encountering it for the first time, in 2004, at 1am, on a dial-up connection, not knowing whether to laugh or close the window. That's not a trick you can produce on demand. That's an editorial sensibility.</p>
+
+      <p>Weaknesses are real. The production is deliberately lo-fi in a way that occasionally tips into insufficiently produced — some early videos have audio mixing that strains goodwill. The range of subject matter, while generally strong, occasionally dips into content that any internet-adjacent channel could cover without the distinctive Whang! perspective. And the inconsistency that can feel charming in context becomes frustrating across a long wait between uploads. At 84, this is a channel operating near its ceiling. The ceiling might be higher than it's currently hitting.</p>
+
+      <div class="scorecard">
+        <div class="scorecard-title">SCORECARD — WHANG!</div>
+        <div class="score-row">
+          <div class="score-label">Content Quality</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:88%"></div></div>
+          <div class="score-val">88</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">Consistency</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:62%"></div></div>
+          <div class="score-val">62</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">Replay Value</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:85%"></div></div>
+          <div class="score-val">85</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">Community</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:80%"></div></div>
+          <div class="score-val">80</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">X-Factor</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:91%"></div></div>
+          <div class="score-val">91</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEW 2: SCOTT THE WOZ -->
+  <div class="review-card">
+    <div class="review-header">
+      <div>
+        <div class="review-channel-name">SCOTT THE WOZ</div>
+        <div class="review-channel-meta">RETRO GAMING COMMENTARY / SATIRE // ~1.5M SUBSCRIBERS // REGULAR UPLOADS</div>
+      </div>
+      <div class="review-final-score">
+        <div class="review-score-num">86</div>
+        <div><span class="review-verdict verdict-excellent">EXCELLENT</span></div>
+      </div>
+    </div>
+    <div class="review-body">
+      <p>There is a specific type of humour that requires absolute commitment to be funny at all. Scott Wozniak operates in this zone continuously: deadpan delivery of completely sincere thoughts about entirely unimportant things, executed with the kind of structured absurdity that collapses if you pull any single thread. The fact that this works, issue after issue, video after video — that it remains genuinely funny rather than exhausting — is a production achievement that deserves significantly more recognition than it receives.</p>
+
+      <p>On paper, Scott The Woz sounds like a thousand other retro gaming channels. And in the first thirty seconds of any given video, it might be mistaken for one. A review of a bad Game Boy Advance game. An analysis of a GameCube peripheral nobody bought. A look back at a mid-era Wii title that everyone has forgotten. The difference is in the execution: where most channels would deliver nostalgia or criticism, Scott delivers something more structurally interesting — a consistent argument, running across years of content, that the forgotten mid-tier of gaming history is not less interesting than the canonical classics, but is in fact <em>more</em> interesting, because it exists without the weight of received opinion.</p>
+
+      <div class="pull-quote">
+        Scott The Woz doesn't just review games. He makes the case that the B-list is where the genuine character of any medium lives — and he makes it funnier than anyone has any right to be about Shrek 2 on the GBA.
+      </div>
+
+      <p>The production is deceptively considered. The deliberately flat affect, the absurdist sketches that interrupt reviews, the running gags that accumulate across years of videos — these aren't the marks of a channel coasting on a successful format. They're the marks of a creator who has found his specific register and commits to it without compromise. The best Scott videos are structured like very short pieces of comic fiction: a thesis introduced, developed through escalating examples, resolved in a direction that was both inevitable and unpredictable.</p>
+
+      <p>The consistency score is high because Scott's upload regularity is genuinely impressive for a solo creator producing content that clearly requires significant scripting. The community score reflects a fanbase that genuinely understands and participates in the channel's particular comedic logic, producing the kind of comments that suggest actual comprehension rather than algorithmic engagement. The X-Factor accounts for something specific: Scott The Woz is one of very few channels where the personality of the creator and the subject matter are so perfectly matched that replacing either component would destroy the other. That's not common. That's something built.</p>
+
+      <div class="scorecard">
+        <div class="scorecard-title">SCORECARD — SCOTT THE WOZ</div>
+        <div class="score-row">
+          <div class="score-label">Content Quality</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:87%"></div></div>
+          <div class="score-val">87</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">Consistency</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:83%"></div></div>
+          <div class="score-val">83</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">Replay Value</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:86%"></div></div>
+          <div class="score-val">86</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">Community</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:82%"></div></div>
+          <div class="score-val">82</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">X-Factor</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:90%"></div></div>
+          <div class="score-val">90</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEW 3: CADDICARUS -->
+  <div class="review-card">
+    <div class="review-header">
+      <div>
+        <div class="review-channel-name">CADDICARUS</div>
+        <div class="review-channel-meta">NOSTALGIC GAME CRITICISM / RETROSPECTIVES // ~1M SUBSCRIBERS // IRREGULAR UPLOADS</div>
+      </div>
+      <div class="review-final-score">
+        <div class="review-score-num">74</div>
+        <div><span class="review-verdict verdict-good">GOOD</span></div>
+      </div>
+    </div>
+    <div class="review-body">
+      <p>Caddicarus — Jim Caddick, to give him his name — represents a particular archetype of YouTube creator: someone who built their platform on the raw, chaotic energy of early-era video essays before the format fully coalesced, and who has been negotiating the terms of that inheritance ever since. His work from 2011 to 2016 is genuinely formative stuff — screaming, editing that seemed to be having a breakdown in real time, loving deconstructions of PlayStation-era games made by someone who had clearly played them all more times than was medically advisable. That era produced content that still circulates, still gets recommended, still finds new audiences who discover it as artefact as much as entertainment.</p>
+
+      <p>The current channel is harder to evaluate because it's genuinely in transition. The frenetic energy has been refined — more structured, more considered, more polished. Whether this represents growth or the smoothing away of what made the early work distinctive depends on what you think the early work was. Our view: both are true simultaneously, which is not a comfortable position to hold but is the honest one.</p>
+
+      <p>The consistency score suffers from a genuinely erratic upload cadence that makes following the channel in real time an exercise in patience. The content quality score reflects work that is frequently very good and occasionally brilliant, but which lacks the editorial coherence of channels like Scott The Woz — the sense that each video is part of a clear larger project rather than a series of individual performances. The X-Factor carries the rating to GOOD because what Caddick has — genuine affection for his subject matter transmitted without irony, a voice that retains idiosyncratic British texture — is not replicable and is not nothing.</p>
+
+      <div class="pull-quote">
+        Caddicarus is a time capsule of a particular YouTube era reviewing time capsule games. The recursion is the point. Whether it's enough to build a current channel around is a harder question.
+      </div>
+
+      <p>At 74, Caddicarus sits in the category of channels we recommend with genuine warmth but without the full-throated urgency of an EXCELLENT. There's a better version of this channel available — one that finds a way to carry the authentic enthusiasm of the early work into the current format's structure — and the raw material to make it is clearly present. We're watching to see if it arrives.</p>
+
+      <div class="scorecard">
+        <div class="scorecard-title">SCORECARD — CADDICARUS</div>
+        <div class="score-row">
+          <div class="score-label">Content Quality</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:76%"></div></div>
+          <div class="score-val">76</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">Consistency</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:58%"></div></div>
+          <div class="score-val">58</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">Replay Value</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:74%"></div></div>
+          <div class="score-val">74</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">Community</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:72%"></div></div>
+          <div class="score-val">72</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">X-Factor</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:80%"></div></div>
+          <div class="score-val">80</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEW 4: WATCHMOJO — NEGATIVE -->
+  <div class="review-card">
+    <div class="review-header" style="border-bottom-color: var(--magenta);">
+      <div>
+        <div class="review-channel-name" style="color: var(--magenta); text-shadow: var(--glow-magenta);">WATCHMOJO</div>
+        <div class="review-channel-meta">LIST CONTENT / NOSTALGIA AGGREGATION // ~100M SUBSCRIBERS // SEVERAL UPLOADS PER DAY</div>
+      </div>
+      <div class="review-final-score">
+        <div class="review-score-num" style="color: var(--magenta);">42</div>
+        <div><span class="review-verdict verdict-gameover">GAME OVER</span></div>
+      </div>
+    </div>
+    <div class="review-body">
+      <p>This review required a conversation. Not about whether to write it — that was never in question — but about what kind of review to write. WatchMojo is not a bad channel in the way that Ryan's World is a bad channel, extracting commercial value from childhood with a factory's indifference. It's a bad channel in a more philosophically interesting way: it is the logical endpoint of what happens when nostalgia is separated entirely from the thing that makes nostalgia valuable. It deserves to be taken seriously as a failure.</p>
+
+      <p>Here is what WatchMojo does, precisely: it identifies the most broadly agreed-upon cultural objects that most people over a certain age have heard of, assembles ten of them in order of a scoring system that seems to weight "most commonly cited in other lists" over any editorial judgment, reads them over stock footage in a voice that suggests the narrator learned emotion from a manual, and titles the result "Top 10 [Category] of All Time." Repeat several times per day. Accumulate subscribers by being the first result for any nostalgia-adjacent query. Establish brand. Sell list-format content to every other platform that will take it.</p>
+
+      <div class="pull-quote" style="border-color: var(--magenta); color: var(--magenta); text-shadow: var(--glow-magenta); background: rgba(255,0,170,0.04);">
+        WatchMojo didn't industrialise nostalgia. It replaced it with a photograph of nostalgia taken at arm's length, printed on demand, with no negatives.
+      </div>
+
+      <p>The issue is not that lists are inherently bad. Lists can be brilliant. They can make arguments by juxtaposition, demonstrate a critical sensibility through unexpected inclusions, use omission as statement. The issue is that WatchMojo's lists make no argument at all. Every list is consensus validation: here are the things you already know are good, presented in an order that will not disturb you, framed as discovery. There is no perspective here because perspective would alienate a portion of the 100 million subscribers, and 100 million subscribers is the point.</p>
+
+      <p>The content quality score is held above floor by the acknowledgment that production is technically competent and research into "what items should appear on the list" is thorough in a narrow, circular sense. The consistency score is perversely high because WatchMojo uploads more reliably than almost any other channel on the platform; this is not a compliment — it reflects an operation optimised for volume rather than craft. Community and Replay are both near the floor because the comment sections are a dispiriting landscape of "They forgot X!" replies to lists that deliberately forgot X to generate "They forgot X!" replies, and no one watches a WatchMojo video twice by choice.</p>
+
+      <p>The X-Factor is what drops this to 42. What WatchMojo has is anti-X-Factor: the deliberate absence of any quality that cannot be replicated, scaled, or outsourced. There is no voice here. There is no perspective, no taste, no evidence of anyone caring whether the video is good. This matters because nostalgia — real nostalgia — is about the specificity of personal memory. A channel that claims to deal in nostalgia while systematically removing everything specific about it is not just doing nostalgia badly. It's consuming nostalgia as fuel and producing its corpse as content.</p>
+
+      <p>One hundred million people have subscribed to this channel. We mean no contempt toward any of them. The channel has made itself available as the path of least resistance to a genuine human need. That's clever. It's also, in the context of The Nostalgia Issue, the most complete demonstration possible of what happens when the mechanism outlasts the meaning.</p>
+
+      <div class="scorecard">
+        <div class="scorecard-title">SCORECARD — WATCHMOJO</div>
+        <div class="score-row">
+          <div class="score-label">Content Quality</div>
+          <div class="score-bar-wrap"><div class="score-bar score-bar-negative" style="width:42%"></div></div>
+          <div class="score-val" style="color: var(--magenta);">42</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">Consistency</div>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:88%"></div></div>
+          <div class="score-val">88</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">Replay Value</div>
+          <div class="score-bar-wrap"><div class="score-bar score-bar-negative" style="width:18%"></div></div>
+          <div class="score-val" style="color: var(--magenta);">18</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">Community</div>
+          <div class="score-bar-wrap"><div class="score-bar score-bar-negative" style="width:35%"></div></div>
+          <div class="score-val" style="color: var(--magenta);">35</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">X-Factor</div>
+          <div class="score-bar-wrap"><div class="score-bar score-bar-negative" style="width:12%"></div></div>
+          <div class="score-val" style="color: var(--magenta);">12</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<!--                                   BOSS FIGHT                                           -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<section id="boss-fight" class="tab-pane">
+<div class="content-wrapper">
+  <div class="section-header">
+    <span class="section-label">★ HEAD TO HEAD ★</span>
+    <h1 class="section-title">BOSS FIGHT</h1>
+    <div class="section-theme">The Archaeology of Lost Things</div>
+  </div>
+
+  <div class="boss-fight-arena">
+    <div class="boss-fight-title">
+      <span class="boss-fight-label">ISSUE #008 // BOSS FIGHT</span>
+      <div class="boss-fight-name">DEFUNCTLAND vs. COMPANY MAN</div>
+      <p style="color: var(--text2); font-size: 14px; margin-top: 10px; font-family: 'VT323', monospace; letter-spacing: 2px;">CATEGORY: DOCUMENTARY ARCHAEOLOGY // EULOGISING WHAT THE MARKET KILLED</p>
+    </div>
+
+    <div class="fighters">
+      <div class="fighter-card">
+        <div class="fighter-name">DEFUNCTLAND</div>
+        <div class="fighter-stat">Kevin Perjurer<br>~4M Subscribers<br>Est. 2016<br>Theme Park History<br>Long-Form Documentary</div>
+      </div>
+      <div class="vs-badge">VS</div>
+      <div class="fighter-card">
+        <div class="fighter-name">COMPANY MAN</div>
+        <div class="fighter-stat">Chris Johnson<br>~4.5M Subscribers<br>Est. 2016<br>Business History<br>Rise & Fall Narratives</div>
+      </div>
+    </div>
+
+    <div class="article-body" style="margin-bottom: 30px;">
+      <p>This matchup has been sitting on the drafting table since Issue #006. The two channels share more surface area than a first glance reveals: both launched within months of each other in 2016, both operate in the territory of explaining how beloved institutions died, both have built substantial audiences by making the archaeology of failure emotionally resonant rather than merely informative. Both are, in the broad sense, in the business of helping people grieve things that are gone.</p>
+
+      <p>The difference — and it's significant — is in what they decide to grieve, and how. Defunctland is fundamentally an auteur operation: Kevin Perjurer's subject matter, theme parks and their defunct attractions, is niche enough that every video is also an argument for why the subject matters at all. Company Man's territory — major brands, their rises and collapses — comes with pre-established cultural significance. Blockbuster needs no introduction. Six Flags doesn't have to earn your attention before the video begins.</p>
+
+      <p>What makes this matchup genuinely competitive is the degree to which Company Man has evolved beyond its initial format. Early Company Man is essentially illustrated business journalism: clear, competent, occasionally insightful. Current Company Man is something more structurally interesting — the narrative arc of each video has become more sophisticated, the emotional texture more intentional, the willingness to follow a story past its obvious conclusion more developed. Against a static Defunctland, this would be a closer fight. Against the Defunctland that made "Defunctland: The History of The Fastpass" — an hour-long analytical documentary about queue management theory — it's not.</p>
+    </div>
+
+    <div class="tale-of-tape">
+      <div class="tape-col">
+        <div class="tape-row">
+          <div class="tape-stat-label">AVG VIDEO LENGTH</div>
+          <div class="tape-stat-val">35-80 min</div>
+        </div>
+        <div class="tape-row">
+          <div class="tape-stat-label">UPLOAD FREQ.</div>
+          <div class="tape-stat-val">Quarterly+</div>
+        </div>
+        <div class="tape-row">
+          <div class="tape-stat-label">SIGNATURE VIDEO</div>
+          <div class="tape-stat-val">FastPass History</div>
+        </div>
+        <div class="tape-row">
+          <div class="tape-stat-label">BEST AT</div>
+          <div class="tape-stat-val">Emotional depth</div>
+        </div>
+      </div>
+      <div class="tape-col center">
+        <div class="tape-center-label">TALE OF THE TAPE</div>
+      </div>
+      <div class="tape-col">
+        <div class="tape-row">
+          <div class="tape-stat-label">AVG VIDEO LENGTH</div>
+          <div class="tape-stat-val">12-22 min</div>
+        </div>
+        <div class="tape-row">
+          <div class="tape-stat-label">UPLOAD FREQ.</div>
+          <div class="tape-stat-val">Bi-weekly</div>
+        </div>
+        <div class="tape-row">
+          <div class="tape-stat-label">SIGNATURE VIDEO</div>
+          <div class="tape-stat-val">Blockbuster collapse</div>
+        </div>
+        <div class="tape-row">
+          <div class="tape-stat-label">BEST AT</div>
+          <div class="tape-stat-val">Accessibility + pace</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="round-breakdown">
+      <div class="round-title">★ ROUND-BY-ROUND BREAKDOWN ★</div>
+
+      <div class="round-row">
+        <div class="round-score-left" style="text-align:right;">91</div>
+        <div class="round-cat">CONTENT<br>QUALITY</div>
+        <div class="round-score-right">79</div>
+      </div>
+      <p style="color: var(--text2); font-size: 14px; padding: 0 12px 16px; line-height: 1.7;">Defunctland's ceiling is higher. The Fastpass documentary is as good as anything on the platform — a piece of analytical filmmaking that uses queue theory as a lens for corporate decision-making, nostalgia, and class, without once announcing that it's doing so. Company Man's content is reliably excellent and occasionally very good. It rarely approaches great. Defunctland has a larger spread — some videos don't reach the height of its best work — but when it peaks, nothing comparable exists. <strong style="color: var(--cyan);">DEFUNCTLAND.</strong></p>
+
+      <div class="round-row">
+        <div class="round-score-left" style="text-align:right;">68</div>
+        <div class="round-cat">CONSISTENCY</div>
+        <div class="round-score-right">84</div>
+      </div>
+      <p style="color: var(--text2); font-size: 14px; padding: 0 12px 16px; line-height: 1.7;">Company Man uploads with genuine regularity — the biweekly schedule has held across years. Defunctland's release cadence is, charitably, event-driven. Videos have appeared months apart. The Defunctland faithful know this and accept it as part of the covenant; the reward is proportionally larger. But by the scoring system's standards, this round goes clearly in one direction. <strong style="color: var(--magenta);">COMPANY MAN.</strong></p>
+
+      <div class="round-row">
+        <div class="round-score-left" style="text-align:right;">93</div>
+        <div class="round-cat">REPLAY VALUE</div>
+        <div class="round-score-right">70</div>
+      </div>
+      <p style="color: var(--text2); font-size: 14px; padding: 0 12px 16px; line-height: 1.7;">This is almost not a competition. Defunctland videos function as long-form documentary experiences in the truest sense — they reward repeat viewing the way good films do, with new details emerging, the structural choices becoming more legible. The Fastpass video has been watched in full by its most devoted audience three, four, five times. Company Man videos are excellent on first viewing and largely exhausted by the second. <strong style="color: var(--cyan);">DEFUNCTLAND.</strong></p>
+
+      <div class="round-row">
+        <div class="round-score-left" style="text-align:right;">88</div>
+        <div class="round-cat">COMMUNITY</div>
+        <div class="round-score-right">76</div>
+      </div>
+      <p style="color: var(--text2); font-size: 14px; padding: 0 12px 16px; line-height: 1.7;">Defunctland's community is one of the more impressive comment section cultures on the platform — people sharing genuine personal memories of defunct attractions, debating the ethics of corporate nostalgia, contributing archival material. Company Man's comments are engaged but more transactional: "Didn't know about this!" and "Good video" outnumber the substantive discussions. Defunctland built a community around mourning. That turns out to be unusually effective community glue. <strong style="color: var(--cyan);">DEFUNCTLAND.</strong></p>
+
+      <div class="round-row">
+        <div class="round-score-left" style="text-align:right;">95</div>
+        <div class="round-cat">X-FACTOR</div>
+        <div class="round-score-right">74</div>
+      </div>
+      <p style="color: var(--text2); font-size: 14px; padding: 0 12px 16px; line-height: 1.7;">The decisive round. Defunctland has an X-Factor that very few channels on the platform can match: it has created a genre that didn't previously exist. Long-form documentary filmmaking about the emotional and corporate history of themed entertainment, made with the research standards of journalism and the aesthetic sensibility of someone who genuinely loves what they're studying. Company Man is excellent at a genre that exists. Defunctland is the genre. <strong style="color: var(--cyan);">DEFUNCTLAND.</strong></p>
+    </div>
+
+    <div class="round-row" style="background: var(--bg3); border: 1px solid var(--cyan);">
+      <div class="round-score-left" style="text-align:right; font-size: 50px;">87</div>
+      <div class="round-cat" style="color: var(--cyan);">FINAL<br>SCORE</div>
+      <div class="round-score-right" style="font-size: 50px;">77</div>
+    </div>
+
+    <div class="winner-declaration">
+      <span class="winner-label">★ AND THE WINNER IS... ★</span>
+      <div class="winner-name">DEFUNCTLAND</div>
+      <p style="color: var(--text); font-size: 15px; margin-top: 16px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.7;">Company Man is a very good channel doing very good work in a well-defined genre. In any other matchup it wins comfortably. Against Defunctland — which has, in its best work, produced something genuinely unprecedented in the documentary form — it simply doesn't have the ceiling to compete. Defunctland wins on Content Quality, Replay Value, Community, and X-Factor. It loses Consistency because it hasn't figured out how to be reliable, and it may never need to. When you can make something this good, you get to be late.</p>
+    </div>
+
+  </div>
+
+  <div class="editorial-note">
+    <strong>⚡ EDITORIAL NOTE — TOP 50 IMPLICATION</strong>
+    This Boss Fight result prompts a Top 50 update for Defunctland: rising from #41 (74) to #32 (79) following the Boss Fight analysis and a genuine re-scoring of the channel's full catalogue, which includes a body of work that the original rating failed to account for. Company Man enters the Top 50 for the first time at #46 (77). See High Scores for full updated table.
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<!--                                   HIGH SCORES                                          -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<section id="high-scores" class="tab-pane">
+<div class="content-wrapper">
+  <div class="section-header">
+    <span class="section-label">★ RANKINGS ★</span>
+    <h1 class="section-title">HIGH SCORES</h1>
+    <div class="section-theme">Top 50 — Updated Issue #008</div>
+  </div>
+
+  <div class="editorial-note">
+    <strong>ISSUE #008 MOVEMENTS</strong>
+    NEW: Whang! (#29, 84), Scott The Woz (#26, 86), Caddicarus (#43, 74), Company Man (#46, 77). UPDATED: Defunctland rises to #32 (79) following Boss Fight re-score. WatchMojo does not enter the Top 50; score of 42 is a GAME OVER. JCS holds at #14 after the historic jump last issue.
+  </div>
+
+  <div style="overflow-x: auto;">
+  <table class="top50-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>CHANNEL</th>
+        <th>GENRE</th>
+        <th>SCORE</th>
+        <th>MOVEMENT</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="rank-num top3">1</td><td class="channel-name-cell">3Blue1Brown</td><td class="channel-genre-cell">Mathematics</td><td class="score-cell">96</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num top3">2</td><td class="channel-name-cell">Kurzgesagt</td><td class="channel-genre-cell">Science Animation</td><td class="score-cell">94</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num top3">3</td><td class="channel-name-cell">Every Frame a Painting</td><td class="channel-genre-cell">Film Analysis</td><td class="score-cell">92</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">4</td><td class="channel-name-cell">Primitive Technology</td><td class="channel-genre-cell">Maker / Survival</td><td class="score-cell">91</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">5</td><td class="channel-name-cell">CGP Grey</td><td class="channel-genre-cell">Education / Explainer</td><td class="score-cell">91</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">6</td><td class="channel-name-cell">Lemmino</td><td class="channel-genre-cell">Documentary / Mystery</td><td class="score-cell">91</td><td><span class="movement move-up">↑6</span></td></tr>
+      <tr><td class="rank-num">7</td><td class="channel-name-cell">Fireship</td><td class="channel-genre-cell">Tech / Programming</td><td class="score-cell">90</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">8</td><td class="channel-name-cell">Dan Carlin's Hardcore History</td><td class="channel-genre-cell">History / Long-Form</td><td class="score-cell">90</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">9</td><td class="channel-name-cell">Mark Rober</td><td class="channel-genre-cell">Engineering / Entertainment</td><td class="score-cell">89</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">10</td><td class="channel-name-cell">Veritasium</td><td class="channel-genre-cell">Science / Education</td><td class="score-cell">89</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">11</td><td class="channel-name-cell">Vsauce</td><td class="channel-genre-cell">Science / Philosophy</td><td class="score-cell">89</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">12</td><td class="channel-name-cell">Technology Connections</td><td class="channel-genre-cell">Technology / History</td><td class="score-cell">88</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">13</td><td class="channel-name-cell">Conan O'Brien / Team Coco</td><td class="channel-genre-cell">Comedy / Talk</td><td class="score-cell">88</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">14</td><td class="channel-name-cell">JCS — Criminal Psychology</td><td class="channel-genre-cell">True Crime / Analysis</td><td class="score-cell">86</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">15</td><td class="channel-name-cell">Internet Historian</td><td class="channel-genre-cell">Internet Culture / Doc.</td><td class="score-cell">87</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">16</td><td class="channel-name-cell">Theo Von</td><td class="channel-genre-cell">Comedy / Podcast</td><td class="score-cell">87</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">17</td><td class="channel-name-cell">Good Mythical Morning</td><td class="channel-genre-cell">Entertainment / Variety</td><td class="score-cell">87</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">18</td><td class="channel-name-cell">exurb1a</td><td class="channel-genre-cell">Philosophy / Existential</td><td class="score-cell">88</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">19</td><td class="channel-name-cell">Historia Civilis</td><td class="channel-genre-cell">Ancient History</td><td class="score-cell">87</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">20</td><td class="channel-name-cell">Nerdwriter1</td><td class="channel-genre-cell">Art / Film Analysis</td><td class="score-cell">86</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">21</td><td class="channel-name-cell">Videogamedunkey</td><td class="channel-genre-cell">Gaming / Commentary</td><td class="score-cell">84</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">22</td><td class="channel-name-cell">Stuff Made Here</td><td class="channel-genre-cell">Engineering / Maker</td><td class="score-cell">86</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">23</td><td class="channel-name-cell">Real Engineering</td><td class="channel-genre-cell">Engineering / Education</td><td class="score-cell">85</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">24</td><td class="channel-name-cell">The Slow Mo Guys</td><td class="channel-genre-cell">Science / Entertainment</td><td class="score-cell">85</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">25</td><td class="channel-name-cell">Smarter Every Day</td><td class="channel-genre-cell">Science / Curiosity</td><td class="score-cell">85</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num" style="color: var(--cyan);">26</td><td class="channel-name-cell" style="color: var(--cyan);">Scott The Woz</td><td class="channel-genre-cell">Retro Gaming / Comedy</td><td class="score-cell" style="color: var(--cyan);">86</td><td><span class="movement move-new">NEW</span></td></tr>
+      <tr><td class="rank-num">27</td><td class="channel-name-cell">Nexpo</td><td class="channel-genre-cell">Internet Horror / Doc.</td><td class="score-cell">80</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">28</td><td class="channel-name-cell">Wendover Productions</td><td class="channel-genre-cell">Logistics / Explainer</td><td class="score-cell">84</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num" style="color: var(--cyan);">29</td><td class="channel-name-cell" style="color: var(--cyan);">Whang!</td><td class="channel-genre-cell">Internet History / Archaeology</td><td class="score-cell" style="color: var(--cyan);">84</td><td><span class="movement move-new">NEW</span></td></tr>
+      <tr><td class="rank-num">30</td><td class="channel-name-cell">Tom Scott</td><td class="channel-genre-cell">Education / Travel</td><td class="score-cell">84</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">31</td><td class="channel-name-cell">Philip DeFranco</td><td class="channel-genre-cell">News / Commentary</td><td class="score-cell">84</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num" style="color: var(--amber);">32</td><td class="channel-name-cell" style="color: var(--amber);">Defunctland</td><td class="channel-genre-cell">Theme Park History / Doc.</td><td class="score-cell" style="color: var(--amber);">79</td><td><span class="movement move-up">↑9</span></td></tr>
+      <tr><td class="rank-num">33</td><td class="channel-name-cell">Adam Neely</td><td class="channel-genre-cell">Music Theory</td><td class="score-cell">84</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">34</td><td class="channel-name-cell">Numberphile</td><td class="channel-genre-cell">Mathematics</td><td class="score-cell">83</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">35</td><td class="channel-name-cell">Captain Disillusion</td><td class="channel-genre-cell">VFX / Debunking</td><td class="score-cell">83</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">36</td><td class="channel-name-cell">Lessons from the Screenplay</td><td class="channel-genre-cell">Film / Writing</td><td class="score-cell">83</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">37</td><td class="channel-name-cell">Summoning Salt</td><td class="channel-genre-cell">Speedrunning / Doc.</td><td class="score-cell">82</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">38</td><td class="channel-name-cell">Corridor Crew</td><td class="channel-genre-cell">VFX / Behind the Scenes</td><td class="score-cell">79</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">39</td><td class="channel-name-cell">Marques Brownlee (MKBHD)</td><td class="channel-genre-cell">Tech Reviews</td><td class="score-cell">83</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">40</td><td class="channel-name-cell">NileRed</td><td class="channel-genre-cell">Chemistry</td><td class="score-cell">86</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">41</td><td class="channel-name-cell">Techmoan</td><td class="channel-genre-cell">Tech / Retro Hardware</td><td class="score-cell">85</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">42</td><td class="channel-name-cell">Trash Taste</td><td class="channel-genre-cell">Podcast / Anime</td><td class="score-cell">80</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num" style="color: var(--cyan);">43</td><td class="channel-name-cell" style="color: var(--cyan);">Caddicarus</td><td class="channel-genre-cell">Nostalgic Game Criticism</td><td class="score-cell" style="color: var(--cyan);">74</td><td><span class="movement move-new">NEW</span></td></tr>
+      <tr><td class="rank-num">44</td><td class="channel-name-cell">PBS Space Time</td><td class="channel-genre-cell">Physics / Cosmology</td><td class="score-cell">75</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">45</td><td class="channel-name-cell">Half as Interesting</td><td class="channel-genre-cell">Education / Short-form</td><td class="score-cell">77</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num" style="color: var(--cyan);">46</td><td class="channel-name-cell" style="color: var(--cyan);">Company Man</td><td class="channel-genre-cell">Business History</td><td class="score-cell" style="color: var(--cyan);">77</td><td><span class="movement move-new">NEW</span></td></tr>
+      <tr><td class="rank-num">47</td><td class="channel-name-cell">Cleo Abram</td><td class="channel-genre-cell">Tech / Optimism</td><td class="score-cell">80</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">48</td><td class="channel-name-cell">Johnny Harris</td><td class="channel-genre-cell">Journalism / Documentary</td><td class="score-cell">79</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">49</td><td class="channel-name-cell">Polymatter</td><td class="channel-genre-cell">Geopolitics / Explainer</td><td class="score-cell">76</td><td><span class="movement move-same">—</span></td></tr>
+      <tr><td class="rank-num">50</td><td class="channel-name-cell">Defunctland (Prev. #32)</td><td class="channel-genre-cell">displaced Baumgartner Restoration</td><td class="score-cell" style="color: var(--text2);">70</td><td><span class="movement move-dropped">OUT</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="editorial-note" style="margin-top: 30px;">
+    <strong>EDITORIAL NOTE — BAUMGARTNER RESTORATION</strong>
+    Baumgartner Restoration exits the Top 50 this issue. The channel has substantially reduced its output and the original score of 70 was always a floor entry. The work remains beautiful; the channel no longer meets the threshold for active inclusion. The door remains open for re-entry if the pace returns.
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<!--                                 HIDDEN LEVELS                                          -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<section id="hidden-levels" class="tab-pane">
+<div class="content-wrapper">
+  <div class="section-header">
+    <span class="section-label">★ DISCOVERY ★</span>
+    <h1 class="section-title">HIDDEN LEVELS</h1>
+    <div class="section-theme">Under 10,000 Subscribers // Old Web Archaeologists</div>
+  </div>
+
+  <p style="color: var(--text2); max-width: 680px; margin-bottom: 36px; font-size: 15px; line-height: 1.7;">Every issue we surface channels with under 10,000 subscribers that deserve more attention than the algorithm will ever give them. This issue's theme: the people doing the actual work of preserving, analysing, and mourning what the early web was.</p>
+
+  <!-- CHANNEL 1 -->
+  <div class="hl-card">
+    <div class="yob-pick">YOB'S PICK ★</div>
+    <div class="hl-channel-name">CHANNEL ZERO POINT ZERO</div>
+    <div class="hl-subs">~890 subscribers // Started 2020 // Uploads: Sporadic, Substantial</div>
+    <p>If you want to understand what old YouTube actually was — not the meme version, not the "Charlie Bit My Finger" nostalgia clip, but the real texture of early platform life — Channel Zero Point Zero is currently doing the most rigorous analytical work available anywhere on the topic. The channel's methodology is unusual: the host (never identified by name, presented as a voice-over only) takes individual viral videos from 2006-2012 and performs frame-by-frame contextual analysis, examining not just the video itself but the comment culture at the time, the recommendation pathways that spread it, the social conditions that made it land.</p>
+    <p>The result is something that functions as both media history and media theory — each video is approximately 45-90 minutes long, deeply researched, and completely uncommercial. There are no sponsorships. There are no thumbnail faces. The banner image is a grey square. The channel appears to be run by someone who has decided that the work is more important than the channel's survival, which is both admirable and likely to become self-fulfilling.</p>
+    <p><strong style="color: var(--green);">Start with:</strong> "The Numa Numa Guy: What We Were Really Watching" — ninety minutes on a thirty-second video that will leave you genuinely rethinking what viral culture was and what it was for. This is the best thing currently under 1,000 subscribers on the platform.</p>
+  </div>
+
+  <!-- CHANNEL 2 -->
+  <div class="hl-card">
+    <div class="hl-channel-name">PRE-ROLL ARCHIVES</div>
+    <div class="hl-subs">~1,800 subscribers // Started 2019 // Uploads: Monthly</div>
+    <p>A completely niche channel doing something nobody else is doing: cataloguing and contextualising early YouTube advertising. Pre-Roll Archives has assembled a collection of ad formats, bumper cards, creator-integrated sponsorships, and now-defunct brand partnerships from YouTube's first decade, presented with the scholarly care of someone who understands that advertising formats are cultural objects that tell you things about their moment that the content around them doesn't.</p>
+    <p>Videos range from deep dives into the rise and fall of specific brand categories (energy drinks, mobile games, VPN services) to formal analyses of how creator-read sponsorships changed performance style across the platform. It sounds dry. It is the opposite of dry. The thesis, never quite stated but always present, is that you can read the platform's commercialisation history entirely through its advertising — and that this history is being lost because nobody thought to archive it as deliberately as they archived the content.</p>
+    <p><strong style="color: var(--green);">Start with:</strong> "The Sponsorship Creep: How Seven Years of Integration Changed Creator Performance" — a genuinely fascinating piece of media history hiding inside a question nobody asked.</p>
+  </div>
+
+  <!-- CHANNEL 3 -->
+  <div class="hl-card">
+    <div class="hl-channel-name">STATIC ERA</div>
+    <div class="hl-subs">~2,100 subscribers // Started 2021 // Uploads: Every 6-8 weeks</div>
+    <p>Static Era makes video essays about YouTube creators who flourished and then disappeared — specifically during the 2007-2014 window, specifically people whose channels accumulated meaningful audiences before the algorithm changed and swept them into obscurity or inactivity. The framing is deliberately archival: each video begins with the creator's current channel status (usually "Last upload: X years ago") and works backward to understand what they made, why it mattered, and what the conditions were that allowed them to build an audience and then find it gone.</p>
+    <p>The emotional register is careful and measured — this could easily become morbid or voyeuristic, and it doesn't. The host (a young woman whose name appears only in the video descriptions) has a genuine respect for the people she's documenting, and the best videos feel like obituaries for creative eras rather than autopsies of individual failures. The channel is building something important: a history of YouTube creativity that includes the people who didn't make it through, not just the ones who became institutions.</p>
+    <p><strong style="color: var(--green);">Start with:</strong> "Paperlilies and the Bedroom Philosopher Tradition" — a video about a creator you may never have heard of that will make you feel the loss of their era quite precisely.</p>
+  </div>
+
+  <!-- CHANNEL 4 -->
+  <div class="hl-card">
+    <div class="hl-channel-name">THE DIGITAL ATTIC</div>
+    <div class="hl-subs">~3,400 subscribers // Started 2018 // Uploads: Irregular</div>
+    <p>Flash animation. Newgrounds. Early web comedy. The specific visual and tonal register of internet content from 2000-2010 that lived outside YouTube and is now largely inaccessible — emulators failing, archives incomplete, the creators themselves unreachable. The Digital Attic is in the business of documentation and recovery: the host sources original creators where possible, reconstructs context for content that's been stripped of it, and makes arguments for why Flash-era internet culture deserves the same archival attention as early cinema.</p>
+    <p>The comparison to film preservation isn't overreach. An enormous body of creative work exists in formats that are actively degrading, hosted on servers that are actively shutting down, made by people who were often anonymous and are now untraceable. The Digital Attic is doing, in a small way and with considerable resource constraints, the work that institutions should be doing and largely aren't. The production reflects the subject matter — lo-fi, sometimes rough, always earnest. That's fine. The content earns the roughness.</p>
+    <p><strong style="color: var(--green);">Start with:</strong> "The Decline of Newgrounds and What It Actually Means" — the clearest statement of the channel's thesis and the best single introduction to why this territory matters.</p>
+  </div>
+
+  <!-- CHANNEL 5 -->
+  <div class="hl-card">
+    <div class="hl-channel-name">BUFFERING</div>
+    <div class="hl-subs">~4,700 subscribers // Started 2020 // Uploads: Monthly</div>
+    <p>A podcast-format channel — one host, minimal visuals, long-form interviews — focused exclusively on people who were active in online communities between 1995 and 2012. Not YouTube creators specifically; the net is cast wider to include forum moderators, webcomic artists, early bloggers, IRC community organisers, and game server administrators from the pre-social-media internet. The conceit is simple and excellent: these people built communities with tools that no longer exist, for audiences that no longer gather in those spaces, and the knowledge of how they did it is disappearing with them.</p>
+    <p>The interviews are long — rarely under two hours — and the host has the rare interviewing quality of knowing when not to speak. Guests talk themselves into corners, change their minds on camera, remember things mid-sentence they clearly haven't thought about in years. It sounds like the internet sounds in the kind of nostalgic memory that's actually accurate rather than retroactively simplified. That's harder to produce than it appears, and Buffering produces it consistently.</p>
+    <p><strong style="color: var(--green);">Start with:</strong> Episode 23 — an interview with a former Something Awful moderator who describes, in remarkable detail, what it felt like to watch a community they'd spent years building become something they didn't recognise. You do not need to know what Something Awful is for this to be absorbing.</p>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<!--                                SPECIAL FEATURE                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<section id="special-feature" class="tab-pane">
+<div class="content-wrapper">
+  <div class="section-header">
+    <span class="section-label">★ SPECIAL FEATURE ★</span>
+    <h1 class="section-title">THE OLD YOUTUBE EULOGY</h1>
+    <div class="section-theme">Seven Things That Died When the Platform Grew Up</div>
+  </div>
+
+  <div class="article-body">
+    <p>Before we begin: this is not a piece about how everything was better before. Some things are better now. The production quality is higher. The educational content is more accessible. The documentary form has reached heights the early platform never approached. We know this and we acknowledge it without reservation.</p>
+    <p>But something was also lost, specifically and irretrievably, in the transition from the chaotic early platform to the optimised one it became. That loss has been described in vague terms — "authenticity," "community," "soul" — that are accurate but insufficient. What follows is an attempt to name the specific things that existed in the 2006-2015 window and no longer exist in the same way, or at all.</p>
+  </div>
+
+  <div class="pixel-divider"></div>
+
+  <div class="feature-card">
+    <div class="feature-number">01</div>
+    <div class="feature-item-title">LEGIBLE FAILURE</div>
+    <p>In the early platform, failure was visible and instructive. You could watch a creator try something — a format, a tone, a subject — and fail at it, iterate, fail differently, and gradually find their register. The record of this process was preserved in the upload history, available to anyone who went looking. Failure was part of the documentary record of the channel, and this record made the success more legible. You could see where something came from.</p>
+    <p>The current platform's economics have made visible failure costly in ways it wasn't before: subscriber anxiety, algorithmic punishment for low-performing videos, the psychological weight of public metrics on individual pieces. The result is that creators either don't publish work that might fail, or they don't make work that might fail, or — most commonly — they restrict failure to private experiments before presenting only polished successes. The record of the creative process is no longer public. The cost is a loss of context that makes all current success slightly harder to trust, and that removes from younger creators the map of how to reach the territory.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-number">02</div>
+    <div class="feature-item-title">ACCIDENTAL DISCOVERY</div>
+    <p>The early platform's discovery mechanism was random in a way that current language models and recommendation engines have been specifically engineered to prevent. You found things you didn't know you wanted. The gap between your stated preferences — implicit in your watch history — and what appeared on your homepage was large enough to include genuine surprises. This was sometimes annoying. It was also the mechanism by which entire creative subcultures crossed into mainstream awareness: not because the algorithm decided they should, but because the algorithm didn't know about them yet and left space for organic spread.</p>
+    <p>The current platform's recommendation engine is, by design, extremely good at giving you more of what you've already decided you like. It is correspondingly poor at giving you what you didn't know existed. The loss is not just individual — not just "I don't find new things anymore" — but cultural: entire creative ecosystems fail to achieve the cross-pollination that made early YouTube genuinely culturally generative. The early platform made things happen by accident. The current one prevents accidents efficiently. These are not the same thing, and one of them is better for discovery.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-number">03</div>
+    <div class="feature-item-title">THE UNMONETISED VOICE</div>
+    <p>This one is subtle and important. In the early platform, the majority of creators were not being paid. This is often framed as a negative — exploitation, uncompensated labour, etc. — and those concerns are real. But the absence of payment had a side effect on content that is worth naming: creators making videos with no income attached were, structurally, unable to make decisions based on income. They could not water down an opinion because a sponsor required it. They could not avoid a topic because it might trigger demonetisation. They could not make their thumbnails misleading because their watch-time metrics affected their ad revenue, because there was no ad revenue.</p>
+    <p>The result was a category of content that didn't ask anything of its audience in order to deliver something to them. The exchange was simpler: I made this, here it is, you either want it or you don't. Current monetised YouTube is not dishonest — most creators are navigating the constraints with genuine integrity. But the constraints are there, and they shape the content in ways that are not always visible to viewers who don't know where to look for them. The pure, commercially uncomplicated voice of the early period no longer exists at scale. What replaced it is mostly fine. But it's not the same thing.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-number">04</div>
+    <div class="feature-item-title">PATIENCE AS DEFAULT</div>
+    <p>Early YouTube required patience of both parties. Creators uploaded when they had something to upload; audiences waited for however long that took. The contractual assumption was not "consistent schedule" but "something worth watching eventually." This produced, on the creator side, a different relationship to time: you made the thing when it was ready, not when the calendar required it. And it produced, on the audience side, a different relationship to scarcity: the video arriving was an event rather than an increment in a content stream.</p>
+    <p>The transition to schedule-driven content was economically rational and creatively consequential. When the calendar drives the upload, the content is shaped by the calendar. Videos get made to fill the slot rather than because the creator had something to say that required that specific video. The resulting content is not necessarily worse — some creators produce extraordinary work on rigid schedules and the discipline improves them. But the category of video made specifically because the creator felt the thing was ready, in its own time, is smaller than it was. Tom Scott retired partly because maintaining a weekly schedule for years produced exactly this conflict. That's worth sitting with.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-number">05</div>
+    <div class="feature-item-title">NICHE WITHOUT APOLOGY</div>
+    <p>The early platform had no mechanism for telling you your niche was too small. The recommendation engine of 2009 did not de-prioritise your train modelling channel because train modelling was a small audience. It either found the audience or it didn't; the channel existed regardless. The creator did not need to justify their subject matter to an algorithm that would decide whether to amplify it, because the algorithm was not yet making that decision in the way it now does.</p>
+    <p>Current YouTube's recommendation engine essentially requires scale for visibility, which creates a structural incentive to broaden your subject matter to the point where it can attract algorithmic attention. The result is that genuine niches — subject areas with audiences of tens of thousands globally, passionate but small — are effectively subsidised by the creator's time and not rewarded by the platform's infrastructure. They exist in spite of the algorithm rather than supported by it. Many of them survive. Many don't. The ones that don't leave gaps in the cultural record that nobody is cataloguing.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-number">06</div>
+    <div class="feature-item-title">THE UNSUPERVISED COMMENT SECTION</div>
+    <p>It is necessary to acknowledge the full complexity here: early YouTube comment sections were also frequently awful. The misogyny, the racism, the general toxicity of early internet culture at its worst was present and significant. This history is real and is not being romantically revised in this piece.</p>
+    <p>But early comment sections also had something that current ones, optimised by YouTube and subject to the psychological effects of metric visibility, often don't: organic community formation. When comment sections weren't ranked by "Top Comments" — when you actually had to scroll through chronological posts to find anything — the experience was more like a conversation and less like a competition for endorsement. Communities formed, in-jokes developed, running threads continued across months. The comment section was part of the creative ecology of the channel rather than a performance space for its most algorithm-optimised participants. Current comment sections often feel like the same ten types of comment, repeated indefinitely, because those are the comments that get ranked to the top. The community is still there somewhere. You have to work to find it.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-number">07</div>
+    <div class="feature-item-title">THE RIGHT TO BE FORGETTABLE</div>
+    <p>This is perhaps the most important loss and the hardest to name. The early platform permitted — indeed, practically required — that most content be forgettable. Not bad, necessarily, but low-stakes enough that whether it was seen or not didn't matter much. Creators uploaded without the expectation that everything needed to be significant. The psychological architecture of this relationship to the medium — I made something, I put it here, it exists, that's enough — has been almost entirely replaced by a metrics culture in which every video is immediately measured against the channel's average and the creator's historical performance.</p>
+    <p>The right to make something small and unimportant, to contribute to a creative practice without every contribution needing to justify itself, is gone from mainstream YouTube. It survives in the long tail — in channels with tiny audiences who've made peace with that — and it survives among people who upload without checking the analytics, which requires either extraordinary self-discipline or the kind of psychological distance from outcome that is difficult to maintain when the numbers are right there. What was lost is not just a feature of the platform. It's a condition for a certain kind of creative health. The platform optimised it out of existence because it was economically valueless. That, perhaps more than anything else, is what we mean when we say old YouTube died.</p>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<!--                                   GAME OVER                                            -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<section id="game-over" class="tab-pane">
+<div class="content-wrapper">
+  <div class="section-header">
+    <span class="section-label">★ ROAST ★</span>
+    <h1 class="section-title">GAME OVER</h1>
+    <div class="section-theme">Five Nostalgia Trends That Deserve The Bin</div>
+  </div>
+
+  <div class="gameover-card">
+    <div class="gameover-trend">THE "I MISS OLD YOUTUBE" VIDEO THAT IS ITSELF BAD YOUTUBE</div>
+    <p>You know this format. You've seen thirty of them this year. Presenter sits in front of a warm-lit bookshelf that took forty-five minutes to arrange. Lo-fi music plays at -12dB under the narration. "Remember when YouTube was good?" they say, in a video that has three sponsor reads, a mid-roll, a thumbnail designed by committee, and a runtime calculated to hit the fifteen-minute mark for maximum monetisation. The structural irony is apparently invisible to the people making these videos, or perhaps invisible is the wrong word. Profitable. The word is profitable.</p>
+    <p>The "old YouTube" nostalgia video as a content category has become its own rebuttal. If the thing you're mourning is authenticity and unmonetised honesty, perhaps don't immediately monetise your mourning. Perhaps don't have the mourning optimised for search. Perhaps, if you're making the argument that something real was lost when content became product, don't make the argument in the form of the most contentless product the platform currently produces.</p>
+    <div class="gameover-sting">The ouroboros has figured out how to monetise eating itself, and it's doing really solid numbers.</div>
+  </div>
+
+  <div class="gameover-card">
+    <div class="gameover-trend">REACTION CONTENT TO THINGS THAT WERE THEMSELVES REACTIONS</div>
+    <p>Current YouTube contains a non-trivial quantity of videos reacting to old YouTube reaction videos. This is not something you should think about for too long. People who became famous by reacting to things have now become the things that other people react to, and at some point in this chain a person sat down, filmed themselves watching a video of another person watching a video, and thought: yes, this is the work. Yes, this is what I will put into the world.</p>
+    <p>The compounding function of reaction content is accelerating to a point where the original content — the thing that caused the first reaction — is now so far back in the chain that it's effectively historical. We are heading towards reactions to reactions to reactions to a Vine. Nobody stop us. This is fine. Surely this is fine.</p>
+    <div class="gameover-sting">Somewhere, right now, someone is filming themselves watching a video of someone watching the original Charlie Bit My Finger, and they are monetising the experience of distance from a thing that was valuable precisely because it was immediate.</div>
+  </div>
+
+  <div class="gameover-card">
+    <div class="gameover-trend">NOSTALGIA THUMBNAILS WITH DECADE-INCORRECT AESTHETICS</div>
+    <p>The "old YouTube" thumbnail aesthetic — CRT monitor, pixelated font, VHS scan lines, a slightly washed-out colour grade — is now more common than the actual old YouTube aesthetic, which was largely just "a blurry photograph of the creator's face taken at slightly the wrong moment." The nostalgia for early internet culture has generated a visual vocabulary that has almost no relationship to what early internet content actually looked like, and that is now deployed to sell content that would have been algorithmically optimised in 2009 just as it is today.</p>
+    <p>The VHS grain is a lie. The CRT lines are a performance. The lo-fi aesthetic signals authenticity in the same way that a supermarket selling artisanal bread signals authenticity: the markers of the real thing have been separated from the real thing and applied to the commercial product, and most people can't tell the difference anymore because the original is too far gone to use as comparison.</p>
+    <div class="gameover-sting">Nothing about the year 2006 felt like VHS grain at the time. It felt like buffering for forty-five seconds on a 2Mbps connection and hoping nobody needed the phone line.</div>
+  </div>
+
+  <div class="gameover-card">
+    <div class="gameover-trend">THE "MINI-DOCUMENTARY" THAT IS NINE MINUTES OF OBVIOUS INFORMATION</div>
+    <p>A genre has emerged — and flourished — in which a video is titled as though it is investigative journalism ("The DARK Truth About [Nostalgic Thing]"), structured with the production markers of a documentary (drone shots, archival footage, narration with affected gravitas), and contains approximately the same information as the Wikipedia page for that topic, read slightly more slowly. The dark truth, in most cases, is not dark. It is a business decision made in 1993 that is slightly disappointing if you loved the brand.</p>
+    <p>The format depends on two things: an audience nostalgic enough for the subject to be emotionally susceptible, and a production that performs depth without requiring the labour of actual research. It is, in this sense, the documentary equivalent of the WatchMojo list: consensus dressed as investigation, familiarity dressed as discovery. The thumbnail face always looks shocked. Whatever it discovered, you already knew.</p>
+    <div class="gameover-sting">If your nine-minute investigation into why a beloved childhood toy brand failed covers only the financial losses visible from their Wikipedia page, you have not investigated anything. You have dressed Wikipedia in a Blackmagic Pocket Cinema 6K and called it journalism.</div>
+  </div>
+
+  <div class="gameover-card">
+    <div class="gameover-trend">ARTIFICIAL SCARCITY OF THE ORIGINAL</div>
+    <p>This one is for YouTube, not the creators. The early platform's content was widely available, lightly curated, and freely accessible. The process of becoming a platform with a hundred million paying subscribers has involved, among other things, locking content behind paywalls, algorithmically reducing the visibility of older videos, allowing rights disputes to remove swathes of archival material, and failing to build adequate preservation infrastructure for content that is now culturally significant.</p>
+    <p>The result is that the thing being mourned — old YouTube — is actively less accessible than it should be for the people doing the mourning. You can watch a WatchMojo video about early YouTube in four clicks. Watching the actual early YouTube content it's describing requires an archive.org account, a Flash emulator, significant patience, and the willingness to follow dead links. The platform has made nostalgia easy and made memory hard. This is not an accident. Memory is expensive to maintain and nostalgia is free to monetise.</p>
+    <div class="gameover-sting">YouTube has made it significantly easier to watch a video about watching old YouTube than to watch old YouTube, and at no point has anyone in a meeting appeared to notice that this is a problem rather than a strategy.</div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<!--                                 YOB'S SAVE POINT                                       -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<section id="yob-save" class="tab-pane">
+<div class="content-wrapper">
+  <div class="section-header">
+    <span class="section-label">★ READER LETTERS ★</span>
+    <h1 class="section-title">YOB'S SAVE POINT</h1>
+    <div class="section-theme">Opinions Welcome, Mostly // Issue #008</div>
+  </div>
+
+  <p style="color: var(--text2); margin-bottom: 30px; font-size: 14px;">The following letters were received in response to Issues #006 and #007. Yob has read all of them. Yob has feelings about some of them.</p>
+
+  <div class="letter-card">
+    <div class="letter-from">FROM: KIERAN T., BRISTOL, UK</div>
+    <div class="letter-body">Dropping penguinz0 from the Top 50 was the most cowardly thing you've done since whatever the most cowardly thing you did before this was. The man has 20 million subscribers. He's been making videos for fifteen years. You give him a 65 because he's "inconsistent"?? He's been CONSISTENTLY EXCELLENT and you're marking him down for it. You're just doing this for the controversy. Admit it.</div>
+    <div class="yob-response">Right, Kieran. First: Yob is many things. Cowardly is not one of them. We have given a 42 to a channel with a hundred million subscribers in this very issue. We are constitutionally incapable of cowardice, we just lack the relevant instinct.</div>
+    <div class="yob-response">Second: the drop wasn't primarily about inconsistency. Read the review again. The issue is a documented quality trajectory, a series of creative choices that moved the channel from something distinctive to something still competent but meaningfully less so. Fifteen years of history is weight in the argument, not a shield against it. Carlin's been going forty years and he's still at eight. Because the work holds. The question is always the work.</div>
+    <div class="yob-response">Third: if you think Yob does anything for controversy, Yob would like to introduce you to the WatchMojo review in this very issue. Controversy would have been giving them a 70. This is conviction.</div>
+    <span class="yob-rating">★★☆☆☆ — SPIRITED BUT WRONG. REREAD THE REVIEW, MATE.</span>
+    <span class="yob-sig">— Yob</span>
+  </div>
+
+  <div class="letter-card">
+    <div class="letter-from">FROM: SARAH M., TORONTO, CANADA</div>
+    <div class="letter-body">The JCS jump from #43 to #14 in one issue is the most exciting thing that's happened in the Top 50 since I started reading. I went back and watched every JCS video after Issue #007 dropped and I think the re-score actually undersells it. How is a channel that good at #14 and not #5?</div>
+    <div class="yob-response">Sarah. You are Yob's favourite person this issue. No further competition, thank you all.</div>
+    <div class="yob-response">The honest answer to your question is that #14 reflects a catalogue that is extraordinary in its best work and notably thinner than the channels above it — there are fewer total videos, meaning there's less total body of evidence against which to weight the score. The quality per video is exceptional. The scale of the body of work is still developing. If JCS continues at that level for another two years, the ceiling is genuinely in the top ten. Yob will be watching. Yob is already watching. Yob has watched all of them twice.</div>
+    <span class="yob-rating">★★★★★ — CORRECT ON ALL COUNTS. A GENIUS. FOLLOW THIS PERSON'S TASTE IN ALL THINGS.</span>
+    <span class="yob-sig">— Yob</span>
+  </div>
+
+  <div class="letter-card">
+    <div class="letter-from">FROM: DAVE K., MELBOURNE, AUSTRALIA</div>
+    <div class="letter-body">You've covered film criticism, tech, science, gaming — when are you doing a proper dedicated issue on YouTube's music scene? There are channels doing extraordinary work in music theory, composition breakdowns, genre history — Adam Neely is at #33 which feels criminal — and you've barely scratched the surface. The Voice Issue touched on it with Billie Holiday but that was about voice as concept, not music YouTube specifically.</div>
+    <div class="yob-response">Dave. This is a genuinely good letter and Yob is going to be honest with you: this is already on the internal roadmap. It's been on the internal roadmap since Issue #003. The difficulty is that music YouTube is vast in a way that other categories aren't — it contains multitudes including reaction channels, theory channels, performance channels, gear channels, producer channels, historical channels, and people who film themselves learning instruments in real time and this is somehow content — and making a coherent issue around a coherent editorial thesis requires more thinking than we've finished doing.</div>
+    <div class="yob-response">Adam Neely at #33 is, you're right, potentially wrong. We're watching that entry. Issue #009 or #010. Consider this a commitment Yob is making on record in the letters column, which is legally binding in several jurisdictions.</div>
+    <span class="yob-rating">★★★★☆ — EXCELLENT POINT, REASONABLE GRIEVANCE, GOOD TASTE IN CHANNELS. ONE STAR DEDUCTED FOR ASSUMING WE HADN'T THOUGHT OF THIS.</span>
+    <span class="yob-sig">— Yob</span>
+  </div>
+
+  <div class="letter-card">
+    <div class="letter-from">FROM: ANONYMOUS, "A FORMER YOUTUBE CREATOR"</div>
+    <div class="letter-body">Your Longevity Issue review of React Media was accurate. I used to have a channel that got picked up by FBE back in 2013. I was told it would "amplify" my work. I signed something I shouldn't have signed and the channel no longer exists in any form I recognise. Your score of 52 was generous. It should have been lower. You can print this if you like. I don't have a YouTube channel anymore so there's nothing to protect.</div>
+    <div class="yob-response">Yob is printing this.</div>
+    <div class="yob-response">There is no rating for this letter because this isn't a letter that wants a rating. It's a statement of record and it deserves to be in the record.</div>
+    <div class="yob-response">If this is accurate — and Yob has no reason to doubt it — then 52 was indeed generous. The score reflects the channel's current output quality under the current corporate structure. It doesn't capture the full accounting of what it replaced or displaced. That's a limitation of the scoring system that we acknowledge without knowing how to fix it.</div>
+    <span class="yob-rating">★★★★★ — THANK YOU FOR WRITING. YELLING INTO THE VOID IS STILL YELLING.</span>
+    <span class="yob-sig">— Yob</span>
+  </div>
+
+  <div class="letter-card">
+    <div class="letter-from">FROM: PRIYA S., LONDON, UK</div>
+    <div class="letter-body">The magazine talks about "British" humour and tone constantly but the Top 50 is very North American. Kurzgesagt is German. Every Frame a Painting is Canadian. Internet Historian is New Zealand. Are you actually a British magazine or is that just an affectation borrowed from old gaming mags because it sounds good?</div>
+    <div class="yob-response">Priya, Yob is going to give you credit for noticing this and then explain why you've answered your own question.</div>
+    <div class="yob-response">The affectation is deliberate. The voice is borrowed from British gaming press because that press had an editorial sensibility — opinionated, warm, a bit contemptuous of received wisdom — that Yob finds genuinely useful for this kind of criticism. The channel ranking is merit-based and does not apply a geographic correction because that would be exactly the kind of soft-headed editorial compromise that the voice borrowed from those old magazines explicitly rejected. They didn't give extra marks to British games either. They marked everything on the same scale and fought about it in the letters column.</div>
+    <div class="yob-response">Also Defunctland just jumped nine places so there's your American balance right there, innit.</div>
+    <span class="yob-rating">★★★☆☆ — ACUTE OBSERVATION, INCOMPLETE CONCLUSION. THREE STARS, RESPECTFULLY.</span>
+    <span class="yob-sig">— Yob</span>
+  </div>
+
+  <div class="letter-card">
+    <div class="letter-from">FROM: TOM F., BERLIN, GERMANY</div>
+    <div class="letter-body">The Time Capsule Marshall McLuhan interview last issue was the best thing you've published. I studied media theory for four years and that fictional interview contained more useful application of McLuhan's actual ideas than most of my seminars. How much research goes into those? Also: please do Roland Barthes.</div>
+    <div class="yob-response">Tom. Flattery will get you nowhere, except for the fact that you've brought up something Yob genuinely wants to address.</div>
+    <div class="yob-response">The research for Time Capsule interviews is significant — primary texts, secondary biographies, documentary footage, interviews in different contexts. The goal is to get the register right: not what the person might have said, but what they would have said if they were being most fully themselves. McLuhan was genuinely difficult because he had so many modes and the media theory one isn't actually the best one for the interview's purposes. The best mode was the slightly baffled but delighted prophet who would absolutely have been on YouTube and would have understood it better than anyone currently working there.</div>
+    <div class="yob-response">Roland Barthes is on the list. Yob is already afraid of the Barthes interview. It will require a lot of coffee and re-reading Camera Lucida, which Yob has been putting off because it makes Yob sad. For the magazine, anything.</div>
+    <span class="yob-rating">★★★★★ — HIGH STANDARDS, APPROPRIATE PRAISE, EXCELLENT FOLLOW-UP REQUEST. FIVE STARS. COME BACK OFTEN.</span>
+    <span class="yob-sig">— Yob</span>
+  </div>
+
+  <div class="letter-card">
+    <div class="letter-from">FROM: KYLE V., PHOENIX, ARIZONA, USA</div>
+    <div class="letter-body">I've been following the magazine since Issue #001 and this is my first letter. I don't have a clever point. I just wanted to say that reading CTRL+WATCH has made me watch YouTube differently and I appreciate that. I look at the credits now. I notice when someone's changed their format. I watch channels I'd never have found. That's what a good magazine is supposed to do. Thanks for making it.</div>
+    <div class="yob-response">Kyle.</div>
+    <div class="yob-response">...</div>
+    <div class="yob-response">Yob is not going to pretend this doesn't land differently than the other letters. It does. This is the whole point of the exercise, articulated clearly by someone who waited eight issues to say it. Yob doesn't know what to do with this except say: thank you, sincerely, and Yob will continue to do exactly this for as long as there are channels worth doing it about.</div>
+    <div class="yob-response">Now if you write in again, please have a controversial opinion about a score. This much warmth in one sitting makes Yob uncomfortable.</div>
+    <span class="yob-rating">★★★★★ — WHAT CAN YOU DO. FIVE STARS. RUINED YELL'S EVENING WITH ALL THE SINCERITY.</span>
+    <span class="yob-sig">— Yob</span>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<!--                                   RETRO ADS                                            -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════════════ -->
+<section id="retro-ads" class="tab-pane">
+<div class="content-wrapper">
+  <div class="section-header">
+    <span class="section-label">★ ADVERTISEMENT ★</span>
+    <h1 class="section-title">RETRO ADS</h1>
+    <div class="section-theme">From Our Generous Sponsors</div>
+  </div>
+
+  <div class="retro-ad">
+    <div class="ad-product">NOSTALGIA VAULT™</div>
+    <div class="ad-tagline">THE OFFICIAL SUBSCRIPTION BOX FOR THINGS YOU DEFINITELY ALREADY OWN</div>
+    <div class="ad-body">
+      <p>REMEMBER THE INTERNET? Remember it specifically? Are you haunted by the dim, beautiful, broken feeling of 2007 YouTube loading at 240p on a Thursday evening while your parents argued downstairs about whether the broadband was worth the money? DO WE HAVE NEWS FOR YOU.</p>
+      <p>NOSTALGIA VAULT™ delivers, to your door, every single month: a USB stick containing one (1) curated collection of content you could find for free on archive.org if you knew it existed, a printed booklet describing what YouTube used to feel like but written by someone who was five in 2007, and a branded CRT-filter overlay you can apply to all your modern media to simulate the authentic experience of watching old YouTube without actually having to watch old YouTube.</p>
+    </div>
+    <ul class="ad-features">
+      <li>MONTHLY DELIVERY OF THE PAST (RECONSTRUCTED)</li>
+      <li>INCLUDES: ONE (1) Nostalgia Candle (scent: "Dial-Up Modem / Slight Desperation")</li>
+      <li>AUTHENTIC FEELING OF COMMUNITY (SIMULATED, RESULTS MAY VARY)</li>
+      <li>CERTIFICATE CONFIRMING YOU WERE "THERE" (even if you weren't)</li>
+      <li>ACCESS TO EXCLUSIVE FORUM WHERE NOBODY IS MEAN BECAUSE IT'S MODERATED PROFESSIONALLY</li>
+    </ul>
+    <div class="ad-price">£14.99/month (cancel anytime, but you won't, you never do)</div>
+    <div class="ad-disclaimer">*Nostalgia Vault Ltd. accepts no responsibility for the emotional consequences of genuinely revisiting 2009 YouTube. Actual content from 2009 YouTube is not included in this subscription, curated content only, all screaming has been removed for brand safety reasons, "brand safety reasons" is itself an old YouTube reference and we are aware of the irony.</div>
+  </div>
+
+  <div class="retro-ad" style="border-color: var(--cyan);">
+    <div class="ad-product" style="color: var(--cyan); text-shadow: var(--glow-cyan);">THE ANALYTICS DASHBOARD OF PAIN™</div>
+    <div class="ad-tagline" style="color: var(--magenta);">KNOW EXACTLY HOW BADLY YOU'RE DOING IN REAL TIME</div>
+    <div class="ad-body">
+      <p>Are you a YouTube creator who sometimes wonders whether you're succeeding? Stop wondering. KNOW. With The Analytics Dashboard of Pain™, you get second-by-second updates on your channel's performance metrics, displayed on a custom peripheral that vibrates whenever your average view duration drops, plays a sad trombone when your CTR falls below 4%, and screams — audibly, from a small internal speaker — whenever someone downloads your video with SponsorBlock active.</p>
+      <p>The Dashboard ships with a companion mobile app that sends push notifications reading "You are doing fine but you could be doing better" every seventeen minutes, and a physical paper calendar pre-filled with your optimal posting schedule based on an algorithm that definitely knows your audience better than you do because it has processed more data than you have processed experience.</p>
+    </div>
+    <ul class="ad-features">
+      <li>WATCH TIME COUNTER (displayed in units of "hours of your life spent making this")</li>
+      <li>SUBSCRIBER GRAPH (emphasises every loss, rounds up every gain)</li>
+      <li>COMPETITOR COMPARISON MODE (shows only creators doing better, never worse)</li>
+      <li>REVENUE ESTIMATOR (displayed in currency: "is it worth it" tokens)</li>
+    </ul>
+    <div class="ad-price">FREE. COMES BUNDLED WITH YOUR YOUTUBE CHANNEL. CANNOT BE UNINSTALLED.</div>
+    <div class="ad-disclaimer">*Analytics data provided by YouTube. C+W accepts no responsibility for existential crises generated by sustained engagement with platform metrics. The "hours of your life" counter is a software feature. The feeling it produces is your own problem.</div>
+  </div>
+
+  <div class="retro-ad" style="border-color: var(--green);">
+    <div class="ad-product" style="color: var(--green); text-shadow: var(--glow-green);">AUTHENTIC™</div>
+    <div class="ad-tagline" style="color: var(--yellow);">A COURSE IN BEING GENUINELY YOURSELF, PROFESSIONALLY</div>
+    <div class="ad-body">
+      <p>AUTHENTIC™ is the only online course that teaches you to be your authentic self in fourteen structured modules designed by a team of brand strategists who have extensively researched which authentic traits perform best on modern YouTube. You'll learn to be real, to be vulnerable, to share the parts of yourself that your audience wants you to share — specifically the parts that test well in focus groups with your target demographic.</p>
+      <p>Module 9: "The Authentic Tearful Moment (Timing and Positioning)" is consistently rated our most popular content. Module 12: "Building a Personal Brand Around Authenticity Without Anyone Noticing It's a Brand" has won three industry awards. Module 14: "Advanced Authenticity: When Your Authentic Self Needs to Like the Sponsor's Product" is available to Premium subscribers only.</p>
+    </div>
+    <ul class="ad-features">
+      <li>14 MODULES (authenticity is more complicated than you thought)</li>
+      <li>CERTIFICATE OF AUTHENTICITY (frameable, for your background shots)</li>
+      <li>COMMUNITY OF 40,000 AUTHENTIC PEOPLE (we're all learning together)</li>
+      <li>LIFETIME ACCESS (authenticity is a practice, not a destination)</li>
+    </ul>
+    <div class="ad-price">£249 (payment plan available: 12 x £24.99, which is technically more expensive but feels authentic)</div>
+    <div class="ad-disclaimer">*Results vary. Some participants report feeling more authentic. Others report feeling exactly as authentic as they did before but with substantially less money. AUTHENTIC™ does not accept responsibility for the philosophical implications of monetising sincerity. That's on you, mate. That's been on you from the start.</div>
+  </div>
+
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-title">CTRL+WATCH</div>
+  <div class="footer-meta">ISSUE #008 // THE NOSTALGIA ISSUE // FEBRUARY 2026</div>
+  <div class="footer-meta" style="margin-top: 6px; font-size: 14px;">NEXT ISSUE: TBC // KEEP WATCHING</div>
+  <div class="page-num" style="margin-top: 16px;">© CTRL+WATCH MAGAZINE // ALL SCORES FINAL UNLESS THEY AREN'T</div>
+</footer>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

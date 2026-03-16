@@ -1,0 +1,276 @@
+---
+const currentPath = Astro.url.pathname;
+
+function isActive(path: string): boolean {
+  if (path === '/') return currentPath === '/';
+  return currentPath.startsWith(path);
+}
+---
+
+<nav class="nav" aria-label="Main navigation">
+  <div class="nav-container container">
+    <a href="/" class="nav-logo" aria-label="CTRL+WATCH Home">
+      <span class="nav-logo-text">CTRL+WATCH</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li>
+        <a href="/" class:list={['nav-link', { active: isActive('/') }]}>HOME</a>
+      </li>
+      <li>
+        <a href="/archive" class:list={['nav-link', { active: isActive('/archive') }]}>ARCHIVE</a>
+      </li>
+      <li>
+        <a href="/about" class:list={['nav-link', { active: isActive('/about') }]}>ABOUT</a>
+      </li>
+    </ul>
+
+    <a href="#subscribe" class="nav-cta btn" aria-label="Subscribe">
+      [INSERT COIN ▶]
+    </a>
+
+    <button
+      class="nav-hamburger"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      id="hamburger-btn"
+    >
+      ☰
+    </button>
+  </div>
+
+  <!-- Mobile overlay nav -->
+  <div class="mobile-nav" id="mobile-nav" aria-hidden="true" role="dialog" aria-label="Mobile navigation">
+    <button class="mobile-nav-close" aria-label="Close navigation menu" id="mobile-nav-close">✕</button>
+    <ul class="mobile-nav-links" role="list">
+      <li>
+        <a href="/" class:list={['mobile-nav-link', { active: isActive('/') }]}>HOME</a>
+      </li>
+      <li>
+        <a href="/archive" class:list={['mobile-nav-link', { active: isActive('/archive') }]}>ARCHIVE</a>
+      </li>
+      <li>
+        <a href="/about" class:list={['mobile-nav-link', { active: isActive('/about') }]}>ABOUT</a>
+      </li>
+      <li>
+        <a href="#subscribe" class="mobile-nav-link">INSERT COIN ▶</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(8, 8, 8, 0.95);
+    backdrop-filter: blur(4px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-md);
+  }
+
+  .nav-logo {
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .nav-logo-text {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(10px, 2vw, 14px);
+    color: var(--green);
+    text-shadow: var(--glow-green);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .nav-logo:hover .nav-logo-text {
+    text-shadow: var(--glow-green), 0 0 40px rgba(0,255,65,0.4);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: var(--space-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-left: auto;
+  }
+
+  .nav-link {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.2s ease;
+    padding: var(--space-xs) 0;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+  }
+
+  .nav-cta {
+    font-size: 8px;
+    padding: 8px 16px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .nav-hamburger {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--green);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px 12px;
+    min-width: 44px;
+    min-height: 44px;
+    transition: border-color 0.2s ease;
+  }
+
+  .nav-hamburger:hover {
+    border-color: var(--green);
+    box-shadow: var(--glow-green);
+  }
+
+  /* ===== MOBILE NAV OVERLAY ===== */
+  .mobile-nav {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-lg);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .mobile-nav.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .mobile-nav-close {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--green);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px 12px;
+    min-width: 44px;
+    min-height: 44px;
+    transition: border-color 0.2s ease;
+  }
+
+  .mobile-nav-close:hover {
+    border-color: var(--green);
+  }
+
+  .mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .mobile-nav-link {
+    font-family: 'Press Start 2P', monospace;
+    font-size: var(--text-lg);
+    color: var(--text-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.2s ease;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-nav-link:hover,
+  .mobile-nav-link.active {
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+    }
+
+    .nav-cta {
+      display: none;
+    }
+
+    .nav-hamburger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: auto;
+    }
+  }
+</style>
+
+<script>
+  const hamburger = document.getElementById('hamburger-btn');
+  const mobileNav = document.getElementById('mobile-nav');
+  const closeBtn = document.getElementById('mobile-nav-close');
+
+  function openNav() {
+    mobileNav?.classList.add('open');
+    hamburger?.setAttribute('aria-expanded', 'true');
+    mobileNav?.removeAttribute('aria-hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNav() {
+    mobileNav?.classList.remove('open');
+    hamburger?.setAttribute('aria-expanded', 'false');
+    mobileNav?.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  hamburger?.addEventListener('click', openNav);
+  closeBtn?.addEventListener('click', closeNav);
+
+  // Close on backdrop click
+  mobileNav?.addEventListener('click', (e) => {
+    if (e.target === mobileNav) closeNav();
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeNav();
+  });
+
+  // Close nav when a link is clicked
+  mobileNav?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeNav);
+  });
+</script>

@@ -1,0 +1,120 @@
+---
+---
+
+<div class="boot-screen" id="boot-screen" aria-live="polite" role="status">
+  <div class="boot-content">
+    <p class="boot-line boot-line-1">CTRL+WATCH MAGAZINE OS v1.0</p>
+    <p class="boot-line boot-line-2">LOADING ISSUE DATABASE... &nbsp;&nbsp;&nbsp;[████████████] 100%</p>
+    <p class="boot-line boot-line-3">CALIBRATING OPINION ENGINE... OK</p>
+    <p class="boot-line boot-line-4">DISABLING ALGORITHM... &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OK</p>
+    <p class="boot-line boot-line-5 cursor">&gt; WELCOME TO CTRL+WATCH</p>
+    <p class="boot-skip">[ CLICK ANYWHERE TO SKIP ]</p>
+  </div>
+</div>
+
+<style>
+  .boot-screen {
+    position: fixed;
+    inset: 0;
+    background: #000000;
+    z-index: 9000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.6s ease;
+  }
+
+  .boot-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .boot-screen.hidden {
+    display: none;
+  }
+
+  .boot-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .boot-line {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(8px, 1.5vw, 11px);
+    color: var(--green);
+    text-shadow: var(--glow-green);
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+    opacity: 0;
+    animation: bootFadeIn 0.1s ease forwards;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .boot-line-1 { animation-delay: 0.2s; }
+  .boot-line-2 { animation-delay: 0.7s; }
+  .boot-line-3 { animation-delay: 1.2s; }
+  .boot-line-4 { animation-delay: 1.7s; }
+  .boot-line-5 { animation-delay: 2.2s; }
+
+  .boot-skip {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(8px, 1.5vw, 10px);
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-top: var(--space-lg);
+    animation: bootFadeIn 0.3s ease 3s forwards;
+    opacity: 0;
+  }
+
+  @keyframes bootFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @media (max-width: 375px) {
+    .boot-screen {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .boot-line {
+      white-space: normal;
+    }
+  }
+</style>
+
+<script>
+  const bootScreen = document.getElementById('boot-screen');
+  let dismissed = false;
+
+  function dismissBoot() {
+    if (dismissed) return;
+    dismissed = true;
+    bootScreen?.classList.add('fade-out');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      bootScreen?.classList.add('hidden');
+    }, 600);
+  }
+
+  // Auto-dismiss after 3.5 seconds
+  const autoTimer = setTimeout(dismissBoot, 3500);
+
+  // Click to skip
+  bootScreen?.addEventListener('click', () => {
+    clearTimeout(autoTimer);
+    dismissBoot();
+  });
+
+  // Lock scroll while boot screen is visible
+  if (bootScreen && !bootScreen.classList.contains('hidden')) {
+    document.body.style.overflow = 'hidden';
+  }
+</script>
