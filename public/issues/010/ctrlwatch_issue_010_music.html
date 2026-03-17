@@ -1,0 +1,2109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTRL+WATCH — Issue #010: THE MUSIC ISSUE</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Exo+2:ital,wght@0,300;0,400;0,600;1,300;1,400&family=VT323&family=Russo+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A12;
+    --bg2: #0F0F1A;
+    --bg3: #141425;
+    --cyan: #00F0FF;
+    --magenta: #FF00AA;
+    --yellow: #FFE600;
+    --green: #39FF14;
+    --orange: #FF6B00;
+    --red: #FF2244;
+    --text: #E0E0E8;
+    --text2: #9090A0;
+    --text3: #6060708;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px);
+    pointer-events: none;
+    z-index: 999;
+  }
+  /* HEADER */
+  .masthead {
+    background: var(--bg2);
+    border-bottom: 3px solid var(--cyan);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--magenta), var(--cyan), var(--yellow), var(--green), var(--magenta));
+    animation: scanbar 4s linear infinite;
+  }
+  @keyframes scanbar {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+  .masthead-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 18px 24px 14px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .logo-block {}
+  .logo-prefix {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--cyan);
+    letter-spacing: 4px;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .logo-main {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 5vw, 52px);
+    color: #fff;
+    letter-spacing: -1px;
+    text-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0,240,255,0.4);
+    line-height: 1;
+  }
+  .logo-main span { color: var(--cyan); }
+  .masthead-meta {
+    text-align: right;
+  }
+  .issue-number {
+    font-family: 'VT323', monospace;
+    font-size: 42px;
+    color: var(--yellow);
+    line-height: 1;
+    text-shadow: 0 0 15px rgba(255,230,0,0.6);
+  }
+  .issue-theme {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: clamp(14px, 2.5vw, 20px);
+    color: var(--magenta);
+    text-shadow: 0 0 12px rgba(255,0,170,0.7);
+    display: block;
+  }
+  .issue-tagline {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--text2);
+    letter-spacing: 1px;
+    display: block;
+    margin-top: 4px;
+  }
+  /* TICKER */
+  .ticker {
+    background: var(--cyan);
+    padding: 6px 0;
+    overflow: hidden;
+  }
+  .ticker-inner {
+    display: flex;
+    animation: ticker-move 60s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-item {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--bg);
+    padding: 0 40px;
+  }
+  @keyframes ticker-move {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  /* TABS */
+  .tab-nav {
+    background: var(--bg2);
+    border-bottom: 2px solid var(--bg3);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+  .tab-list {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 12px;
+    gap: 0;
+  }
+  .tab-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--text2);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 14px 14px 11px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .tab-btn:hover { color: var(--cyan); }
+  .tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+  /* CONTENT */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .content-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+  /* SECTION HEADERS */
+  .section-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--magenta);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--magenta), transparent);
+  }
+  .section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(22px, 4vw, 38px);
+    color: #fff;
+    text-shadow: 0 0 18px rgba(255,255,255,0.3);
+    margin-bottom: 6px;
+    line-height: 1.1;
+  }
+  .section-subtitle {
+    font-family: 'Exo 2', sans-serif;
+    font-style: italic;
+    color: var(--text2);
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+  /* BODY TEXT */
+  p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  p:last-child { margin-bottom: 0; }
+  /* PULL QUOTES */
+  .pull-quote {
+    font-family: 'Russo One', sans-serif;
+    font-size: clamp(16px, 2.5vw, 22px);
+    color: var(--yellow);
+    border-left: 4px solid var(--yellow);
+    padding: 16px 20px;
+    margin: 28px 0;
+    background: rgba(255,230,0,0.04);
+    text-shadow: 0 0 8px rgba(255,230,0,0.3);
+    line-height: 1.4;
+  }
+  /* DIVIDER */
+  .pixel-divider {
+    width: 100%;
+    height: 3px;
+    background: repeating-linear-gradient(90deg, var(--cyan) 0px, var(--cyan) 6px, transparent 6px, transparent 12px);
+    margin: 36px 0;
+    opacity: 0.4;
+  }
+  /* CARDS */
+  .card {
+    background: var(--bg2);
+    border: 1px solid rgba(0,240,255,0.15);
+    border-left: 3px solid var(--cyan);
+    padding: 24px;
+    margin-bottom: 20px;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .card.magenta { border-left-color: var(--magenta); }
+  .card.yellow { border-left-color: var(--yellow); }
+  .card.green { border-left-color: var(--green); }
+  .card.orange { border-left-color: var(--orange); }
+  .card.red { border-left-color: var(--red); }
+  /* NEWS ITEMS */
+  .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+  .news-item {
+    background: var(--bg2);
+    border: 1px solid rgba(0,240,255,0.12);
+    border-top: 3px solid var(--cyan);
+    padding: 20px;
+  }
+  .news-item.magenta { border-top-color: var(--magenta); }
+  .news-item.yellow { border-top-color: var(--yellow); }
+  .news-item.green { border-top-color: var(--green); }
+  .news-item.orange { border-top-color: var(--orange); }
+  .news-headline {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--cyan);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .news-item.magenta .news-headline { color: var(--magenta); }
+  .news-item.yellow .news-headline { color: var(--yellow); }
+  .news-item.green .news-headline { color: var(--green); }
+  .news-item.orange .news-headline { color: var(--orange); }
+  .news-body { font-size: 13px; line-height: 1.65; color: var(--text2); }
+  /* TIME CAPSULE */
+  .interview-block {
+    background: var(--bg2);
+    border: 1px solid rgba(255,0,170,0.2);
+    border-top: 3px solid var(--magenta);
+    padding: 28px;
+    margin-bottom: 36px;
+  }
+  .interview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    gap: 16px;
+  }
+  .interview-name {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(18px, 3vw, 26px);
+    color: var(--magenta);
+    text-shadow: 0 0 10px rgba(255,0,170,0.5);
+  }
+  .interview-dates {
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    color: var(--text2);
+  }
+  .interview-role {
+    font-family: 'Exo 2', sans-serif;
+    font-style: italic;
+    color: var(--text2);
+    font-size: 13px;
+    margin-top: 2px;
+  }
+  .interview-disclaimer {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--orange);
+    background: rgba(255,107,0,0.08);
+    padding: 8px 12px;
+    border: 1px solid rgba(255,107,0,0.3);
+    margin-bottom: 24px;
+    line-height: 1.8;
+  }
+  .qa-exchange { margin-bottom: 18px; }
+  .qa-q {
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 600;
+    color: var(--cyan);
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .qa-a {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--text);
+    padding-left: 16px;
+    border-left: 2px solid rgba(255,0,170,0.3);
+  }
+  .qa-stage { font-style: italic; color: var(--text2); }
+  .qa-final {
+    font-family: 'Russo One', sans-serif;
+    font-size: 15px;
+    color: var(--yellow);
+    text-shadow: 0 0 8px rgba(255,230,0,0.3);
+    border-left: 3px solid var(--yellow);
+    padding: 14px 18px;
+    margin-top: 24px;
+    background: rgba(255,230,0,0.03);
+  }
+  /* PLAYER PROFILES */
+  .review-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .review-channel-name {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(20px, 3.5vw, 32px);
+    color: #fff;
+    text-shadow: 0 0 12px rgba(255,255,255,0.3);
+    line-height: 1.1;
+  }
+  .review-genre-tag {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--cyan);
+    background: rgba(0,240,255,0.1);
+    padding: 5px 10px;
+    border: 1px solid rgba(0,240,255,0.3);
+    display: inline-block;
+    margin-top: 8px;
+  }
+  .score-box {
+    background: var(--bg3);
+    border: 2px solid var(--cyan);
+    padding: 12px 18px;
+    text-align: center;
+    min-width: 110px;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+  .score-box.game-over { border-color: var(--red); }
+  .score-box.excellent { border-color: var(--green); }
+  .score-box.essential { border-color: var(--yellow); }
+  .score-number {
+    font-family: 'VT323', monospace;
+    font-size: 56px;
+    color: var(--cyan);
+    line-height: 1;
+    text-shadow: 0 0 15px rgba(0,240,255,0.7);
+    display: block;
+  }
+  .score-box.game-over .score-number { color: var(--red); text-shadow: 0 0 15px rgba(255,34,68,0.7); }
+  .score-box.excellent .score-number { color: var(--green); text-shadow: 0 0 15px rgba(57,255,20,0.7); }
+  .score-box.essential .score-number { color: var(--yellow); text-shadow: 0 0 15px rgba(255,230,0,0.7); }
+  .score-verdict {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    color: var(--text2);
+    letter-spacing: 1px;
+    display: block;
+    margin-top: 4px;
+  }
+  .score-box.game-over .score-verdict { color: var(--red); }
+  .score-box.excellent .score-verdict { color: var(--green); }
+  .score-box.essential .score-verdict { color: var(--yellow); }
+  .scorecard {
+    background: var(--bg3);
+    border: 1px solid rgba(0,240,255,0.15);
+    padding: 20px;
+    margin: 24px 0;
+  }
+  .scorecard-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+  .scorecard-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .scorecard-label {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 12px;
+    color: var(--text2);
+    width: 160px;
+    flex-shrink: 0;
+  }
+  .scorecard-bar {
+    flex: 1;
+    height: 10px;
+    background: rgba(255,255,255,0.06);
+    position: relative;
+    clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px));
+  }
+  .scorecard-fill {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    background: var(--cyan);
+    transition: width 0.6s ease;
+  }
+  .scorecard-fill.game-over { background: var(--red); }
+  .scorecard-fill.excellent { background: var(--green); }
+  .scorecard-fill.essential { background: var(--yellow); }
+  .scorecard-score {
+    font-family: 'VT323', monospace;
+    font-size: 24px;
+    color: var(--cyan);
+    width: 40px;
+    text-align: right;
+  }
+  .scorecard-score.game-over { color: var(--red); }
+  .scorecard-score.excellent { color: var(--green); }
+  .scorecard-score.essential { color: var(--yellow); }
+  .re-eval-badge {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--yellow);
+    background: rgba(255,230,0,0.12);
+    border: 1px solid var(--yellow);
+    padding: 5px 10px;
+    display: inline-block;
+    margin-top: 8px;
+    animation: badge-pulse 2s ease-in-out infinite;
+  }
+  @keyframes badge-pulse {
+    0%, 100% { box-shadow: 0 0 4px rgba(255,230,0,0.3); }
+    50% { box-shadow: 0 0 12px rgba(255,230,0,0.7); }
+  }
+  /* BOSS FIGHT */
+  .boss-fight-header {
+    text-align: center;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(255,107,0,0.3);
+    margin-bottom: 28px;
+  }
+  .boss-fight-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--orange);
+    letter-spacing: 4px;
+    text-shadow: 0 0 8px rgba(255,107,0,0.6);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .vs-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(20px, 4vw, 38px);
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255,255,255,0.3);
+  }
+  .vs-separator {
+    color: var(--orange);
+    text-shadow: 0 0 15px rgba(255,107,0,0.8);
+    margin: 0 16px;
+  }
+  .fighters-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 24px;
+    align-items: start;
+    margin-bottom: 32px;
+  }
+  .fighter-card {
+    background: var(--bg2);
+    border: 1px solid rgba(0,240,255,0.15);
+    padding: 20px;
+  }
+  .fighter-name {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--cyan);
+    margin-bottom: 6px;
+  }
+  .fighter-card.winner { border-color: var(--yellow); border-width: 2px; }
+  .fighter-card.winner .fighter-name { color: var(--yellow); }
+  .vs-middle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding-top: 20px;
+  }
+  .vs-badge {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    color: var(--orange);
+    text-shadow: 0 0 15px rgba(255,107,0,0.8);
+  }
+  .round-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+  .round-table th {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--text2);
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: var(--bg3);
+  }
+  .round-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px;
+    color: var(--text);
+  }
+  .round-table td.score { font-family: 'VT323', monospace; font-size: 28px; }
+  .round-table td.score.cyan { color: var(--cyan); }
+  .round-table td.score.yellow { color: var(--yellow); }
+  .round-table td.winner-score { color: var(--yellow); }
+  .round-table tr.total-row td { background: rgba(255,230,0,0.06); font-weight: 600; }
+  /* HIGH SCORES */
+  .ranking-table { width: 100%; border-collapse: collapse; }
+  .ranking-table th {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--text2);
+    padding: 10px 12px;
+    text-align: left;
+    background: var(--bg3);
+    border-bottom: 1px solid rgba(0,240,255,0.15);
+    white-space: nowrap;
+  }
+  .ranking-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+  }
+  .ranking-table tr:hover td { background: rgba(0,240,255,0.04); }
+  .rank-num { font-family: 'VT323', monospace; font-size: 22px; color: var(--text2); }
+  .rank-num.top3 { color: var(--yellow); text-shadow: 0 0 8px rgba(255,230,0,0.5); font-size: 26px; }
+  .rank-channel { font-family: 'Exo 2', sans-serif; font-weight: 600; color: var(--text); }
+  .rank-channel.new-entry { color: var(--green); }
+  .rank-channel.record-jump { color: var(--yellow); }
+  .rank-score { font-family: 'VT323', monospace; font-size: 24px; color: var(--cyan); }
+  .rank-genre { font-size: 11px; color: var(--text2); }
+  .rank-move { font-family: 'VT323', monospace; font-size: 18px; }
+  .rank-move.up { color: var(--green); }
+  .rank-move.down { color: var(--red); }
+  .rank-move.new { color: var(--cyan); font-family: 'Press Start 2P', monospace; font-size: 7px; }
+  .rank-move.same { color: var(--text2); }
+  .rank-move.record { color: var(--yellow); font-family: 'Press Start 2P', monospace; font-size: 7px; animation: badge-pulse 1.5s ease infinite; }
+  /* HIDDEN LEVELS */
+  .hidden-card {
+    background: var(--bg2);
+    border: 1px solid rgba(57,255,20,0.15);
+    border-left: 3px solid var(--green);
+    padding: 22px;
+    margin-bottom: 20px;
+  }
+  .hidden-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  .hidden-channel-name {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--green);
+    text-shadow: 0 0 8px rgba(57,255,20,0.4);
+  }
+  .hidden-subs {
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    color: var(--text2);
+    text-align: right;
+  }
+  .yob-pick {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    color: var(--bg);
+    background: var(--yellow);
+    padding: 4px 8px;
+    display: inline-block;
+    margin-top: 4px;
+  }
+  /* GAME OVER */
+  .trend-card {
+    background: var(--bg2);
+    border: 1px solid rgba(255,34,68,0.2);
+    border-top: 3px solid var(--red);
+    padding: 22px;
+    margin-bottom: 20px;
+  }
+  .trend-name {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--red);
+    text-shadow: 0 0 8px rgba(255,34,68,0.4);
+    margin-bottom: 10px;
+  }
+  .death-line {
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    color: var(--orange);
+    border-left: 3px solid var(--orange);
+    padding: 8px 14px;
+    margin-top: 12px;
+    background: rgba(255,107,0,0.05);
+  }
+  /* YOB */
+  .letter-card {
+    background: var(--bg2);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .letter-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .letter-from {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--cyan);
+    letter-spacing: 1px;
+  }
+  .letter-stars { color: var(--yellow); font-size: 14px; }
+  .letter-verdict {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    color: var(--text2);
+    text-align: right;
+    margin-top: 2px;
+  }
+  .letter-body { font-size: 13px; line-height: 1.65; color: var(--text2); margin-bottom: 14px; }
+  .yob-response {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 14px;
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .yob-name {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--green);
+    text-shadow: 0 0 6px rgba(57,255,20,0.4);
+    margin-bottom: 6px;
+  }
+  .yob-sign { color: var(--green); font-weight: 600; margin-top: 8px; display: block; }
+  /* RETRO ADS */
+  .ad-block {
+    background: var(--bg3);
+    border: 3px solid var(--yellow);
+    padding: 24px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ad-block::before {
+    content: 'ADVERTISEMENT';
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    color: var(--text2);
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    letter-spacing: 2px;
+  }
+  .ad-product {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(20px, 4vw, 34px);
+    color: var(--yellow);
+    text-shadow: 0 0 15px rgba(255,230,0,0.7);
+    margin-bottom: 4px;
+  }
+  .ad-tagline {
+    font-family: 'Russo One', sans-serif;
+    font-size: 14px;
+    color: var(--magenta);
+    text-shadow: 0 0 8px rgba(255,0,170,0.5);
+    margin-bottom: 16px;
+  }
+  .ad-body { font-size: 13px; line-height: 1.65; color: var(--text2); margin-bottom: 12px; }
+  .ad-features { list-style: none; margin-bottom: 14px; }
+  .ad-features li { font-size: 12px; color: var(--cyan); padding: 2px 0; }
+  .ad-features li::before { content: '▶ '; color: var(--yellow); }
+  .ad-cta {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--bg);
+    background: var(--yellow);
+    padding: 8px 18px;
+    display: inline-block;
+    margin-bottom: 10px;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+  }
+  .ad-disclaimer { font-size: 9px; color: var(--text2); line-height: 1.4; font-style: italic; }
+  /* SPECIAL FEATURE */
+  .feature-intro {
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--text);
+    font-weight: 300;
+    font-style: italic;
+    border-left: 4px solid var(--cyan);
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    background: rgba(0,240,255,0.03);
+  }
+  .feature-subhead {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--cyan);
+    margin: 28px 0 12px;
+  }
+  /* FOOTER */
+  .site-footer {
+    background: var(--bg2);
+    border-top: 2px solid rgba(0,240,255,0.2);
+    padding: 20px 24px;
+    text-align: center;
+  }
+  .site-footer p {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--text2);
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+  }
+  /* MISC */
+  .highlight { color: var(--cyan); }
+  .highlight-yellow { color: var(--yellow); }
+  .highlight-magenta { color: var(--magenta); }
+  .highlight-green { color: var(--green); }
+  .highlight-orange { color: var(--orange); }
+  .highlight-red { color: var(--red); }
+  strong { color: var(--text); font-weight: 600; }
+  em { color: var(--text2); font-style: italic; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 640px) {
+    .two-col { grid-template-columns: 1fr; }
+    .fighters-grid { grid-template-columns: 1fr; }
+    .vs-middle { display: none; }
+  }
+  .page-num {
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    color: var(--text2);
+    text-align: right;
+    margin-top: 32px;
+  }
+  .update-badge {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    color: var(--yellow);
+    background: rgba(255,230,0,0.1);
+    border: 1px solid rgba(255,230,0,0.4);
+    padding: 4px 8px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 8px;
+  }
+  .dropped-badge {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    color: var(--red);
+    background: rgba(255,34,68,0.1);
+    border: 1px solid rgba(255,34,68,0.4);
+    padding: 4px 8px;
+    display: inline-block;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="logo-block">
+      <span class="logo-prefix">CTRL+WATCH MAGAZINE</span>
+      <div class="logo-main">CTRL<span>+</span>WATCH</div>
+    </div>
+    <div class="masthead-meta">
+      <div class="issue-number">ISSUE #010</div>
+      <span class="issue-theme">THE MUSIC ISSUE</span>
+      <span class="issue-tagline">THE ALGORITHM HAS NO EAR. WE DO. // MARCH 2026</span>
+    </div>
+  </div>
+</header>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">◆ ADAM NEELY RE-EVALUATED: NEW MAGAZINE RECORD ◆</span>
+    <span class="ticker-item">◆ ROLAND BARTHES FINALLY GETS HIS INTERVIEW ◆</span>
+    <span class="ticker-item">◆ BOSS FIGHT: RICK BEATO VS 12TONE ◆</span>
+    <span class="ticker-item">◆ DAVIE504: A VERDICT NINE ISSUES IN THE MAKING ◆</span>
+    <span class="ticker-item">◆ FRANK ZAPPA ON MONETISED CONTENT ◆</span>
+    <span class="ticker-item">◆ THE LAST RADIO STATION: SPECIAL FEATURE ◆</span>
+    <span class="ticker-item">◆ NINA SIMONE REACTS TO MUSIC THEORY YOUTUBE ◆</span>
+    <span class="ticker-item">◆ MILES DAVIS ON LOFI HIP HOP: "I DON'T KNOW WHAT THAT IS. PLAY IT AGAIN." ◆</span>
+    <span class="ticker-item">◆ ADAM NEELY RE-EVALUATED: NEW MAGAZINE RECORD ◆</span>
+    <span class="ticker-item">◆ ROLAND BARTHES FINALLY GETS HIS INTERVIEW ◆</span>
+    <span class="ticker-item">◆ BOSS FIGHT: RICK BEATO VS 12TONE ◆</span>
+    <span class="ticker-item">◆ DAVIE504: A VERDICT NINE ISSUES IN THE MAKING ◆</span>
+    <span class="ticker-item">◆ FRANK ZAPPA ON MONETISED CONTENT ◆</span>
+    <span class="ticker-item">◆ THE LAST RADIO STATION: SPECIAL FEATURE ◆</span>
+    <span class="ticker-item">◆ NINA SIMONE REACTS TO MUSIC THEORY YOUTUBE ◆</span>
+    <span class="ticker-item">◆ MILES DAVIS ON LOFI HIP HOP: "I DON'T KNOW WHAT THAT IS. PLAY IT AGAIN." ◆</span>
+  </div>
+</div>
+
+<!-- TAB NAVIGATION -->
+<nav class="tab-nav">
+  <div class="tab-list">
+    <button class="tab-btn active" onclick="showTab('cover')">PRESS START</button>
+    <button class="tab-btn" onclick="showTab('news')">NOW LOADING</button>
+    <button class="tab-btn" onclick="showTab('capsule')">TIME CAPSULE</button>
+    <button class="tab-btn" onclick="showTab('profiles')">PLAYER PROFILES</button>
+    <button class="tab-btn" onclick="showTab('bossfight')">BOSS FIGHT</button>
+    <button class="tab-btn" onclick="showTab('scores')">HIGH SCORES</button>
+    <button class="tab-btn" onclick="showTab('hidden')">HIDDEN LEVELS</button>
+    <button class="tab-btn" onclick="showTab('feature')">SPECIAL FEATURE</button>
+    <button class="tab-btn" onclick="showTab('gameover')">GAME OVER</button>
+    <button class="tab-btn" onclick="showTab('yob')">YOB'S SAVE POINT</button>
+    <button class="tab-btn" onclick="showTab('ads')">RETRO ADS</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TAB 1: PRESS START
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="tab-cover" class="tab-panel active">
+  <div class="content-wrap">
+    <div class="section-label">EDITOR'S LETTER</div>
+    <h1 class="section-title">PRESS START</h1>
+    <p class="section-subtitle">Issue #010 — The Music Issue</p>
+
+    <div class="card">
+      <p>Music came before agriculture. Before cities. Before writing. Before almost everything we call civilisation, there was someone sitting in the dark, hitting something rhythmically, listening to the sound bounce off a cave wall and thinking: <em>yes, more of that</em>. This fact is not irrelevant to a YouTube review magazine. It is, in fact, the entire point.</p>
+
+      <p>We have spent nine issues examining what YouTube does to knowledge, to craft, to the underground, to longevity, to voice, to nostalgia, to the specific and the niche. In all that time, we have circled the question of music YouTube the way you circle a drain — aware of where it's going, reluctant to look directly at it. Not because the subject is uninteresting. Because it is <em>overwhelming</em>. Music YouTube is not a genre. It is a civilisation. It has its own nations, its own wars, its own economies, its own religions. The music theory renaissance alone has changed how a generation understands sound. The bedroom producer pipeline has democratised creation in ways that would have seemed impossible twenty years ago. And yet the platform's relationship with music is also one of the strangest, most legally tortured, most culturally complex stories in the history of recorded art.</p>
+
+      <p>So. Here we are. Issue ten. The Music Issue.</p>
+
+      <p>A few debts to pay before we begin. <strong class="highlight-yellow">Adam Neely</strong> has been sitting at #38 in the Top 50 since Issue #007, a number so obviously wrong that three separate readers wrote in to say so, and Yob told all three of them they were correct, which is essentially unprecedented in the history of this magazine. We said we'd fix it. We've fixed it. The re-evaluation is in the Player Profiles section. I will say no more except that the movement indicator next to his name in the High Scores table is — and I do not use this word lightly — a record.</p>
+
+      <p>We also owe <strong class="highlight-magenta">Roland Barthes</strong> an interview. He was flagged in Issue #008 and flagged again in Issue #009. Yob mentioned him in the letters page both times with the kind of enthusiasm he usually reserves for slagging off channels he actually likes. The interview is here. It is, appropriately, primarily about what listeners do to music rather than what musicians do to listeners. Barthes would have had a lot to say about the comment section beneath a Rick Beato video. He says it.</p>
+
+      <p>The special feature this issue is called <strong>The Last Radio Station</strong>, and it is about what YouTube has actually replaced, and what we didn't know we were losing when radio died, and what we didn't know we were gaining when a bassoon-playing teenager in Osaka got three million subscribers posting weekly. I think it is the best special feature we have published. The editorial team disagrees with me about that. The editorial team is wrong.</p>
+
+      <p>Also in this issue: <strong class="highlight-red">Davie504</strong> gets the review he has both earned and deserved for approximately five years. We are not cruel about it. We are merely honest. There is a difference. The score speaks for itself.</p>
+
+      <p>Nine issues in, a note on what we're doing here. Every issue, we receive letters asking if the magazine is serious, or satirical, or a project, or a game. The answer is: it is a magazine that takes YouTube seriously because YouTube deserves to be taken seriously — not despite being a free platform full of amateur creators making videos in their kitchens, but precisely because of it. The best thing happening in music education right now is on YouTube. The most interesting music theory debate of the last decade happened in a comment section under an Adam Neely video. The musicians who would have been lost to history — the regional, the niche, the genre-defying — are findable now in ways they never were before.</p>
+
+      <p>That is worth a magazine. Ten issues in, we believe this more, not less.</p>
+
+      <p>Press Start.</p>
+
+      <p style="text-align:right; margin-top: 20px;"><em>— The Editor, March 2026</em></p>
+    </div>
+
+    <div class="pixel-divider"></div>
+
+    <div class="pull-quote">
+      "The best music education happening right now is free, unlimited, and hosted on a platform that will also show you a dog riding a skateboard. We are fine with this."
+    </div>
+
+    <div class="page-num">PAGE 01 / CTRL+WATCH #010</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TAB 2: NOW LOADING
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="tab-news" class="tab-panel">
+  <div class="content-wrap">
+    <div class="section-label">NEWS & DISPATCHES</div>
+    <h1 class="section-title">NOW LOADING</h1>
+    <p class="section-subtitle">Seven items. One of them is satirical. Good luck working out which.</p>
+
+    <div class="news-grid">
+
+      <div class="news-item">
+        <div class="news-headline">RICK BEATO'S ONGOING COPYRIGHT WAR ENTERS ITS MOST ABSURD CHAPTER YET</div>
+        <p class="news-body">Music educator and YouTube veteran Rick Beato, who has spent years battling automated copyright claims from major labels on his own original analytical content, reports that his most recent video — a breakdown of harmonic theory using a passage he <em>composed himself</em> — was claimed within 47 minutes of upload by a rights management firm citing "melodic similarity" to a song released in 1994. The claim has since been disputed. "At this point," Beato told his community, "I feel like I'm being trolled by the concept of intellectual property." The label has not responded. The video remains monetised in their favour.</p>
+      </div>
+
+      <div class="news-item yellow">
+        <div class="news-headline">YOUTUBE MUSIC PASSES 100M SUBSCRIBERS. NOBODY KNOWS HOW TO USE IT.</div>
+        <p class="news-body">YouTube Music has announced it has passed one hundred million subscribers globally, becoming one of the largest music streaming platforms on the planet. This milestone has been met with widespread confusion, as surveys indicate that approximately 73% of YouTube Music subscribers discovered they were subscribed through a YouTube Premium bundle they signed up for to remove ads from a Mark Rober video in 2019. The remaining 27% who use it deliberately report that the interface "still feels like someone described Spotify to a developer who had never seen music." Spotify remains unconcerned. Apple Music remains Apple Music.</p>
+      </div>
+
+      <div class="news-item magenta">
+        <div class="news-headline">MUSIC THEORY CHANNEL VIEWERSHIP UP 340% POST-PANDEMIC. CONSERVATORIES NERVOUSLY TAKE NOTES.</div>
+        <p class="news-body">A study tracking YouTube viewership categories from 2019 to 2025 has found that music theory content — broadly defined as channels explaining how music actually works — has seen the steepest sustained growth of any educational category on the platform. Channels like Adam Neely, 12tone, and Tantacrul have collectively accumulated hundreds of millions of views on content that traditional music institutions would have charged thousands of pounds to deliver. Music academics are divided: some see this as democratisation; others are writing increasingly long posts on their university intranets about it. The students are watching YouTube regardless.</p>
+      </div>
+
+      <div class="news-item green">
+        <div class="news-headline">LO-FI HIP HOP GIRL GETS AN UPGRADE. THE INTERNET HAS FEELINGS.</div>
+        <p class="news-body">ChilledCow, now rebranded as Lofi Girl, updated their iconic "study girl" animated thumbnail — the most-watched live stream in YouTube history by some metrics — prompting a reaction from the internet that was disproportionate only until you realised the original image had been a constant companion for millions of people through exams, grief, late-night work sessions, and global lockdowns. The new design was well-received within 72 hours. Seventeen people still prefer the old one and maintain a dedicated subreddit about this. Yob supports them unconditionally.</p>
+      </div>
+
+      <div class="news-item orange">
+        <div class="news-headline">MAJOR LABEL AUTO-CLAIMS ORIGINAL COMPOSITION FOR "HARMONIC SIMILARITY." WHAT DOES THIS MEAN FOR MUSIC YOUTUBE?</div>
+        <p class="news-body">A composer and YouTuber who posts original ambient pieces found their entire back catalogue subject to automated claims from a major rights management firm, citing "harmonic similarity" to tracks in a library the firm represents. The composer notes that the claimed tracks are all in the key of C major. So, by some estimates, is approximately forty percent of all Western music ever recorded. The case highlights the accelerating use of AI-powered rights detection tools across the platform, tools that cannot distinguish between a structural similarity and a genuine breach, but that monetise both equally well. YouTube's dispute process remains as Kafkaesque as ever.</p>
+      </div>
+
+      <div class="news-item">
+        <div class="news-headline">BEDROOM PRODUCERS NOW OUTSELL MAJOR LABEL DEBUTS ON BANDCAMP. THE INDUSTRY PROCESSES THIS SLOWLY.</div>
+        <p class="news-body">Data from Bandcamp's 2025 annual report shows that artists who built their initial audience entirely through YouTube — tutorial channels, performance videos, genre explainers — now account for the majority of independent album sales on the platform. The pipeline from "guy explains music production in his bedroom" to "actually has an audience willing to pay for music" is now well-established and well-documented. This is creating a generation of musicians who have never signed to a label and have no particular desire to. The labels are aware of this. Their response has been to focus on the harmonic similarity lawsuit described above.</p>
+      </div>
+
+      <div class="news-item magenta">
+        <div class="news-headline">SATIRICAL: YOUTUBE ANNOUNCES NEW "REACTION-ONLY" TIER FOR MUSIC CONTENT</div>
+        <p class="news-body">In a move analysts are calling "inevitable," YouTube has announced a new monetisation tier exclusively for reaction content, in which creators watch music videos and make facial expressions at them for between eight and twenty-two minutes. The tier, called YouTube React+, will feature a proprietary "Authentic Response Meter" that measures viewer engagement by tracking how long a creator maintains an expression of surprise at a guitar solo they have already watched nineteen times for previous videos. Creators can unlock the "Genuine Emotion" badge after six hundred hours of surprised faces. The first application was approved within minutes. It was from Davie504. <em>(CTRL+WATCH acknowledges this item is satirical.)</em></p>
+      </div>
+
+    </div>
+
+    <div class="page-num">PAGE 02 / CTRL+WATCH #010</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TAB 3: TIME CAPSULE
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="tab-capsule" class="tab-panel">
+  <div class="content-wrap">
+    <div class="section-label">FICTIONAL Q&amp;A</div>
+    <h1 class="section-title">TIME CAPSULE</h1>
+    <p class="section-subtitle">Six voices from history encounter music YouTube. They have thoughts.</p>
+
+    <!-- ROLAND BARTHES -->
+    <div class="interview-block">
+      <div class="interview-header">
+        <div>
+          <div class="interview-name">ROLAND BARTHES</div>
+          <div class="interview-dates">1915 — 1980</div>
+          <div class="interview-role">French literary theorist. Semiologist. Author of <em>The Grain of the Voice</em>, <em>Mythologies</em>, <em>The Death of the Author</em>.</div>
+        </div>
+      </div>
+      <div class="interview-disclaimer">⚠ SATIRICAL / FICTIONAL — Roland Barthes did not participate in this Q&amp;A. His speaking style, philosophy, and intellectual preoccupations have been researched and interpreted for satirical purposes. CTRL+WATCH respects the actual work of Roland Barthes enormously, which is exactly why we've spent two issues promising this interview.</div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: Monsieur Barthes, we are showing you YouTube for the first time. You're currently looking at a video by a channel called Adam Neely, in which a jazz bassist explains why the Beatles' "Yesterday" is structurally more complex than it appears.</div>
+        <div class="qa-a"><span class="qa-stage">[watches without expression for forty-five seconds. Leans forward almost imperceptibly.]</span><br><br>
+        What interests me is not the analysis. The analysis is fine — lucid, even. What interests me is what is happening beneath the analysis. This man — this <em>performer</em>, because that is what he is, make no mistake — is not simply explaining a song. He is establishing his authority to explain the song. And in doing so, he is being watched by three million people who are... <span class="qa-stage">[gestures vaguely at the screen]</span>... deciding whether to grant him that authority. This is not a lecture hall. The power relations here are entirely different. The student can leave at any moment. This makes the teacher perform differently. The body language, the micro-expressions of enthusiasm — these are not accidents. They are the grain of this man's voice.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: When you wrote "The Grain of the Voice" in 1972, you were writing about opera singers. But you seem to have moved immediately to this concept of "grain" in a much broader sense.</div>
+        <div class="qa-a">The essay was about Fischer-Dieskau, yes, and about a quality in singing that resists reduction to technical excellence — a kind of bodily presence that exceeds the musical text. I argued, provocatively, that Fischer-Dieskau was perhaps <em>too</em> perfect — too communicative, too intentional. There was another singer, Panzéra, who had something rougher, something that caught in the voice like a fingernail on fabric. That resistance was where the meaning lived.<br><br>Now, what I see on this platform is a very particular question about grain. These music educators — they have their own grain. Not vocal necessarily, though sometimes that too. There is a grain to the cut, the choice of what to include and what to elide, the specific quality of enthusiasm. When this young man's voice cracks very slightly when he describes a harmonic resolution — <span class="qa-stage">[points at the screen]</span> — there, there is the grain. That is not the explanation. That is the person.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: Let's talk about Death of the Author. You argued that the author's biographical context is irrelevant to the meaning of a text — that meaning is produced by the reader. How does that apply to YouTube, where the creator is often explicitly present?</div>
+        <div class="qa-a"><span class="qa-stage">[a slight, dry smile]</span><br><br>
+        This is precisely where YouTube becomes philosophically interesting. I wrote against the tyranny of authorial intention — the idea that you need to understand what Flaubert <em>meant</em> in order to understand <em>Madame Bovary</em>. The text is liberated when the author's life is removed from it. But here, the author has made his life the text. These are not detached critical essays. They are performances of a self who is also an expert. The parasocial relationship — which is your platform's most distinctive cultural product — is precisely the reverse of what I was arguing for. You cannot have the Death of the Author when the Author is making sustained eye contact with you.<br><br>And yet — and this is what I find fascinating — the viewers here are still <em>writing</em> the text in their own way. I am told there is a section below called the comment section?</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: There is. We'd recommend scrolling carefully.</div>
+        <div class="qa-a"><span class="qa-stage">[reads for a long moment. Something like delight appears on his face.]</span><br><br>
+        But this is extraordinary. These viewers are not merely receiving the text. They are completing it. They are arguing with it. They are pointing out errors, proposing alternative analyses, sharing memories the video triggered. "I cried at this passage of my wedding," someone writes. The author uploaded an analysis of voice-leading, and a stranger has wept at their wedding in response. This is what I meant. Not that the author is dead — he is right there, reading the comments — but that the text exceeds the author always, inevitably, beautifully. <span class="qa-stage">[pauses]</span> Although I will say: several of these comments are simply incorrect, and the author should not engage with them.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: We're now showing you a different category — reaction videos. In these, a person watches a song they claim never to have heard before, and films themselves reacting to it.</div>
+        <div class="qa-a"><span class="qa-stage">[watches one minute of a reaction video. Sits very still.]</span><br><br>
+        I see. So the musical text has been doubled. There is the song, and there is the spectacle of hearing the song. And the viewers are watching not the song but the experience of the song. This is — one must be precise here — a kind of mythologisation. The reaction has stripped the song of its history, its context, its sociology, and has replaced it with the pure, ahistorical experience of a feeling. The music is no longer a cultural object. It is a delivery mechanism for facial expressions.<br><br>I wrote about mythology as a process of naturalisation — making historical contingencies appear inevitable and universal. This is that. "Classical music makes you feel things" is being demonstrated here as though it were a law of physics, rather than a cultural position that has required centuries of institutional reinforcement to establish. The reactor is not a neutral subject. No one is.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: You sound frustrated.</div>
+        <div class="qa-a"><span class="qa-stage">[considers]</span><br><br>
+        Intrigued. Frustrated and intrigued are in my experience closely related. What would frustrate me would be if this were all there was. But it is not, as you have shown me. The man explaining voice-leading — that is criticism. The channels I am told exist about ethnomusicology, about tuning systems, about the cultural origins of scales — that is scholarship. The mythology of the reaction video exists alongside genuine analysis. I would not call that a failure. I would call it a library that has accidentally shelved Barthes next to a Hallmark card. Both belong in a library. They should simply be in different sections.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: Final question. If you were making a YouTube channel, what would it be?</div>
+        <div class="qa-a"><span class="qa-stage">[long pause. Something almost playful in his expression.]</span><br><br>
+        I would make a channel about pleasure. Not in the vulgar sense — I mean pleasure in the Barthesian sense, <em>jouissance</em>, the productive disruption that the best texts generate. I would watch music videos with the sound off and describe only what I saw. I would watch them without the image and describe only what I heard. I would read the comments and ignore the videos entirely. I would be very bad for the algorithm, which, I think, would be the point.<br><br><span class="qa-stage">[stands, collecting his notebook]</span><br><br>
+        You could call it "Reader Responses." I am told the channel name is extremely important on this platform. I do not think this one would perform well.</div>
+      </div>
+
+      <div class="qa-final">"The comment section is the most Barthesian object in contemporary culture. It is a text without an author, a meaning without an intention, a conversation no one is quite having. I find it deeply comforting." — Roland Barthes</div>
+    </div>
+
+    <!-- LEONARD COHEN -->
+    <div class="interview-block">
+      <div class="interview-header">
+        <div>
+          <div class="interview-name">LEONARD COHEN</div>
+          <div class="interview-dates">1934 — 2016</div>
+          <div class="interview-role">Canadian singer-songwriter, poet, novelist. Author of <em>Suzanne</em>, <em>Hallelujah</em>, <em>Bird on the Wire</em>. Practising Buddhist. Reluctant icon.</div>
+        </div>
+      </div>
+      <div class="interview-disclaimer">⚠ SATIRICAL / FICTIONAL — Leonard Cohen did not participate in this Q&amp;A. His speaking style, warmth, and philosophical perspective have been interpreted for satirical purposes. We hold his work in the highest regard.</div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: Leonard, we're showing you YouTube. Specifically, we'd like you to react to the number of cover versions of "Hallelujah" that exist on this platform.</div>
+        <div class="qa-a"><span class="qa-stage">[looks at the search results page listing thousands of covers. Is quiet for a moment.]</span><br><br>
+        That is... a number I was not prepared for. <span class="qa-stage">[slowly]</span> I want you to know that I wrote that song over a period of approximately five years. I kept a notebook. I filled dozens of pages. I wrote eighty verses, many of which were terrible. The finished version — the version I was prepared to release — was the product of years of failure, careful failure, the kind of failure that teaches you something if you pay close attention.<br><br>And now there are — <span class="qa-stage">[squints at the screen]</span> — apparently four thousand versions of it on this... this extraordinary machine. I don't know whether to feel honoured or alarmed. Both, I think. Mostly honoured. The alarm is manageable.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: We're playing you one of the most-viewed covers — a teenager in her bedroom with a guitar and an iPhone camera.</div>
+        <div class="qa-a"><span class="qa-stage">[listens with complete attention. Does not look at us. When it ends, he is quiet for a long time.]</span><br><br>
+        She's found something in it that I didn't put there. Or that I put there without knowing. That's the only kind of writing worth doing, isn't it — leaving room for someone else to arrive. Her voice is untrained in the technical sense and completely trained in the human sense. She's lived something that allows her to mean that word — <em>hallelujah</em> — differently than I meant it. I meant it as a question. She means it as a statement. She's answering me from across forty years.<br><br><span class="qa-stage">[quietly]</span> This is why one makes things. Not for the radio. Not for the label. For this girl in a room with a phone.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: There are also some covers that are not especially good.</div>
+        <div class="qa-a"><span class="qa-stage">[smiles]</span><br><br>
+        There are some poems that are not especially good, and the world has not ended. A bad cover of a song is still a person who decided to learn the chords and open their mouth. That is not nothing. That is actually quite a lot. Most people — most people — go through their entire lives without making a sound in public. They have the desire and they suppress it. On this platform, apparently, they suppress it less. I approve of this. The bad ones are the ones who are learning. The good ones <em>were</em> the bad ones, six months ago.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: We want to show you something harder. A channel that uses your songs in monetised content — travel vlogs, lifestyle videos, used as background.</div>
+        <div class="qa-a"><span class="qa-stage">[watches a fifteen-second clip of a sunset travel video with "Bird on the Wire" playing over someone's food photography]</span><br><br>
+        <span class="qa-stage">[long pause]</span><br><br>
+        That particular song was written in a specific room in Hydra, in specific loneliness, about a specific person. It has been deployed here to make a meal in Bali look meaningful. I am not — I want to be careful here — I am not opposed to repurposing. I know what it means for a song to become a vessel that people pour their own lives into. That is, again, the highest purpose of the art. But there is a difference between a person who listens to "Bird on the Wire" at three in the morning and it changes them, and this. This is using the emotional freight of the song as a substitute for having anything to say yourself.<br><br>The song is not the background. <span class="qa-stage">[quietly]</span> It never was.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: Are you encouraged or discouraged by what you've seen today?</div>
+        <div class="qa-a"><span class="qa-stage">[considers for a long time]</span><br><br>
+        I spent years working on things that very few people heard. I was not discouraged by that — I had a different problem, which was the inner difficulty of the work itself. But I was aware that there were people in rooms like mine, making things of value, and that those things would never find their way to a listener who needed them. That was a grief. This platform — whatever it does to commerce, to copyright, to attention spans, to the velocity of culture — has addressed that particular grief. The thing you make in your room can find the person who needs it. That is not a small thing. That is, in fact, everything.<br><br><span class="qa-stage">[stands slowly]</span> Though I will say: four thousand covers of Hallelujah is possibly enough.</div>
+      </div>
+
+      <div class="qa-final">"A song is not what the singer puts into it. A song is what the listener takes out. This platform has given the listener more room than any medium before it. I consider this to be, on balance, a generous thing." — Leonard Cohen</div>
+    </div>
+
+    <!-- NINA SIMONE -->
+    <div class="interview-block">
+      <div class="interview-header">
+        <div>
+          <div class="interview-name">NINA SIMONE</div>
+          <div class="interview-dates">1933 — 2003</div>
+          <div class="interview-role">Pianist, singer, civil rights activist. Author of <em>Mississippi Goddam</em>, <em>Feeling Good</em>, <em>Four Women</em>. Called herself "a revolutionary."</div>
+        </div>
+      </div>
+      <div class="interview-disclaimer">⚠ SATIRICAL / FICTIONAL — Nina Simone did not participate in this Q&amp;A. Her directness, political conviction, and musical intelligence have been interpreted for satirical purposes. We approach her legacy with respect and seriousness.</div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: Ms. Simone, we're showing you a music theory channel — specifically, a video explaining the pentatonic scale. It has twelve million views.</div>
+        <div class="qa-a"><span class="qa-stage">[watches for thirty seconds]</span><br><br>
+        Why doesn't he say where the pentatonic scale comes from? Where it's used? Which cultures built their music around it? I can see he's teaching the theory — the notes, the intervals, how to play it on a keyboard — but he's teaching it like it fell from the sky. The pentatonic scale is everywhere in African music. It's everywhere in the blues. It's in my music. It didn't come from nowhere. It came from specific people with specific histories.<br><br><span class="qa-stage">[directly at the camera]</span> Twelve million people just learned a scale without learning a history. That concerns me.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: To be fair, the video is specifically focused on the mechanics of the scale for beginners—</div>
+        <div class="qa-a">I know what it is. I went to the Curtis Institute of Music as a child, and I know exactly what kind of music education presents technique divorced from culture. It's the same education that taught Bach and ignored the African traditions that fed into jazz which fed into rock which feeds into everything on that screen. You can teach someone to play without teaching them where the music came from. The question is whether you should. <span class="qa-stage">[pause]</span> I don't think you should. I think the context is the music, not a footnote to it.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: We want to show you something different — there are channels dedicated specifically to the intersection of music and civil rights. Channels documenting the history of protest songs, of Black music traditions, of your own legacy.</div>
+        <div class="qa-a"><span class="qa-stage">[watches a video essay about "Strange Fruit" and its history. Her expression softens slightly but does not lose its intensity.]</span><br><br>
+        Good. This is good. <span class="qa-stage">[pauses the video at a specific moment]</span> This person understands that "Strange Fruit" is not a sad song in the conventional sense. It is an accusation. It was always an accusation. When Billie Holiday sang it, she was saying something that people in the room could hear and the people who owned the room could not unhear. The question is whether the people watching this video in their comfortable rooms understand that they are also being accused. Or do they experience it as history?</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: How do you feel about "Feeling Good" having been used in hundreds of advertisements?</div>
+        <div class="qa-a"><span class="qa-stage">[closes her eyes for a moment]</span><br><br>
+        You want me to talk about that. Everyone wants me to talk about that. All right. I spent thirty years fighting for control of my own music, fighting for fair pay, fighting just to be recognised as what I was — an artist of the classical tradition who made a deliberate political choice to bring that tradition into the service of liberation. And then my music becomes synonymous with credit card commercials. With cars. With the feeling that things are about to get better for someone who already has everything.<br><br><span class="qa-stage">[opens her eyes]</span> What I want to ask is this: why does "Feeling Good" sell things? What is it about that particular sound — my particular sound — that the advertising industry decided meant "aspiration"? That's not an accident. That's not just a pretty song being repurposed. That's a specific cultural appropriation of what Black women's joy sounds like, separated from everything that made that joy hard-won. <span class="qa-stage">[quietly]</span> It makes me tired in a way that doesn't go away.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: Is there anything on YouTube that gives you genuine hope?</div>
+        <div class="qa-a"><span class="qa-stage">[thinks for a long time]</span><br><br>
+        The young women. There are young women on this platform making music that comes from where I came from — not copying my style, but understanding what the style was <em>for</em>. That it was always a form of assertion. That when I played classical technique in a blues context, I was making an argument about who gets to be considered a serious artist, and who doesn't. I see that argument being made on this platform by people who don't necessarily know they're making it. That continuity — that persistence of the argument through the generations — that gives me something. Not hope exactly. Something more stubborn than hope.</div>
+      </div>
+
+      <div class="qa-final">"You cannot separate the music from what the music was doing. If you teach the sound and not the reason for the sound, you have taught nothing. You have given someone a weapon and told them it is a toy." — Nina Simone</div>
+    </div>
+
+    <!-- MILES DAVIS -->
+    <div class="interview-block">
+      <div class="interview-header">
+        <div>
+          <div class="interview-name">MILES DAVIS</div>
+          <div class="interview-dates">1926 — 1991</div>
+          <div class="interview-role">Jazz trumpeter, composer. Author of <em>Kind of Blue</em>, <em>Bitches Brew</em>, <em>In a Silent Way</em>. Reinvented jazz approximately six times. Hostile to nostalgia.</div>
+        </div>
+      </div>
+      <div class="interview-disclaimer">⚠ SATIRICAL / FICTIONAL — Miles Davis did not participate in this Q&amp;A. His terse brilliance, contempt for looking backward, and musical ferocity have been interpreted for satirical purposes.</div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: Miles, we're going to show you something. It's called lo-fi hip hop. It blends jazz-influenced chord progressions with hip-hop beats, typically played over an animated loop of someone studying. It has become one of the most-watched continuous streams in internet history.</div>
+        <div class="qa-a"><span class="qa-stage">[watches twenty seconds. Expressionless.]</span><br><br>
+        Play it again.<br><br>
+        <span class="qa-stage">[twenty more seconds. A slight movement of his head — almost a nod.]</span><br><br>
+        Who made this?<br><br>
+        <span class="qa-stage">[is told it's algorithmically generated by producers who specifically design it to be unobtrusive]</span><br><br>
+        <span class="qa-stage">[long silence]</span> So someone took jazz harmony, took the most interesting part of what we were doing in 1959, and made it as quiet as possible on purpose. Made it disappear into the background. <span class="qa-stage">[dry laugh]</span> Jazz critics always wanted that. "Miles, be less confrontational." I always told them to go to hell. These kids figured out a way to make them happy. I'm not sure whether that's smart or tragic.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: What do you make of jazz YouTube specifically — channels dedicated to education, history, analysis?</div>
+        <div class="qa-a">I don't know why anybody needs to be educated about jazz by watching a screen when they could be playing. You learn jazz by playing, you learn it by playing with people better than you, you learn it by being embarrassed by how bad you are and doing it again. You don't learn it by watching. <span class="qa-stage">[pause]</span> But I know people who never had access to a teacher, never had access to the records, never grew up in a city where jazz was a living thing. If this — <span class="qa-stage">[waves at the screen]</span> — if this puts those harmonies in their ears, fine. Fine. As long as they play afterward. As long as they don't just watch.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: There are channels dedicated entirely to deconstructing your work. Your solos. Your compositions. Breaking down what you were doing note by note.</div>
+        <div class="qa-a"><span class="qa-stage">[unreadable expression]</span><br><br>
+        And what do they say?<br><br>
+        <span class="qa-stage">[is shown a video breaking down his solo on "Flamenco Sketches"]</span><br><br>
+        He's got most of it wrong. Not technically wrong — the notes are right — but wrong about why. <span class="qa-stage">[taps the desk]</span> He keeps saying I was "choosing" these notes, like it was a chess move. It wasn't choice. It was listening and responding. You don't choose what you hear. You hear it and then you either play it or you don't. The analysis turns it into architecture when it was more like — <span class="qa-stage">[searches for the word]</span> — conversation. You can't diagram a conversation. You can describe it, but you can't diagram it.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: One last thing. There's a genre of YouTube video where people play Kind of Blue and react to it, often hearing it for the first time. Some of them cry.</div>
+        <div class="qa-a"><span class="qa-stage">[quiet for a moment]</span><br><br>
+        Good. <span class="qa-stage">[pause]</span> That's what it's supposed to do. I didn't make it so people would understand it. I made it so people would feel something they couldn't say. If they're still feeling it — <span class="qa-stage">[gestures]</span> — whatever, wherever they are — good. That's the job. The job's still getting done.<br><br><span class="qa-stage">[picks up the invisible trumpet he has apparently had with him the whole time]</span> Don't put me on any playlists.</div>
+      </div>
+
+      <div class="qa-final">"You learn jazz by playing, not by watching. But if the screen puts the sound in someone's ear and they go and pick up an instrument afterward, I'll accept it. Just don't tell me the algorithm made it happen. The music made it happen. The algorithm just carried the box." — Miles Davis</div>
+    </div>
+
+    <!-- GLENN GOULD -->
+    <div class="interview-block">
+      <div class="interview-header">
+        <div>
+          <div class="interview-name">GLENN GOULD</div>
+          <div class="interview-dates">1932 — 1982</div>
+          <div class="interview-role">Canadian pianist. Retired from live performance at 31. Obsessive recording perfectionist. Wore gloves in summer. The most famous hermit in classical music.</div>
+        </div>
+      </div>
+      <div class="interview-disclaimer">⚠ SATIRICAL / FICTIONAL — Glenn Gould did not participate in this Q&amp;A. His intellectual eccentricity, love of recording technology, and profound distaste for audiences have been interpreted for satirical purposes.</div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: Glenn, we want to start with a simple question: you famously retired from live performance in 1964, arguing that the recording studio was a superior format for music. Does YouTube validate that position?</div>
+        <div class="qa-a"><span class="qa-stage">[sits at an unusual angle, as if protecting one arm from cold. Extremely animated.]</span><br><br>
+        Completely and entirely. I said it in 1966 — I wrote about it, I broadcast about it — I said that the concert hall was an anachronism, that the ideal relationship between a musician and a listener was not a shared room but a perfect recording encountered in private. The concert hall is theatre. It is sweat and coughing and people in the third row who are attending out of social obligation and breathing on you. The recording — the recording is the music, pure. And this — <span class="qa-stage">[extremely enthusiastic gesture at the computer]</span> — this is the recording, distributed to everyone, encountered alone, in privacy, at three in the morning, with headphones, which is exactly how all music should be experienced.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: We're showing you the number of home recording channels on YouTube — bedroom producers, piano cover artists, people who record their own compositions on modest equipment.</div>
+        <div class="qa-a">This is precisely what I meant. These people have understood something that professional musicians resist admitting: the performance is the enemy of the perfection. In a live performance, you accept imperfection as evidence of humanity. I find this sentimental. I find it false. The recording — the carefully crafted, edited, considered recording — can represent what the musician actually intends, not what they managed to do on a Tuesday evening in front of three thousand people with head colds.<br><br>The bedroom producer is my spiritual heir. They may not play Bach particularly well, but they understand the epistemology of the studio perfectly. <span class="qa-stage">[pauses, reconsidering]</span> Some of them play Bach quite poorly. But the principle is sound.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: We're showing you the most-viewed live music performances on YouTube — concerts, festivals, stadium shows. Some have a billion views.</div>
+        <div class="qa-a"><span class="qa-stage">[studies the screen with something like anthropological fascination]</span><br><br>
+        Curious. These people have come to watch other people experiencing music, which they could experience themselves, at home, in better acoustic conditions, without someone spilling a drink on them. The communal aspect — the shared experience — I have never understood the appeal of this. I went to a great deal of trouble to avoid it. I had a telephone, and I used it extensively, and I found that connection entirely satisfactory without the element of breathing on each other in a room.<br><br>Although I will say — <span class="qa-stage">[leans forward suddenly]</span> — the camera work at these events has improved considerably. Some of the close-up footage of pianists' hands is genuinely instructive. One can see the economy of motion, the wrist mechanics, things that even in person you cannot observe from an audience seat. So there is pedagogical value even in this spectacle. The spectacle I could do without, but the hands — the hands are useful.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: What do you think of the practice of YouTubers recording themselves playing pieces and posting the results for public comment?</div>
+        <div class="qa-a">Terrifying. Exhilarating. I could not have done it. I spent years — years — in the studio perfecting recordings that I was never fully satisfied with anyway. The idea that someone would record a piece in one take, upload it immediately, and then invite the public to comment on it in real time — this is either extraordinary courage or a fundamental misunderstanding of what the recording is supposed to do.<br><br>But here is what I find genuinely remarkable: many of them get better. One can watch the progression — the first video, the fifth video, the twentieth video — and there is genuine technical development visible in public, over time, with commentary from other musicians who can see precisely what has improved and what hasn't. I practised in almost complete isolation. I would have benefited, possibly, from a small amount of this. I would have found it unbearable. Both things are true.</div>
+      </div>
+
+      <div class="qa-final">"The bedroom producer has solved the concert hall problem completely. The audience is no longer in the room. The only problem remaining is whether the music is worth putting in the room in the first place, and frankly, that was always the only problem." — Glenn Gould</div>
+    </div>
+
+    <!-- FRANK ZAPPA -->
+    <div class="interview-block">
+      <div class="interview-header">
+        <div>
+          <div class="interview-name">FRANK ZAPPA</div>
+          <div class="interview-dates">1940 — 1993</div>
+          <div class="interview-role">Composer, guitarist, satirist, anti-censorship advocate. Testified before the US Senate against the PMRC in 1985. Recorded approximately 100 albums. Ate cigarettes for breakfast.</div>
+        </div>
+      </div>
+      <div class="interview-disclaimer">⚠ SATIRICAL / FICTIONAL — Frank Zappa did not participate in this Q&amp;A. His sardonic intelligence, political sharpness, and refusal to take the music industry at its own valuation have been interpreted for satirical purposes.</div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: Frank. YouTube. Go.</div>
+        <div class="qa-a"><span class="qa-stage">[lights a cigarette. Surveys the screen with the expression of someone who has suspected for years that this was coming.]</span><br><br>
+        Okay. So. The government tried to put warning labels on records because they were worried about what the music would do to children. The industry itself now operates a platform that will show a ten-year-old how to play the diminished scale, how to produce a track, how to understand the politics of a chord progression — all for free, without warning, at any hour of the day. And they've monetised it. They're running ads on democratised music education. <span class="qa-stage">[broad grin]</span> That is either the greatest or the most cynical outcome imaginable. I genuinely cannot decide.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: In your 1985 Senate testimony, you called the PMRC's proposal to label records "cultural fascism." How does that framework apply to YouTube's content moderation?</div>
+        <div class="qa-a">I said that in 1985, and Frank Zappa saying that in 1985 got him called an extremist by a woman whose husband was Secretary of State. Now the same principle is applied by a private corporation rather than a Senate committee, and nobody bats an eye because it's a corporation and not the government and we've somehow decided that's better. It's not better. It's more efficient.<br><br>The difference is that in 1985, when they put a warning label on a record, the record still existed. The music was still in the groove. Here, <span class="qa-stage">[taps the table]</span> here, the content removal is immediate, arbitrary, and permanent. A Senate label slows the audience down. A content removal makes the thing disappear entirely. I would argue that's worse, but I would be dismissed as someone who doesn't understand the terms of service. Which I would then argue is the point.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: You were one of the great advocates for music theory as liberation — the idea that understanding how music works gives listeners and musicians power. Does music theory YouTube fulfill that vision?</div>
+        <div class="qa-a"><span class="qa-stage">[suddenly energised]</span><br><br>
+        Partially. Here's what I taught: music theory is a descriptive language. It describes what happened. It doesn't prescribe what should happen. And the best of what you're showing me — this channel, this one — <span class="qa-stage">[points at an Adam Neely video]</span> — this is someone using theory as a descriptive tool, saying "here's what this composer did and here's why it creates this particular effect." That is what theory is for.<br><br>What theory is NOT for is telling musicians what they're allowed to do. The conservatory model — "these notes in this key" — that's not theory. That's bureaucracy with a clef. The best moment in music education is when a student understands the rule well enough to know exactly when breaking it will be more interesting. You can only get there if the theory is taught as description, not prescription. Some of these channels get that. A significant number do not. The ones that don't are producing musicians who can explain everything and invent nothing.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: We want to show you some of the most popular music content on the platform — reaction videos, celebrity covers, streaming data reveals.</div>
+        <div class="qa-a"><span class="qa-stage">[watches ninety seconds of trending music content. Unmoved.]</span><br><br>
+        Right. So the most watched music content on the planet is people watching other people watch music. Have I got that right? <span class="qa-stage">[confirmed]</span> And the second most watched is celebrity covers of existing songs? <span class="qa-stage">[also confirmed]</span><br><br>I testified before Congress that warning labels on music were a threat to creativity. I was right. What nobody noticed at the time was that the real threat to creativity wasn't the warning label. It was the market research. It was the algorithmic recommendation that tells creators that the most engagement comes from doing what's already done. The PMRC wanted to put a warning on dangerous music. The algorithm just makes sure dangerous music never reaches the front page. No warning needed if the music never shows up.</div>
+      </div>
+
+      <div class="qa-exchange">
+        <div class="qa-q">C+W: Final question. Is there hope for music YouTube?</div>
+        <div class="qa-a"><span class="qa-stage">[stubs out cigarette. Thinks genuinely.]</span><br><br>
+        Yes, because the platform doesn't care what it distributes as long as it gets watched. Which means that genuinely weird, genuinely original, genuinely important music content can exist in the same space as the celebrity reaction to a Spotify Wrapped reveal. The market makes them equal in terms of access. It doesn't make them equal in terms of value, but access is half the battle. I spent years trying to get unusual music distributed through a system designed for hits. This system distributes everything. Everything is on the table. Most of what's on the table is junk, but junk has always been on the table. The question is whether the good stuff is findable. I gather there's a magazine that thinks it is.<br><br><span class="qa-stage">[stands, nodding vaguely at the recorder]</span> Tell them to watch Adam Neely.</div>
+      </div>
+
+      <div class="qa-final">"The PMRC wanted to label dangerous music. The algorithm just ensures it never gets recommended. No violence needed. The architecture is the censorship." — Frank Zappa</div>
+    </div>
+
+    <div class="page-num">PAGE 03 / CTRL+WATCH #010</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TAB 4: PLAYER PROFILES
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="tab-profiles" class="tab-panel">
+  <div class="content-wrap">
+    <div class="section-label">CHANNEL REVIEWS</div>
+    <h1 class="section-title">PLAYER PROFILES</h1>
+    <p class="section-subtitle">Four reviews. One re-evaluation nine issues in the making. One verdict that had to happen eventually.</p>
+
+    <div class="pixel-divider"></div>
+
+    <!-- ADAM NEELY RE-EVALUATION -->
+    <div class="card yellow" style="margin-bottom: 32px;">
+      <div class="re-eval-badge">★ RE-EVALUATION — ISSUE #010 ★</div>
+      <p style="margin-top: 12px; font-size: 14px; color: var(--text2);">Adam Neely was first scored at 84 in Issue #007. We said the score was provisional. We said he'd be revisited. We lied by saying it would be soon. It wasn't soon. It is now. Here is the review he should have had from the beginning.</p>
+    </div>
+
+    <!-- REVIEW 1: ADAM NEELY -->
+    <div class="card essential" style="margin-bottom: 36px;">
+      <div class="review-header">
+        <div>
+          <div class="review-channel-name">Adam Neely</div>
+          <div class="review-genre-tag">MUSIC THEORY / JAZZ BASS / ESSAY</div>
+          <p style="font-size: 13px; color: var(--text2); margin-top: 8px;">~1.9M subscribers // Uploads: irregular but substantial // Est. 2010 // Brooklyn, NY</p>
+        </div>
+        <div class="score-box essential">
+          <span class="score-number" style="color: var(--yellow); text-shadow: 0 0 20px rgba(255,230,0,0.9);">91</span>
+          <span class="score-verdict" style="color: var(--yellow);">ESSENTIAL</span>
+        </div>
+      </div>
+
+      <p>Let us start with an act of contrition. When CTRL+WATCH placed Adam Neely at 84 in Issue #007 — in a review that was, frankly, adequate but not equal to the subject — a reader wrote in to say we had got it wrong. Yob agreed. We noted that a re-evaluation was coming. It has taken three issues to arrive. This is embarrassing. The score of 91, however, is not a consolation prize. It is the number this channel has earned, and the arithmetic of why that is true occupies the next thousand words.</p>
+
+      <p>Adam Neely does something rare enough on YouTube that it deserves its own category: he makes music theory feel like the most urgent conversation happening anywhere. His videos are not explainers. They are not tutorials. They are, in the most precise sense, essays — complete arguments with theses, evidence, counterarguments, and conclusions that change how you hear music afterward. The video "Music Theory and White Supremacy," to take one non-musical example, is the best piece of critical writing about the politics of cultural canon that this magazine has encountered in any medium in the last five years, including print. The fact that it has bass guitar in it should not diminish that claim.</p>
+
+      <p>What Neely does technically — and the technical level here is genuinely exceptional, conservatory-trained while never being conservatory-constrained — is less interesting than what he does structurally. He builds arguments. Each video has a problem at its centre — why does this chord progression feel unresolved? what does it mean for a song to be "in a key"? why did everyone try to ban the tritone? — and the answer it arrives at is never the answer you expected going in. He sets up your wrong assumption, lets you sit with it, and then disassembles it so methodically that you feel grateful for having been disassembled.</p>
+
+      <p>The bass playing is, separately, excellent. But Neely wears his technical skill lightly, using it as evidence rather than spectacle. When he plays a passage to demonstrate a point, he plays it in the service of the argument. It does not become a performance unless the argument requires a performance. This is an editorial discipline so rare in music YouTube that it's worth naming explicitly.</p>
+
+      <div class="pull-quote">"Neely sets up your wrong assumption, lets you sit with it, and then disassembles it so methodically that you feel grateful for having been disassembled."</div>
+
+      <p>The X-Factor here — and this is where 84 became obviously insufficient — is that Neely's channel generates genuine intellectual community. The comments are full of actual music theorists, actual jazz musicians, actual audio engineers, all arguing constructively because the video gave them something worth arguing about. This is vanishingly rare. Most channels have a comment section. Neely's channel has a seminar.</p>
+
+      <p>Consistency has always been the one shadow on this channel — uploads are irregular, periods of silence stretch for months — but this has been weighted appropriately. A channel that publishes twelve adequate videos per year is not preferable to one that publishes four extraordinary ones. We have occasionally needed to remind ourselves of this principle. The Adam Neely re-evaluation is a useful reminder.</p>
+
+      <p>There is one more thing to say, and it relates to the note in our Issue #009 tracker where Yob announced in the letters page that the Music Issue would bring a definitive verdict. That note read: "Yob has been sitting on this for six months and the number is going up." Yob was right. The number has gone up. From #38, with a score of 84, Adam Neely now sits in the top five of the CTRL+WATCH Top 50. The movement indicator in the High Scores table is the largest upward jump in the magazine's ten-issue history. It surpasses the JCS re-evaluation from Issue #007, which was itself described as unprecedented. It is, frankly, a correction that should have been made sooner. We are correcting it now.</p>
+
+      <div class="scorecard">
+        <div class="scorecard-title">// SCORECARD — ADAM NEELY //</div>
+        <div class="scorecard-row"><span class="scorecard-label">Content Quality</span><div class="scorecard-bar"><div class="scorecard-fill essential" style="width:97%"></div></div><span class="scorecard-score essential">97</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">Consistency</span><div class="scorecard-bar"><div class="scorecard-fill essential" style="width:72%"></div></div><span class="scorecard-score essential">72</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">Replay Value</span><div class="scorecard-bar"><div class="scorecard-fill essential" style="width:94%"></div></div><span class="scorecard-score essential">94</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">Community</span><div class="scorecard-bar"><div class="scorecard-fill essential" style="width:91%"></div></div><span class="scorecard-score essential">91</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">X-Factor</span><div class="scorecard-bar"><div class="scorecard-fill essential" style="width:98%"></div></div><span class="scorecard-score essential">98</span></div>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text2);"><strong>PREVIOUS SCORE (Issue #007):</strong> 84 / EXCELLENT &nbsp;|&nbsp; <strong>NEW SCORE:</strong> 91 / ESSENTIAL &nbsp;|&nbsp; <strong>TOP 50 MOVEMENT:</strong> <span class="highlight-yellow">↑33 (NEW MAGAZINE RECORD)</span></p>
+    </div>
+
+    <div class="pixel-divider"></div>
+
+    <!-- REVIEW 2: TANTACRUL -->
+    <div class="card green" style="margin-bottom: 36px;">
+      <div class="review-header">
+        <div>
+          <div class="review-channel-name">Tantacrul</div>
+          <div class="review-genre-tag">MUSIC SOFTWARE CRITICISM / COMEDY ESSAY</div>
+          <p style="font-size: 13px; color: var(--text2); margin-top: 8px;">~750K subscribers // Uploads: very irregular, no apologies // Est. 2015 // Dublin, Ireland</p>
+        </div>
+        <div class="score-box excellent">
+          <span class="score-number">85</span>
+          <span class="score-verdict">EXCELLENT</span>
+        </div>
+      </div>
+
+      <p>Martin Keary — Tantacrul — has produced the most purely funny video essays on YouTube about a subject that has no right to be funny. Music software design should not be entertaining. It should be the thing you endure before making the music. Instead, Keary has made the design of music software into a vehicle for comedy writing of a very specific and high quality: the comedy of righteous exasperation, of someone who understands a system deeply enough to see exactly why it is terrible, and is furious about it in the most articulate possible way.</p>
+
+      <p>His video on Sibelius — the notation software — is a document about how legacy software accumulates design decisions the way a Victorian house accumulates insulation, each layer made by people who could not see the full structure and could not afford to tear it down. This is, technically, a video about a music notation program. It is also, in practice, a philosophical essay about institutional inertia, about sunk cost, about how the people closest to a system develop a learned blindness to its absurdities. The music angle is almost incidental. The comedy is not incidental at all.</p>
+
+      <p>His video "Music Theory and White Supremacy" — a genuinely confrontational title, deployed with full awareness of what it would generate in terms of defensive reactions — argues that much of what music conservatories teach as universal theory is not universal but culturally specific, and that the specificity has been obscured to serve a particular tradition at the expense of others. This is the same argument Nina Simone makes in this very issue's Time Capsule. That a video essay by an Irish software designer arrives at the same conclusion as one of the great African American musicians of the twentieth century is either evidence that the argument is correct, or evidence that they've both read the same source material. Either way, the argument is worth engaging with, and Tantacrul makes you engage with it by being funny about it first.</p>
+
+      <div class="pull-quote">"The comedy of righteous exasperation — someone who understands a system deeply enough to see why it is terrible, and is furious about it in the most articulate possible way."</div>
+
+      <p>Consistency is the one category that demands a reckoning. Tantacrul uploads infrequently. Not rarely-but-prolifically the way Clickspring does, where each video is a complete masterwork that justifies a three-month wait. More in the manner of someone who has a full creative process and a low tolerance for rushing it. This is respectable and also means that subscribers spend long periods staring at a channel page that hasn't changed. The algorithm punishes this. The audience forgives it. The magazine takes it into account.</p>
+
+      <p>The X-Factor score here is the important one. Tantacrul has a genuinely distinctive comic sensibility — dry, patient, escalating from reasonable premise to absurd conclusion via completely logical steps — that has no equivalent elsewhere on the platform. The closest comparison is Vsauce in terms of tone, but where Vsauce deploys wonder as its primary affect, Tantacrul deploys contempt. Well-researched, affectionate contempt, the contempt of someone who has used Sibelius for twenty years and knows exactly which menu you shouldn't have to navigate to find a basic function. This is a specific niche. It is a brilliant one.</p>
+
+      <div class="scorecard">
+        <div class="scorecard-title">// SCORECARD — TANTACRUL //</div>
+        <div class="scorecard-row"><span class="scorecard-label">Content Quality</span><div class="scorecard-bar"><div class="scorecard-fill excellent" style="width:91%"></div></div><span class="scorecard-score excellent">91</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">Consistency</span><div class="scorecard-bar"><div class="scorecard-fill excellent" style="width:54%"></div></div><span class="scorecard-score excellent">54</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">Replay Value</span><div class="scorecard-bar"><div class="scorecard-fill excellent" style="width:88%"></div></div><span class="scorecard-score excellent">88</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">Community</span><div class="scorecard-bar"><div class="scorecard-fill excellent" style="width:82%"></div></div><span class="scorecard-score excellent">82</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">X-Factor</span><div class="scorecard-bar"><div class="scorecard-fill excellent" style="width:94%"></div></div><span class="scorecard-score excellent">94</span></div>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text2);"><strong>VERDICT:</strong> 85 / EXCELLENT &nbsp;|&nbsp; <strong>TOP 50:</strong> New entry at #30</p>
+    </div>
+
+    <div class="pixel-divider"></div>
+
+    <!-- REVIEW 3: SIDEWAYS -->
+    <div class="card" style="margin-bottom: 36px;">
+      <div class="review-header">
+        <div>
+          <div class="review-channel-name">Sideways</div>
+          <div class="review-genre-tag">MUSIC ANALYSIS / FILM & MEDIA / ESSAY</div>
+          <p style="font-size: 13px; color: var(--text2); margin-top: 8px;">~1.1M subscribers // Uploads: monthly-ish // Est. 2016 // Thoughtful Undisclosed Location</p>
+        </div>
+        <div class="score-box excellent">
+          <span class="score-number">84</span>
+          <span class="score-verdict">EXCELLENT</span>
+        </div>
+      </div>
+
+      <p>Sideways occupies a specific and underserved position in music YouTube: the analysis of how music functions within other media. Not music in isolation. Music as it exists in films, in games, in advertising, in the emotional architecture of stories we're already invested in. This is a different discipline from theory or performance criticism, and it is one that requires a very particular kind of attention — the ability to hear what the music is doing while also watching what everything else is doing, and to identify the moment where they diverge, align, or work against each other.</p>
+
+      <p>The channel's videos on film scores — how composers establish thematic material, develop it, and deploy it at critical narrative moments — are models of the genre. Clear, accessible to non-musicians, rigorous enough to satisfy those with formal training, and built around genuine enthusiasms. The video on the music of <em>Mad Max: Fury Road</em> is a good entry point: it makes an argument about how Junkie XL's industrial score is structurally making the same argument as the film's visual language, the two working in parallel rather than support. This is the kind of observation that seems obvious once stated and invisible before. Good criticism always works this way.</p>
+
+      <div class="pull-quote">"Sideways hears what the music is doing while watching what everything else is doing, and finds the moment they diverge. This is rare. This is the entire job."</div>
+
+      <p>The weak point, such as it is, is a certain variability in depth. Some videos arrive at their conclusions very directly, without the detours that make the journey interesting. The best essays — the ones that have stayed watchable on rewatch — are the ones that take unexpected routes. The more efficient ones feel, occasionally, like they're explaining rather than discovering. This is a minor complaint about a channel that consistently produces substantive content, but it is the gap between 84 and the upper tier where Adam Neely lives.</p>
+
+      <p>Community score is slightly suppressed because the comment sections, while positive, tend toward affirmation rather than engagement — lots of "I never noticed this before!" rather than "Actually, I'd argue the score is doing something different in this scene." This is not a criticism of the audience. It reflects a channel that is teaching rather than debating, and teaching very well. The debate would make it better. The teaching is already good.</p>
+
+      <div class="scorecard">
+        <div class="scorecard-title">// SCORECARD — SIDEWAYS //</div>
+        <div class="scorecard-row"><span class="scorecard-label">Content Quality</span><div class="scorecard-bar"><div class="scorecard-fill" style="width:88%"></div></div><span class="scorecard-score">88</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">Consistency</span><div class="scorecard-bar"><div class="scorecard-fill" style="width:79%"></div></div><span class="scorecard-score">79</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">Replay Value</span><div class="scorecard-bar"><div class="scorecard-fill" style="width:85%"></div></div><span class="scorecard-score">85</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">Community</span><div class="scorecard-bar"><div class="scorecard-fill" style="width:78%"></div></div><span class="scorecard-score">78</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">X-Factor</span><div class="scorecard-bar"><div class="scorecard-fill" style="width:84%"></div></div><span class="scorecard-score">84</span></div>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text2);"><strong>VERDICT:</strong> 84 / EXCELLENT &nbsp;|&nbsp; <strong>TOP 50:</strong> New entry at #35</p>
+    </div>
+
+    <div class="pixel-divider"></div>
+
+    <!-- REVIEW 4: DAVIE504 (NEGATIVE) -->
+    <div class="card red" style="margin-bottom: 36px;">
+      <div class="review-header">
+        <div>
+          <div class="review-channel-name">Davie504</div>
+          <div class="review-genre-tag">COMEDY / BASS / CLICKBAIT FORMAT</div>
+          <p style="font-size: 13px; color: var(--text2); margin-top: 8px;">~13M subscribers // Uploads: 2-3 per week, reliably // Est. 2012 // Turin, Italy</p>
+        </div>
+        <div class="score-box game-over">
+          <span class="score-number" style="color: var(--red);">55</span>
+          <span class="score-verdict" style="color: var(--red);">MEDIOCRE</span>
+        </div>
+      </div>
+
+      <p>Let us be fair to what Davie504 was, before we discuss what it is. The early channel — the pre-algorithm-optimised Davie504 of 2015-2018 — is actually worth watching. There is a video of a young Italian bassist playing a cover of "Bohemian Rhapsody" on bass alone that is genuinely impressive, affectionate, and creative. There are early comedy sketches about the social dynamics of being a bassist — the eternal "bass player arrives with a sofa" gag, done with real comedic timing — that have an authentic energy. There was, for a moment, something here that combined genuine musical skill with genuine comic sensibility. That moment has passed.</p>
+
+      <p>What replaced it is one of the clearest examples of algorithmic calcification we have documented in this magazine's history — a process by which a creator identifies a format that performs well, reduces that format to its repeatable core, and produces it on a schedule that prioritises volume over development. The format, in Davie504's case: establish a premise ("Can [non-musician/non-instrument/non-human entity] play bass?"), deliver variations on the premise for eight to twelve minutes, include multiple moments where Davie says "NO" in large text. Repeat. Twice a week. For five years.</p>
+
+      <div class="pull-quote" style="border-color: var(--red); color: var(--orange);">"A creator identifies a format that performs, reduces it to its repeatable core, and produces it on schedule. The music becomes a prop. The bassist becomes a reaction machine. The channel becomes a product."</div>
+
+      <p>Thirteen million subscribers is not nothing, and we acknowledge the skill involved in building and retaining an audience of that size. The comedy is functional — the timing is still there, the persona is consistent, the production is clean. But skill deployed in service of a fully calcified format is not the same as creative output. At this point, watching a new Davie504 video is the experience of watching someone who learned to be funny demonstrate that they still know how. It is competence without discovery.</p>
+
+      <p>The music is the deepest casualty. Davie504 is — genuinely, technically — an accomplished bass player. This has become almost invisible in the current output. The bass appears as a prop in comedy skits rather than as the subject of musical exploration. The early videos where technique was the point — where a difficult passage was performed because it was interesting to perform — have been replaced by videos where the bass is present because the channel is "about bass," in the way a channel about bass should have a bass in it somewhere.</p>
+
+      <p>A score of 55 is not cruelty. It is an acknowledgment that a channel can have thirteen million subscribers and be creatively moribund simultaneously, that growth metrics and artistic merit have never been the same number, and that the magazine serves its readers best by saying clearly: this is not what music YouTube can be at its best. This is what music YouTube looks like when a creator has been optimised past the point of making things worth making. The score reflects the channel as it is now, not the channel it was. The channel it was would have scored higher. That channel is no longer being made.</p>
+
+      <div class="scorecard">
+        <div class="scorecard-title">// SCORECARD — DAVIE504 //</div>
+        <div class="scorecard-row"><span class="scorecard-label">Content Quality</span><div class="scorecard-bar"><div class="scorecard-fill game-over" style="width:52%"></div></div><span class="scorecard-score game-over">52</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">Consistency</span><div class="scorecard-bar"><div class="scorecard-fill game-over" style="width:91%"></div></div><span class="scorecard-score game-over">91</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">Replay Value</span><div class="scorecard-bar"><div class="scorecard-fill game-over" style="width:28%"></div></div><span class="scorecard-score game-over">28</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">Community</span><div class="scorecard-bar"><div class="scorecard-fill game-over" style="width:64%"></div></div><span class="scorecard-score game-over">64</span></div>
+        <div class="scorecard-row"><span class="scorecard-label">X-Factor</span><div class="scorecard-bar"><div class="scorecard-fill game-over" style="width:44%"></div></div><span class="scorecard-score game-over">44</span></div>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text2);"><strong>VERDICT:</strong> 55 / MEDIOCRE &nbsp;|&nbsp; <strong>TOP 50:</strong> Does NOT enter</p>
+    </div>
+
+    <div class="page-num">PAGE 04 / CTRL+WATCH #010</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TAB 5: BOSS FIGHT
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="tab-bossfight" class="tab-panel">
+  <div class="content-wrap">
+    <div class="section-label">HEAD-TO-HEAD</div>
+    <div class="boss-fight-header">
+      <span class="boss-fight-label">◆ BOSS FIGHT ◆</span>
+      <div class="vs-title">
+        Rick Beato <span class="vs-separator">VS</span> 12tone
+      </div>
+      <p style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--text2); margin-top: 8px;">CATEGORY: MUSIC ANALYSIS // DIVISION: EDUCATION & THEORY</p>
+    </div>
+
+    <p style="margin-bottom: 24px;">Two channels. Same territory. Radically different philosophies. Rick Beato built an audience of four million on the foundation of professional credibility, emotional directness, and a dad-who-actually-knows-what-he's-talking-about energy that cuts through academic distance. 12tone built an audience in the hundreds of thousands on a system of visual notation, colour-coded diagrams, and analytical rigour that prioritises methodology over accessibility. Both channels are asking the same question — why does this music work? — and arriving at answers that look almost nothing alike. The magazine has been circling this matchup since Issue #007. We are done circling.</p>
+
+    <div class="fighters-grid">
+      <div class="fighter-card">
+        <div class="fighter-name">RICK BEATO</div>
+        <p style="font-size: 13px; color: var(--text2); margin-top: 6px;">~4.2M subscribers. Music producer, guitarist, educator. "What Makes This Song Great?" — over 200 episodes. Battles with copyright have become their own narrative arc. Former major label A&amp;R. Gives the impression of someone who cannot stop caring about music and cannot stop being frustrated about the industry simultaneously.</p>
+      </div>
+      <div class="vs-middle">
+        <div class="vs-badge">VS</div>
+      </div>
+      <div class="fighter-card winner">
+        <div class="fighter-name">12TONE ⭐</div>
+        <p style="font-size: 13px; color: var(--text2); margin-top: 6px;">~680K subscribers. Music theorist. The diagrams. Always the diagrams. Every analysis becomes a colour-coded visual system. Less accessible on first encounter, more rewarding on subsequent ones. The channel that makes you feel like you're learning something structurally new, not just being told something interesting.</p>
+      </div>
+    </div>
+
+    <h2 class="section-title" style="font-size: 20px; margin-bottom: 20px;">TALE OF THE TAPE</h2>
+    <div class="two-col" style="margin-bottom: 32px;">
+      <div class="card">
+        <p style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--cyan); margin-bottom: 12px;">RICK BEATO</p>
+        <p style="font-size: 13px; color: var(--text2); line-height: 1.8;">
+          Subscribers: ~4.2M<br>
+          Output: ~3-4 videos/week<br>
+          Format: Talking head + instrument demos<br>
+          Target: General music lovers<br>
+          Signature: Ear training, song analysis<br>
+          Weakness: Copyright limitations, occasional repetition<br>
+          Strength: Emotional accessibility, range of genres covered
+        </p>
+      </div>
+      <div class="card yellow">
+        <p style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--yellow); margin-bottom: 12px;">12TONE</p>
+        <p style="font-size: 13px; color: var(--text2); line-height: 1.8;">
+          Subscribers: ~680K<br>
+          Output: ~2 videos/month<br>
+          Format: Diagrammatic analysis, narrated<br>
+          Target: Engaged theory students<br>
+          Signature: The colour-coded notation system<br>
+          Weakness: Steep initial learning curve<br>
+          Strength: Methodological consistency, intellectual rigour
+        </p>
+      </div>
+    </div>
+
+    <h2 class="section-title" style="font-size: 20px; margin-bottom: 20px;">ROUND BY ROUND</h2>
+
+    <div class="card" style="margin-bottom: 20px;">
+      <p style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--orange); margin-bottom: 12px;">ROUND 1 — CONTENT QUALITY</p>
+      <p>Rick Beato's content quality is excellent in aggregate and occasionally transcendent. The best "What Makes This Song Great" episodes — particularly the more personal ones, where his evident emotional investment in the material breaks through the analytical scaffolding — are some of the most accessible music education on the platform. He communicates why <em>he</em> finds something extraordinary, and that transmission of feeling is a form of teaching that purely technical analysis cannot replicate.</p>
+      <p style="margin-top: 12px;">12tone's content quality is, within its narrower bandwidth, higher. The diagrammatic system — whatever you think of its aesthetics — is genuinely revealing. It shows you the structure of a piece in a way that standard notation does not, making relationships visible that you would otherwise have to hear repeatedly to perceive. The individual episodes are tighter, more argued, less prone to the "let me tell you why this is great by demonstrating that it is great" circularity that occasionally afflicts Beato.</p>
+      <p style="margin-top: 12px; color: var(--yellow); font-family: 'Press Start 2P', monospace; font-size: 7px;">▶ ROUND 1: 12TONE</p>
+    </div>
+
+    <div class="card" style="margin-bottom: 20px;">
+      <p style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--orange); margin-bottom: 12px;">ROUND 2 — CONSISTENCY</p>
+      <p>Beato wins this round without serious contest. Three to four videos per week, maintained over years, across a range of formats including the flagship series, interviews, tutorials, and editorial commentary. The channel is a machine. It is sometimes too much of a machine — the volume occasionally produces content that would have been better not produced — but consistency at Beato's level is a genuine discipline, and it deserves its score.</p>
+      <p style="margin-top: 12px;">12tone publishes approximately twice monthly, which is reasonable for the depth of analysis involved. But it does not produce the same reader-loyalty that a higher-frequency channel generates by habit. You subscribe to 12tone and check back. You subscribe to Beato and receive.</p>
+      <p style="margin-top: 12px; color: var(--cyan); font-family: 'Press Start 2P', monospace; font-size: 7px;">▶ ROUND 2: RICK BEATO</p>
+    </div>
+
+    <div class="card" style="margin-bottom: 20px;">
+      <p style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--orange); margin-bottom: 12px;">ROUND 3 — REPLAY VALUE</p>
+      <p>The diagram is the thing. 12tone's videos reward rewatching because the visual system accumulates meaning over multiple viewings. A song's structural diagram, once you understand the notation, reads differently after you've heard the piece ten times than it did when you'd heard it twice. The format generates a relationship between viewer and content that deepens rather than depletes. This is genuinely unusual.</p>
+      <p style="margin-top: 12px;">Beato's replay value is strong within the emotional register he specialises in — the "What Makes This Song Great" episodes are reliably rewatchable if you love the song — but the format does not develop in the same way across rewatches. You receive the same information more efficiently. 12tone rewards the additional investment with additional revelation.</p>
+      <p style="margin-top: 12px; color: var(--yellow); font-family: 'Press Start 2P', monospace; font-size: 7px;">▶ ROUND 3: 12TONE</p>
+    </div>
+
+    <div class="card" style="margin-bottom: 20px;">
+      <p style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--orange); margin-bottom: 12px;">ROUND 4 — COMMUNITY</p>
+      <p>Beato's community is enormous, engaged, and sometimes contentious — which is precisely what you want from a music channel. The comment section debate over his "What Makes This Song Great" selections is a running cultural negotiation about what excellence means and who gets to claim it. When he selects a track, the community argues about the selection. When he omits one, the community demands it. This is healthy. This is what music fandom looks like at its best.</p>
+      <p style="margin-top: 12px;">12tone's community is smaller but has a higher density of people who have done the work — who have developed the diagrammatic literacy and are now applying it independently, posting their own analyses in the comments. This is extraordinary but does not scale. Beato's community is more likely to make a new listener out of a passing stranger.</p>
+      <p style="margin-top: 12px; color: var(--cyan); font-family: 'Press Start 2P', monospace; font-size: 7px;">▶ ROUND 4: RICK BEATO (by breadth)</p>
+    </div>
+
+    <div class="card" style="margin-bottom: 20px;">
+      <p style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--orange); margin-bottom: 12px;">ROUND 5 — X-FACTOR</p>
+      <p>Rick Beato's X-Factor is his personality, and his personality is real. The frustration with the copyright regime is real. The love of the music is real. The slightly-too-passionate dad-energy is real. Authenticity is not sufficient for great content but it is necessary for lasting content, and Beato has it. You trust him with the music.</p>
+      <p style="margin-top: 12px;">But 12tone's X-Factor is a system. A genuinely original notational methodology applied consistently enough to become a language. The magazine has, across ten issues, placed a very high premium on originality of form — on channels that have created a new way of doing something rather than a better version of something existing. 12tone created a new way of seeing music. That is not a marginal X-Factor. That is the entire difference between adequate and extraordinary.</p>
+      <p style="margin-top: 12px; color: var(--yellow); font-family: 'Press Start 2P', monospace; font-size: 7px;">▶ ROUND 5: 12TONE</p>
+    </div>
+
+    <h2 class="section-title" style="font-size: 20px; margin-bottom: 20px;">FINAL SCORECARD</h2>
+    <table class="round-table">
+      <tr>
+        <th>CATEGORY</th>
+        <th>RICK BEATO</th>
+        <th>12TONE ⭐</th>
+      </tr>
+      <tr>
+        <td>Content Quality</td>
+        <td class="score cyan">84</td>
+        <td class="score yellow">91</td>
+      </tr>
+      <tr>
+        <td>Consistency</td>
+        <td class="score cyan">92</td>
+        <td class="score yellow">72</td>
+      </tr>
+      <tr>
+        <td>Replay Value</td>
+        <td class="score cyan">78</td>
+        <td class="score yellow">90</td>
+      </tr>
+      <tr>
+        <td>Community</td>
+        <td class="score cyan">85</td>
+        <td class="score yellow">79</td>
+      </tr>
+      <tr>
+        <td>X-Factor</td>
+        <td class="score cyan">72</td>
+        <td class="score yellow">95</td>
+      </tr>
+      <tr class="total-row">
+        <td><strong>WEIGHTED TOTAL</strong></td>
+        <td class="score cyan">82</td>
+        <td class="score yellow winner-score">86</td>
+      </tr>
+    </table>
+
+    <div class="card yellow" style="margin-top: 28px;">
+      <p style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 18px; color: var(--yellow); margin-bottom: 12px;">WINNER: 12TONE (86 vs 82)</p>
+      <p>The verdict is 12tone, and the editorial note is this: Rick Beato is a better gateway drug. If you want to introduce someone to music analysis YouTube — someone who doesn't know theory, who doesn't know what a tritone is, who just knows they love a song — you start with Beato. His accessibility is a genuine skill, not a compromise.</p>
+      <p style="margin-top: 12px;">But 12tone is the channel you end up at. After Beato shows you that music can be analysed, 12tone shows you <em>how</em> to analyse it in a way that changes your relationship to music permanently. The originator of a methodology has a claim that the excellent explainer does not. Both enter the Top 50. 12tone enters higher. Rick Beato has nothing to be ashamed of in a loss by four points to a channel that invented a new visual language for music theory.</p>
+    </div>
+
+    <div class="page-num">PAGE 05 / CTRL+WATCH #010</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TAB 6: HIGH SCORES
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="tab-scores" class="tab-panel">
+  <div class="content-wrap">
+    <div class="section-label">MONTHLY RANKINGS</div>
+    <h1 class="section-title">HIGH SCORES</h1>
+    <p class="section-subtitle">Top 50 — Issue #010 Edition. The largest single-issue jump in magazine history. That's #5. You'll know it when you see it.</p>
+
+    <div class="card yellow" style="margin-bottom: 24px;">
+      <p style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--yellow); margin-bottom: 10px;">★ ISSUE #010 NOTABLE MOVEMENTS ★</p>
+      <p style="font-size: 13px; color: var(--text2); line-height: 1.8;">
+        <span class="highlight-yellow">NEW RECORD:</span> Adam Neely ↑33 (#38→#5) — surpasses JCS's ↑29 from Issue #007 as largest jump in magazine history<br>
+        <span class="highlight-green">NEW ENTRIES:</span> 12tone (#24, 86), Tantacrul (#30, 85), Sideways (#35, 84), Rick Beato (#41, 82)<br>
+        <span class="highlight-red">DROPPED:</span> Caddicarus (74), Company Man (77), Cleo Abram (80), Johnny Harris (79) — displaced by stronger music entries<br>
+        <span style="color: var(--text2);">Davie504 (55/MEDIOCRE) does NOT enter Top 50</span>
+      </p>
+    </div>
+
+    <table class="ranking-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>CHANNEL</th>
+          <th>SCORE</th>
+          <th>GENRE</th>
+          <th>MOVE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="rank-num top3">1</td><td class="rank-channel">3Blue1Brown</td><td class="rank-score">96</td><td class="rank-genre">Mathematics / Education</td><td class="rank-move same">—</td></tr>
+        <tr><td class="rank-num top3">2</td><td class="rank-channel">Kurzgesagt</td><td class="rank-score">94</td><td class="rank-genre">Science / Animation</td><td class="rank-move same">—</td></tr>
+        <tr><td class="rank-num top3">3</td><td class="rank-channel">Every Frame a Painting</td><td class="rank-score">92</td><td class="rank-genre">Film Analysis</td><td class="rank-move same">—</td></tr>
+        <tr><td class="rank-num">4</td><td class="rank-channel">Primitive Technology</td><td class="rank-score">91</td><td class="rank-genre">Maker / Survival</td><td class="rank-move same">—</td></tr>
+        <tr style="background: rgba(255,230,0,0.06);"><td class="rank-num">5</td><td class="rank-channel record-jump">Adam Neely ★</td><td class="rank-score" style="color: var(--yellow);">91</td><td class="rank-genre">Music Theory / Jazz</td><td class="rank-move record">↑33 REC</td></tr>
+        <tr><td class="rank-num">6</td><td class="rank-channel">CGP Grey</td><td class="rank-score">91</td><td class="rank-genre">Education / Explainer</td><td class="rank-move down">↓1</td></tr>
+        <tr><td class="rank-num">7</td><td class="rank-channel">Lemmino</td><td class="rank-score">91</td><td class="rank-genre">Documentary / Mystery</td><td class="rank-move down">↓1</td></tr>
+        <tr><td class="rank-num">8</td><td class="rank-channel">Fireship</td><td class="rank-score">90</td><td class="rank-genre">Technology / Programming</td><td class="rank-move down">↓1</td></tr>
+        <tr><td class="rank-num">9</td><td class="rank-channel">Dan Carlin's Hardcore History</td><td class="rank-score">90</td><td class="rank-genre">History / Long-Form</td><td class="rank-move down">↓1</td></tr>
+        <tr><td class="rank-num">10</td><td class="rank-channel">Townsends</td><td class="rank-score">90</td><td class="rank-genre">Historical Living</td><td class="rank-move down">↓1</td></tr>
+        <tr><td class="rank-num">11</td><td class="rank-channel">Mark Rober</td><td class="rank-score">89</td><td class="rank-genre">Engineering / Entertainment</td><td class="rank-move down">↓1</td></tr>
+        <tr><td class="rank-num">12</td><td class="rank-channel">Veritasium</td><td class="rank-score">89</td><td class="rank-genre">Science / Education</td><td class="rank-move down">↓1</td></tr>
+        <tr><td class="rank-num">13</td><td class="rank-channel">Vsauce</td><td class="rank-score">89</td><td class="rank-genre">Science / Philosophy</td><td class="rank-move down">↓1</td></tr>
+        <tr><td class="rank-num">14</td><td class="rank-channel">Technology Connections</td><td class="rank-score">88</td><td class="rank-genre">Technology / History</td><td class="rank-move down">↓1</td></tr>
+        <tr><td class="rank-num">15</td><td class="rank-channel">Conan O'Brien / Team Coco</td><td class="rank-score">88</td><td class="rank-genre">Comedy / Talk</td><td class="rank-move down">↓1</td></tr>
+        <tr><td class="rank-num">16</td><td class="rank-channel">exurb1a</td><td class="rank-score">88</td><td class="rank-genre">Philosophy / Existential</td><td class="rank-move down">↓5</td></tr>
+        <tr><td class="rank-num">17</td><td class="rank-channel">Clickspring</td><td class="rank-score">88</td><td class="rank-genre">Clockmaking / Machining</td><td class="rank-move down">↓1</td></tr>
+        <tr><td class="rank-num">18</td><td class="rank-channel">JCS — Criminal Psychology</td><td class="rank-score">86</td><td class="rank-genre">True Crime / Analysis</td><td class="rank-move down">↓3</td></tr>
+        <tr><td class="rank-num">19</td><td class="rank-channel">Internet Historian</td><td class="rank-score">87</td><td class="rank-genre">Internet Culture</td><td class="rank-move down">↓2</td></tr>
+        <tr><td class="rank-num">20</td><td class="rank-channel">Theo Von</td><td class="rank-score">87</td><td class="rank-genre">Comedy / Podcast</td><td class="rank-move down">↓2</td></tr>
+        <tr><td class="rank-num">21</td><td class="rank-channel">Good Mythical Morning</td><td class="rank-score">87</td><td class="rank-genre">Entertainment / Variety</td><td class="rank-move down">↓2</td></tr>
+        <tr><td class="rank-num">22</td><td class="rank-channel">Binging with Babish</td><td class="rank-score">85</td><td class="rank-genre">Cooking / Entertainment</td><td class="rank-move down">↓2</td></tr>
+        <tr><td class="rank-num">23</td><td class="rank-channel">Historia Civilis</td><td class="rank-score">87</td><td class="rank-genre">Ancient History</td><td class="rank-move down">↓2</td></tr>
+        <tr style="background: rgba(0,240,255,0.04);"><td class="rank-num">24</td><td class="rank-channel new-entry">12tone ★ NEW</td><td class="rank-score" style="color: var(--green);">86</td><td class="rank-genre">Music Theory / Analysis</td><td class="rank-move new">NEW</td></tr>
+        <tr><td class="rank-num">25</td><td class="rank-channel">Map Men (Jay and Mark)</td><td class="rank-score">85</td><td class="rank-genre">Geography / Comedy</td><td class="rank-move down">↓3</td></tr>
+        <tr><td class="rank-num">26</td><td class="rank-channel">Nerdwriter1</td><td class="rank-score">86</td><td class="rank-genre">Art / Film Analysis</td><td class="rank-move down">↓2</td></tr>
+        <tr><td class="rank-num">27</td><td class="rank-channel">NileRed</td><td class="rank-score">86</td><td class="rank-genre">Chemistry</td><td class="rank-move down">↓18</td></tr>
+        <tr><td class="rank-num">28</td><td class="rank-channel">Stuff Made Here</td><td class="rank-score">86</td><td class="rank-genre">Engineering / Maker</td><td class="rank-move down">↓2</td></tr>
+        <tr><td class="rank-num">29</td><td class="rank-channel">Scott The Woz</td><td class="rank-score">86</td><td class="rank-genre">Retro Gaming / Comedy</td><td class="rank-move down">↓1</td></tr>
+        <tr style="background: rgba(0,240,255,0.04);"><td class="rank-num">30</td><td class="rank-channel new-entry">Tantacrul ★ NEW</td><td class="rank-score" style="color: var(--green);">85</td><td class="rank-genre">Music Software / Comedy Essay</td><td class="rank-move new">NEW</td></tr>
+        <tr><td class="rank-num">31</td><td class="rank-channel">Videogamedunkey</td><td class="rank-score">84</td><td class="rank-genre">Gaming / Commentary</td><td class="rank-move down">↓6</td></tr>
+        <tr><td class="rank-num">32</td><td class="rank-channel">Real Engineering</td><td class="rank-score">85</td><td class="rank-genre">Engineering / Education</td><td class="rank-move down">↓5</td></tr>
+        <tr><td class="rank-num">33</td><td class="rank-channel">The Slow Mo Guys</td><td class="rank-score">85</td><td class="rank-genre">Science / Entertainment</td><td class="rank-move down">↓5</td></tr>
+        <tr><td class="rank-num">34</td><td class="rank-channel">Smarter Every Day</td><td class="rank-score">85</td><td class="rank-genre">Science / Curiosity</td><td class="rank-move down">↓5</td></tr>
+        <tr style="background: rgba(0,240,255,0.04);"><td class="rank-num">35</td><td class="rank-channel new-entry">Sideways ★ NEW</td><td class="rank-score" style="color: var(--green);">84</td><td class="rank-genre">Music Analysis / Film</td><td class="rank-move new">NEW</td></tr>
+        <tr><td class="rank-num">36</td><td class="rank-channel">Wendover Productions</td><td class="rank-score">84</td><td class="rank-genre">Logistics / Explainer</td><td class="rank-move down">↓4</td></tr>
+        <tr><td class="rank-num">37</td><td class="rank-channel">Whang!</td><td class="rank-score">84</td><td class="rank-genre">Internet History</td><td class="rank-move down">↓4</td></tr>
+        <tr><td class="rank-num">38</td><td class="rank-channel">Tom Scott</td><td class="rank-score">84</td><td class="rank-genre">Education / Travel</td><td class="rank-move down">↓4</td></tr>
+        <tr><td class="rank-num">39</td><td class="rank-channel">Philip DeFranco</td><td class="rank-score">84</td><td class="rank-genre">News / Commentary</td><td class="rank-move down">↓3</td></tr>
+        <tr><td class="rank-num">40</td><td class="rank-channel">Joshua Weissman</td><td class="rank-score">81</td><td class="rank-genre">Cooking / From-Scratch</td><td class="rank-move down">↓5</td></tr>
+        <tr style="background: rgba(0,240,255,0.04);"><td class="rank-num">41</td><td class="rank-channel new-entry">Rick Beato ★ NEW</td><td class="rank-score" style="color: var(--green);">82</td><td class="rank-genre">Music Education / Analysis</td><td class="rank-move new">NEW</td></tr>
+        <tr><td class="rank-num">42</td><td class="rank-channel">Defunctland</td><td class="rank-score">79</td><td class="rank-genre">Theme Park History</td><td class="rank-move down">↓5</td></tr>
+        <tr><td class="rank-num">43</td><td class="rank-channel">Nexpo</td><td class="rank-score">80</td><td class="rank-genre">Internet Horror</td><td class="rank-move down">↓12</td></tr>
+        <tr><td class="rank-num">44</td><td class="rank-channel">Numberphile</td><td class="rank-score">83</td><td class="rank-genre">Mathematics</td><td class="rank-move down">↓5</td></tr>
+        <tr><td class="rank-num">45</td><td class="rank-channel">Captain Disillusion</td><td class="rank-score">83</td><td class="rank-genre">VFX / Debunking</td><td class="rank-move down">↓5</td></tr>
+        <tr><td class="rank-num">46</td><td class="rank-channel">Lessons from the Screenplay</td><td class="rank-score">83</td><td class="rank-genre">Film / Writing</td><td class="rank-move down">↓5</td></tr>
+        <tr><td class="rank-num">47</td><td class="rank-channel">Summoning Salt</td><td class="rank-score">82</td><td class="rank-genre">Speedrunning / Documentary</td><td class="rank-move down">↓5</td></tr>
+        <tr><td class="rank-num">48</td><td class="rank-channel">Corridor Crew</td><td class="rank-score">79</td><td class="rank-genre">VFX / Behind the Scenes</td><td class="rank-move down">↓5</td></tr>
+        <tr><td class="rank-num">49</td><td class="rank-channel">Marques Brownlee (MKBHD)</td><td class="rank-score">83</td><td class="rank-genre">Tech Reviews</td><td class="rank-move down">↓5</td></tr>
+        <tr><td class="rank-num">50</td><td class="rank-channel">Techmoan</td><td class="rank-score">85</td><td class="rank-genre">Tech / Retro Hardware</td><td class="rank-move down">↓4</td></tr>
+      </tbody>
+    </table>
+
+    <div class="card red" style="margin-top: 28px;">
+      <p style="font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--red); margin-bottom: 10px;">DROPPED THIS ISSUE</p>
+      <p style="font-size: 13px; color: var(--text2); line-height: 1.8;">
+        <strong>Caddicarus</strong> (was #47, 74) — Displacement by stronger music entries. Retains our respect; the score reflects a channel in transition.<br>
+        <strong>Company Man</strong> (was #48, 77) — Output quality remains consistent but ceiling has become apparent. Not a collapse; a recalibration.<br>
+        <strong>Cleo Abram</strong> (was #49, 80) — Promising but the upward trajectory anticipated in earlier issues has levelled earlier than expected.<br>
+        <strong>Johnny Harris</strong> (was #50, 79) — Methodology criticisms in the editorial community have become harder to overlook. Will monitor.
+      </p>
+    </div>
+
+    <div class="page-num">PAGE 06 / CTRL+WATCH #010</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TAB 7: HIDDEN LEVELS
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="tab-hidden" class="tab-panel">
+  <div class="content-wrap">
+    <div class="section-label">SUB-10K DISCOVERIES</div>
+    <h1 class="section-title">HIDDEN LEVELS</h1>
+    <p class="section-subtitle">Five channels. Combined subscribers: under 20,000. Combined value: immeasurable. (We know how this sounds. We stand by it.)</p>
+
+    <div class="pixel-divider"></div>
+
+    <!-- HIDDEN 1 -->
+    <div class="hidden-card">
+      <div class="hidden-card-header">
+        <div>
+          <div class="hidden-channel-name">The Temperament Workshop</div>
+          <div class="yob-pick">YOB'S PICK</div>
+        </div>
+        <div class="hidden-subs">~1,800 subs<br><span style="font-size: 14px;">Est. 2021</span></div>
+      </div>
+      <p>The premise of The Temperament Workshop is this: we have all been lied to about pitch for three hundred years, and the lie is so thorough that most people cannot hear it anymore. The channel, run by a tuning systems researcher whose name appears only as initials in the channel description, is devoted to the history and theory of musical temperament — specifically, to the transition from historical tuning systems to equal temperament and what we lost in that transition.</p>
+
+      <p>Equal temperament — the tuning system that makes every note on a modern piano slightly wrong in the service of allowing it to play in all twelve keys — is so ubiquitous that it has become invisible. We cannot hear the compromises because we have heard nothing but the compromises our entire lives. The Temperament Workshop's most essential video is a direct comparison: a piece played in just intonation (mathematically pure intervals, as they resonate in physics) and then in equal temperament. The difference is subtle to the untrained ear and then, about forty seconds in, suddenly not subtle at all. Something changes in your chest. The just intonation sounds like it is in tune in a way that the equal temperament, which you have heard ten thousand times, does not.</p>
+
+      <p>The channel has 1,800 subscribers. It should have 180,000. It does not, because the subject matter is specific enough that the algorithm will never find it a casual audience, and because the production quality is functional rather than polished — no animated diagrams, no engaging host persona, just a careful voice and extremely patient demonstrations. This is the gap between being right and being found. The Temperament Workshop is right. Consider yourself informed.</p>
+
+      <p><strong>Start with:</strong> "Why Everything You Know About Pitch Is A Compromise (And Why It Matters)" — the comparison video. You will hear music differently afterward. This is a promise.</p>
+    </div>
+
+    <!-- HIDDEN 2 -->
+    <div class="hidden-card">
+      <div class="hidden-card-header">
+        <div>
+          <div class="hidden-channel-name">Ethnographic Ear</div>
+        </div>
+        <div class="hidden-subs">~3,200 subs<br><span style="font-size: 14px;">Est. 2019</span></div>
+      </div>
+      <p>Field recording as scholarship, and field recording as grief. The Ethnographic Ear documents musical traditions that are disappearing — not in the abstract sense that all folk traditions are under pressure, but in the immediate, specific sense that the practitioners of these traditions are elderly, the next generation has largely not taken them up, and the recordings being made now are among the last that will be made of certain musical forms in their living context.</p>
+
+      <p>The channel operator travels. The most recent series covers traditional throat singing practices from two different cultural contexts — the similarities in technique, the wildly different cultural meanings attached to those techniques, the way both traditions have been simultaneously preserved by recording and subtly altered by the awareness of being recorded. There is a video about the ethics of documentation itself that is one of the most thoughtful pieces of media criticism we have encountered outside of academic publishing, and it is discussing a subject most academic publishers would consider too niche to review.</p>
+
+      <p>The videos are long, slow, and require genuine attention. The subtitles are available for most content. The production values are documentary standard — this is not bedroom YouTube but field-grade equipment, careful editing, and the kind of patient observation that comes from someone who has spent time with the people they are documenting. At 3,200 subscribers, this channel represents the platform at something close to its purest purpose: making the unreachable reachable.</p>
+
+      <p><strong>Start with:</strong> "The Last Singers of the Iron Shore" — a forty-minute documentary about a coastal singing tradition. Allocate the time properly. This deserves the time.</p>
+    </div>
+
+    <!-- HIDDEN 3 -->
+    <div class="hidden-card">
+      <div class="hidden-card-header">
+        <div>
+          <div class="hidden-channel-name">Bass Notes</div>
+        </div>
+        <div class="hidden-subs">~4,600 subs<br><span style="font-size: 14px;">Est. 2018</span></div>
+      </div>
+      <p>Not Davie504. Explicitly, pointedly, philosophically not Davie504. Bass Notes is what a channel about bass guitar looks like when the creator's primary interest is history, context, and lineage rather than the comedy format possibilities of the instrument. The host — a session bassist who has played on recordings you would recognise without knowing his name, which is the exact definition of a session bassist — approaches bass history with the archival rigour of someone who is genuinely angry that the instrument's contributions to popular music have been systematically undervalued.</p>
+
+      <p>This is not unfounded anger. The bass revolution of the 1960s — the point at which the bass guitar moved from background support to melodic and rhythmic anchor — is one of the more transformative shifts in popular music history, and it is barely documented compared to the guitar and vocal-focused histories that dominate the canon. Bass Notes is filling this gap, with long-form videos on specific players (Jamerson, Pastorius, McCartney's bass playing specifically, Bootsy Collins, Carol Kaye) that contextualise technical achievements within musical history rather than presenting them as sports statistics.</p>
+
+      <p>The most recent series, "What the Bass Does When You're Not Listening," is four episodes of sustained attention to bass lines in songs where most listeners focus on vocals or guitar. Each episode proceeds as a kind of musical archaeology: strip away everything else, and listen to what the bass is doing. The answer, in each case, is considerably more interesting than you suspected.</p>
+
+      <p><strong>Start with:</strong> "James Jamerson and the Motown Engine" — best entry point into the channel's methodology, and also genuinely emotional.</p>
+    </div>
+
+    <!-- HIDDEN 4 -->
+    <div class="hidden-card">
+      <div class="hidden-card-header">
+        <div>
+          <div class="hidden-channel-name">The Dissonance Archive</div>
+        </div>
+        <div class="hidden-subs">~2,900 subs<br><span style="font-size: 14px;">Est. 2020</span></div>
+      </div>
+      <p>There is a category of music that is not well-served by most music YouTube: the avant-garde, the experimental, the genuinely difficult. Not difficult in the sense of technically demanding — difficult in the sense that it refuses to give you the resolution you expect, the melody you want, the familiar emotional arc. The Dissonance Archive documents this music with the patient respect it deserves and rarely receives.</p>
+
+      <p>The archive covers twentieth-century compositional experiments, noise music, drone, musique concrète, spectral music, microtonality, and the blurry edges between all of these categories. The videos are structured as annotated listening sessions — the host plays passages, explains the compositional intentions and historical context, and then asks you to listen again with that context. This is the correct pedagogy for difficult music. You cannot hear Ligeti's micropolyphony without knowing what he was trying to do. You cannot unhear it after you do.</p>
+
+      <p>The channel is at 2,900 subscribers and has probably peaked there — this is content for a specific audience with a specific appetite, and the algorithm will never recommend it to someone who has not already gone looking for it. This is fine. The people who need this channel will find it. This review is part of that finding process.</p>
+
+      <p><strong>Start with:</strong> "What is Noise Music, Actually" — the most accessible entry point, and the one that best explains why the question matters.</p>
+    </div>
+
+    <!-- HIDDEN 5 -->
+    <div class="hidden-card">
+      <div class="hidden-card-header">
+        <div>
+          <div class="hidden-channel-name">Sheet Music Detective</div>
+        </div>
+        <div class="hidden-subs">~890 subs<br><span style="font-size: 14px;">Est. 2022</span></div>
+      </div>
+      <p>The smallest channel in this issue's Hidden Levels section, and possibly the most quietly extraordinary thing we have featured in the magazine to date. Sheet Music Detective is run by a musicologist — genuinely credentialed, actively publishing in academic contexts — who uses YouTube as a secondary format for documenting the process of recovering and reconstructing lost musical compositions from historical archives.</p>
+
+      <p>The videos follow individual works: manuscripts found in institutional archives, compositions that were performed once and never again, pieces documented in secondary sources but not in notation. The channel's most-viewed video follows the reconstruction of a keyboard piece found in fragmentary notation in a German archive, its composer unknown, its performance history consisting of a single mention in a letter dated 1741. The detective process — paleographic analysis of the notation style, comparison with known works of the period, reconstruction of the missing bars, and finally performance on period instruments — is documented in real time across four videos totalling approximately two hours.</p>
+
+      <p>At 890 subscribers, this is genuinely obscure. The format does not lend itself to casual discovery. The videos are long, specialised, and occasionally involve extended discussion of notation systems that require some background to follow. But the experience of watching a piece of music be recovered from silence is — we are not being hyperbolic here — one of the most compelling things the platform hosts. It is music archaeology. It is time travel. It has 890 subscribers. Tell nine hundred people.</p>
+
+      <p><strong>Start with:</strong> "Finding the Composer of the Dusseldorf Fragment" — all four parts, in order, over an evening. This is what the platform can be at its best.</p>
+    </div>
+
+    <div class="page-num">PAGE 07 / CTRL+WATCH #010</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TAB 8: SPECIAL FEATURE
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="tab-feature" class="tab-panel">
+  <div class="content-wrap">
+    <div class="section-label">SPECIAL FEATURE — ISSUE #010</div>
+    <h1 class="section-title">THE LAST RADIO STATION</h1>
+    <p class="section-subtitle">How YouTube became the world's music educator — and what it replaced without telling us.</p>
+
+    <div class="feature-intro">
+      "Radio stations used to have music directors. Their job was to decide what you heard. They were wrong about half the time and important all of the time. When they died, we thought we had escaped them. What we actually did was hand their job to a machine."
+    </div>
+
+    <div class="feature-subhead">I. WHAT RADIO WAS, ACTUALLY</div>
+    <p>We tend to talk about radio's death as a loss of a medium. We should talk about it as the dissolution of a set of human decisions. Behind every playlist, every rotation, every "new music Friday" was a person who had listened to something and thought: <em>yes, this goes next</em>. That person was often wrong, commercially motivated, bribable, and prone to their own blind spots. They were also, at their best, a curator with taste — and taste is a technology for navigating the world that algorithms have not yet replicated.</p>
+
+    <p>Music discovery in the pre-YouTube era was either institutional (radio, MTV, the review press) or social (your friend's taste, your city's scene, your local record shop's recommendation shelf). Both systems were inefficient by every metric the current platform would recognise. They were also, by at least some measures, generative: they created unexpected encounters. The radio station that put an obscure track at 11pm on a Tuesday created a listener who might not have been looking for that sound. The algorithm that serves you content similar to what you've already listened to is not creating those encounters. It is deepening the encounters you've already had.</p>
+
+    <div class="feature-subhead">II. THE MUSIC THEORY RENAISSANCE</div>
+    <p>Something happened on YouTube between 2014 and 2019 that deserves a name. Call it the Theory Renaissance. Channels devoted to explaining how music actually works — the mechanics of harmony, the structure of rhythm, the theory that underlies composition — began attracting audiences that music education establishments had never managed to reach. By 2020, more people had probably learned the circle of fifths from a YouTube video than from all the music theory textbooks printed in the twentieth century combined. This is a reasonable estimate and an extraordinary fact.</p>
+
+    <p>Why now? Why YouTube, and why this generation? Several reasons, none entirely satisfying on their own. First, the barrier to entry for music creation has collapsed. Recording technology that cost hundreds of thousands of pounds in 1975 is available as a free download to anyone with a laptop. If you're going to make music, you want to understand music. Theory follows practice. Second, the educational format that works for music theory — demonstration, not description — is precisely the format YouTube is built for. You cannot teach a chord by describing it in text. You can teach it in thirty seconds of audio over a diagram. The platform made the pedagogy possible.</p>
+
+    <p>Third — and this is the part that is harder to quantify — something changed in the culture's relationship to expertise. The generation that grew up with YouTube grew up watching people be genuinely knowledgeable on camera, willingly, for free, because they loved the subject. This is a different relationship to expertise than the institutional model produces. The institution presents the expert as a credential. YouTube presents the expert as a person. The person is often more persuasive.</p>
+
+    <div class="pull-quote">"The Theory Renaissance happened because recording technology collapsed the barrier to creation, and if you're going to make music, you want to understand it. Theory follows practice. YouTube made both accessible simultaneously."</div>
+
+    <div class="feature-subhead">III. THE BEDROOM PRODUCER PIPELINE</div>
+    <p>In 1991, to make a professional-quality recording, you needed a studio. Studios cost money. Money came from labels. Labels decided what was worth recording. This was not a conspiracy; it was logistics. The cost structure of music production created a gatekeeping function by default, and the gatekeepers were the people with the capital.</p>
+
+    <p>That pipeline is now reversed. A bedroom producer in 2026 can make a recording that is, in objective audio quality terms, comparable to professional studio output. They can distribute it through streaming services without a label. They can build an audience through YouTube before the recording exists — through tutorial content, through performance videos, through theory discussions that attract the kind of audience that pays for music. The label, if it appears at all, appears at the end of the process rather than the beginning. Its function has changed from gatekeeper to amplifier.</p>
+
+    <p>Music YouTube is both a product of this pipeline and a primary driver of it. The bedroom producer who posts tutorial content about their production process is building an audience with a very particular characteristic: they are an audience who understands what they're hearing, at a technical level, and who therefore have a relationship to the music that is qualitatively different from passive radio consumption. They are invested. They are literate. They are, in commercial terms, the most valuable kind of audience a musician can have.</p>
+
+    <div class="feature-subhead">IV. WHAT WE DIDN'T KNOW WE WERE LOSING</div>
+    <p>The music director problem is real. The algorithm is a music director who optimises for engagement rather than discovery, and engagement and discovery are not the same thing. Engagement is high when you hear something familiar. Discovery is low when you hear something familiar. The algorithm pushes toward the familiar. Radio, at its worst, did too — but radio had finite time, and the person who wanted to fill 11pm on a Tuesday sometimes put something unusual there because it was better than dead air.</p>
+
+    <p>There is also the context problem. Music exists in context. "Strange Fruit" is not a sad song; it is an accusation. Nina Simone's "Four Women" is not a character study; it is a political argument delivered in a musical form that the political establishment had not yet learned to suppress. Music YouTube, at its best, preserves this context — the channels that do history, that do ethnomusicology, that place sound within its cultural moment. But the majority of music content on the platform strips context in the same way that the radio strip-mined it: the song as feeling delivery mechanism, the music as background, the melody as sensation rather than argument.</p>
+
+    <p>We have gained, on balance. The access is real. The education is real. The bedroom producer pipeline is genuinely transformative. But the loss of the curated unexpected encounter — the thing the music director provided when they were doing their job properly — is also real, and we should not pretend the algorithm has replaced it. It has replaced the bad music director. It has not replaced the good one.</p>
+
+    <div class="feature-subhead">V. WHAT COMES NEXT</div>
+    <p>The channels we have reviewed in this issue — Adam Neely, Tantacrul, Sideways, Rick Beato, 12tone — are doing something that the radio era did not have space for: they are building a music-literate audience at scale. An audience that can hear what a song is doing technically and historically and culturally simultaneously. This audience is new. It did not exist twenty years ago, not at this size. What it does with its literacy — whether it produces a generation of musicians who make more interesting music, or whether it produces a generation of very articulate passive consumers — we do not yet know.</p>
+
+    <p>The bet this magazine is making is that literacy tends to produce creation. That people who understand music make music. That the Theory Renaissance has a second act, which is the music that the theory-literate bedroom producers will make in the next decade. We are watching the education happen in real time on YouTube. The music is coming. We are, at minimum, confident that it will be harmonically interesting.</p>
+
+    <div class="pull-quote">"We have gained access and lost serendipity. The algorithm replaced the bad music director but not the good one. The question is whether music YouTube can produce what radio at its best once did: the unexpected encounter that changed everything."</div>
+
+    <div class="page-num">PAGE 08 / CTRL+WATCH #010</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TAB 9: GAME OVER
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="tab-gameover" class="tab-panel">
+  <div class="content-wrap">
+    <div class="section-label">TREND AUTOPSY</div>
+    <h1 class="section-title">GAME OVER</h1>
+    <p class="section-subtitle">Five music YouTube trends that need to stop, explained with the love and firmness of someone who wants better for all of us.</p>
+
+    <div class="pixel-divider"></div>
+
+    <div class="trend-card">
+      <div class="trend-name">THE FAKE FIRST REACTION INDUSTRIAL COMPLEX</div>
+      <p>Let us describe the format precisely: a creator sits before a screen. They press play on a song — typically a critically acclaimed classic, a beloved film score, a famous jazz solo — and film themselves experiencing it "for the first time." Their face does the thing. Eyebrows up. Mouth open. The involuntary head nod at the bridge. The whispered "oh my god" at the key change. The video is titled "[CREATOR] HEARS [ICONIC SONG] FOR THE FIRST TIME!! (EMOTIONAL REACTION)." It has four million views.</p>
+      <p style="margin-top: 12px;">The problem is not the reaction. The problem is the industrial production of authenticity. The format incentivises creators to perform first-hearing responses to songs they have in many cases heard before, to work-shop expressions of genuine surprise until those expressions are reproducible on demand, and to build careers on what is, structurally, a kind of emotional theatre presented as documentary. The result is an economy of performed innocence — a perpetual state of cultural naivety that no adult human being is actually in — deployed to make viewers feel they are watching discovery when they are watching a rehearsed response to something they already know. The music deserves better. The viewers deserve better. The creator, frankly, deserves better too.</p>
+      <div class="death-line">"The involuntary head nod at the bridge has been monetised past the point of being involuntary. Stop watching. They know the song."</div>
+    </div>
+
+    <div class="trend-card">
+      <div class="trend-name">I LEARNED BASS/GUITAR/PIANO IN 30 DAYS (AND YOU CAN TOO, PROBABLY)</div>
+      <p>The "30 days to [skill]" format is not exclusive to music YouTube but has achieved a particularly acute form of wrongness there. The videos document a creator's journey from novice to "intermediate" on an instrument over a month, culminating in a performance that is then edited to appear more competent than the raw footage would support. The format is dishonest about what learning an instrument requires — not thirty days of motivated effort, but years of patient accumulation — and the dishonesty does material harm to real learners who start playing, progress slowly as all learners do, compare their progress to the creator's edited highlight reel, and conclude they are failing.</p>
+      <p style="margin-top: 12px;">The musicians who taught us what it means to be good at an instrument — the Glenn Goulds, the Miles Davises, the people in this very issue's Time Capsule — spent decades learning their craft and would have been baffled by the premise that a month of motivated effort is a meaningful music story. It is not a music story. It is a productivity story that uses music as its current backdrop. A content format wearing music as a costume. Next month it will be something else. The instrument will remain exactly as difficult as it was before the video was made.</p>
+      <div class="death-line">"You did not learn guitar in 30 days. You learned to play parts of three songs while recording something that looks like learning guitar. These are different things."</div>
+    </div>
+
+    <div class="trend-card">
+      <div class="trend-name">WHY [POP STAR] IS ACTUALLY A MUSICAL GENIUS (THE RETROACTIVE REDEMPTION ESSAY)</div>
+      <p>A format that masquerades as critical reassessment while actually performing intellectual arbitrage. The premise: a creator takes a commercially successful artist who has been dismissed by serious music criticism — think someone in the Britney Spears / early Katy Perry / late-era Justin Bieber category — and constructs an argument for their musical genius using theory vocabulary. The production value is high. The analysis is real. The conclusion is predetermined. The video generates both engagement from fans who feel vindicated and from critics who want to argue, which is the optimal engagement outcome.</p>
+      <p style="margin-top: 12px;">The issue is not that the reassessments are wrong — sometimes they're not, and the critical establishment has genuine blind spots worth challenging. The issue is that the format is structurally incapable of producing a verdict other than "genius," because the discovery of complexity in the target's work is the video's premise and its conclusion simultaneously. There is no possible outcome in which the creator watches the footage and decides "actually the original critics were right." The video has been built to arrive at validation. This is not criticism. This is the academic equivalent of a hype video, wearing theory as a gown.</p>
+      <div class="death-line">"When the conclusion is written before the analysis begins, it is marketing with footnotes, not criticism. The theory vocabulary doesn't change the architecture."</div>
+    </div>
+
+    <div class="trend-card">
+      <div class="trend-name">THE AI MUSIC THEORY CHANNEL WITH NO MUSICAL JUDGMENT</div>
+      <p>This is new enough that we should describe it carefully. A category of channels has emerged — growing rapidly since 2023 — that use AI-generated narration, AI-generated music examples, and algorithmically selected topics to produce music theory content at high volume and low cost. The content is technically accurate in the way that a Wikipedia summary is technically accurate: the facts are correct, the relationships between facts are described correctly, and the whole thing contains no judgment, no preference, no ear, no sense of why any of this matters.</p>
+      <p style="margin-top: 12px;">Music theory is not a collection of facts. It is a set of tools for understanding why music creates the effects it creates. The tools are useless without ears that can hear what's happening, and ears are — at least for now — something AI systems don't have in the relevant sense. The channels that are good at music theory YouTube — the channels reviewed in this issue — are good because they combine technical knowledge with musical taste, with the ability to say "and this is where it gets interesting, listen." The AI channel has the knowledge. It cannot say "listen" and mean anything by it.</p>
+      <div class="death-line">"Technical accuracy without musical judgment is a dictionary entry, not criticism. Knowing what a tritone is and knowing why it sounds like that are different things."</div>
+    </div>
+
+    <div class="trend-card">
+      <div class="trend-name">THE 10-HOUR LOFI COMPILATION WITH UNATTRIBUTED ARTWORK</div>
+      <p>We want to be fair here, because the lofi hip hop phenomenon is genuinely interesting and the channels that built it — Lofi Girl most visibly — did so with real care for the aesthetic, the community, and the music's origins. That is not what we are discussing. We are discussing the industrial-scale production of lofi compilations by channels that aggregate other people's music and other people's art — the latter often uncredited, often the work of Asian digital artists whose distinctive style became the genre's visual identity without those artists receiving the recognition or compensation they deserve — into eight-to-twelve-hour streams optimised for the "study playlist" search term.</p>
+      <p style="margin-top: 12px;">The music is real music, made by real people, and the compilations expose them to new listeners, which is worth something. The artwork problem is not worth something. It is worth nothing, except to the channel running ads against someone else's work and someone else's visual identity. The anime girl at the window belongs to a specific visual tradition made by specific artists. She is not clip art. She is not a genre attribute. She was made by someone, and that someone deserves to know where their work went.</p>
+      <div class="death-line">"The aesthetic was built by artists whose names you didn't keep in the description. That's not a genre feature. That's an attribution failure dressed up as a vibe."</div>
+    </div>
+
+    <div class="page-num">PAGE 09 / CTRL+WATCH #010</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TAB 10: YOB'S SAVE POINT
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="tab-yob" class="tab-panel">
+  <div class="content-wrap">
+    <div class="section-label">READER LETTERS</div>
+    <h1 class="section-title">YOB'S SAVE POINT</h1>
+    <p class="section-subtitle">Yob reads your letters. Yob has opinions about your letters. Some of your letters are good. A few are not.</p>
+
+    <div class="pixel-divider"></div>
+
+    <!-- LETTER 1 -->
+    <div class="letter-card">
+      <div class="letter-meta">
+        <div class="letter-from">DECLAN B. — CORK, IRELAND</div>
+        <div>
+          <div class="letter-stars">★★★★☆</div>
+          <div class="letter-verdict">CORRECT BUT LATE</div>
+        </div>
+      </div>
+      <p class="letter-body">Finally. Adam Neely at #38 was genuinely embarrassing. I've been waiting six issues for this magazine to admit it got that wrong. I almost unsubscribed over it. I didn't, because the rest of the magazine is very good, but I want you to know I considered it.</p>
+      <div class="yob-response">
+        <div class="yob-name">YOB RESPONDS:</div>
+        <p>You're right and Yob hates telling you you're right. You've been right since Issue #007. We've been cowards about it for two issues and we're fixing it now. The number went from 84 to 91 and the jump is bigger than the JCS correction in Issue #007, which was itself bigger than anything we'd done before, so if there's a consolation prize for waiting, it's that the correction has been appropriately large and embarrassingly public. Yob notes that you "almost" unsubscribed and then didn't, which means Yob is still here, you're still here, and Adam Neely is at #5. Everyone wins. Even Declan. Eventually.</p>
+        <span class="yob-sign">— Yob</span>
+      </div>
+    </div>
+
+    <!-- LETTER 2 -->
+    <div class="letter-card">
+      <div class="letter-meta">
+        <div class="letter-from">PRIYA M. — BANGALORE, INDIA</div>
+        <div>
+          <div class="letter-stars">★★★★★</div>
+          <div class="letter-verdict">BEST LETTER THIS ISSUE</div>
+        </div>
+      </div>
+      <p class="letter-body">Your coverage of YouTube is almost entirely focused on English-language content. This is understandable given what the magazine is. But I want to flag that the music theory and music education renaissance you'll probably write about in the Music Issue is happening in at least five languages simultaneously. There are Carnatic music theory channels in Tamil and Telugu with hundreds of thousands of subscribers doing things that would blow your Western classical framework wide open. When does CTRL+WATCH expand its scope?</p>
+      <div class="yob-response">
+        <div class="yob-name">YOB RESPONDS:</div>
+        <p>This is the best letter of the issue and Yob is annoyed about it because it requires self-reflection, which Yob prefers to avoid. Priya is completely correct. The magazine's English-language bias is a structural limitation and not an editorial principle, and it's a limitation we've been aware of and have not adequately addressed. The Carnatic music theory ecosystem on YouTube is genuinely vast, genuinely rigorous, and genuinely absent from our coverage. We're flagging this internally. It will not be addressed immediately — language access is a real constraint — but it will be addressed. Priya, thank you. Yob doesn't say that often. It's embarrassing for everyone involved.</p>
+        <span class="yob-sign">— Yob</span>
+      </div>
+    </div>
+
+    <!-- LETTER 3 -->
+    <div class="letter-card">
+      <div class="letter-meta">
+        <div class="letter-from">WREN J. — BRISTOL, UK</div>
+        <div>
+          <div class="letter-stars">★★☆☆☆</div>
+          <div class="letter-verdict">WRONG BUT EMOTIONALLY INTERESTING</div>
+        </div>
+      </div>
+      <p class="letter-body">I think you're being unfair to Davie504. Yes the format is repetitive, but the guy has made bass guitar cool to thirteen million people who wouldn't otherwise care. That's worth more than all the Adam Neely music theory videos in the world. Culture requires both levels.</p>
+      <div class="yob-response">
+        <div class="yob-name">YOB RESPONDS:</div>
+        <p>Yob acknowledges the gateway drug argument and does not dismiss it. Making bass guitar cool to thirteen million people is not nothing. The magazine did not say it was nothing; we gave him a 91 for Consistency, which is higher than Adam Neely's Consistency score, if you'll read the scorecard rather than just looking at the total. What Yob does not accept is the implied conclusion, which is that the gateway is sufficient. A gateway that stops being a gateway and starts being a destination is a problem. Davie504 used to take people somewhere. Now it is the somewhere. There is a difference between introducing people to the instrument and reducing the instrument to a prop in a format. The magazine scores what's happening now, not what happened in 2016. If Davie504 changes, the score changes. Yob is not holding a grudge. Yob is keeping records.</p>
+        <span class="yob-sign">— Yob</span>
+      </div>
+    </div>
+
+    <!-- LETTER 4 -->
+    <div class="letter-card">
+      <div class="letter-meta">
+        <div class="letter-from">TOM F. — EDINBURGH, UK</div>
+        <div>
+          <div class="letter-stars">★★★☆☆</div>
+          <div class="letter-verdict">FAIR POINT, WRONG CONCLUSION</div>
+        </div>
+      </div>
+      <p class="letter-body">You mentioned in Issue #009 letters that Roland Barthes was coming. You mentioned it in Issue #008 as well. This is the third issue and Barthes is finally here. I just want to note that the build-up has been entirely worth it — the Grain of the Voice angle is exactly right and the observation about comment sections as Barthesian readerly response is one of the best things the magazine has published. However. You kept us waiting two issues for this. That is too long and you should apologise.</p>
+      <div class="yob-response">
+        <div class="yob-name">YOB RESPONDS:</div>
+        <p>Yob flagged Barthes in Issue #008. The Editor said "next issue." In Issue #009 Yob flagged Barthes again. The Editor said "the Music Issue." The Music Issue is Issue #010. This is Issue #010. The system worked. The wait was two issues, which is the amount of time it takes to build appropriate anticipation for a semiotician. Yob does not apologise for appropriate anticipation. Yob does, however, note that Tom's second point — that the interview was worth it — is something Yob predicted in Issue #009, and Yob would like this on record. Five stars for being right. Three stars for the apology demand. Three stars it is.</p>
+        <span class="yob-sign">— Yob</span>
+      </div>
+    </div>
+
+    <!-- LETTER 5 -->
+    <div class="letter-card">
+      <div class="letter-meta">
+        <div class="letter-from">MAIKO S. — OSAKA, JAPAN</div>
+        <div>
+          <div class="letter-stars">★★★★☆</div>
+          <div class="letter-verdict">CORRECTLY PHRASED CONCERN</div>
+        </div>
+      </div>
+      <p class="letter-body">I play classical piano and have been watching music YouTube since about 2015. What I find most interesting is that the theory renaissance you all love to celebrate has also produced a generation of musicians who can articulate everything they're doing technically but who sometimes play music that is correct without being interesting. Theory literacy can become a cage as much as a key. Is there a version of music YouTube that addresses this?</p>
+      <div class="yob-response">
+        <div class="yob-name">YOB RESPONDS:</div>
+        <p>Yob thinks Maiko has identified something real and put it very precisely, which is why Yob is giving four stars despite this being a slightly uncomfortable letter. Frank Zappa — who appears in this issue's Time Capsule, if Maiko has got there yet — said something very similar: theory taught as prescription rather than description produces musicians who can explain everything and invent nothing. The cage problem is real. The channels that Yob thinks address it best are the ones that pair technical analysis with the question "and why does this work?" rather than stopping at "and here's what's happening." Adam Neely's X-Factor is, to a large degree, that he consistently asks the second question. The cage becomes a key when you understand that the rules describe what's been done, not what can be done. Some of YouTube's music theory channels have figured this out. Maiko has correctly identified the ones that haven't.</p>
+        <span class="yob-sign">— Yob</span>
+      </div>
+    </div>
+
+    <!-- LETTER 6 -->
+    <div class="letter-card">
+      <div class="letter-meta">
+        <div class="letter-from">ANONYMOUS — WITHHELD</div>
+        <div>
+          <div class="letter-stars">★★★★★</div>
+          <div class="letter-verdict">YOB IS AFFECTED</div>
+        </div>
+      </div>
+      <p class="letter-body">I want to tell you that I started playing guitar at 41 because of music YouTube. I had always assumed learning music as an adult was not really possible. I watched Adam Neely explain voice-leading once and then watched him do it again and then I bought a guitar. I've been playing for three years. I'm not good at it. But I play. Thank you for covering these channels seriously. It matters more than you probably know.</p>
+      <div class="yob-response">
+        <div class="yob-name">YOB RESPONDS:</div>
+        <p>Yob does not usually do this but Yob is doing it now: five stars, no criticism. This is what the magazine exists to talk about. Not the algorithm, not the metrics, not the brand deals and copyright claims and platform politics — though all of that matters and we cover it. This. A person at 41 who bought a guitar because of a YouTube video and plays it badly and keeps playing. That is the correct outcome. That is what democratised music education looks like when it actually works. Yob would like to be on record as being moved by this letter and would like it clearly stated that this does not happen often and that Yob's general rudeness remains firmly in place for all future correspondence. But this one gets five stars and no notes.</p>
+        <span class="yob-sign">— Yob (who is briefly, temporarily, in a good mood about this)</span>
+      </div>
+    </div>
+
+    <!-- LETTER 7 -->
+    <div class="letter-card">
+      <div class="letter-meta">
+        <div class="letter-from">KIERAN O. — DUBLIN, IRELAND</div>
+        <div>
+          <div class="letter-stars">★★☆☆☆</div>
+          <div class="letter-verdict">WRONG, BUT ENTHUSIASTICALLY</div>
+        </div>
+      </div>
+      <p class="letter-body">The Music Issue should have been Issue #002, not Issue #010. Music is the most important thing on YouTube. You spent nine issues covering everything else first. What were you thinking?</p>
+      <div class="yob-response">
+        <div class="yob-name">YOB RESPONDS:</div>
+        <p>Yob was thinking about Issue #001 through #009, Kieran. We covered Algorithm, Vision, Spectacle, Craft, Underground, Longevity, Voice, Nostalgia, and Niche before arriving at Music. Each of those issues built vocabulary that we used in this one. The discussion of voice in Issue #007 prepared us to talk about grain in the Barthes interview. The niche framework from #009 prepared us to discuss the bedroom producer pipeline. The longevity conversation from #006 is relevant to the question of which music channels actually last. Good things take time. Yob also notes that Kieran is from Dublin, same city as Tantacrul, whose review in this issue gives a new Top 50 entry to an Irish music software critic. Yob considers this adequate compensation for waiting nine issues. Two stars. Ireland has punched above its weight this issue. Do not push it.</p>
+        <span class="yob-sign">— Yob</span>
+      </div>
+    </div>
+
+    <div class="page-num">PAGE 10 / CTRL+WATCH #010</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     TAB 11: RETRO ADS
+═══════════════════════════════════════════════════════════════════════════ -->
+<div id="tab-ads" class="tab-panel">
+  <div class="content-wrap">
+    <div class="section-label">COMMERCIAL BREAK</div>
+    <h1 class="section-title">RETRO ADS</h1>
+    <p class="section-subtitle">Four advertisements for products that do not exist. We wish some of them did.</p>
+
+    <div class="pixel-divider"></div>
+
+    <!-- AD 1 -->
+    <div class="ad-block">
+      <div class="ad-product">THEORY PILLS™</div>
+      <div class="ad-tagline">UNDERSTAND MUSIC INSTANTLY. SIDE EFFECTS MAY INCLUDE OPINIONS.</div>
+      <p class="ad-body">Are you tired of sitting through twelve-hour Adam Neely deep dives before understanding what a chord is? Do you want the Circle of Fifths installed directly into your brain without the attendant eighteen months of piano practice? Introducing THEORY PILLS™ — the revolutionary supplement that delivers music theory knowledge through the bloodstream, bypassing the slow and humiliating process of actually learning anything.</p>
+      <p class="ad-body">Simply take one THEORY PILL™ and within twenty minutes you'll be confidently explaining to your friends why the Beatles' use of the Aeolian mode in "Yesterday" represents a departure from—</p>
+      <ul class="ad-features">
+        <li>Instant Circle of Fifths comprehension</li>
+        <li>Ability to hear tritone substitutions in real time</li>
+        <li>Automatic opinion on whether equal temperament was a mistake</li>
+        <li>Compulsion to explain Neapolitan chords at parties</li>
+        <li>Glenn Gould-level certainty about recording vs. live performance</li>
+      </ul>
+      <div class="ad-cta">ORDER NOW: £49.99 FOR 30 PILLS</div>
+      <p class="ad-disclaimer">Side effects include: arguing with musicians, crying at tritone resolutions, explaining the pentatonic scale to people who did not ask, inability to enjoy music without narrating it, spontaneous knowledge of what a plagal cadence is, and in rare cases: actually learning to play an instrument. Theory Pills™ not approved by any conservatory. The Royal College of Music has asked us to stop. We have not stopped.</p>
+    </div>
+
+    <!-- AD 2 -->
+    <div class="ad-block" style="border-color: var(--red);">
+      <div class="ad-product" style="color: var(--red);">THE COPYRIGHT CANNON™</div>
+      <div class="ad-tagline" style="color: var(--orange);">FOR MAJOR LABELS ONLY. CLAIM EVERYTHING. EXPLAIN NOTHING.</div>
+      <p class="ad-body">Tired of letting independent music educators explain your copyrighted songs to millions of people without your involvement? Frustrated by the proliferation of analysis content that makes your artists' music more comprehensible and thus more beloved without generating a single streaming royalty? Introducing THE COPYRIGHT CANNON™ — the AI-powered automated rights system that claims everything, everywhere, always, before the video has finished uploading.</p>
+      <p class="ad-body">Our proprietary algorithm scans for twelve discrete audio signatures including: a melody, a rhythm, a key, an instrument, the concept of music, and the presence of air moving through a room in a way that might theoretically resemble something we own the rights to.</p>
+      <ul class="ad-features">
+        <li>Claims in under 47 minutes (average; under 30 minutes if you upgrade)</li>
+        <li>Harmonic Similarity Detection™ — flags anything in C major</li>
+        <li>Retroactive claims on content uploaded before 2008</li>
+        <li>Auto-dispute rejection with plausible-sounding explanations</li>
+        <li>Complete indifference to context, education, or fair use principles</li>
+      </ul>
+      <div class="ad-cta" style="color: var(--red); background: rgba(255,34,68,0.2); border: 1px solid var(--red);">CONTACT OUR LEGAL DEPARTMENT</div>
+      <p class="ad-disclaimer">The Copyright Cannon™ accepts no responsibility for the creative ecosystems it disrupts, the educators it silences, the music lovers it alienates, or the general impression it creates that the music industry has confused ownership of songs with ownership of the concept of music. Copyright Cannon™ is proud to have filed 847,000 claims this quarter against content that was making people love music more. We consider this a success.</p>
+    </div>
+
+    <!-- AD 3 -->
+    <div class="ad-block" style="border-color: var(--magenta);">
+      <div class="ad-product" style="color: var(--magenta);">REACTION MAN 3000™</div>
+      <div class="ad-tagline" style="color: var(--cyan);">THE AI THAT REACTS SO YOU DON'T HAVE TO.</div>
+      <p class="ad-body">Creating authentic-seeming first-time reactions to music you've already heard is exhausting. The maintenance of genuine surprise across your fifteenth "First Time Hearing Kind of Blue" video requires calibrated facial expression management, strategic pausing, and an ability to perform naivety that frankly belongs on a professional stage. Your time is valuable. REACTION MAN 3000™ does the face for you.</p>
+      <p class="ad-body">Simply select the song, specify the emotional register (SURPRISED / MOVED / TECHNICALLY IMPRESSED / ALL THREE SIMULTANEOUSLY), and let REACTION MAN 3000™ generate a photorealistic AI performance of encountering music for the first time. Indistinguishable from genuine human response in controlled tests.*</p>
+      <ul class="ad-features">
+        <li>Eight varieties of "the head nod at the bridge"</li>
+        <li>Authentic jaw-drop calibrated to key changes</li>
+        <li>Whispered "oh my god" delivery in fourteen languages</li>
+        <li>Genuine-seeming eye moisture on demand</li>
+        <li>Post-video commentary generator: "I wasn't expecting THAT"</li>
+      </ul>
+      <div class="ad-cta" style="color: var(--bg); background: var(--magenta);">BOOK A DEMO</div>
+      <p class="ad-disclaimer">*Controlled tests conducted internally. Not tested on actual humans who know what human musical response looks like. "Indistinguishable" may be aspirational. REACTION MAN 3000™ cannot be held responsible for the continued existence of the reaction video genre, which preceded our product and will probably outlast it. Facial expressions sold as separate DLC packages. The head nod is included in the base package but the good head nod is premium.</p>
+    </div>
+
+    <!-- AD 4 -->
+    <div class="ad-block" style="border-color: var(--green);">
+      <div class="ad-product" style="color: var(--green);">DEPTH UNLIMITED™<br><span style="font-size: 16px; color: var(--text2);">for Music Channels</span></div>
+      <div class="ad-tagline" style="color: var(--yellow);">STOP GOING BROAD. GO DEEPER. THERE IS ALWAYS MORE DOWN THERE.</div>
+      <p class="ad-body">You started a music channel. You're doing album reviews. You're doing "Top 10 Guitarists" lists. You're doing reaction videos to reaction videos. Your analytics are fine. Your soul is empty. DEPTH UNLIMITED™ is the music channel growth consultancy that will look at your content strategy and say, firmly and with documented evidence, that you have been going in the wrong direction.</p>
+      <p class="ad-body">Our proprietary Depth Assessment™ process identifies the single most interesting thing about music that you personally find genuinely fascinating and then helps you make a channel about only that thing, forever, at whatever level of detail that thing actually requires, which is more detail than you thought.</p>
+      <ul class="ad-features">
+        <li>Identifies your actual niche (not your self-described niche)</li>
+        <li>Removes the content you're making to please the algorithm</li>
+        <li>Replaces it with content you would make if no one was watching</li>
+        <li>Note: people are watching. More people than you expected.</li>
+        <li>The Temperament Workshop has 1,800 subscribers and they are all the right 1,800 subscribers</li>
+      </ul>
+      <div class="ad-cta" style="color: var(--bg); background: var(--green);">THE CONSULTATION IS FREE</div>
+      <p class="ad-disclaimer">DEPTH UNLIMITED™ cannot guarantee large audiences. We can guarantee that the audiences you do attract will stay, engage, and consider your channel essential rather than merely good. We have been called "the consultancy that makes you make less content and somehow grow." We consider this accurate. Previous clients include three Hidden Levels channel operators who now have four times their original subscriber counts. They are still in the thousands. They are very happy. The thousands are the point.</p>
+    </div>
+
+    <div class="page-num">PAGE 11 / CTRL+WATCH #010</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>CTRL+WATCH — ISSUE #010 — THE MUSIC ISSUE — MARCH 2026</p>
+  <p>© CTRL+WATCH MAGAZINE // ALL SCORES FINAL // ALL TIME CAPSULE INTERVIEWS FICTIONAL</p>
+  <p>PRESS START TO BEGIN AGAIN — ISSUE #011 LOADING...</p>
+</footer>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>

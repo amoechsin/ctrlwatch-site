@@ -98,4 +98,15 @@ export const issues = [
     rating: null,
     published: true,
   },
+  {
+    slug: '010',
+    number: '#010',
+    date: 'April 2026',
+    title: 'THE MUSIC ISSUE',
+    subtitle: 'The channels that make you hear YouTube differently.',
+    coverColor: '#ff6600',
+    tag: 'MUSIC',
+    rating: null,
+    published: true,
+  },
 ];
