@@ -109,4 +109,15 @@ export const issues = [
     rating: null,
     published: true,
   },
+  {
+    slug: '011',
+    number: '#011',
+    date: 'March 2026',
+    title: 'THE POLITICS ISSUE',
+    subtitle: 'When creators step into the arena and the algorithm picks sides.',
+    coverColor: '#ff2244',
+    tag: 'POLITICS',
+    rating: null,
+    published: true,
+  },
 ];
