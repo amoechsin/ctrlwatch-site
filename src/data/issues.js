@@ -120,4 +120,15 @@ export const issues = [
     rating: null,
     published: true,
   },
+  {
+    slug: '012',
+    number: '#012',
+    date: 'March 2026',
+    title: 'THE COLLISIONS ISSUE',
+    subtitle: 'The most interesting things happen at the borders.',
+    coverColor: '#00f0ff',
+    tag: 'COLLISIONS',
+    rating: null,
+    published: true,
+  },
 ];

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTRL+WATCH — The YouTube Review Magazine</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Exo+2:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=VT323&family=Russo+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0A0A12;
+  --bg-panel: #12121E;
+  --bg-card: #1A1A2E;
+  --cyan: #00F0FF;
+  --magenta: #FF00AA;
+  --yellow: #FFE600;
+  --green: #39FF14;
+  --orange: #FF6B00;
+  --text-primary: #E0E0E8;
+  --text-secondary: #9090A0;
+  --text-dim: #606078;
+  --border-color: #2A2A44;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: 'Exo 2', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+/* CRT Scanlines */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 3px);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Ambient glow */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(0,240,255,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(255,0,170,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(255,230,0,0.03) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  width: 100%;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+/* Logo */
+.logo-tag {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: var(--magenta);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  animation: fadeSlideIn 0.8s ease both;
+}
+
+.logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(42px, 10vw, 80px);
+  font-weight: 900;
+  color: #fff;
+  text-shadow:
+    0 0 40px rgba(0,240,255,0.5),
+    0 0 80px rgba(0,240,255,0.2),
+    0 0 120px rgba(0,240,255,0.1);
+  letter-spacing: 6px;
+  line-height: 1;
+  animation: fadeSlideIn 0.8s ease 0.1s both;
+}
+
+.logo-sub {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 13px;
+  color: var(--text-secondary);
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  margin-top: 8px;
+  animation: fadeSlideIn 0.8s ease 0.2s both;
+}
+
+/* Divider */
+.divider {
+  width: 200px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), var(--magenta), transparent);
+  margin: 36px auto;
+  animation: fadeSlideIn 0.8s ease 0.3s both;
+}
+
+/* Issue card */
+.issue-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 0;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  animation: fadeSlideIn 0.8s ease 0.4s both;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.issue-card:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 0 30px rgba(0,240,255,0.1);
+}
+
+.issue-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding: 32px;
+}
+
+.issue-card-accent {
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: linear-gradient(180deg, var(--cyan), var(--magenta), var(--yellow));
+}
+
+.issue-number {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: var(--cyan);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.issue-theme {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(22px, 5vw, 32px);
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(0,240,255,0.3);
+  margin-top: 8px;
+  line-height: 1.2;
+}
+
+.issue-tagline {
+  font-family: 'Russo One', sans-serif;
+  font-size: 15px;
+  color: var(--yellow);
+  margin-top: 12px;
+  line-height: 1.4;
+}
+
+.issue-meta {
+  font-family: 'VT323', monospace;
+  font-size: 15px;
+  color: var(--text-dim);
+  margin-top: 16px;
+  letter-spacing: 1px;
+}
+
+.issue-highlights {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.highlight-tag {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  padding: 5px 10px;
+  letter-spacing: 1px;
+  border: 1px solid;
+}
+
+.highlight-tag.cyan { color: var(--cyan); border-color: rgba(0,240,255,0.3); background: rgba(0,240,255,0.06); }
+.highlight-tag.magenta { color: var(--magenta); border-color: rgba(255,0,170,0.3); background: rgba(255,0,170,0.06); }
+.highlight-tag.yellow { color: var(--yellow); border-color: rgba(255,230,0,0.3); background: rgba(255,230,0,0.06); }
+.highlight-tag.green { color: var(--green); border-color: rgba(57,255,20,0.3); background: rgba(57,255,20,0.06); }
+
+.read-prompt {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  color: var(--cyan);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s;
+}
+
+.issue-card:hover .read-prompt { color: #fff; }
+
+.read-prompt .arrow {
+  display: inline-block;
+  transition: transform 0.3s;
+}
+
+.issue-card:hover .read-prompt .arrow { transform: translateX(6px); }
+
+/* Back catalogue */
+.back-catalogue {
+  margin-top: 48px;
+  animation: fadeSlideIn 0.8s ease 0.6s both;
+}
+
+.back-catalogue-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--text-dim);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.back-issues {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.back-issue {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  color: var(--text-secondary);
+  transition: border-color 0.2s, color 0.2s;
+  cursor: default;
+}
+
+.back-issue span {
+  display: block;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 2px;
+  font-family: 'Exo 2', sans-serif;
+}
+
+/* Footer */
+.footer {
+  margin-top: 48px;
+  font-family: 'VT323', monospace;
+  font-size: 13px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  animation: fadeSlideIn 0.8s ease 0.7s both;
+}
+
+/* Animations */
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Pixel dots decoration */
+.pixel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 24px 0 0;
+}
+
+.pixel-dots span {
+  width: 4px; height: 4px;
+  display: inline-block;
+  opacity: 0.3;
+}
+
+.pixel-dots span:nth-child(1) { background: var(--cyan); }
+.pixel-dots span:nth-child(2) { background: var(--magenta); }
+.pixel-dots span:nth-child(3) { background: var(--yellow); }
+.pixel-dots span:nth-child(4) { background: var(--green); }
+.pixel-dots span:nth-child(5) { background: var(--cyan); }
+.pixel-dots span:nth-child(6) { background: var(--magenta); }
+.pixel-dots span:nth-child(7) { background: var(--yellow); }
+
+@media (max-width: 480px) {
+  .container { padding: 24px 16px; }
+  .issue-card-link { padding: 20px; }
+  .back-issues { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="logo-tag">The YouTube Review Magazine</div>
+  <h1 class="logo">CTRL+WATCH</h1>
+  <div class="logo-sub">Est. 2025 &bull; £3.99 Where Sold</div>
+
+  <div class="divider"></div>
+
+  <!-- CURRENT ISSUE -->
+  <div class="issue-card">
+    <div class="issue-card-accent"></div>
+    <a href="ctrlwatch_issue_012_collisions.html" class="issue-card-link">
+      <div class="issue-number">Issue #012 &bull; March 2026 &bull; Latest</div>
+      <div class="issue-theme">The Collisions Issue</div>
+      <div class="issue-tagline">"The most interesting things happen at the borders."</div>
+      <div class="issue-meta">~18,800 words &bull; 11 sections &bull; Full HTML publication</div>
+
+      <div class="issue-highlights">
+        <span class="highlight-tag cyan">TYPE 7 TAXONOMY</span>
+        <span class="highlight-tag magenta">JACOB GELLER: 91</span>
+        <span class="highlight-tag yellow">SAM O'NELLA vs OVERSIMPLIFIED</span>
+        <span class="highlight-tag green">DA VINCI &bull; LAMARR &bull; LOVELACE &bull; ADAMS &bull; SACKS &bull; LEE</span>
+      </div>
+
+      <div class="read-prompt">
+        Read Issue <span class="arrow">→</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- BACK CATALOGUE -->
+  <div class="back-catalogue">
+    <div class="back-catalogue-title">Back Catalogue</div>
+    <div class="back-issues">
+      <div class="back-issue">#011 <span>The Politics Issue</span></div>
+      <div class="back-issue">#010 <span>The Music Issue</span></div>
+      <div class="back-issue">#009 <span>The Niche Issue</span></div>
+      <div class="back-issue">#008 <span>The Nostalgia Issue</span></div>
+      <div class="back-issue">#007 <span>The Voice Issue</span></div>
+      <div class="back-issue">#006 <span>The Longevity Issue</span></div>
+      <div class="back-issue">#005 <span>The Underground Issue</span></div>
+      <div class="back-issue">#004 <span>The Spectacle Issue</span></div>
+      <div class="back-issue">#003 <span>The Vision Issue</span></div>
+      <div class="back-issue">#002 <span>The Algorithm Issue</span></div>
+      <div class="back-issue">#001 <span>The Premiere Issue</span></div>
+    </div>
+  </div>
+
+  <div class="pixel-dots">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="footer">
+    <p>© 2026 CTRL+WATCH MAGAZINE</p>
+    <p style="margin-top:4px;font-size:11px;">Next Issue: #013 — The Global Issue</p>
+  </div>
+
+</div>
+
+</body>
+</html>
