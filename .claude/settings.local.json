@@ -9,7 +9,11 @@
       "WebSearch",
       "WebFetch(domain:socialblade.com)",
       "Bash(cp:*)",
-      "Bash(yes)"
+      "Bash(yes)",
+      "Bash(git commit:*)",
+      "Bash(npm run:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)"
     ]
   }
 }
