@@ -13,7 +13,16 @@
       "Bash(git commit:*)",
       "Bash(npm run:*)",
       "Bash(git add:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(ls:*)",
+      "Bash(grep -r \"Continuity Tracker\\\\|Tracker Check\\\\|continuity tracker\" /home/amoechsin/projects/ctrlwatch-site/.claude/skill/*.md)",
+      "Bash(wc -l /home/amoechsin/projects/ctrlwatch-site/public/issues/00*/CTRLWATCH*.html /home/amoechsin/projects/ctrlwatch-site/public/issues/00*/ctrlwatch*.html)",
+      "Bash(bash /tmp/extract_data.sh)",
+      "WebFetch(domain:ctrl-watch.xyz)",
+      "Bash(dig ctrl-watch.xyz +short)",
+      "Bash(nslookup ctrl-watch.xyz)",
+      "Bash(npx netlify-cli:*)",
+      "Bash(npx ntl:*)"
     ]
   }
 }
