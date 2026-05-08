@@ -1,6 +1,6 @@
 # CTRL+WATCH Continuity Tracker
 
-> **Last updated:** Issue #012 — THE COLLISIONS ISSUE (March 2026)
+> **Last updated:** Issue #013 — THE GLOBAL ISSUE (April 2026)
 >
 > This is the single source of truth for all CTRL+WATCH continuity state.
 > Update this file after every new issue is published.
@@ -25,10 +25,11 @@ Never repeat a figure. If they're on this list, they're retired.
 | #010 | Roland Barthes, Leonard Cohen, Nina Simone, Miles Davis, Glenn Gould, Frank Zappa |
 | #011 | Hannah Arendt, James Baldwin, Michel Foucault, Muhammad Ali, Charlie Chaplin, Christopher Hitchens |
 | #012 | Leonardo da Vinci, Hedy Lamarr |
+| #013 | Akira Kurosawa, Ingmar Bergman, Federico Fellini, Marie Curie, Albert Einstein, Oscar Wilde |
 
 **Known error:** Andy Warhol appeared in both #002 and #004. Do not use again.
 
-**Total used:** ~68 figures
+**Total used:** ~74 figures
 
 ---
 
@@ -51,12 +52,12 @@ Never repeat a pairing. Never repeat a channel in a Boss Fight.
 | #010 | Rick Beato vs 12tone | 12tone | 82 vs 86 |
 | #011 | Philosophy Tube vs Contrapoints | Contrapoints | 85 vs 88 |
 | #012 | Sam O'Nella Academy vs Oversimplified | Sam O'Nella Academy | 82 vs 77 |
+| #013 | Kurzgesagt vs TED-Ed | Kurzgesagt | 91 vs 85 |
 
 **Channels already used in a Boss Fight (cannot reappear):**
-Dan Carlin, Joe Rogan, MKBHD, Linus Tech Tips, Every Frame a Painting, Cinemastix, Vsauce, Veritasium, Primitive Technology, How To Make Everything, The Morphological Cinema, Forgotten Formats, Technology Connections, Techmoan, Internet Historian, Lemmino, Defunctland, Company Man, Binging with Babish, Joshua Weissman, Rick Beato, 12tone, Philosophy Tube, Contrapoints, Sam O'Nella Academy, Oversimplified
+Dan Carlin, Joe Rogan, MKBHD, Linus Tech Tips, Every Frame a Painting, Cinemastix, Vsauce, Veritasium, Primitive Technology, How To Make Everything, The Morphological Cinema, Forgotten Formats, Technology Connections, Techmoan, Internet Historian, Lemmino, Defunctland, Company Man, Binging with Babish, Joshua Weissman, Rick Beato, 12tone, Philosophy Tube, Contrapoints, Sam O'Nella Academy, Oversimplified, Kurzgesagt, TED-Ed
 
 **Pre-approved safe matchups (unused):**
-- Kurzgesagt vs TED-Ed
 - Dunkey vs Girlfriend Reviews
 - Adam Savage vs Colin Furze
 - Johnny Harris vs Vox
@@ -103,6 +104,12 @@ All channels formally reviewed, with issue, score, and verdict.
 | Tasting History | #012 | 86 | EXCELLENT | NEW |
 | Sam O'Nella Academy | #012 | 82 | EXCELLENT | Boss Fight #012 |
 | Oversimplified | #012 | 77 | GOOD | Boss Fight #012 |
+| Caspian Report | #013 | 87 | EXCELLENT | NEW |
+| Like Stories of Old | #013 | 86 | EXCELLENT | NEW |
+| Abroad in Japan | #013 | 84 | EXCELLENT | NEW |
+| Luisito Comunica | #013 | 80 | EXCELLENT | NEW; first non-English Player Profile |
+| The School of Life | #013 | 76 | GOOD | NEW |
+| TED-Ed | #013 (BF) | 85 | EXCELLENT | Boss Fight #013; Top 50 debut at #41 |
 
 ### Negative Reviews
 
@@ -118,7 +125,7 @@ All channels formally reviewed, with issue, score, and verdict.
 | penguinz0 / Cr1tikal | #007 | 65 | AVERAGE |
 | Johnny Harris | #011 | 64 | AVERAGE |
 
-**Negative review counter:** Resets with each below-70 review. Last reset: Issue #011 (PragerU 22, HasanAbi 68). Issues since last negative review: 1 (#012).
+**Negative review counter:** Resets with each below-70 review. Last reset: Issue #011 (PragerU 22, HasanAbi 68). Issues since last negative review: 2 (#012, #013).
 
 ---
 
@@ -137,7 +144,7 @@ All channels formally reviewed, with issue, score, and verdict.
 
 ---
 
-## Top 50 — Current Rankings (as of Issue #012)
+## Top 50 — Current Rankings (as of Issue #013)
 
 | Rank | Channel | Score | Genre | Movement |
 |------|---------|-------|-------|----------|
@@ -145,52 +152,54 @@ All channels formally reviewed, with issue, score, and verdict.
 | 2 | Kurzgesagt | 94 | Science / Animation | — |
 | 3 | Every Frame a Painting | 92 | Film Analysis | — |
 | 4 | Primitive Technology | 91 | Maker / Survival | — |
-| 5 | Jacob Geller | 91 | Video Games × Philosophy × Art | NEW |
-| 6 | Adam Neely | 91 | Music Theory / Jazz Bass | ↓1 |
-| 7 | CGP Grey | 91 | Education / Explainer | ↓1 |
-| 8 | Lemmino | 91 | Documentary / Mystery | ↓1 |
-| 9 | Fireship | 90 | Technology / Programming | ↓1 |
-| 10 | Dan Carlin's Hardcore History | 90 | History / Long-Form | ↓1 |
-| 11 | Townsends | 90 | Historical Living / Cooking | ↓1 |
-| 12 | Mark Rober | 89 | Engineering / Entertainment | ↓1 |
+| 5 | Jacob Geller | 91 | Video Games × Philosophy × Art | — |
+| 6 | Adam Neely | 91 | Music Theory / Jazz Bass | — |
+| 7 | CGP Grey | 91 | Education / Explainer | — |
+| 8 | Lemmino | 91 | Documentary / Mystery | — |
+| 9 | Fireship | 90 | Technology / Programming | — |
+| 10 | Dan Carlin's Hardcore History | 90 | History / Long-Form | — |
+| 11 | Townsends | 90 | Historical Living / Cooking | — |
+| 12 | Mark Rober | 89 | Engineering / Entertainment | — |
 | 13 | Veritasium | 89 | Science / Education | — |
 | 14 | Vsauce | 89 | Science / Philosophy | — |
-| 15 | Technology Connections | 88 | Technology / History | ↓1 |
-| 16 | Contrapoints | 88 | Political Essay / Trans Studies | — |
-| 17 | Conan O'Brien / Team Coco | 88 | Comedy / Talk | ↓2 |
-| 18 | exurb1a | 88 | Philosophy / Existential | ↓1 |
-| 19 | Clickspring | 88 | Clockmaking / Machining | ↓1 |
-| 20 | Internet Historian | 87 | Internet Culture / Documentary | — |
-| 21 | Theo Von | 87 | Comedy / Podcast | — |
-| 22 | Good Mythical Morning | 87 | Entertainment / Variety | — |
-| 23 | Historia Civilis | 87 | Ancient History | ↓1 |
-| 24 | Tasting History | 86 | History × Cooking | NEW |
-| 25 | JCS — Criminal Psychology | 86 | True Crime / Analysis | ↓6 |
-| 26 | Breaking Points | 86 | Political Analysis / Podcast | ↓1 |
-| 27 | 12tone | 86 | Music Theory / Analysis | ↓1 |
-| 28 | Nerdwriter1 | 86 | Art / Film Analysis | — |
-| 29 | NileRed | 86 | Chemistry | — |
-| 30 | Stuff Made Here | 86 | Engineering / Maker | — |
-| 31 | Scott The Woz | 86 | Retro Gaming / Comedy | — |
-| 32 | Binging with Babish | 85 | Cooking / Entertainment | ↓9 |
-| 33 | Tantacrul | 85 | Music Software / Comedy Essay | ↓1 |
-| 34 | Philosophy Tube | 85 | Political Philosophy / Theatre | ↓1 |
-| 35 | Map Men (Jay and Mark) | 85 | Geography / Comedy | ↓8 |
-| 36 | Real Engineering | 85 | Engineering / Education | ↓1 |
-| 37 | The Slow Mo Guys | 85 | Science / Entertainment | ↓1 |
-| 38 | Smarter Every Day | 85 | Science / Curiosity | — |
-| 39 | Legal Eagle | 84 | Law × Pop Culture × Comedy | NEW |
-| 40 | Videogamedunkey | 84 | Gaming / Commentary | ↓6 |
-| 41 | Sideways | 84 | Music Analysis / Film | ↓3 |
-| 42 | Wendover Productions | 84 | Logistics / Explainer | ↓3 |
-| 43 | Whang! | 84 | Internet History / Archaeology | ↓3 |
-| 44 | Tom Scott | 84 | Education / Travel | ↓3 |
-| 45 | Philip DeFranco | 84 | News / Commentary | ↓3 |
-| 46 | TLDR News | 83 | International Political Analysis | — |
-| 47 | Sam O'Nella Academy | 82 | History × Comedy Animation | NEW |
-| 48 | Rick Beato | 82 | Music Education / Analysis | ↓4 |
-| 49 | Answer in Progress | 81 | Science × Personal Essay × Comedy | NEW |
-| 50 | Joshua Weissman | 81 | Cooking / From-Scratch | ↓7 |
+| 15 | Technology Connections | 88 | Technology / History | — |
+| 16 | Conan O'Brien / Team Coco | 88 | Comedy / Talk | ↑1 |
+| 17 | Contrapoints | 88 | Political Essay / Trans Studies | ↓1 |
+| 18 | exurb1a | 88 | Philosophy / Existential | — |
+| 19 | Clickspring | 88 | Clockmaking / Machining | — |
+| 20 | Internet Historian | 87 | Internet Culture / Documentary | ↑1 |
+| 21 | Theo Von | 87 | Comedy / Podcast | ↑1 |
+| 22 | Good Mythical Morning | 87 | Entertainment / Variety | ↑1 |
+| 23 | Caspian Report | 87 | Geopolitics / Analysis | NEW |
+| 24 | Historia Civilis | 87 | Ancient History | ↑2 |
+| 25 | JCS — Criminal Psychology | 86 | True Crime / Analysis | ↓5 |
+| 26 | Tasting History with Max Miller | 86 | History × Cooking | ↓2 |
+| 27 | Breaking Points | 86 | Political Analysis / Podcast | — |
+| 28 | 12tone | 86 | Music Theory / Analysis | — |
+| 29 | Like Stories of Old | 86 | Philosophy / Video Essay | NEW |
+| 30 | Nerdwriter1 | 86 | Art / Film Analysis | — |
+| 31 | NileRed | 86 | Chemistry | — |
+| 32 | Stuff Made Here | 86 | Engineering / Maker | — |
+| 33 | Scott The Woz | 86 | Retro Gaming / Comedy | — |
+| 34 | Binging with Babish | 85 | Cooking / Entertainment | ↓9 |
+| 35 | Tantacrul | 85 | Music Software / Comedy Essay | ↓1 |
+| 36 | Philosophy Tube | 85 | Political Philosophy / Theatre | ↓1 |
+| 37 | Real Engineering | 85 | Engineering / Education | — |
+| 38 | The Slow Mo Guys | 85 | Science / Entertainment | — |
+| 39 | Map Men (Jay and Mark) | 85 | Geography / Comedy | ↓10 |
+| 40 | Smarter Every Day | 85 | Science / Curiosity | — |
+| 41 | TED-Ed | 85 | Animated Education / Global | NEW |
+| 42 | Videogamedunkey | 84 | Gaming / Commentary | ↓6 |
+| 43 | Legal Eagle | 84 | Law × Pop Culture × Comedy | ↓4 |
+| 44 | Sideways | 84 | Music Analysis / Film | ↓3 |
+| 45 | Wendover Productions | 84 | Logistics / Explainer | ↓3 |
+| 46 | Abroad in Japan | 84 | Travel / Culture / Documentary | NEW |
+| 47 | Whang! | 84 | Internet History / Archaeology | ↓4 |
+| 48 | Tom Scott | 84 | Education / Travel | ↓4 |
+| 49 | Philip DeFranco | 84 | News / Commentary | ↓4 |
+| 50 | TLDR News | 83 | International Political Analysis | — |
+
+**Dropped from Top 50 in #013:** Joshua Weissman (81), Answer in Progress (81), Rick Beato (82), Sam O'Nella Academy (82). Entry threshold rose to 84+.
 
 ### ESSENTIAL Channels (90+)
 3Blue1Brown (96), Kurzgesagt (94), Every Frame a Painting (92), Technology Connections (92), Primitive Technology (91), Jacob Geller (91), Adam Neely (91), CGP Grey (91), Lemmino (91), Fireship (90), Dan Carlin (90), Townsends (90)
@@ -213,3 +222,4 @@ All channels formally reviewed, with issue, score, and verdict.
 | #010 | The Music Issue | — |
 | #011 | The Politics Issue | — |
 | #012 | The Collisions Issue | March 2026 |
+| #013 | The Global Issue | April 2026 |

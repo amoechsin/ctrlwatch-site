@@ -131,4 +131,15 @@ export const issues = [
     rating: null,
     published: true,
   },
+  {
+    slug: '013',
+    number: '#013',
+    date: 'April 2026',
+    title: 'THE GLOBAL ISSUE',
+    subtitle: 'YouTube exists in languages other than English. Here are the channels you missed.',
+    coverColor: '#39ff14',
+    tag: 'GLOBAL',
+    rating: null,
+    published: true,
+  },
 ];
