@@ -142,4 +142,15 @@ export const issues = [
     rating: null,
     published: true,
   },
+  {
+    slug: '014',
+    number: '#014',
+    date: 'May 2026',
+    title: 'THE COMEDY ISSUE',
+    subtitle: 'Why YouTube comedy stopped being funny — and where it quietly got funny again.',
+    coverColor: '#ffe600',
+    tag: 'COMEDY',
+    rating: null,
+    published: true,
+  },
 ];

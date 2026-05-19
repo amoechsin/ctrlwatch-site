@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTRL+WATCH — Issue #014 — THE COMEDY ISSUE</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=VT323&family=Exo+2:wght@300;400;600;700&family=Russo+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary:    #0A0A12;
+  --bg-secondary:  #0F0F1A;
+  --bg-card:       #12121E;
+  --bg-header:     #08080F;
+  --cyan:          #00F0FF;
+  --magenta:       #FF00AA;
+  --yellow:        #FFE600;
+  --green:         #39FF14;
+  --orange:        #FF6B00;
+  --red:           #FF2244;
+  --text-primary:  #E0E0E8;
+  --text-secondary:#9090A0;
+  --text-dim:      #505060;
+  --border-color:  #1E1E30;
+  --glow-cyan:     0 0 10px #00F0FF, 0 0 20px rgba(0,240,255,0.3);
+  --glow-magenta:  0 0 10px #FF00AA, 0 0 20px rgba(255,0,170,0.3);
+  --glow-yellow:   0 0 10px #FFE600, 0 0 20px rgba(255,230,0,0.3);
+  --glow-green:    0 0 10px #39FF14, 0 0 20px rgba(57,255,20,0.3);
+  --glow-red:      0 0 10px #FF2244, 0 0 20px rgba(255,34,68,0.3);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg-primary); color: var(--text-primary); font-family: 'Exo 2', sans-serif; line-height: 1.6; }
+body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px); pointer-events: none; z-index: 9999; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.masthead { background: var(--bg-header); border-bottom: 1px solid var(--border-color); padding: 32px 0 24px; }
+.masthead-top { display: flex; justify-content: space-between; align-items: center; font-family: 'VT323', monospace; font-size: 24px; color: var(--text-secondary); }
+.masthead-title { text-align: center; padding: 16px 0; }
+.masthead-title h1 { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: clamp(48px, 9vw, 96px); color: var(--cyan); text-shadow: var(--glow-cyan); letter-spacing: 4px; }
+.masthead-sub { font-family: 'Press Start 2P', monospace; font-size: clamp(10px, 2vw, 14px); color: var(--magenta); letter-spacing: 2px; padding: 16px 0; text-align: center; }
+.pixel-bar { height: 8px; background: repeating-linear-gradient(90deg, var(--cyan) 0, var(--cyan) 8px, var(--magenta) 8px, var(--magenta) 16px, var(--yellow) 16px, var(--yellow) 24px, transparent 24px, transparent 32px); }
+.tabs { background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
+.tab-bar { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+.tab-bar::-webkit-scrollbar { height: 4px; }
+.tab-bar::-webkit-scrollbar-thumb { background: var(--cyan); }
+.tab-btn { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--text-dim); background: transparent; border: none; border-bottom: 2px solid transparent; padding: 16px 18px; cursor: pointer; white-space: nowrap; transition: all 0.15s; letter-spacing: 1px; }
+.tab-btn:hover { color: var(--text-secondary); }
+.tab-btn.active { color: var(--cyan); border-bottom: 2px solid var(--cyan); background: rgba(0,240,255,0.05); }
+.section-panel { display: none; padding: 48px 0 64px; min-height: 60vh; }
+.section-panel.active { display: block; }
+.section-header { margin-bottom: 32px; }
+.section-label { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--magenta); letter-spacing: 2px; text-transform: uppercase; }
+.section-title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: clamp(28px, 5vw, 48px); color: var(--cyan); text-shadow: var(--glow-cyan); margin-top: 8px; line-height: 1.1; }
+.pixel-divider { height: 4px; background: repeating-linear-gradient(90deg, var(--cyan) 0, var(--cyan) 8px, transparent 8px, transparent 16px); margin: 40px 0; }
+.pixel-divider-light { height: 2px; background: repeating-linear-gradient(90deg, var(--border-color) 0, var(--border-color) 4px, transparent 4px, transparent 8px); margin: 24px 0; }
+.pixel-divider-magenta { height: 4px; background: repeating-linear-gradient(90deg, var(--magenta) 0, var(--magenta) 8px, transparent 8px, transparent 16px); margin: 40px 0; }
+.prose p { margin: 16px 0; font-size: 17px; }
+.prose h3 { font-family: 'Orbitron', sans-serif; font-size: 22px; color: var(--cyan); margin: 32px 0 16px; }
+.prose h4 { font-family: 'Press Start 2P', monospace; font-size: 13px; color: var(--magenta); margin: 24px 0 12px; letter-spacing: 1px; }
+.prose strong { color: var(--yellow); }
+.prose em { color: var(--text-primary); font-style: italic; }
+.pull-quote { font-family: 'Russo One', sans-serif; font-size: 1.5rem; line-height: 1.4; color: var(--cyan); border-left: 4px solid var(--magenta); padding: 20px 28px; margin: 36px 0; background: rgba(0,240,255,0.05); font-style: italic; }
+.card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 28px; margin: 24px 0; }
+.score-card { background: var(--bg-card); border: 2px solid var(--border-color); margin: 32px 0; padding: 28px; }
+.score-header { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px; border-bottom: 2px solid var(--border-color); flex-wrap: wrap; gap: 12px; }
+.channel-name { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; color: var(--text-primary); letter-spacing: 1px; }
+.overall-score { font-family: 'VT323', monospace; font-size: 64px; color: var(--cyan); text-shadow: var(--glow-cyan); line-height: 1; }
+.overall-score .denom { font-size: 28px; color: var(--text-dim); }
+.score-bars { padding: 20px 0; }
+.category { display: grid; grid-template-columns: 160px 1fr 60px; align-items: center; gap: 12px; padding: 8px 0; }
+.cat-label { font-family: 'Exo 2', sans-serif; font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+.bar-track { background: rgba(255,255,255,0.05); height: 14px; border: 1px solid var(--border-color); position: relative; overflow: hidden; }
+.bar-fill { height: 100%; transition: width 0.3s; }
+.bar-fill.s-90 { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+.bar-fill.s-80 { background: var(--green); }
+.bar-fill.s-70 { background: var(--cyan); }
+.bar-fill.s-60 { background: var(--text-secondary); }
+.bar-fill.s-50 { background: var(--orange); }
+.bar-fill.s-40 { background: var(--red); }
+.cat-score { font-family: 'VT323', monospace; font-size: 24px; color: var(--text-primary); text-align: right; }
+.verdict-banner { font-family: 'Press Start 2P', monospace; font-size: 14px; padding: 16px; text-align: center; letter-spacing: 3px; margin-top: 16px; border: 2px solid; }
+.verdict-essential { color: var(--yellow); border-color: var(--yellow); text-shadow: var(--glow-yellow); }
+.verdict-excellent { color: var(--green); border-color: var(--green); text-shadow: var(--glow-green); }
+.verdict-good { color: var(--cyan); border-color: var(--cyan); text-shadow: var(--glow-cyan); }
+.verdict-average { color: var(--text-secondary); border-color: var(--text-secondary); }
+.verdict-mediocre { color: var(--orange); border-color: var(--orange); }
+.verdict-gameover { color: var(--red); border-color: var(--red); text-shadow: var(--glow-red); }
+.tc-interview { background: var(--bg-card); border: 1px solid var(--border-color); margin: 32px 0; padding: 32px; border-left: 4px solid var(--magenta); }
+.tc-disclaimer { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--orange); padding: 12px; background: rgba(255,107,0,0.08); border: 1px dashed var(--orange); margin-bottom: 24px; letter-spacing: 1px; line-height: 1.6; }
+.tc-subject { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 32px; color: var(--cyan); text-shadow: var(--glow-cyan); margin-bottom: 8px; letter-spacing: 1px; }
+.tc-meta { font-family: 'VT323', monospace; font-size: 18px; color: var(--text-secondary); margin-bottom: 24px; }
+.tc-exchange { margin: 18px 0; }
+.tc-speaker { font-family: 'Press Start 2P', monospace; font-size: 10px; letter-spacing: 1px; }
+.tc-cw { color: var(--magenta); }
+.tc-subj { color: var(--yellow); }
+.tc-line { font-size: 17px; padding: 4px 0 4px 12px; line-height: 1.7; }
+.tc-stage { color: var(--text-secondary); font-style: italic; }
+.tc-final { font-family: 'Russo One', sans-serif; font-size: 22px; color: var(--cyan); padding: 20px; background: rgba(0,240,255,0.06); border: 1px solid var(--cyan); margin-top: 24px; text-align: center; line-height: 1.4; }
+.top50-table { width: 100%; border-collapse: collapse; font-family: 'Exo 2', sans-serif; margin: 24px 0; }
+.top50-table th { font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--cyan); border-bottom: 2px solid var(--cyan); padding: 12px 10px; text-align: left; letter-spacing: 1px; background: rgba(0,240,255,0.05); }
+.top50-table td { padding: 8px 10px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); font-size: 15px; }
+.top50-table tr.top3 td { background: rgba(255,230,0,0.05); }
+.top50-table tr.top3 td.rank { font-family: 'VT323', monospace; font-size: 28px; color: var(--yellow); text-shadow: var(--glow-yellow); }
+.top50-table tr.new-entry td { background: rgba(0,240,255,0.06); border-left: 3px solid var(--cyan); }
+.top50-table td.rank { font-family: 'VT323', monospace; font-size: 22px; color: var(--cyan); width: 50px; }
+.top50-table td.score { font-family: 'VT323', monospace; font-size: 22px; color: var(--text-primary); width: 70px; }
+.top50-table td.genre { color: var(--text-secondary); font-size: 14px; font-style: italic; }
+.top50-table td.movement { font-family: 'VT323', monospace; font-size: 20px; width: 80px; }
+.mv-up { color: var(--green); }
+.mv-down { color: var(--orange); }
+.mv-flat { color: var(--text-dim); }
+.mv-new { color: var(--cyan); font-weight: bold; text-shadow: var(--glow-cyan); }
+.bf-title { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 48px; color: var(--magenta); text-align: center; text-shadow: var(--glow-magenta); margin: 32px 0 8px; letter-spacing: 4px; }
+.bf-subtitle { font-family: 'Press Start 2P', monospace; font-size: 12px; color: var(--cyan); text-align: center; margin-bottom: 32px; letter-spacing: 2px; }
+.bf-vs { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 64px; color: var(--yellow); text-align: center; text-shadow: var(--glow-yellow); margin: 24px 0; }
+.tale-tape { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 32px 0; border: 2px solid var(--cyan); }
+.tape-col { padding: 24px; }
+.tape-col:first-child { border-right: 2px solid var(--cyan); }
+.tape-channel { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; color: var(--cyan); text-shadow: var(--glow-cyan); margin-bottom: 16px; }
+.tape-row { padding: 8px 0; font-size: 14px; border-bottom: 1px dashed var(--border-color); }
+.tape-row strong { color: var(--magenta); font-family: 'Press Start 2P', monospace; font-size: 9px; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+.bf-round { background: var(--bg-card); border-left: 4px solid var(--cyan); padding: 24px 28px; margin: 24px 0; }
+.bf-round-num { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--magenta); letter-spacing: 2px; }
+.bf-round-title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; color: var(--cyan); margin: 6px 0 14px; }
+.bf-round-verdict { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--yellow); padding: 10px; border: 1px solid var(--yellow); margin-top: 16px; text-align: center; letter-spacing: 2px; }
+.bf-scorecard { background: var(--bg-card); border: 2px solid var(--magenta); padding: 28px; margin: 32px 0; }
+.bf-scorecard table { width: 100%; border-collapse: collapse; }
+.bf-scorecard th { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--cyan); padding: 12px; text-align: center; border-bottom: 2px solid var(--cyan); }
+.bf-scorecard td { padding: 12px; text-align: center; border-bottom: 1px solid var(--border-color); font-family: 'VT323', monospace; font-size: 24px; }
+.bf-scorecard td:first-child { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--text-secondary); text-align: left; letter-spacing: 1px; }
+.bf-scorecard tr.total td { font-size: 32px; color: var(--yellow); border-top: 2px solid var(--cyan); padding-top: 16px; }
+.hl-card { background: var(--bg-card); border: 1px solid var(--border-color); border-left: 3px solid var(--green); padding: 24px; margin: 20px 0; position: relative; }
+.hl-card.yobs-pick { border-left: 3px solid var(--yellow); }
+.hl-name { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 20px; color: var(--cyan); }
+.hl-meta { font-family: 'VT323', monospace; font-size: 18px; color: var(--text-secondary); margin: 6px 0 12px; }
+.hl-pick-badge { position: absolute; top: 16px; right: 16px; font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--bg-primary); background: var(--yellow); padding: 6px 10px; letter-spacing: 1px; }
+.ads-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin: 32px 0; }
+.ad-box { background: var(--bg-card); border: 3px solid var(--magenta); padding: 24px; box-shadow: 0 0 16px rgba(255,0,170,0.3); position: relative; }
+.ad-box.yellow-tint { border-color: var(--yellow); box-shadow: 0 0 16px rgba(255,230,0,0.3); }
+.ad-box.green-tint { border-color: var(--green); box-shadow: 0 0 16px rgba(57,255,20,0.3); }
+.ad-name { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 26px; color: var(--magenta); text-shadow: var(--glow-magenta); margin-bottom: 4px; letter-spacing: 1px; line-height: 1.1; }
+.ad-box.yellow-tint .ad-name { color: var(--yellow); text-shadow: var(--glow-yellow); }
+.ad-box.green-tint .ad-name { color: var(--green); text-shadow: var(--glow-green); }
+.ad-tagline { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--cyan); letter-spacing: 1px; margin-bottom: 16px; line-height: 1.5; }
+.ad-body { font-size: 13px; line-height: 1.5; margin-bottom: 12px; }
+.ad-features { font-size: 12px; padding-left: 18px; margin: 12px 0; color: var(--text-secondary); }
+.ad-features li { padding: 3px 0; }
+.ad-cta { font-family: 'VT323', monospace; font-size: 22px; color: var(--yellow); text-align: center; padding: 8px 0; border-top: 1px dashed var(--text-dim); border-bottom: 1px dashed var(--text-dim); margin: 12px 0; }
+.ad-fineprint { font-size: 9px; color: var(--text-dim); font-style: italic; line-height: 1.4; }
+.yob-intro { display: flex; align-items: center; gap: 20px; margin-bottom: 32px; flex-wrap: wrap; }
+.yob-svg { flex-shrink: 0; }
+.yob-text { font-family: 'VT323', monospace; font-size: 22px; color: var(--green); flex: 1; min-width: 200px; }
+.letter { background: var(--bg-card); border-left: 3px solid var(--cyan); padding: 24px; margin: 24px 0; }
+.letter-from { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--magenta); letter-spacing: 1px; margin-bottom: 12px; }
+.letter-body { font-size: 15px; line-height: 1.6; font-style: italic; color: var(--text-primary); }
+.letter-rating { padding: 14px 0 6px; }
+.star-rating { color: var(--yellow); font-size: 18px; letter-spacing: 2px; }
+.star-empty { color: var(--text-dim); }
+.verdict-tag { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--magenta); letter-spacing: 2px; padding-left: 16px; }
+.yob-reply { background: rgba(57,255,20,0.04); border: 1px dashed var(--green); padding: 16px 20px; margin-top: 14px; font-size: 14px; line-height: 1.6; }
+.yob-reply::before { content: '> YOB SAYS:'; font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--green); display: block; margin-bottom: 8px; letter-spacing: 1px; }
+.yob-sign { display: block; text-align: right; color: var(--green); font-family: 'VT323', monospace; font-size: 18px; margin-top: 8px; }
+.go-trend { background: var(--bg-card); border-left: 4px solid var(--red); padding: 24px 28px; margin: 24px 0; }
+.go-num { font-family: 'VT323', monospace; font-size: 32px; color: var(--red); text-shadow: var(--glow-red); }
+.go-title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; color: var(--red); margin: 4px 0 12px; }
+.go-killshot { font-family: 'Russo One', sans-serif; font-size: 18px; color: var(--orange); padding: 12px 16px; background: rgba(255,107,0,0.06); border-left: 3px solid var(--orange); margin-top: 14px; font-style: italic; }
+.news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+.news-item { background: var(--bg-card); border: 1px solid var(--border-color); padding: 22px; }
+.news-headline { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 18px; color: var(--cyan); margin-bottom: 10px; line-height: 1.3; }
+.news-tag { font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--magenta); letter-spacing: 1px; margin-bottom: 8px; }
+.news-body { font-size: 14px; line-height: 1.6; }
+.footer { background: var(--bg-header); padding: 32px 0; text-align: center; margin-top: 64px; border-top: 1px solid var(--border-color); }
+.footer p { font-size: 11px; color: var(--text-dim); line-height: 1.6; }
+.footer p.legal { font-style: italic; }
+.footer p.copy { font-family: 'VT323', monospace; font-size: 16px; color: var(--text-secondary); margin-top: 8px; }
+@media (max-width: 768px) {
+  .category { grid-template-columns: 110px 1fr 50px; gap: 8px; }
+  .cat-label { font-size: 11px; }
+  .channel-name { font-size: 18px; }
+  .overall-score { font-size: 48px; }
+  .overall-score .denom { font-size: 22px; }
+  .tale-tape { grid-template-columns: 1fr; }
+  .tape-col:first-child { border-right: none; border-bottom: 2px solid var(--cyan); }
+  .ads-grid { grid-template-columns: 1fr; }
+  .news-grid { grid-template-columns: 1fr; }
+  .top50-table th, .top50-table td { padding: 6px 4px; font-size: 12px; }
+  .top50-table td.rank, .top50-table td.score { font-size: 18px; }
+  .bf-vs { font-size: 40px; }
+  .bf-title { font-size: 32px; letter-spacing: 2px; }
+  .tc-subject { font-size: 24px; }
+}
+/* SITE NAV BAR */
+.site-nav-bar {
+  background: #08080F;
+  border-bottom: 1px solid #222244;
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1001;
+}
+.site-nav-bar a {
+  color: #606070;
+  text-decoration: none;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+.site-nav-bar a:hover {
+  color: #00F0FF;
+  text-shadow: 0 0 10px #00F0FF44, 0 0 30px #00F0FF22;
+}
+.site-nav-bar .nav-sep {
+  color: #333355;
+}
+</style>
+</head>
+<body>
+
+<!-- SITE NAVIGATION -->
+<div class="site-nav-bar">
+  <a href="/">← Home</a>
+  <span class="nav-sep">/</span>
+  <a href="/archive">Archive</a>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="masthead-top">
+      <span>ISSUE #014 &middot; £2.50 / $3.25</span>
+      <span>MAY 2026 &middot; EST. 2023</span>
+    </div>
+    <div class="masthead-title"><h1>CTRL+WATCH</h1></div>
+    <div class="masthead-sub">▌ ▌ ▌  THE COMEDY ISSUE  ▌ ▌ ▌</div>
+  </div>
+</header>
+<div class="pixel-bar"></div>
+<nav class="tabs">
+  <div class="wrap">
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="press-start" onclick="showTab('press-start')">PRESS START</button>
+      <button class="tab-btn" data-tab="now-loading" onclick="showTab('now-loading')">NOW LOADING</button>
+      <button class="tab-btn" data-tab="time-capsule" onclick="showTab('time-capsule')">TIME CAPSULE</button>
+      <button class="tab-btn" data-tab="player-profiles" onclick="showTab('player-profiles')">PLAYER PROFILES</button>
+      <button class="tab-btn" data-tab="boss-fight" onclick="showTab('boss-fight')">BOSS FIGHT</button>
+      <button class="tab-btn" data-tab="high-scores" onclick="showTab('high-scores')">HIGH SCORES</button>
+      <button class="tab-btn" data-tab="hidden-levels" onclick="showTab('hidden-levels')">HIDDEN LEVELS</button>
+      <button class="tab-btn" data-tab="cheat-codes" onclick="showTab('cheat-codes')">CHEAT CODES</button>
+      <button class="tab-btn" data-tab="game-over" onclick="showTab('game-over')">GAME OVER</button>
+      <button class="tab-btn" data-tab="yobs-save-point" onclick="showTab('yobs-save-point')">YOB'S SAVE POINT</button>
+      <button class="tab-btn" data-tab="retro-ads" onclick="showTab('retro-ads')">RETRO ADS</button>
+    </div>
+  </div>
+</nav>
+<main class="wrap">
+<section id="press-start" class="section-panel active">
+  <div class="section-header">
+    <div class="section-label">▌ EDITOR'S LETTER ▌</div>
+    <h2 class="section-title">Why YouTube Comedy Stopped Being Funny (And Then Got Funny Again, Quietly, In Places You Weren't Looking)</h2>
+  </div>
+  <div class="prose">
+    <p>The first wave of YouTube comedy was an accident. Bedroom kids with cameras, no broadcast standards to please, no ad agency to pacify. The format was: be weird, be cheap, be fast. Some of it was unwatchable. Some of it was Filthy Frank. Some of it was a slow-motion 2010s migration of <em>Vine</em> refugees who learned that six seconds had been training them, all along, for something they didn't yet have a name for.</p>
+
+    <p>Then the algorithm arrived, and the algorithm has no sense of humour. It can detect what you watch but not why you laughed, so it optimised for the next-most-watchable thing — slightly longer, slightly smoother, slightly more thumbnail-able. Compounded over a decade, this is how you get a generation of comedians whose every video begins with the same energetic in-camera apology for the sponsor read, and whose every joke has been pre-tested by the brain's internal "will this get us demonetised" subroutine before it reaches the lips.</p>
+
+    <p>So when we sat down to commission this issue, the first question was simple: <strong>is YouTube comedy any good now?</strong> And the second question — the real one — was: <strong>if it is, where?</strong></p>
+
+    <p class="pull-quote">YouTube comedy didn't die. It just stopped being concentrated in the obvious places. The funny people are still there — they're just running stunts at Bass Pro Shops, building four-hour theme-park requiems, and operating outside the English-language algorithm entirely.</p>
+
+    <p>This issue is our attempt to map what survived. Drew Gooden and Danny Gonzalez face off in the Boss Fight — best friends, parallel careers, near-identical formats, completely different voices, and a question that has nagged us since 2019 about which one is actually better. Jenny Nicholson gets her overdue ESSENTIAL — yes, it's the Star Wars hotel video, but it's also six other things, and we'll explain. Ryan George has been making the same Pitch Meeting joke for half a decade and we're going to argue that this is, in fact, comedy's hardest trick. Eddy Burback ate at every Olive Garden in America and the result is somehow profound. Porta dos Fundos became the first non-English comedy channel we've ever profiled — fulfilling the commitment we made to Marco T. last issue, and embarrassing ourselves only slightly that it took until #014.</p>
+
+    <p>Time Capsule is an embarrassment of riches this month. Gilda Radner reacts to the SNL clip economy and the parasocial intimacy of solo creators — a question her own career was built on the wrong end of. Chris Farley sees what a thumbnail does to a face and gets quieter than we expected. Sam Kinison, a former Pentecostal preacher who became a stand-up comic and died in 1992, is invited to consider the offence economy and the algorithm's quiet moralism — the result is the most unsettling interview we've published. Truman Capote watches three influencer apology videos and reaches a conclusion that should be carved on a wall somewhere. Ernest Hemingway is given Drew Gooden's deadpan and identifies the iceberg theory underneath. And Lucille Ball — the woman who invented the multi-camera sitcom by basically inventing the multi-camera sitcom — watches a sketch troupe fail in front of an empty room, and explains, with something close to grief, what they've been deprived of.</p>
+
+    <p>Our Special Feature this month is called <strong>The Comedy Tax</strong> — what YouTube comedy costs the creator, in four currencies. The PG-13 ceiling, paid in jokes that never get told. Ironic-distance fatigue, paid in the slow erosion of meaning. The hour-long-essay arms race, paid in pacing. The parasocial trap, paid in dignity. We do not arrive at a happy answer. But we arrive at an honest one.</p>
+
+    <p>One housekeeping note. We promised in #013 that every issue from now on would feature one non-English Player Profile. This one does. Marco T., we hope Porta dos Fundos goes some way toward closing the loop — and Priya, please don't take a victory lap, but: you were right.</p>
+
+    <p>The medium is still funny. You just have to know where to look. We are, somehow, paid to look.</p>
+
+    <p style="margin-top: 32px; text-align: right; font-family: 'VT323', monospace; font-size: 22px; color: var(--magenta);">— The Editor<br>May 2026</p>
+
+    <p style="text-align: center; font-family: 'Press Start 2P', monospace; font-size: 13px; color: var(--cyan); margin-top: 32px; letter-spacing: 3px;">▶ PRESS START ◀</p>
+  </div>
+</section>
+<div class="pixel-divider-magenta"></div>
+<section id="now-loading" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ NEWS BITES ▌</div>
+    <h2 class="section-title">Now Loading</h2>
+  </div>
+  <div class="news-grid">
+    <div class="news-item">
+      <div class="news-tag">PLATFORM</div>
+      <h3 class="news-headline">YouTube Adds "Comedy" Filter, Returns Mostly Reaction Videos</h3>
+      <p class="news-body">A long-requested genre filter rolled out to mobile this month, ostensibly making it easier to surface stand-up clips, sketch content, and original comedy. In practice, the top results in our test searches were dominated by reaction compilations and the algorithm's apparent belief that any video with the word "funny" in the thumbnail qualifies. We tested with five different accounts, varying account histories. Drew Gooden appeared on the third page. The first page was, in every test, a man laughing at TikToks. We are not making this up. We wish we were making this up.</p>
+    </div>
+    <div class="news-item">
+      <div class="news-tag">CREATOR ECONOMY</div>
+      <h3 class="news-headline">Ryan George Confirms 1,000th Pitch Meeting; Refuses To Break The Format</h3>
+      <p class="news-body">In a milestone that doubles as a thesis statement, Ryan George quietly published his thousandth Pitch Meeting episode in late April. The format — Producer Guy talks to Screenwriter Guy, both played by George, both doing the same voice — has not changed in any structural way since 2018. Asked by an interviewer whether he'd ever consider varying the format, George reportedly said, "That's what we call <em>surface tension</em>. Tight! Tight! Tight!" We don't know if he was joking. We're not sure he does either. The Pitch Meeting is, increasingly, the answer to the question it keeps asking.</p>
+    </div>
+    <div class="news-item">
+      <div class="news-tag">DEMONETISATION</div>
+      <h3 class="news-headline">Three Major Comedy Channels Demonetised Same Week For "Sensitive Content"</h3>
+      <p class="news-body">Three established sketch and commentary channels — names withheld at their request, which is itself a story — reported simultaneous demonetisation strikes in late April for content the platform's auto-classifier flagged as "sensitive." In all three cases, the flagged videos contained jokes about death, mental health, or political figures, framed in ways that any human reviewer would identify as obvious comedy. All three were eventually reinstated after manual review. None were given an explanation. The chilling effect is not a bug; it is a feature performing exactly as designed.</p>
+    </div>
+    <div class="news-item">
+      <div class="news-tag">RUMOURS</div>
+      <h3 class="news-headline">CONFIRMED: There Will Be Another Drew Gooden iPad Video</h3>
+      <p class="news-body">Sources close to the situation (his subreddit) confirm that Drew Gooden's annual iPad reaction video — the running yearly state-of-the-union on Apple's most baffling product line — is in production for a 2026 release. We mention this only because we, the editorial board of CTRL+WATCH, have collectively rewatched every previous instalment three times. The bit has not gotten old. The bit, in fact, gets better the older it gets, which is itself a separate joke we appreciate. Surface tension; tight, tight, tight.</p>
+    </div>
+    <div class="news-item">
+      <div class="news-tag">INTERNATIONAL</div>
+      <h3 class="news-headline">Brazilian Comedy Troupe Porta dos Fundos Crosses 26 Million Subscribers</h3>
+      <p class="news-body">In a milestone almost entirely uncovered by English-language YouTube press — a fact that is itself part of the story this issue is telling — Porta dos Fundos, the Rio-based sketch troupe, quietly crossed 26 million subscribers, making it one of the largest comedy channels on the platform by any reasonable metric. Their Christmas specials remain among the most-discussed (and most-protested) sketch comedy on YouTube globally. We profile them this issue. They have been making this content for thirteen years. We are late.</p>
+    </div>
+    <div class="news-item">
+      <div class="news-tag">METRICS</div>
+      <h3 class="news-headline">Average YouTube Comedy Video Now 23 Minutes Long, Up 400% Since 2018</h3>
+      <p class="news-body">A platform analytics report this quarter confirmed what every viewer already suspected: the average runtime of a video tagged as comedy on YouTube has ballooned from approximately 5.7 minutes in 2018 to 23.1 minutes in 2026. The driver is the mid-roll ad threshold. The cost is comedic timing. We will return to this in our Special Feature, but the short version is: when your incentive structure rewards length, your jokes will pad themselves out, and after a while the padding is the point. The padding is what people clicked on. The padding is what they're paying for. There is no joke; there is only the production of joke-shaped content.</p>
+    </div>
+  </div>
+</section>
+<div class="pixel-divider-magenta"></div>
+<section id="time-capsule" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ FICTIONAL Q&amp;A WITH HISTORICAL FIGURES ▌</div>
+    <h2 class="section-title">Time Capsule</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px; max-width: 800px;">Six comedians and chroniclers of the form, brought forward to react to YouTube comedy. They are the people who would have something useful to say, if they could.</p>
+  </div>
+
+  <!-- GILDA RADNER -->
+  <div class="tc-interview">
+    <div class="tc-disclaimer">⚠ SATIRICAL / FICTIONAL — Gilda Radner did not participate in this Q&amp;A.</div>
+    <div class="tc-subject">Gilda Radner</div>
+    <div class="tc-meta">Comedian / SNL pioneer / 1946–1989 &middot; SHOWN: solo creator monologues, SNL clip channels, parasocial creator content</div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Gilda, the first thing we want to show you is a comedian doing a six-minute monologue, alone, into a camera, in their bedroom, with no audience.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">RADNER:</span><div class="tc-line"><span class="tc-stage">[watches for a long moment, head tilted]</span> Where are the lights? I don't mean stage lights, I mean — where is the room making her uncomfortable? <span class="tc-stage">[leans in]</span> She's so calm. That's the thing. She knows the joke is going to land because she edits the part where it doesn't.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Does that change what comedy is?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">RADNER:</span><div class="tc-line">It changes what bombing is. <span class="tc-stage">[a small laugh, but the eyes don't laugh]</span> Bombing was the most important thing that ever happened to me. Bombing was the test. If you don't bomb, in front of people who don't laugh, you don't know what's funny. You only know what plays.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Many of these creators are women working alone. Does that matter?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">RADNER:</span><div class="tc-line"><span class="tc-stage">[immediate, almost interrupting]</span> Yes. Yes, it matters. We had to fight for ten minutes of airtime that the writers wouldn't write for us. <span class="tc-stage">[pauses]</span> These girls are writing for themselves. That's — that's enormous, actually. That's the thing I would have killed for.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">But?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">RADNER:</span><div class="tc-line"><span class="tc-stage">[long beat]</span> But there were five of us. Doing it together. Bombing together. Writing on each other. Putting on Roseanne Roseannadanna because Laraine made me laugh in the elevator. <span class="tc-stage">[looks down]</span> Some of these girls — they're so good. But they're alone. And alone, you don't get the elevator joke. Alone, you only know you're funny if the numbers say you are.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Some of them have huge audiences. Millions of people who feel like they know them.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">RADNER:</span><div class="tc-line"><span class="tc-stage">[something tightens in her face]</span> That's the dangerous part. People wrote me letters. They thought we were friends because they laughed at me. <span class="tc-stage">[quieter]</span> When I got sick, the letters were what kept me up at night. Not because they were cruel — because they weren't. Because these strangers were grieving, and I didn't know them, and I couldn't help them, and they thought we were friends. <span class="tc-stage">[looks up]</span> If you have ten thousand letters, that's a fan club. If you have ten million letters, that's a — that's a kind of haunting.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">What would you say to a young woman starting a comedy channel today?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">RADNER:</span><div class="tc-line"><span class="tc-stage">[immediate, no hesitation]</span> Find your Laraine. Find the person who makes you laugh in the elevator. <span class="tc-stage">[a real smile, the first one]</span> The numbers will lie to you. The elevator won't.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">One last thing. We'll let you watch something funny. Anything. What do you want to see?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">RADNER:</span><div class="tc-line"><span class="tc-stage">[thinks for a long time]</span> Show me people. Show me four people in a room, trying to make each other laugh. I miss the room.</div></div>
+
+    <div class="tc-final">"The numbers will lie to you. The elevator won't."</div>
+  </div>
+
+  <!-- CHRIS FARLEY -->
+  <div class="tc-interview">
+    <div class="tc-disclaimer">⚠ SATIRICAL / FICTIONAL — Chris Farley did not participate in this Q&amp;A.</div>
+    <div class="tc-subject">Chris Farley</div>
+    <div class="tc-meta">Comedian / 1964–1997 &middot; SHOWN: thumbnail aesthetics, physical comedy on Shorts, the "trying-too-hard" YouTuber persona</div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Chris, we want to start with something specific. This is a thumbnail. The face is the comedian's face, but it's frozen in a position they would never actually make.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">FARLEY:</span><div class="tc-line"><span class="tc-stage">[stares]</span> Oh, man. Oh, that's — that's me. <span class="tc-stage">[laughs, but the laugh is uncertain]</span> That's what I did. With the — <span class="tc-stage">[mimes wide eyes, mouth open]</span> — that. Except I did it for, like, a second. I didn't <em>hold</em> it.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">They have to hold it. That's the thumbnail. It's a still image to advertise the video.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">FARLEY:</span><div class="tc-line"><span class="tc-stage">[quiet for a beat]</span> So they have to make the face, but the face isn't the joke. The face is the <em>poster</em> for the joke. <span class="tc-stage">[exhales]</span> That's tiring, man. That's so tiring.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Why?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">FARLEY:</span><div class="tc-line">Because the face is the part where you ran out. <span class="tc-stage">[looks at the floor]</span> When I went big, when I fell on the table or did the dancing thing — that wasn't the joke either, but it was where I went when I didn't have one. It was the <em>backup</em>. <span class="tc-stage">[looks up]</span> If your <em>poster</em> is the backup, what do you have left?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Some of these creators are very physical. Pratfalls, bits, costumes. They look like you, in a way.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">FARLEY:</span><div class="tc-line"><span class="tc-stage">[watches a clip — laughs, real laugh]</span> Yeah. Yeah, that kid's good. He's — he's <em>committed</em>. <span class="tc-stage">[then, quieter]</span> But he's tired. Look at his eyes. He's tired. That's a man who has done eighty of these this month and his back hurts and the camera lies about it.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Did the camera lie about you?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">FARLEY:</span><div class="tc-line"><span class="tc-stage">[long beat]</span> Yeah. Sometimes. But I had Lorne. Lorne would say, "Chris, you're tired, take a week." <span class="tc-stage">[pauses]</span> Who tells these kids that? Who's the Lorne?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">There isn't one.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">FARLEY:</span><div class="tc-line"><span class="tc-stage">[nods slowly, doesn't say anything for a while]</span> Yeah. <span class="tc-stage">[wipes his nose, the old habit]</span> Yeah, I figured.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">What would you say to one of these kids?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">FARLEY:</span><div class="tc-line"><span class="tc-stage">[looks straight at the interviewer, fully present, not performing]</span> I'd say the face is fine. The face is funny. But the face costs you something. And nobody's keeping count for you. So you'd better keep count yourself, man. You'd better. <span class="tc-stage">[a small, sad smile]</span> Trust me on that.</div></div>
+
+    <div class="tc-final">"The face is the poster for the joke. That's tiring, man. That's so tiring."</div>
+  </div>
+
+  <!-- SAM KINISON -->
+  <div class="tc-interview">
+    <div class="tc-disclaimer">⚠ SATIRICAL / FICTIONAL — Sam Kinison did not participate in this Q&amp;A.</div>
+    <div class="tc-subject">Sam Kinison</div>
+    <div class="tc-meta">Comedian / former Pentecostal preacher / 1953–1992 &middot; SHOWN: demonetisation system, content moderation, the "offence economy"</div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Sam, we want to walk you through something called demonetisation. A platform decides a joke is too sensitive and removes the comedian's ability to earn from the video.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">KINISON:</span><div class="tc-line"><span class="tc-stage">[silent for a long moment, then a slow grin]</span> Oh-ho-ho. Oh, brother. <span class="tc-stage">[the grin sharpens]</span> So the church is back. <span class="tc-stage">[leans forward]</span> The church is BACK, baby!</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Explain what you mean.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">KINISON:</span><div class="tc-line">I PREACHED for ten years. I stood up in churches and I told people what they could and couldn't laugh at. <span class="tc-stage">[the volume rising, but it's not anger — it's recognition]</span> Then I quit, because I thought, finally, comedy! Comedy doesn't have a doctrine! Comedy doesn't have a — <span class="tc-stage">[stops, laughs darkly]</span> — and now you're telling me there's a NEW church. With NEW DOCTRINE. And the doctrine is a COMPUTER. <span class="tc-stage">[howls]</span> OH! OH, GOD! THIS IS BEAUTIFUL!</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Is it beautiful?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">KINISON:</span><div class="tc-line"><span class="tc-stage">[suddenly quiet, almost tender]</span> No. No, of course not. <span class="tc-stage">[looks at his hands]</span> It's the same thing as before. It's a man with a clipboard deciding which jokes are SAFE FOR ADVERTISERS. And the advertiser is the new God. <span class="tc-stage">[a bitter laugh]</span> At least when I was in the pulpit, the God we had was supposed to be merciful.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">A lot of comedians talk about the "offence economy" — the idea that you can profit from being offensive. Did that exist in your time?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">KINISON:</span><div class="tc-line"><span class="tc-stage">[hard look]</span> Listen. Listen to me. I screamed at the audience about Jesus and divorce and starvation and AIDS. People walked out. People hated me. <span class="tc-stage">[points]</span> But the joke was at the BACK of it. The joke was: I am AS BROKEN as the things I'm screaming about. The joke was the SCREAM. <span class="tc-stage">[shakes his head]</span> What I'm watching now — these guys are screaming because the algorithm rewards screaming. They don't have a joke. They have a STRATEGY.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">So the screaming is hollow.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">KINISON:</span><div class="tc-line"><span class="tc-stage">[nods slowly]</span> The scream is the whole thing now. The scream <em>without</em> the broken man behind it. <span class="tc-stage">[looks up]</span> That's not comedy. That's just — noise. Brother. That's just noise.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Some of these comedians have been demonetised for jokes that any human would understand. Mental health jokes. Jokes about death.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">KINISON:</span><div class="tc-line"><span class="tc-stage">[eyes go far away]</span> Comedy IS death, brother. Comedy is the part of you that survives the thing that should have killed you, sitting up in bed at 3am and laughing at it. <span class="tc-stage">[fierce]</span> If you take the death out, you take the comedy out. You leave them with — what? Pleasant content? <span class="tc-stage">[contempt]</span> PLEASANT CONTENT?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">What would you do, in this system?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">KINISON:</span><div class="tc-line"><span class="tc-stage">[a long, almost gentle pause]</span> I'd do it for free. <span class="tc-stage">[looks straight at the camera]</span> I'd take their money away from me first, before they could. I'd stand on a corner and I'd say what was true, and the algorithm could go to hell. <span class="tc-stage">[a real grin, the first wholehearted one]</span> Brother, I died young. I never had a retirement plan. WHAT ARE THEY GOING TO DO TO ME?</div></div>
+
+    <div class="tc-final">"Comedy is the part of you that survives the thing that should have killed you. If you take the death out, you take the comedy out."</div>
+  </div>
+
+  <!-- TRUMAN CAPOTE -->
+  <div class="tc-interview">
+    <div class="tc-disclaimer">⚠ SATIRICAL / FICTIONAL — Truman Capote did not participate in this Q&amp;A.</div>
+    <div class="tc-subject">Truman Capote</div>
+    <div class="tc-meta">Author, social observer, gossip-as-craft / 1924–1984 &middot; SHOWN: influencer apology videos, parasocial commentary, comedy as social ritual</div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Truman, we'd like you to watch three videos in a row. They're called apology videos. The format is: a famous internet personality has been accused of something, sits in front of a camera, and apologises.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">CAPOTE:</span><div class="tc-line"><span class="tc-stage">[watches all three without moving, the small smile growing very slowly]</span> Oh, my dears. <span class="tc-stage">[a delighted, terrible little laugh]</span> Oh, this is <em>marvellous</em>. This is <em>theatre</em>.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Theatre?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">CAPOTE:</span><div class="tc-line">Of <em>course</em>. Look at the lighting. Look at the unwashed hair, but only on the top — the sides are still done. <span class="tc-stage">[a finger to his lips]</span> The girl in the second one has cried, but she's cried on a particular schedule. Forty seconds in. Forty seconds is the time it takes for the algorithm to register the emotional pivot. <span class="tc-stage">[purrs]</span> I do <em>love</em> a good performance.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Is it a performance, or is it sincere?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">CAPOTE:</span><div class="tc-line"><span class="tc-stage">[looks bored]</span> Sincerity is a question for amateurs. <span class="tc-stage">[lights an imaginary cigarette]</span> The interesting question is whether the performance is <em>good</em>. The first one is <em>terrible</em>. He's apologising as if he's reading the will of someone he didn't know. The third one — <span class="tc-stage">[appraising nod]</span> — the third one is rather skilled. She has timed her tears and she has chosen her words and she will be back in three months and she will be welcomed back. <em>That</em> is craft.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">You don't seem horrified by it.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">CAPOTE:</span><div class="tc-line"><span class="tc-stage">[delighted]</span> My dear, I sat at lunch with women who had murdered their husbands and pretended they hadn't. I have been <em>training</em> for this. <span class="tc-stage">[grows momentarily serious]</span> But — yes, there is something. There is the audience. Look at the comments. They are not laughing at this. They are not <em>seeing</em> it. They believe.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">And that's what disturbs you?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">CAPOTE:</span><div class="tc-line"><span class="tc-stage">[a pause that is genuinely thoughtful]</span> Society used to know it was being lied to. The lie was the structure of it. The hostess lies to the guest, the guest lies to the hostess, everyone arrives home with a story. <span class="tc-stage">[looks up]</span> What I am watching here is the lie performed for an audience that does not know it is being lied to. They think they are watching <em>truth</em>. <span class="tc-stage">[shudders, theatrically]</span> That is so much sadder than the lie itself.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Is there comedy in this?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">CAPOTE:</span><div class="tc-line"><span class="tc-stage">[wicked little smile]</span> The comedy is in <em>watching</em>. The comedy is in <em>seeing</em>. The girl in the third video, in twenty years, will know exactly what she did, and she will tell the story at a dinner party, and the dinner party will laugh. <span class="tc-stage">[lights another imaginary cigarette]</span> The comedy is the dinner party. We are not at the dinner party yet. We are at the apology.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Final question. What is the most honest video on this platform?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">CAPOTE:</span><div class="tc-line"><span class="tc-stage">[laughs, a real laugh]</span> Oh, my dear. The honest one is the one that has been demonetised. <span class="tc-stage">[a beat]</span> Always.</div></div>
+
+    <div class="tc-final">"They are not laughing at this. They are not seeing it. They believe. That is so much sadder than the lie itself."</div>
+  </div>
+
+  <!-- ERNEST HEMINGWAY -->
+  <div class="tc-interview">
+    <div class="tc-disclaimer">⚠ SATIRICAL / FICTIONAL — Ernest Hemingway did not participate in this Q&amp;A.</div>
+    <div class="tc-subject">Ernest Hemingway</div>
+    <div class="tc-meta">Author / 1899–1961 &middot; SHOWN: deadpan comedy commentary, the "iceberg theory" applied to jokes, Drew Gooden's catalogue</div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Mr. Hemingway, we'd like you to watch a man named Drew Gooden. He stares at the camera, says one thing, and the joke is in what he doesn't say.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">HEMINGWAY:</span><div class="tc-line"><span class="tc-stage">[watches three videos in a row, says nothing during any of them]</span></div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Any thoughts?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">HEMINGWAY:</span><div class="tc-line">He's good.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Can you say more?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">HEMINGWAY:</span><div class="tc-line"><span class="tc-stage">[long pause]</span> He knows the joke is what he isn't saying. <span class="tc-stage">[another pause]</span> Most of these people don't know that. Most of them say the joke and then explain it. He doesn't explain it. <span class="tc-stage">[shrugs]</span> So he's good.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">We've been calling this an "iceberg theory" of comedy. The bit you see is one-eighth. The seven-eighths underneath is the joke.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">HEMINGWAY:</span><div class="tc-line"><span class="tc-stage">[the smallest nod]</span> Yes. That's right. <span class="tc-stage">[a beat]</span> Don't write it down with the words "iceberg theory" though. People will use the words and then they won't do the thing.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Watch this next one. It's a comedian who explains his jokes. He says the joke, then he says "do you get it," then he explains it.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">HEMINGWAY:</span><div class="tc-line"><span class="tc-stage">[watches for thirty seconds, then turns away]</span> Stop it. Stop the video. <span class="tc-stage">[looks at the wall]</span> That's a man telling you what he had for lunch and then telling you it was lunch. He doesn't trust you. If he doesn't trust you, you won't trust him. The whole thing collapses.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">A lot of comedy on this platform is like that. Long. Explained. The joke comes with subtitles.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">HEMINGWAY:</span><div class="tc-line"><span class="tc-stage">[snorts]</span> Then a lot of comedy on this platform isn't comedy. It's an essay about comedy. <span class="tc-stage">[a beat]</span> Which is fine. Essays are fine. But don't call them jokes.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Who, on this platform, would you read?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">HEMINGWAY:</span><div class="tc-line"><span class="tc-stage">[long thought]</span> The man with the dead face. The girl who walks into the theme-park hotel and doesn't smile until forty minutes in. The Brazilian sketches — they don't subtitle their punchlines, in any language. <span class="tc-stage">[a small grim smile]</span> The good ones leave the iceberg in the water.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">One last thing. Could you write for this platform?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">HEMINGWAY:</span><div class="tc-line"><span class="tc-stage">[stares for a while]</span> No. <span class="tc-stage">[a beat]</span> I'd be demonetised by Tuesday.</div></div>
+
+    <div class="tc-final">"That's a man telling you what he had for lunch and then telling you it was lunch. He doesn't trust you. If he doesn't trust you, you won't trust him."</div>
+  </div>
+
+  <!-- LUCILLE BALL -->
+  <div class="tc-interview">
+    <div class="tc-disclaimer">⚠ SATIRICAL / FICTIONAL — Lucille Ball did not participate in this Q&amp;A.</div>
+    <div class="tc-subject">Lucille Ball</div>
+    <div class="tc-meta">Comedian, sitcom architect, executive / 1911–1989 &middot; SHOWN: sketch comedy without a live audience, single-camera YouTube comedy, the absent room</div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Lucy, we want to start with something specific. This is a sketch comedy group performing into a camera. There's no studio audience. There never was one. The sketch is just the four of them, in a kitchen, doing the bit.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">BALL:</span><div class="tc-line"><span class="tc-stage">[watches with extraordinary attention — the gaze of someone who has watched a thousand auditions]</span> Mm. <span class="tc-stage">[purses lips]</span> They're working hard. The blonde girl is good. The boy on the left is reading. <span class="tc-stage">[after another moment]</span> Where's the room?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">There isn't one. They film it, edit it, post it.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">BALL:</span><div class="tc-line"><span class="tc-stage">[goes very still]</span> Without an audience. <span class="tc-stage">[a beat]</span> Without — a single living soul to laugh, in the room, while they do the bit.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">No. None.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">BALL:</span><div class="tc-line"><span class="tc-stage">[looks down, then back up — the eyes are wet but the voice is absolutely composed]</span> I want you to understand what they have been deprived of. <span class="tc-stage">[lifts a hand]</span> When Vivian and I did the chocolate scene — the conveyor belt — there were three hundred people in that studio. Three hundred. And they laughed at the third chocolate, and we knew. We <em>knew</em>, in the body, that it was working. So we did the fourth chocolate harder. And the fifth chocolate was <em>better</em> than we had rehearsed it, because the room <em>told</em> us it was. <span class="tc-stage">[shakes her head]</span> These children — they're guessing. They're guessing into a black piece of glass. There is no room telling them anything.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Some of them say the comments section is the room.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">BALL:</span><div class="tc-line"><span class="tc-stage">[a single sharp laugh]</span> The comments arrive <em>after</em>. <span class="tc-stage">[holds up a finger]</span> Comedy is in the moment. The comment is the autopsy. They are not the same thing. <span class="tc-stage">[gentler]</span> A coroner can tell you what killed a man, dear. A coroner can't tell a man not to die.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">Is there anything they have that you didn't?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">BALL:</span><div class="tc-line"><span class="tc-stage">[the executive's mind switching on, instantly]</span> Oh, plenty. Plenty. <span class="tc-stage">[counts on fingers]</span> They own their tape. They own their <em>tape</em>, do you understand what that means? Desi and I had to fight for that. We invented the rerun because we owned the tape. <span class="tc-stage">[points at the screen]</span> She owns the tape. He owns the tape. They can rerun themselves into eternity. That is not nothing. That is, in fact, everything I went to war for.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">So is the trade worth it? They lost the room. They got the tape.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">BALL:</span><div class="tc-line"><span class="tc-stage">[sits with the question for a long time]</span> No. <span class="tc-stage">[a beat]</span> The tape is leverage. The room is comedy. <span class="tc-stage">[looks straight at the camera]</span> A smart girl with the tape and no room is rich and unfunny. A smart girl with the room and no tape is broke and brilliant. <span class="tc-stage">[the smallest smile]</span> I have done both. I would tell her to get the room first.</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-cw">C+W:</span><div class="tc-line">If you were starting today — twenty-five years old, ambitious, very funny — what would you do?</div></div>
+
+    <div class="tc-exchange"><span class="tc-speaker tc-subj">BALL:</span><div class="tc-line"><span class="tc-stage">[immediate, without hesitation]</span> Improv class. Three nights a week. Tuesday, Thursday, Saturday. <span class="tc-stage">[hard look]</span> I would not own a camera. I would not own a tripod. I would not own a thumbnail. I would <em>own a room</em>. <span class="tc-stage">[softer]</span> The camera comes later. The camera always comes later. They've forgotten that, dear. They've forgotten that the camera is the <em>last</em> thing you buy.</div></div>
+
+    <div class="tc-final">"A coroner can tell you what killed a man. A coroner can't tell a man not to die. Comedy is in the moment. The comment is the autopsy."</div>
+  </div>
+
+</section>
+<div class="pixel-divider-magenta"></div>
+<section id="player-profiles" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ CHANNEL REVIEWS ▌</div>
+    <h2 class="section-title">Player Profiles</h2>
+  </div>
+
+  <!-- JENNY NICHOLSON -->
+  <div class="prose">
+    <h3>Jenny Nicholson</h3>
+    <p style="font-family: 'VT323', monospace; font-size: 18px; color: var(--text-secondary);">~ 1.5M subs · long-form comic essay · sporadic, devastating output</p>
+
+    <p>The Star Wars: Galactic Starcruiser hotel was a 100,000-square-foot, $5,000-a-bed immersive theme-park experience that opened in March 2022 and closed twenty months later, having become one of the more spectacular failures in modern Disney history. Jenny Nicholson visited it. She made a four-hour video. The four-hour video about the failed hotel has, as of this issue going to press, more views than the hotel had visitors. There is a thesis in there somewhere about what survives the algorithm and what doesn't, and the thesis is: <strong>Jenny Nicholson does.</strong></p>
+
+    <p>The Galactic Starcruiser video is the obvious entry point but it is also the late-stage Nicholson, the form fully matured. The earlier work — the Bronies essay, the Cats (2019) review, the entire trilogy of videos about the JonBenét Ramsey murder — is the apprenticeship. The form is consistent across all of it: Nicholson identifies a piece of culture that is sincere, enormous, and absurd, and then she describes it. Slowly. With an absolute deadpan. With the specificity of someone who actually went and looked. The comedy is in the mismatch between the calm, methodical voice and the cumulative ridiculousness of what she is calmly, methodically describing.</p>
+
+    <h4>What She Does Extraordinarily Well</h4>
+
+    <p>The first thing is research. Nicholson does not parachute into a topic; she lives in it for months. The Star Wars hotel video contains every detail of every meal, every rehearsed line of every cast member, every prop, every disappointment. She has receipts. She has photos. She has the hotel-issue paper menu and she has read it. The comedy is built on this foundation and could not exist without it: when she observes that the wine list contained a bottle described as having "notes of Endor," the joke works because we trust she is not making this up. <strong>Most YouTube comedy asks you to trust the comedian's bit. Nicholson asks you to trust her notes.</strong></p>
+
+    <p>The second thing is structure. A four-hour video should be unwatchable. The Galactic Starcruiser one is — and we say this without exaggeration — paced like a feature film. There are act breaks. There are running gags that are seeded in hour one and pay off in hour three. There is a moment, around the two-hour-forty mark, where the entire video pivots from comic disappointment into something genuinely sad, and the pivot is earned because she has spent the previous two hours being funny enough to buy the right to break your heart. This is a thing essayists do. It is not a thing comedians on YouTube usually attempt.</p>
+
+    <p class="pull-quote">Jenny Nicholson is what happens when a stand-up comedian is replaced by a research librarian and the research librarian turns out to be funnier.</p>
+
+    <p>The third thing is voice. Nicholson speaks in a register that is both very young and very dry — a sort of early-2010s Tumblr cadence aged into something more melancholy. The voice has not changed materially in seven years and we suspect it never will. It is the voice of someone who has been disappointed by the things she loves and refuses to stop loving them. This is, we would argue, the only correct emotional position from which to make criticism, comic or otherwise, on the internet today.</p>
+
+    <h4>Where She Falls Short</h4>
+
+    <p>Output. Nicholson posts roughly one major video per year. That is a fact, not a complaint, but it is a fact that affects the score. A channel that uploads once a year cannot serve as a regular comedy diet; it serves as an event. We score Consistency at 65, which is very low, and we are at peace with this — but it does mean she scores a hair below the channels with comparable quality and steadier output. The Galactic Starcruiser video is more important than ten of most other channels' total annual production, but the algorithm doesn't care, and arguably neither should we.</p>
+
+    <p>The other limitation is range. Nicholson is brilliant on theme parks, brilliant on franchise media, brilliant on niche fandom — but she has never quite expanded out of the cultural-detritus lane. There is no political Nicholson video. There is no Nicholson video about labour. We are not asking for one, exactly. But the limit of the project is that it is a project: an investigation into the specific phenomenon of mass culture sold as personal experience. Inside that lane, she is unmatched. Outside it, we don't know.</p>
+
+    <div class="score-card">
+      <div class="score-header"><span class="channel-name">JENNY NICHOLSON</span><span class="overall-score">91<span class="denom">/100</span></span></div>
+      <div class="score-bars">
+        <div class="category"><span class="cat-label">Content Quality</span><div class="bar-track"><div class="bar-fill s-90" style="width:96%"></div></div><span class="cat-score">96</span></div>
+        <div class="category"><span class="cat-label">Consistency</span><div class="bar-track"><div class="bar-fill s-60" style="width:65%"></div></div><span class="cat-score">65</span></div>
+        <div class="category"><span class="cat-label">Replay Value</span><div class="bar-track"><div class="bar-fill s-90" style="width:95%"></div></div><span class="cat-score">95</span></div>
+        <div class="category"><span class="cat-label">Community</span><div class="bar-track"><div class="bar-fill s-90" style="width:90%"></div></div><span class="cat-score">90</span></div>
+        <div class="category"><span class="cat-label">X-Factor</span><div class="bar-track"><div class="bar-fill s-90" style="width:96%"></div></div><span class="cat-score">96</span></div>
+      </div>
+      <div class="verdict-banner verdict-essential">▌ ▌ ▌  ESSENTIAL  ▌ ▌ ▌</div>
+    </div>
+
+    <p><strong>The verdict.</strong> Nicholson is the proof of concept that long-form video essay comedy can survive — that the form is alive, that there is an audience for it, that the algorithm does not have to be obeyed. The Star Wars hotel video is, if we are honest with ourselves, the single most important YouTube comedy artefact of the 2020s so far. ESSENTIAL is correct. Top 50 entry at #9, with a note in the editorial section about the Consistency drag.</p>
+  </div>
+
+  <div class="pixel-divider-light"></div>
+
+  <!-- RYAN GEORGE -->
+  <div class="prose">
+    <h3>Ryan George / Pitch Meeting</h3>
+    <p style="font-family: 'VT323', monospace; font-size: 18px; color: var(--text-secondary);">~ 3.6M subs · structural / formula comedy · weekly, since 2018</p>
+
+    <p>Pitch Meeting is the simplest sketch on YouTube. Ryan George plays both characters. One of them, the Producer, says "tight" too many times and approves things he shouldn't. The other, the Screenwriter, explains that the plot of whatever film is being mocked relies on the Producer not asking obvious questions. The Producer doesn't ask. The Screenwriter says "Super Easy, Barely An Inconvenience." The episode ends. The episode is six to eight minutes long. There have been more than a thousand of these. There will, as long as Hollywood exists, be more.</p>
+
+    <p>Comedy theorists will tell you that the hardest joke in the world is the same joke told for the seventh time. Ryan George is, by this metric, doing the hardest job in YouTube comedy. He has been doing it for eight years. The joke has not gotten old, which is itself the joke, which is itself the additional joke. <strong>Pitch Meeting is comedy as Zen koan. The format is the punchline.</strong></p>
+
+    <h4>What He Does Extraordinarily Well</h4>
+
+    <p>The mechanical thing first: George plays both halves of the conversation, alone, in a single edit, without a co-star, without studio polish, in roughly the same green-cushioned office every time. The voice for the two characters is barely differentiated — it is the same voice, doing two things, and your brain accepts that they are two characters because the script says so and George commits to it. The cheapness of the production is part of the bit. He doesn't fix it; he never has. Every Pitch Meeting looks like the first Pitch Meeting. Every Pitch Meeting is the first Pitch Meeting.</p>
+
+    <p>The structural thing: the Pitch Meeting framework lets George do something that genuinely difficult — film criticism that is funnier than the film. The episode about <em>The Last Jedi</em> identifies, in seven minutes, every plot beat that requires the Producer not to ask a question; the episode about Christopher Nolan's <em>Tenet</em> is funnier than <em>Tenet</em>; the episode about <em>Morbius</em> is, almost by definition, funnier than <em>Morbius</em>. The form is criticism wearing a wig, and the wig has been on so long it has become its own face.</p>
+
+    <p class="pull-quote">Ryan George has made the same joke a thousand times and the joke is still funny. That's not laziness. That's discipline that looks like laziness, which is itself a comedy trick most professionals never master.</p>
+
+    <p>The third thing — and this is what tips the X-Factor score — is that "Super Easy, Barely An Inconvenience" has escaped containment. It is now a phrase used by people who have never seen the channel. It has entered the language. Very few YouTube comedians can claim that. Drew Gooden cannot. Danny Gonzalez cannot. Eddy Burback, despite our affection for him, cannot. George can. He has built a meme and the meme has built him.</p>
+
+    <h4>Where He Falls Short</h4>
+
+    <p>Replay Value is the issue. You watch a Pitch Meeting once. The format is too tight to reward rewatching the way an essay video does — the punch is in the structural reveal, and once revealed, it stays revealed. Hardcore fans will rewatch the all-time greats (the <em>Last Jedi</em> one, the <em>Cats</em> one, the <em>Avatar 2</em> one), but the median Pitch Meeting is consumed once, laughed at, and never returned to. We score Replay at 70.</p>
+
+    <p>The other thing is that the format is genuinely narrow. Every Pitch Meeting is about a film with a plot hole. There is no Pitch Meeting about a film that is genuinely good and has no plot holes; the format wouldn't work. This is not a complaint, but it is a ceiling. George has, increasingly, branched out into other formats — the Honest Trailers-style breakdowns, the original sketch material — and the original sketch material is fine, but it is not Pitch Meeting, and we do not pretend otherwise. The channel is the format. The format is the channel.</p>
+
+    <div class="score-card">
+      <div class="score-header"><span class="channel-name">RYAN GEORGE / PITCH MEETING</span><span class="overall-score">84<span class="denom">/100</span></span></div>
+      <div class="score-bars">
+        <div class="category"><span class="cat-label">Content Quality</span><div class="bar-track"><div class="bar-fill s-80" style="width:82%"></div></div><span class="cat-score">82</span></div>
+        <div class="category"><span class="cat-label">Consistency</span><div class="bar-track"><div class="bar-fill s-90" style="width:95%"></div></div><span class="cat-score">95</span></div>
+        <div class="category"><span class="cat-label">Replay Value</span><div class="bar-track"><div class="bar-fill s-70" style="width:70%"></div></div><span class="cat-score">70</span></div>
+        <div class="category"><span class="cat-label">Community</span><div class="bar-track"><div class="bar-fill s-80" style="width:80%"></div></div><span class="cat-score">80</span></div>
+        <div class="category"><span class="cat-label">X-Factor</span><div class="bar-track"><div class="bar-fill s-90" style="width:90%"></div></div><span class="cat-score">90</span></div>
+      </div>
+      <div class="verdict-banner verdict-excellent">▌ ▌ ▌  EXCELLENT  ▌ ▌ ▌</div>
+    </div>
+
+    <p><strong>The verdict.</strong> Pitch Meeting is the most consistent comedy show on YouTube, full stop. It is not the funniest. It is not the deepest. It is, every Friday, exactly what it said it would be — and after a thousand episodes of being exactly what it said it would be, that is its own kind of greatness. EXCELLENT, with strong Top 50 entry. Tight; tight, tight, tight.</p>
+  </div>
+
+  <div class="pixel-divider-light"></div>
+
+  <!-- EDDY BURBACK -->
+  <div class="prose">
+    <h3>Eddy Burback</h3>
+    <p style="font-family: 'VT323', monospace; font-size: 18px; color: var(--text-secondary);">~ 1.7M subs · stunt-form long-form comedy · sporadic, ambitious, increasingly strange</p>
+
+    <p>Eddy Burback ate at every Olive Garden in Manhattan, and then he ate at every Olive Garden in a single state, and then he visited every Bass Pro Shops in America, and now he is making videos that are essentially feature-length comic documentaries about the saddest fast-food restaurants in the country. He is, by any measure, the most ambitious of the post-Drew/Danny generation of YouTube commentators — and he has done the thing the older guard didn't, which is leave the desk.</p>
+
+    <p>Burback came up in the Drew Gooden / Danny Gonzalez / Kurtis Conner ecosystem, started as a commentary YouTuber, and somewhere around 2022 quietly committed to a different project: <strong>real-world stunts framed as comic essays</strong>. The "I Spent a Week at Every Olive Garden" video was the breakthrough; "We Lived in Bass Pro Shops for 24 Hours" cemented it; the Buc-ee's video confirmed he was building a body of work, not just doing a bit. He is what happens when a commentary YouTuber decides to actually <em>go outside</em>, and what he finds outside is the same thing the commentary YouTubers were already mocking, except now it is on camera and you cannot pretend you were just making it up.</p>
+
+    <h4>What He Does Extraordinarily Well</h4>
+
+    <p>The first thing is the deadpan. Burback's camera presence is a man genuinely confused by what he is seeing, who has chosen to keep going. The sincerity of the confusion is the engine. When he sits in his fortieth Olive Garden of the day and the waitress asks how he's doing, the joke is not the punchline he delivers; the joke is that the punchline is barely a punchline, and the confusion is real, and we are watching a man slowly realise that the experience he is documenting is genuinely, structurally, weirder than anything he could have written.</p>
+
+    <p>The second thing is editing patience. Burback sits in a moment for longer than he needs to, the way a documentary filmmaker would, and the unusual length is itself a comic gesture. There is a moment in the Bass Pro Shops video where he is alone on the artificial lake at 4am, having committed to sleeping there, and the camera holds on his face for a full eight seconds before he says anything. The eight seconds is the bit. The eight seconds is what nobody else on YouTube comedy is doing right now, because the algorithm does not understand the eight seconds.</p>
+
+    <p class="pull-quote">Eddy Burback inherited the deadpan from Drew Gooden, the chaos from Danny Gonzalez, and the willingness to sleep in a Bass Pro Shops from his own peculiar conviction. The result is the most exciting comic documentarian on the platform.</p>
+
+    <h4>Where He Falls Short</h4>
+
+    <p>The output is uneven. Burback's major projects are extraordinary; his shorter videos, the ones in between, are commentary-YouTuber-by-numbers — not bad, not memorable, made because the channel needs to keep the algorithm fed. The big stunts are 9/10. The filler is 6/10. We score Consistency at 70 to reflect this, which is generous, and only because the big stunts are so big they deserve grace for the in-between weeks.</p>
+
+    <p>The other thing is that the stunt format is, by its nature, exhausting. There is an upper limit to how many "I went to every X" videos he can make before the bit eats itself, and the closer he gets to that limit, the more we worry. The 2025 video about visiting every Cracker Barrel had moments where Burback himself looked depleted, and the audience could see it. The format requires an inexhaustible curiosity that no human actually possesses, and the camera tells the truth about that. He needs to evolve the framework before the framework wears him out, and we are not sure he has fully figured out what that evolution looks like.</p>
+
+    <div class="score-card">
+      <div class="score-header"><span class="channel-name">EDDY BURBACK</span><span class="overall-score">83<span class="denom">/100</span></span></div>
+      <div class="score-bars">
+        <div class="category"><span class="cat-label">Content Quality</span><div class="bar-track"><div class="bar-fill s-80" style="width:87%"></div></div><span class="cat-score">87</span></div>
+        <div class="category"><span class="cat-label">Consistency</span><div class="bar-track"><div class="bar-fill s-70" style="width:70%"></div></div><span class="cat-score">70</span></div>
+        <div class="category"><span class="cat-label">Replay Value</span><div class="bar-track"><div class="bar-fill s-70" style="width:78%"></div></div><span class="cat-score">78</span></div>
+        <div class="category"><span class="cat-label">Community</span><div class="bar-track"><div class="bar-fill s-80" style="width:80%"></div></div><span class="cat-score">80</span></div>
+        <div class="category"><span class="cat-label">X-Factor</span><div class="bar-track"><div class="bar-fill s-80" style="width:90%"></div></div><span class="cat-score">90</span></div>
+      </div>
+      <div class="verdict-banner verdict-excellent">▌ ▌ ▌  EXCELLENT  ▌ ▌ ▌</div>
+    </div>
+
+    <p><strong>The verdict.</strong> Burback is the most exciting comedy commentator on YouTube right now, full stop — but at 83, he sits one point below our current Top 50 entry threshold. We flag him as a watch-list channel: the next big stunt video, if it lands the way the Olive Garden one did, moves him into the Top 50 cleanly. EXCELLENT verdict, no Top 50 entry this issue, and a strong recommendation that he is the future of the genre, not its present.</p>
+  </div>
+
+  <div class="pixel-divider-light"></div>
+
+  <!-- PORTA DOS FUNDOS -->
+  <div class="prose">
+    <h3>Porta dos Fundos 🇧🇷</h3>
+    <p style="font-family: 'VT323', monospace; font-size: 18px; color: var(--text-secondary);">~ 26M subs · Brazilian sketch comedy troupe · multiple uploads weekly · est. 2012</p>
+
+    <p>Porta dos Fundos has 26 million subscribers, has been making YouTube comedy for thirteen years, and has never been reviewed in this magazine until now. That is a problem of our own making, and this profile is part of correcting it. The promise we made to Marco T. of São Paulo in Issue #013 was that the Portuguese-speaking world would not stay invisible to us. Fulfilling that promise meant starting with the most obvious channel imaginable, the one we should have written about years ago, and which we are writing about now with the appropriate amount of mild self-flagellation.</p>
+
+    <p>The format is studio-quality sketch comedy, multiple uploads per week, in Portuguese, with subtitles available in roughly twenty languages but rarely the first thing English-speaking viewers encounter. The troupe — founded in Rio in 2012 by Fábio Porchat, Antonio Pedro Tabet, and three others — produces sketches that are structurally indistinguishable from peak-era SNL or Key &amp; Peele in terms of writing, performance, and production. The reason most readers of this magazine have not heard of them is not that they aren't excellent. It is that the Anglosphere comedy press has, for thirteen years, decided they don't count. <strong>That decision was wrong.</strong></p>
+
+    <h4>What They Do Extraordinarily Well</h4>
+
+    <p>The first thing is volume at quality. Porta dos Fundos uploads multiple times a week and the median sketch is genuinely good — not "good for an internet sketch troupe," but good in the way that a strong SNL Update segment is good. The hit rate is the production miracle. Most sketch troupes who upload at this volume produce mostly mediocre content with the occasional standout. Porta produces consistently strong work, and a few times a year produces something that breaks containment internationally — usually a Christmas special, usually one that gets them protested or sued.</p>
+
+    <p>The second thing is the willingness to provoke. The 2019 Christmas special <em>The First Temptation of Christ</em> earned them a Molotov cocktail thrown at their offices and an attempted court injunction in Brazil. The 2023 Christmas special continued the tradition with a sketch that several members of Brazilian congress called for criminal prosecution over. The troupe's response, broadly, has been: keep doing it. There is a directness in their political and religious sketch comedy that simply does not exist anywhere on the English-language YouTube algorithm right now, because the English-language YouTube algorithm has trained that directness out of its comedians via demonetisation. Porta still has it because they had to fight a different fight to keep it. They won that fight. They are, quietly, the proof that another comedy ecosystem is possible.</p>
+
+    <p class="pull-quote">Porta dos Fundos is what English-language YouTube comedy used to be, before the platform decided it was too risky. The fact that this magazine is only now profiling them is our embarrassment, not theirs.</p>
+
+    <h4>Where They Fall Short</h4>
+
+    <p>The X-Factor score is held back, honestly, by a question of distinction. Porta is excellent — but their excellence is the excellence of a working professional sketch troupe doing the work very well. There is no individual signature voice the way there is with Drew Gooden or Jenny Nicholson; there is, instead, a writers' room and a stable of performers operating at a consistently high level. This is a different kind of value. It is closer to <em>SNL</em> at peak than to a single creator's vision. We score X-Factor at 78, which feels honest — the channel is irreplaceable in Brazilian comedy, but as a YouTube voice it is institutional rather than individual.</p>
+
+    <p>The other thing — and this is the limit, not a complaint — is that the cultural specificity of much of the sketch material does not always travel. The political sketches require a working knowledge of Brazilian politics; the religious sketches require some familiarity with Brazilian Catholicism; the workplace sketches make assumptions about Brazilian office culture that English-speaking viewers will partially miss. The subtitles do their job, but a subtitle cannot translate the laugh that comes from recognition. We score Replay at 75 partly for this reason — outside Brazil, the rewatch curve is shorter than it is for native viewers.</p>
+
+    <div class="score-card">
+      <div class="score-header"><span class="channel-name">PORTA DOS FUNDOS</span><span class="overall-score">82<span class="denom">/100</span></span></div>
+      <div class="score-bars">
+        <div class="category"><span class="cat-label">Content Quality</span><div class="bar-track"><div class="bar-fill s-80" style="width:87%"></div></div><span class="cat-score">87</span></div>
+        <div class="category"><span class="cat-label">Consistency</span><div class="bar-track"><div class="bar-fill s-90" style="width:92%"></div></div><span class="cat-score">92</span></div>
+        <div class="category"><span class="cat-label">Replay Value</span><div class="bar-track"><div class="bar-fill s-70" style="width:75%"></div></div><span class="cat-score">75</span></div>
+        <div class="category"><span class="cat-label">Community</span><div class="bar-track"><div class="bar-fill s-70" style="width:78%"></div></div><span class="cat-score">78</span></div>
+        <div class="category"><span class="cat-label">X-Factor</span><div class="bar-track"><div class="bar-fill s-70" style="width:78%"></div></div><span class="cat-score">78</span></div>
+      </div>
+      <div class="verdict-banner verdict-excellent">▌ ▌ ▌  EXCELLENT  ▌ ▌ ▌</div>
+    </div>
+
+    <p><strong>The verdict.</strong> EXCELLENT, no Top 50 entry this issue (the score sits below our current threshold of 84), but a watch-list note for re-evaluation. Marco — we hope this goes some way. Anyone reading this who has not watched <em>The First Temptation of Christ</em> with subtitles on: please do, and please report back. The next non-English profile is already commissioned for #015. Priya, you don't need to write in again. We get it. We're learning.</p>
+  </div>
+</section>
+<div class="pixel-divider-magenta"></div>
+<section id="boss-fight" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ HEAD TO HEAD ▌</div>
+    <h2 class="section-title">Boss Fight</h2>
+  </div>
+
+  <div class="bf-title">⚔ BOSS FIGHT ⚔</div>
+  <div class="bf-subtitle">DREW GOODEN <span style="color: var(--yellow);">vs</span> DANNY GONZALEZ — POST-VINE COMEDY COMMENTARY</div>
+
+  <div class="prose">
+    <p>Best friends. Parallel careers. Same agent, same touring history, same general body of work, same approximate audience, near-identical formats. They have collaborated on more than a hundred videos together. They have been mistaken for each other in subreddits. They are listed in every "comedy YouTubers" recommendation engine within two slots of each other. And yet, fundamentally, only one of them is funnier than the other one. The fight is not about whether to watch them. You will watch them both. The fight is about which one you would watch alone, on a long flight, with no internet, with one thirty-minute video to keep you company.</p>
+
+    <p>That is, in fact, the test we ran. We ran it twice. We disagreed. The Editor and the Reviews Editor disagreed. The Reviews Editor and the Time Capsule Editor disagreed. We had to put it to the room. The room split 4–3. We are publishing the result of the 4–3 vote. The losing minority gets to write the dissenting note in next month's letters page if they want to. They probably will.</p>
+
+    <p>What's at stake in this fight isn't really which YouTuber is funnier. It's a question about <strong>what comedy values most</strong>. Restraint or commitment. Iceberg or volcano. The deadpan that trusts the audience to find the joke, or the explicit chaos that hands the joke over with both hands and stays late to make sure you got it. Both are valid comic positions. We have to pick one anyway.</p>
+  </div>
+
+  <div class="tale-tape">
+    <div class="tape-col">
+      <div class="tape-channel">DREW GOODEN</div>
+      <div class="tape-row"><strong>EST.</strong>2018 (current channel)</div>
+      <div class="tape-row"><strong>SUBS</strong>~3.0M</div>
+      <div class="tape-row"><strong>OUTPUT</strong>Roughly monthly. Reliable.</div>
+      <div class="tape-row"><strong>FORMAT</strong>Deadpan video essays, mostly seated, comic register dry.</div>
+      <div class="tape-row"><strong>SIGNATURE</strong>The annual iPad video. The TikTok rabbit-hole videos. The increasingly rare moment when he laughs.</div>
+      <div class="tape-row"><strong>WEAKNESS</strong>Output paced for sustainability, not virality. Some videos coast on the format rather than push it.</div>
+    </div>
+    <div class="tape-col">
+      <div class="tape-channel">DANNY GONZALEZ</div>
+      <div class="tape-row"><strong>EST.</strong>2017 (current channel)</div>
+      <div class="tape-row"><strong>SUBS</strong>~6.5M</div>
+      <div class="tape-row"><strong>OUTPUT</strong>Roughly weekly. Aggressive.</div>
+      <div class="tape-row"><strong>FORMAT</strong>Manic commentary, songs, full-body commitment to the bit.</div>
+      <div class="tape-row"><strong>SIGNATURE</strong>The "Greg" community. The musical bits. The ability to commit to a piece of cursed internet content for fifteen straight minutes.</div>
+      <div class="tape-row"><strong>WEAKNESS</strong>The chaos can flatten into shtick. When the bit isn't landing, there's nowhere structurally to retreat to.</div>
+    </div>
+  </div>
+
+  <div class="bf-vs">⚔  VS  ⚔</div>
+
+  <!-- ROUND 1 -->
+  <div class="bf-round">
+    <div class="bf-round-num">▌ ROUND 1 ▌</div>
+    <h3 class="bf-round-title">Content Quality</h3>
+    <p>Drew's videos are slower and more written. The iPad reaction videos, in particular, are essentially personal essays on bad consumer technology, where the comedy emerges from the gap between the corporate sincerity of an Apple product page and the actual experience of using the thing. The writing is tight, the structure is essayistic, and the laughs are earned by the architecture rather than the delivery.</p>
+
+    <p>Danny's videos are looser and more performative. He is, more often than Drew, willing to follow a piece of internet content into its weirdest corners and stay there past the point where comfort would suggest leaving. The "Hi5 Studios" videos, the McJuggerNuggets retrospectives, the ongoing series of explorations of TikTok's strangest creators — these are committed pieces of comic anthropology, and Danny is the better anthropologist of the two.</p>
+
+    <p>Where they differ specifically: Drew is a better essayist. Danny is a better embedder. Drew writes about content; Danny inhabits content. Both are valuable. The question is which serves YouTube's particular medium better. We narrowly think Drew's approach produces a higher per-video quality ceiling, while acknowledging that Danny's hits more often.</p>
+    <div class="bf-round-verdict">▶ DREW WINS — narrowly</div>
+  </div>
+
+  <!-- ROUND 2 -->
+  <div class="bf-round">
+    <div class="bf-round-num">▌ ROUND 2 ▌</div>
+    <h3 class="bf-round-title">Consistency</h3>
+    <p>Danny uploads more often, more predictably, and with a tighter quality floor than Drew. A median Danny Gonzalez upload is funny. A median Drew Gooden upload — and we say this with affection — is good but not always laugh-out-loud funny. The frequency gap is real: Danny posts roughly four times a month; Drew posts roughly once. Over a calendar year, this matters.</p>
+
+    <p>The other Consistency dimension is staying-power. Both have been doing this for nearly a decade without burning out, which is itself a feat. Danny's pace is more aggressive, which makes the burnout risk higher; Drew's pace is more sustainable, which makes the audience attrition risk higher. Both have managed the trade-off competently. Neither has had a public mental-health crisis on camera, which on YouTube in 2026 counts as a structural achievement.</p>
+
+    <p>Round goes to Danny on volume and reliability, with no hesitation. Drew's defenders will note that "fewer, better videos" is a defensible position. It is. It just isn't a Consistency win. Consistency is what you can count on. Danny is what you can count on.</p>
+    <div class="bf-round-verdict">▶ DANNY WINS</div>
+  </div>
+
+  <!-- ROUND 3 -->
+  <div class="bf-round">
+    <div class="bf-round-num">▌ ROUND 3 ▌</div>
+    <h3 class="bf-round-title">Replay Value</h3>
+    <p>This is where Drew's restraint pays its biggest dividend. The deadpan video essay format ages exceptionally well. The 2019 iPad video is funnier in 2026 than it was in 2019 — partly because Apple's product line has somehow become even more baffling, partly because the deadpan registers differently when the cultural reference points have aged. The videos do not date. The voice does not date. We have rewatched the iPad trilogy three times this year, for editorial reasons. We are not bored.</p>
+
+    <p>Danny's videos, by contrast, are tied to specific pieces of internet content that have, in many cases, vanished. The McJuggerNuggets videos require remembering McJuggerNuggets. The TikTok exploration videos require those TikToks to still exist, which they often don't. The bit-driven comedy is, by its nature, more time-locked than the essay-driven comedy. This is not a flaw — it is a property of the format Danny has chosen — but it does mean the rewatch experience is shorter and shallower.</p>
+
+    <p>The other thing: Drew's deadpan rewards repeated viewing the way a Steven Wright joke rewards repeated viewing. There are micro-pauses you didn't catch the first time. There are flickers of expression that recontextualise lines you thought were straight. Danny is not asking for that kind of attention; his comedy lives in the moment of first watch.</p>
+    <div class="bf-round-verdict">▶ DREW WINS — clearly</div>
+  </div>
+
+  <!-- ROUND 4 -->
+  <div class="bf-round">
+    <div class="bf-round-num">▌ ROUND 4 ▌</div>
+    <h3 class="bf-round-title">Community</h3>
+    <p>Danny has built a more cohesive named community — the "Greg" community, with its in-jokes, its merch, its shared vocabulary. This is a real achievement and not a small one. Drew's audience is more diffuse: it self-identifies as Drew Gooden viewers, but does not have a name, a flag, or a unified comment-section culture.</p>
+
+    <p>Drew's audience is, however, generally more articulate in comments. There is a higher signal-to-noise ratio in his comments section than in Danny's, where the meme-density is higher but the analytical comment is rarer. Both have their virtues. A successful comedy creator should probably have a name for their audience and a culture; that is the standard cited by anyone who values community-building. Drew's audience is high-quality but not organised. Danny's is organised and high-quality. By the textbook, Danny wins this. We're going to call it a draw, for the rare situation where both communities are demonstrably excellent in different ways.</p>
+    <div class="bf-round-verdict">▶ DRAW</div>
+  </div>
+
+  <!-- ROUND 5 -->
+  <div class="bf-round" style="border-left-color: var(--magenta); border-left-width: 6px;">
+    <div class="bf-round-num">▌ ROUND 5 — THE DECIDING ROUND ▌</div>
+    <h3 class="bf-round-title">X-Factor</h3>
+    <p>X-Factor is the question of irreplaceability. If Drew Gooden vanished from the internet tomorrow, what specifically would be lost? If Danny Gonzalez vanished from the internet tomorrow, what specifically would be lost? Both questions have answers. The answers are different.</p>
+
+    <p>If Danny vanished, the loss would be a particular comic energy — the willingness to commit to an absurd bit at full volume for an extended runtime. There are other YouTubers who do this. None of them do it as well as Danny. But the lane is populated. Kurtis Conner is in it. Eddy Burback, in his shorter videos, is in it. The space would be diminished but not abolished.</p>
+
+    <p>If Drew vanished, the loss is more specific and more total. <strong>Drew Gooden is the only deadpan comedy essayist on YouTube currently working at scale.</strong> The deadpan comedy essay is, structurally, what we lost when late-night TV imploded — Letterman's quiet bits, Conan's slow moments, the spaces in television comedy where the joke was permitted to wait. YouTube comedy in 2026 is, in aggregate, a loud medium. Drew is one of the few people inside it making quiet work that holds up. There is no replacement waiting in the wings. If he stopped, that register stops.</p>
+
+    <p>This is, we think, the deciding factor. Danny is excellent at a thing several other people are also good at. Drew is excellent at a thing nobody else on YouTube is currently doing. The X-Factor case for Drew is not that he is funnier than Danny — it is that the medium needs him more than it needs Danny, and the medium would notice his absence more.</p>
+
+    <p>One additional thing, because it has to be said: Drew's collaborations <em>with</em> Danny are funnier than either of them alone. The "We Are Two Different People" videos, the cross-channel bits, the way Drew's restraint sets up Danny's chaos and how Danny's chaos punctures Drew's restraint — this is a comic chemistry that exists because the two of them are <em>different</em>, and the difference is exactly what this round is asking us to weigh. We are weighing it. The answer points the same way.</p>
+    <div class="bf-round-verdict">▶ DREW WINS</div>
+  </div>
+
+  <div class="bf-scorecard">
+    <table>
+      <thead>
+        <tr><th>CATEGORY</th><th>DREW GOODEN</th><th>DANNY GONZALEZ</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Content Quality</td><td>84</td><td>82</td></tr>
+        <tr><td>Consistency</td><td>84</td><td>86</td></tr>
+        <tr><td>Replay Value</td><td>86</td><td>78</td></tr>
+        <tr><td>Community</td><td>86</td><td>88</td></tr>
+        <tr><td>X-Factor</td><td>92</td><td>86</td></tr>
+        <tr class="total"><td>OVERALL</td><td style="color: var(--green); text-shadow: var(--glow-green);">86</td><td>84</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <h4>The Decision</h4>
+    <p>Drew Gooden wins. 86 to 84. Two-point margin. Three round wins, one round loss, one draw. The decision is close. The decision is honest. The room split 4–3 and the four were correct.</p>
+
+    <p>What Danny does that Drew can't: commit to a long-form bit at full volume and not flinch from the ridiculousness of it. The Hi5 Studios deep-dives, the musical sketches, the sustained character work — Drew cannot and would not do these things. Danny is the better full-body performer, the better chaos engine, the better builder of internet community. None of this is in dispute.</p>
+
+    <p>What Drew does that Danny can't: leave the joke alone. Trust the silence. Let the iceberg do the work. The deadpan video essay is its own discipline, and it is rarer in 2026 than it was in 2019, and Drew is its current best practitioner on this platform. The X-Factor round decides this fight, and we say so explicitly: the medium needs Drew more than the medium needs Danny, and that is what irreplaceability means.</p>
+
+    <p class="pull-quote">In ten years, Drew Gooden will be cited as the YouTuber who proved deadpan still worked. Whether that's a compliment or a eulogy is the question this Boss Fight cannot answer.</p>
+
+    <h4>Post-Fight</h4>
+    <p>Drew Gooden enters the Top 50 at <strong>#35 (86, EXCELLENT)</strong>, slotting in at the bottom of the 86-tier on X-Factor weighting. Danny Gonzalez enters at <strong>#47 (84, EXCELLENT)</strong>, in the lower 84-tier alongside Ryan George. Both deserve their spots; neither displaces a recently-entered channel. Hemingway, somewhere, has approved of the deadpan. Lucille Ball, somewhere, has noted with concern that neither of them owns the room. Both observations are correct.</p>
+  </div>
+</section>
+<div class="pixel-divider-magenta"></div>
+<section id="high-scores" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ THE TOP 50 ▌</div>
+    <h2 class="section-title">High Scores</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">The master ranking after Issue #014. Four new entries, four drops, the 86–84 tiers compressed by comedy's arrival. New entry threshold: 84.</p>
+  </div>
+
+  <table class="top50-table">
+    <thead>
+      <tr><th>#</th><th>Channel</th><th>Score</th><th>Genre</th><th>Movement</th></tr>
+    </thead>
+    <tbody>
+      <tr class="top3"><td class="rank">1</td><td>3Blue1Brown</td><td class="score">96</td><td class="genre">Mathematics / Education</td><td class="movement mv-flat">—</td></tr>
+      <tr class="top3"><td class="rank">2</td><td>Kurzgesagt</td><td class="score">94</td><td class="genre">Science / Animation</td><td class="movement mv-flat">—</td></tr>
+      <tr class="top3"><td class="rank">3</td><td>Every Frame a Painting</td><td class="score">92</td><td class="genre">Film analysis</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">4</td><td>Primitive Technology</td><td class="score">91</td><td class="genre">Bushcraft / Silent</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">5</td><td>Jacob Geller</td><td class="score">91</td><td class="genre">Video essay / Games</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">6</td><td>Adam Neely</td><td class="score">91</td><td class="genre">Music theory</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">7</td><td>CGP Grey</td><td class="score">91</td><td class="genre">Education / Animation</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">8</td><td>Lemmino</td><td class="score">91</td><td class="genre">Mystery / Documentary</td><td class="movement mv-flat">—</td></tr>
+      <tr class="new-entry"><td class="rank">9</td><td>Jenny Nicholson</td><td class="score">91</td><td class="genre">Long-form comic essay</td><td class="movement mv-new">NEW</td></tr>
+      <tr><td class="rank">10</td><td>Fireship</td><td class="score">90</td><td class="genre">Programming / Tech</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">11</td><td>Dan Carlin's Hardcore History</td><td class="score">90</td><td class="genre">History / Long-form</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">12</td><td>Townsends</td><td class="score">90</td><td class="genre">Historical cooking</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">13</td><td>Mark Rober</td><td class="score">89</td><td class="genre">Engineering / Stunts</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">14</td><td>Veritasium</td><td class="score">89</td><td class="genre">Science</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">15</td><td>Vsauce</td><td class="score">89</td><td class="genre">Curiosity / Philosophy</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">16</td><td>Technology Connections</td><td class="score">88</td><td class="genre">Tech / Appliances</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">17</td><td>Conan O'Brien / Team Coco</td><td class="score">88</td><td class="genre">Comedy / Late-night</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">18</td><td>Contrapoints</td><td class="score">88</td><td class="genre">Video essay / Cultural</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">19</td><td>exurb1a</td><td class="score">88</td><td class="genre">Philosophy / Animated essay</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">20</td><td>Clickspring</td><td class="score">88</td><td class="genre">Machining / Craft</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">21</td><td>Internet Historian</td><td class="score">87</td><td class="genre">Internet history</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">22</td><td>Theo Von</td><td class="score">87</td><td class="genre">Comedy / Podcast</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">23</td><td>Good Mythical Morning</td><td class="score">87</td><td class="genre">Comedy / Variety</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">24</td><td>Caspian Report</td><td class="score">87</td><td class="genre">Geopolitics</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">25</td><td>Historia Civilis</td><td class="score">87</td><td class="genre">Ancient history</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">26</td><td>JCS — Criminal Psychology</td><td class="score">86</td><td class="genre">True crime / Analysis</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">27</td><td>Tasting History</td><td class="score">86</td><td class="genre">Historical cooking</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">28</td><td>Breaking Points</td><td class="score">86</td><td class="genre">Politics / News</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">29</td><td>12tone</td><td class="score">86</td><td class="genre">Music theory</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">30</td><td>Like Stories of Old</td><td class="score">86</td><td class="genre">Film / Mythology</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">31</td><td>Nerdwriter1</td><td class="score">86</td><td class="genre">Video essay</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">32</td><td>NileRed</td><td class="score">86</td><td class="genre">Chemistry</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">33</td><td>Stuff Made Here</td><td class="score">86</td><td class="genre">Engineering / Maker</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">34</td><td>Scott The Woz</td><td class="score">86</td><td class="genre">Gaming / Comedy</td><td class="movement mv-down">↓1</td></tr>
+      <tr class="new-entry"><td class="rank">35</td><td>Drew Gooden</td><td class="score">86</td><td class="genre">Deadpan comedy commentary</td><td class="movement mv-new">NEW</td></tr>
+      <tr><td class="rank">36</td><td>Binging with Babish</td><td class="score">85</td><td class="genre">Cooking</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">37</td><td>Tantacrul</td><td class="score">85</td><td class="genre">Music / Software</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">38</td><td>Philosophy Tube</td><td class="score">85</td><td class="genre">Philosophy / Performance</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">39</td><td>Real Engineering</td><td class="score">85</td><td class="genre">Engineering</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">40</td><td>The Slow Mo Guys</td><td class="score">85</td><td class="genre">Science / Visual</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">41</td><td>Map Men</td><td class="score">85</td><td class="genre">Geography / Comedy</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">42</td><td>Smarter Every Day</td><td class="score">85</td><td class="genre">Science / Engineering</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">43</td><td>TED-Ed</td><td class="score">85</td><td class="genre">Education / Animation</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">44</td><td>Videogamedunkey</td><td class="score">84</td><td class="genre">Gaming / Comedy</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">45</td><td>Whang!</td><td class="score">84</td><td class="genre">Internet history</td><td class="movement mv-up">↑2</td></tr>
+      <tr class="new-entry"><td class="rank">46</td><td>Ryan George / Pitch Meeting</td><td class="score">84</td><td class="genre">Sketch / Format comedy</td><td class="movement mv-new">NEW</td></tr>
+      <tr><td class="rank">47</td><td>Legal Eagle</td><td class="score">84</td><td class="genre">Legal explainer</td><td class="movement mv-down">↓4</td></tr>
+      <tr class="new-entry"><td class="rank">48</td><td>Danny Gonzalez</td><td class="score">84</td><td class="genre">Manic comedy commentary</td><td class="movement mv-new">NEW</td></tr>
+      <tr><td class="rank">49</td><td>Abroad in Japan</td><td class="score">84</td><td class="genre">Travel / Documentary</td><td class="movement mv-down">↓3</td></tr>
+      <tr><td class="rank">50</td><td>Wendover Productions</td><td class="score">84</td><td class="genre">Logistics / Geography</td><td class="movement mv-down">↓5</td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose">
+    <h4>Editorial Notes</h4>
+
+    <p><strong>New entries.</strong> <em>Jenny Nicholson</em> enters at #9, becoming the sixth ESSENTIAL channel in the 91-tier and the magazine's first comedy-essayist to hold the top tier. Her Consistency score of 65 is the lowest by a wide margin among any 91+ channel — a structural disadvantage that the other categories overwhelm. <em>Drew Gooden</em> enters at #35, anchoring the bottom of the 86-tier on X-Factor strength after winning the Boss Fight against Danny Gonzalez. <em>Ryan George / Pitch Meeting</em> takes #46 in the 84-tier — the discipline of making the same joke a thousand times is, at last, recognised as the comic achievement it is. <em>Danny Gonzalez</em> enters at #48, his lower X-Factor placement reflecting the genre saturation in the manic-commentary lane he occupies.</p>
+
+    <p><strong>Drops.</strong> <em>TLDR News</em> drops from #50 — the lowest score on the previous Top 50 (83), now below the 84 entry threshold. Its tenure was defensible; its displacement is overdue. <em>Tom Scott</em> drops from #48: the announced production slowdown of late 2024 has, in 2026, become the production reality. The catalogue remains EXCELLENT and we will return to him for a re-evaluation if his output picks up. <em>Philip DeFranco</em> drops from #49 on ceiling grounds — fifteen years of daily news commentary have produced a steady-state product that is no longer earning its place against fresher work. <em>Sideways</em> drops from #44, also on ceiling grounds; the music-analysis lane has, since his entry, become more crowded, and his trajectory has plateaued at the level that originally got him in.</p>
+
+    <p><strong>Big movers.</strong> <em>Whang!</em> moves up from #47 to #45 — the only upward movement in the 84-tier, earned on X-Factor weighting. His internet-history work has aged into something closer to canonical. <em>Wendover Productions</em> drops from #45 to #50, a five-position fall driven entirely by displacement; the score is unchanged at 84 but the new arrivals at the same score outrank him on tie-breaking. <em>Legal Eagle</em> falls four positions for the same reason. Neither is a quality complaint.</p>
+
+    <p><strong>Compression note.</strong> The 86-tier now contains ten channels (was nine), and the 84-tier contains seven — both densities are at historical highs for those scores. The next score-86 candidate that emerges will need a strong tie-break case to enter cleanly. We expect a re-evaluation of one or two existing 86-tier channels by Issue #016 to relieve the pressure.</p>
+
+    <p><strong>Negative review counter.</strong> Two issues since Issue #012's HasanAbi/Johnny Harris re-evaluations. Mandatory by Issue #015. We have a candidate. Letters are open.</p>
+  </div>
+</section>
+<div class="pixel-divider-magenta"></div>
+<section id="hidden-levels" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ SUB-10K SUBSCRIBER GEMS ▌</div>
+    <h2 class="section-title">Hidden Levels</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px; max-width: 780px;">Five small comedy channels worth your time. Some you can find easily. Some are harder to surface — the algorithm is not their friend, which is part of why they're here.</p>
+  </div>
+
+  <div class="hl-card">
+    <div class="hl-name">DOOMED EUSTACE</div>
+    <div class="hl-meta">~ 2.4K subs · UK absurdist monologue · uploads erratically</div>
+    <p>A British comedian who appears to perform exclusively from inside a beige cardigan in what looks like the same kitchen, delivering meandering five-minute monologues about, variously: the moral character of his neighbour's bins, the political implications of canned soup, and the secret meanings of bus timetables. The persona is so committed it occasionally tips into genuine unease. There is a recurring bit where he pretends to receive phone calls from "the council" that has, in our editorial opinion, no business being as funny as it is. The closest comparator is a sleep-deprived Stewart Lee, but smaller, sadder, and on a much worse webcam. He has not posted in four months. We do not know if this is the bit. We hope it isn't. We suspect it is.</p>
+  </div>
+
+  <div class="hl-card">
+    <div class="hl-name">CHANNEL: SARAH IS CONFUSED</div>
+    <div class="hl-meta">~ 1.6K subs · single-take character sketches · weekly</div>
+    <p>A solo creator who films, in a single uncut take, scenarios in which she plays a person who has clearly walked into a situation they do not understand and is committed to faking their way through it. The "I have arrived at the wrong wedding" video is a small masterpiece of escalating commitment. The "I am pretending to know what a 401k is" video is, similarly, a small masterpiece. Each video is one take, no edits, no music, three to five minutes long. The format is so disciplined we suspect it is the only way she can make videos at all — any introduction of post-production would, we think, break the bit. We deeply hope she resists the temptation to grow.</p>
+  </div>
+
+  <div class="hl-card">
+    <div class="hl-name">DAD REVIEWS THE INTERNET</div>
+    <div class="hl-meta">~ 4.1K subs · observational POV / parenting comedy · monthly</div>
+    <p>A man, mid-forties, reviews things his teenage daughter has shown him on the internet. The format is the entire bit: he watches a piece of TikTok or YouTube content, the camera holds on his face, and he then offers a deeply considered three-minute analysis as if reviewing a foreign film. The deadpan is total. The reviews are, occasionally, extraordinarily perceptive. The episode where he deconstructs a "GRWM" video as a piece of structural performance art is genuinely better criticism than most of what gets paid for elsewhere. The daughter, who occasionally appears in frame, is twelve and visibly mortified. The mortification is part of the bit, and possibly part of why the daughter is the channel's secret co-author.</p>
+  </div>
+
+  <div class="hl-card">
+    <div class="hl-name">KOMEDYA PILIPINO COLLECTIVE</div>
+    <div class="hl-meta">~ 3.2K subs · Filipino sketch comedy / Tagalog-English mix · weekly</div>
+    <p>A four-person sketch troupe based in Quezon City who upload sketches that are roughly 60% Tagalog, 40% English, with subtitles in both. The content is sharply observational about the Filipino-diaspora experience — sketches about call-centre workers, OFW family dynamics, the absurdity of jeepney etiquette — and is the kind of work that simply does not exist on English-language YouTube comedy because it is not <em>about</em> English-language comedy. We surface it here as a deliberate continuation of the non-English coverage Marco T. demanded. There are dozens of channels like this, in dozens of languages, that the Anglosphere algorithm does not show you. We are going to spend the next year finding more of them.</p>
+  </div>
+
+  <div class="hl-card yobs-pick">
+    <div class="hl-pick-badge">YOB'S PICK</div>
+    <div class="hl-name">SILENT SAM</div>
+    <div class="hl-meta">~ 980 subs · silent visual comedy · uploads when uploaded</div>
+    <p>Sam — we don't know his last name, the channel does not provide one — makes silent comedy. No dialogue. No music. Just a man in a black-and-white frame, doing physical bits that descend directly from Buster Keaton via Mr. Bean and somehow land in 2026. The episodes are between forty seconds and two minutes long. The bit where he tries to put on a jacket while holding a coffee cup is the funniest thing we have watched all year, and we are unable to explain why in any way that will sound serious in print. Yob picks this one. Yob does not normally have favourites, but Yob made a small affirmative noise when watching the jacket video, which is the closest Yob has ever come to applauding. We don't know who's reading. But you should be.</p>
+  </div>
+</section>
+<div class="pixel-divider-magenta"></div>
+<section id="cheat-codes" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ SPECIAL FEATURE ▌</div>
+    <h2 class="section-title">The Comedy Tax</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px; max-width: 780px;">What YouTube comedy costs the people making it, in four currencies. The tax is paid in jokes you don't tell, sincerity you don't permit yourself, time you can't get back, and dignity you give away to keep the lights on.</p>
+  </div>
+
+  <div class="prose">
+    <p>Every medium taxes its practitioners. Stand-up taxes them in nightly bombing and missed family time. Television taxes them in network notes and the slow attrition of the writers' room. Print taxes them in editors who don't know what's funny. YouTube has its own taxes, and the taxes are specific enough that we think they deserve naming. We have identified four. There are probably more.</p>
+
+    <h4>I. THE PG-13 CEILING</h4>
+
+    <p>YouTube's monetisation policies are a moving target. The auto-classifier is an inscrutable god. The advertiser-friendly content guidelines are written in language vague enough to cover anything and specific enough to chill everything. The result is that every working comedian on the platform performs a continuous mental calculation, in real time, while writing: <em>will this joke get the video demonetised? will this word? will this thumbnail?</em></p>
+
+    <p>The calculation is invisible to the audience. The audience experiences it as: comedy on YouTube is, in 2026, blander than comedy on television was in 1985. There are jokes that don't get made. There are subjects that don't get touched. Death is risky. Drugs are risky. Sex is risky. Mental health is risky. Politics is risky. Anything that involves a body doing something a body does is risky. What is left, after you remove all the risky subjects, is observational comedy about safe consumer products and meta-commentary about other YouTube videos, both of which have, not coincidentally, become the dominant comedic modes of the era.</p>
+
+    <p>The PG-13 ceiling is not enforced. It does not need to be. It is a self-imposed restraint, internalised by the comedian, that pre-emptively rules out three-quarters of the comic territory. The tax is paid in the joke that never gets written, because the comedian's brain has already classified it as a financial risk before it reaches the page.</p>
+
+    <h4>II. IRONIC-DISTANCE FATIGUE</h4>
+
+    <p>The dominant register of YouTube comedy from approximately 2018 onward has been ironic distance. The comedian holds the subject matter at arm's length, performs a mild contempt for it, and invites the audience to share in the contempt. This is not a problem in moderation; the problem is that for a generation of viewers, ironic distance has become the only emotional register available.</p>
+
+    <p>What ironic distance protects the comedian from is sincerity, and what sincerity carries is risk. Sincerity is the thing you can be wrong about. Sincerity is the thing the audience can mock you for. Ironic distance is, structurally, an insurance policy: if the bit doesn't land, you can pretend you didn't mean it, and the audience cannot prove otherwise. The cost of the insurance policy is paid in meaning. After a decade of pre-emptive ironic distance, the entire genre has begun to suffer from a form of comic anaesthesia: nothing is permitted to actually matter, because mattering is a thing that can be wrong.</p>
+
+    <p>The comedians escaping this fatigue — Jenny Nicholson during the moment when the Galactic Starcruiser video pivots, Drew Gooden in his quieter videos, Eddy Burback when the Bass Pro Shops at 4am gets to him — are doing so by, briefly, dropping the irony. The audience reaction is always the same: relief. We forget how badly we wanted someone to mean something until we encounter someone who does.</p>
+
+    <h4>III. THE HOUR-LONG ARMS RACE</h4>
+
+    <p>YouTube monetises by mid-roll ad insertions, and the ad-insertion threshold rewards videos longer than ten minutes, with the optimal length being whatever permits the maximum number of ad breaks before viewer drop-off. The result, traced over the last six years, is a steady inflation of comedic video length: the average comedy video on the platform has grown from 5.7 minutes in 2018 to 23.1 minutes in 2026.</p>
+
+    <p>The arms-race dynamic is straightforward: if competing creators are making longer videos, your shorter video looks unserious by comparison, even if the joke would have been better at half the length. Comedy that should be tight gets padded. Padding becomes structure. The structural padding becomes the form. After enough cycles, audiences come to expect the padding — they are paying for the length, in attention — and a tight ten-minute comedy video starts to register as anaemic.</p>
+
+    <p>The cost is paid in pacing. A joke that needed ninety seconds gets six minutes, and the six-minute version is worse than the ninety-second version, but the six-minute version is the one the algorithm rewards, so the six-minute version is the one that gets made. The comedian knows this. The comedian is not happy about this. The comedian's bank account is, however, somewhat happier than it would otherwise be, which is the entire point of the tax structure.</p>
+
+    <h4>IV. THE PARASOCIAL TRAP</h4>
+
+    <p>The fourth tax is the most insidious. To succeed on YouTube as a comedian, you must build a personal relationship with an audience that scales beyond the size at which a personal relationship is possible. Drew Gooden cannot, materially, be friends with three million people. Danny Gonzalez cannot, materially, know the names of his "Greg" community. The relationship is, by structural necessity, asymmetrical: the audience knows the creator; the creator does not, and cannot, know the audience.</p>
+
+    <p>Gilda Radner identified this in 1989, in her own diaries: she received letters from strangers who treated her as a friend, and she did not have the emotional resources to be a friend to ten million strangers, and the letters haunted her in the period before she died. The phenomenon has not gone away. It has been industrialised. The successful YouTube comedian is now expected to perform a continuous low-grade intimacy — to remember running jokes from the comments, to acknowledge fan birthdays, to maintain the illusion of personal access — and the illusion is what monetises.</p>
+
+    <p>The cost is paid in dignity. The cost is paid in the slow erosion of the boundary between performance and self. The cost, sometimes, is paid in burnout that looks like content quality decline but is actually a person grieving the version of themselves that existed before the audience needed them to be the friend they cannot be.</p>
+
+    <p>We do not, in this magazine, want to be moralising about this. The creators we love most are the ones who have figured out how to manage the parasocial trap with their own mental health intact. Drew Gooden's reticence — the rarity of his face, the lack of personal disclosure on the channel — is, we think, his answer to the trap. Jenny Nicholson's once-a-year output is hers. Both are forms of refusal. Both keep the work alive.</p>
+
+    <p class="pull-quote">The comedy tax is real. It is paid in the same currencies it has always been paid in: time, sincerity, dignity, sleep. The platform is just a new way of collecting an old debt.</p>
+
+    <p>YouTube comedy survives despite all four taxes. The comedians who survive are the ones who have, often without articulating it, built specific structural defences against each one. We salute them. We watch them. We profile them, when we can find them. The tax is the price of admission. The point is what you make with what's left.</p>
+  </div>
+</section>
+<div class="pixel-divider-magenta"></div>
+<section id="game-over" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ TRENDS ROASTED ▌</div>
+    <h2 class="section-title">Game Over</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px; max-width: 780px;">Five comedy trends that have outlived their welcome. Each one started as a joke. Each one has been done to death. Each one is, by 2026, simply content shaped to look like comedy.</p>
+  </div>
+
+  <div class="go-trend">
+    <div class="go-num">01</div>
+    <h3 class="go-title">YouTube Comedians Filming Themselves Laughing At TikToks</h3>
+    <p>The format: a YouTuber sits in front of a camera, plays a TikTok on their phone or in picture-in-picture, and laughs at it. Sometimes they pause to comment ("oh that's so true"). Sometimes they don't even comment. The video is twenty-four minutes long. It contains forty TikToks. The TikToks are the comedy. The YouTuber is the laugh track. The YouTuber is being paid to be a laugh track for someone else's comedy. The TikToker is not being paid. This is, structurally, the worst arrangement comedy has ever invented, and we are now in year three of it being one of the most-monetised formats on the platform.</p>
+    <div class="go-killshot">When the laugh track has its own laugh track, the funny has officially left the building.</div>
+  </div>
+
+  <div class="go-trend">
+    <div class="go-num">02</div>
+    <h3 class="go-title">The Hour-Long Video About A Five-Minute Joke</h3>
+    <p>A bit happens. The bit is funny. The bit, told well, takes about ninety seconds. The YouTuber, however, has noticed that an hour-long video gets six mid-roll ads, and a ninety-second video gets none. So the ninety-second bit becomes a fifty-eight-minute video, padded with reaction shots, contextual setup, repeated explanation, and a deeply unnecessary "Part Two" tease. The audience watches the whole thing because they want the joke. The joke arrives at minute forty-seven. The joke is no longer funny. Nothing has been ruined more thoroughly by length than the modern YouTube punchline, which now arrives carrying the weight of fifty-five minutes of expectation it cannot possibly meet.</p>
+    <div class="go-killshot">If your joke needs an hour of context, the joke is not the joke. The hour is the joke. And the hour is at the audience's expense.</div>
+  </div>
+
+  <div class="go-trend">
+    <div class="go-num">03</div>
+    <h3 class="go-title">"I Rewatched [Thing] So You Don't Have To"</h3>
+    <p>The premise is comic martyrdom: the YouTuber has voluntarily subjected themselves to something tedious — a bad film, a long YouTube series, a multi-season reality show — and is now reporting back, like a war correspondent returned from the trenches. The format works once or twice. It has been done thousands of times. The bit collapsed when YouTubers started rewatching content they obviously enjoyed and pretending they didn't, in order to maintain the ironic-distance posture demanded by the format. The Truman Capote interview earlier in this issue covers the larger version of this rot, but the YouTube-specific version is its own subspecies, and 2026 is its peak.</p>
+    <div class="go-killshot">If you watched it, you can't pretend you suffered. The format requires lying about your own experience, and the lie shows.</div>
+  </div>
+
+  <div class="go-trend">
+    <div class="go-num">04</div>
+    <h3 class="go-title">The Comedy Podcast That Became Four Men Explaining Things</h3>
+    <p>It started as a podcast where four comedians riffed. The riffs were funny. Then one of the comedians read a Wikipedia article. Then another one shared a takeaway from a Sam Harris episode. Then the third one explained a market dynamic he had heard about. By 2026, the same podcast that began as four comedians making each other laugh is now four men taking turns explaining concepts they read about that morning, occasionally interrupted by a forced bit. The comedy has been outsourced to occasional guests. The hosts are too tired, or too settled, or too pleased with themselves, to actually be funny on a regular basis. The audience is still showing up. The audience deserves better. Several specific podcasts spring to mind. We will not name them. They know who they are.</p>
+    <div class="go-killshot">When your "comedy" podcast spends more time on geopolitics than on jokes, you are no longer making a comedy podcast. You are making a worse current-affairs podcast than the ones that actually try.</div>
+  </div>
+
+  <div class="go-trend">
+    <div class="go-num">05</div>
+    <h3 class="go-title">The "Are You Gay?" Thumbnail</h3>
+    <p>The thumbnail shows the YouTuber's face with a question superimposed in large yellow text: "ARE YOU GAY?" or some variant ("AM I LOSING IT?", "DID I JUST DIE?", "IS THIS THE END?"). The thumbnail has nothing to do with the content of the video, which is usually a fifteen-minute commentary on something unrelated. The bait is the identity-grab — the audience clicks because they want to know the answer. The answer, if it appears at all, is delivered in the first thirty seconds and is never the actual content. The thumbnail is a trick. The trick is performed thousands of times a day across the platform. The trick is, increasingly, the entire content of YouTube comedy: not the joke inside the video, but the bait that got you to click on it. After enough cycles, the bait becomes the comedy, the comedy becomes the bait, and the medium quietly forgets there was supposed to be a difference.</p>
+    <div class="go-killshot">When the thumbnail is funnier than the video, the thumbnail is the entire product. The video is a fifteen-minute apology for the thumbnail not delivering.</div>
+  </div>
+</section>
+<div class="pixel-divider-magenta"></div>
+<section id="yobs-save-point" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ READER LETTERS ▌</div>
+    <h2 class="section-title">Yob's Save Point</h2>
+  </div>
+
+  <div class="yob-intro">
+    <svg class="yob-svg" width="80" height="80" viewBox="0 0 60 60">
+      <ellipse cx="30" cy="32" rx="22" ry="20" fill="#39FF14" opacity="0.9"/>
+      <ellipse cx="30" cy="20" rx="18" ry="16" fill="#39FF14"/>
+      <circle cx="24" cy="19" r="4" fill="white"/>
+      <circle cx="36" cy="19" r="4" fill="white"/>
+      <circle cx="25" cy="20" r="2" fill="#0A0A12"/>
+      <circle cx="37" cy="20" r="2" fill="#0A0A12"/>
+      <path d="M 22 28 Q 30 33 38 28" stroke="#0A0A12" stroke-width="2.5" fill="none"/>
+    </svg>
+    <div class="yob-text">YOB IS BACK. YOB HAS READ THE LETTERS. YOB IS, AS USUAL, DISAPPOINTED IN MOST OF YOU. EXCEPT MARCO. MARCO IS FINE.</div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: Marco T. — São Paulo, Brazil</div>
+    <p class="letter-body">"You actually did it. You profiled Porta dos Fundos. I read the news section first and I almost didn't believe it. Thirteen years they have been making the best comedy on YouTube and the English-language press has never noticed. Thank you. Now do Choque de Cultura next. Or Hermes e Renato. Or any of the dozens of others I will keep mentioning. Brazil is funny. We have always been funny. You finally noticed."</p>
+    <div class="letter-rating"><span class="star-rating">★★★★★</span><span class="verdict-tag">VINDICATED</span></div>
+    <div class="yob-reply">Marco. Marco. Marco. Yob notes for the record: <strong>Yob was in favour of profiling Porta dos Fundos in 2023.</strong> Yob was overruled. Yob is not bitter. Yob does not hold grudges. Yob is, however, going to send Marco's list of additional Brazilian comedy channels to the editor with a small printed note that says "TOLD YOU." Choque de Cultura is on the list for #016 already. Hermes e Renato — Yob will fight for. Yob fights for very few things. Yob fights for this.<span class="yob-sign">— Yob (vindicated, but quietly)</span></div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: Priya M. — Bangalore, India</div>
+    <p class="letter-body">"I am told I am not allowed to take a victory lap. I am taking a small one anyway. Three issues, three letters, and now we have a permanent commitment to non-English Player Profiles in every issue. The Global Issue was good. The fact that you are continuing past it is better. Now: when do we get an Indian comedian profiled? AIB before the implosion was extraordinary. All India Bakchod, you must search for. Tanmay Bhat alone now. The Hindi-language sketch comedy on the platform is enormous and you have not touched it. I am, with affection, still waiting."</p>
+    <div class="letter-rating"><span class="star-rating">★★★★★</span><span class="verdict-tag">PUSHING</span></div>
+    <div class="yob-reply">Priya. The lap is taken. The lap is on record. Yob acknowledges the lap. Tanmay Bhat goes on the candidate list for #016 or #017. The Hindi-language sketch ecosystem is genuinely enormous and Yob has, while you have not been looking, started doing homework. Yob is bad at homework but Yob is trying. Please continue writing in. Yob considers your letters the editorial conscience of this magazine, and Yob has a low opinion of consciences generally, so this is a real compliment.<span class="yob-sign">— Yob (doing homework)</span></div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: DepthCharge — Lagos, Nigeria</div>
+    <p class="letter-body">"My Type 7 framework was credited again last issue. I am genuinely flattered. I am also writing to propose a new framework, because I have a problem and you might want to publish it. The problem is: there is a category of YouTuber who is technically classifiable as comedy but who is actually performing therapy, on camera, while pretending to be funny. The therapy is the actual content. The comedy is the wrapper. I have been calling this <strong>Type 8: The Wrapped Confession.</strong> Examples on request. Use it or don't, but at least credit me when someone else proposes it in eighteen months."</p>
+    <div class="letter-rating"><span class="star-rating">★★★★★</span><span class="verdict-tag">SHARP</span></div>
+    <div class="yob-reply">DepthCharge has done it again. <strong>Type 8: The Wrapped Confession.</strong> Yob immediately recognises three creators this fits. Yob is not going to name them, because two of them are on Yob's recommended list and Yob does not want to be cruel. The third one is Yob's own private guilty pleasure and Yob refuses to admit to it. Type 8 is hereby officially adopted into the magazine taxonomy with full DepthCharge attribution. We may build an issue around it. Stay tuned. We owe you a drink. Lagos is a long way to ship a drink. We owe you a drink in spirit.<span class="yob-sign">— Yob (impressed)</span></div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: Reader who only signed "K." — somewhere in the UK</div>
+    <p class="letter-body">"Why do you never review channels with under five hundred thousand subscribers in the main Player Profile section? The Hidden Levels page is good but it's clearly the kids' table. The big channels you cover are mostly the same big channels everyone covers. There is excellent comedy happening at the 50K-200K subscriber tier and your magazine is too cool to look at it. Be less cool. Look at it."</p>
+    <div class="letter-rating"><span class="star-rating">★★★★<span class="star-empty">★</span></span><span class="verdict-tag">FAIR</span></div>
+    <div class="yob-reply">K. has identified a genuine editorial bias. Yob will not pretend otherwise. The reason the magazine tilts towards larger channels in Player Profiles is partly utility (more readers know them, more readers will engage) and partly inertia (it is easier to write about channels with bigger catalogues). Both are true. Both are excuses. Yob proposes that #015 will include at least one Player Profile of a channel under 200K subscribers. Yob is putting this in writing so the editor cannot wriggle out of it. The editor does, occasionally, wriggle. Yob is the wriggle-prevention officer.<span class="yob-sign">— Yob (calling out the boss)</span></div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: Connor in Glasgow</div>
+    <p class="letter-body">"I want to defend Tom Scott. He has not retired, he has slowed down, and the slowdown is itself a kind of editorial achievement. He has done what Drew Gooden has done — chosen a sustainable rate of output rather than burning himself to ash for the algorithm. Dropping him from the Top 50 because he is uploading less feels punishing, and it punishes exactly the behaviour we should be celebrating. Reconsider, please."</p>
+    <div class="letter-rating"><span class="star-rating">★★★★<span class="star-empty">★</span></span><span class="verdict-tag">PRINCIPLED</span></div>
+    <div class="yob-reply">Connor in Glasgow makes a real argument and Yob will engage with it honestly. The Top 50 is a current-state ranking, not a lifetime achievement award. A channel uploading once every six months is, mechanically, not occupying a Top 50 slot the way a channel uploading regularly is. Yob agrees this is harsh on creators choosing sustainability. Yob does not have a clean answer. The compromise we have settled on is: dropped channels remain re-evaluation candidates, and if Tom Scott returns to a regular schedule, he returns to the Top 50, no questions asked. The slowdown is editorially admirable. The Top 50 is editorially current. Both can be true.<span class="yob-sign">— Yob (split vote)</span></div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: Anonymous, claims to be a YouTube creator</div>
+    <p class="letter-body">"I make a comedy channel with about 150K subscribers. The Comedy Tax piece in this issue made me cry. Not because it was sad. Because someone finally wrote down what I have been trying to articulate for three years. I am going to print it out and tape it next to my desk. I am also going to consider, seriously, whether I should be making the videos I am making, or whether I have already paid all four taxes and have nothing left to spend. Thank you. Not in the suck-up way. In the actual way."</p>
+    <div class="letter-rating"><span class="star-rating">★★★★★</span><span class="verdict-tag">REAL</span></div>
+    <div class="yob-reply">Anonymous. Yob is not going to pretend Yob has good advice for you. Yob is a fictional blob mascot who reads other people's letters. Yob's authority on creator burnout is approximately zero. Yob will say this: the fact that you can name what's happening is the first defence against it. Most of the comedians who have lost the plot did not see it coming. You are seeing it coming. That is not nothing. Be careful. Make less, if you have to. The audience that values you will value you regardless. Yob is rooting for you.<span class="yob-sign">— Yob (sincere, this once)</span></div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: Ben in Wellington, New Zealand</div>
+    <p class="letter-body">"My wife and I have a running disagreement that I would like to put to your magazine. She thinks Drew Gooden is funnier. I think Danny Gonzalez is funnier. We have been arguing about this since 2020. The Boss Fight in this issue declares Drew the winner. My wife has cut it out and put it on the fridge. I have nothing left. Please advise."</p>
+    <div class="letter-rating"><span class="star-rating">★★★★★</span><span class="verdict-tag">DELIGHTFUL</span></div>
+    <div class="yob-reply">Ben. Yob is sorry. Yob notes that the room split 4–3 on this fight. Your wife was on the side of the four. You were on the side of the three. The three are, in a strict sense, wrong. The three are also, in a softer sense, defensible. Yob suggests printing the Tale of the Tape comparison and putting THAT on the fridge alongside, with both names highlighted. The peace will hold. Marriage requires it. Yob is not married. Yob is a blob. Yob extrapolates from observed human behaviour, which is mostly: people cope.<span class="yob-sign">— Yob (mediating)</span></div>
+  </div>
+</section>
+<div class="pixel-divider-magenta"></div>
+<section id="retro-ads" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ PARODY ADVERTISEMENTS ▌</div>
+    <h2 class="section-title">Retro Ads</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">Brought to you by sponsors that don't exist, for products that solve problems you didn't know you had until we invented them.</p>
+  </div>
+
+  <div class="ads-grid">
+    <div class="ad-box">
+      <div class="ad-name">THE COMEDY TAX RETURN™</div>
+      <div class="ad-tagline">▶ FILE BY APRIL OR SUFFER ◀</div>
+      <p class="ad-body">Are you a YouTube comedian who has been paying the Comedy Tax for years without realising you were entitled to deductions? Don't suffer in silence! The COMEDY TAX RETURN™ from Punchline &amp; Howard, Chartered Accountants in Comic Loss, helps creators recover what's rightfully theirs.</p>
+      <ul class="ad-features">
+        <li>Itemise lost jokes from the past tax year</li>
+        <li>Claim relief on demonetised content</li>
+        <li>Backdate ironic-distance fatigue claims to 2019</li>
+        <li>Refund schedule for Sponsor Read Hours</li>
+        <li>Free consultation with our in-house Stand-up Forensic Accountant</li>
+      </ul>
+      <div class="ad-cta">ONLY £49.99 + YOUR DIGNITY ☎ 0800-FUNNYTAX</div>
+      <p class="ad-fineprint">Punchline &amp; Howard cannot recover dignity. Recovery of jokes is subject to algorithm review. The Sponsor Read Hours line item is non-deductible in jurisdictions where the YouTuber has more than three sponsors per video. Past performance is no guarantee of future hilarity.</p>
+    </div>
+
+    <div class="ad-box yellow-tint">
+      <div class="ad-name">PITCH MEETING™ IN A BOX</div>
+      <div class="ad-tagline">▶ STRUCTURAL COMEDY KIT ◀</div>
+      <p class="ad-body">Now you too can produce a thousand episodes of the same joke! The PITCH MEETING™ IN A BOX kit gives you everything you need to launch your own format-driven comedy channel from the comfort of your own desk. Tight! Tight! Tight!</p>
+      <ul class="ad-features">
+        <li>One (1) green seat cushion (the green seat cushion is critical)</li>
+        <li>Forty-seven (47) cardboard "Super Easy, Barely An Inconvenience" props</li>
+        <li>Pre-written script template covering all known plot holes</li>
+        <li>Voice-modulator bundle: same voice, two characters</li>
+        <li>Eight-year subscription to "Films That Have Plot Holes" newsletter</li>
+        <li>Optional add-on: Honest Trailers compatibility pack (extra)</li>
+      </ul>
+      <div class="ad-cta">ONLY £79.99 ☎ TIGHT-TIGHT-TIGHT</div>
+      <p class="ad-fineprint">Pitch Meeting™ In A Box is not affiliated with Pitch Meeting, Ryan George, or Screen Rant. The "Super Easy" cards may not, in fact, work for you. Some viewers report the format becomes funnier the longer you do it. Other viewers report the opposite. Comedy Lab cannot mediate this dispute. Surface tension not included.</p>
+    </div>
+
+    <div class="ad-box green-tint">
+      <div class="ad-name">THE IRONIC DISTANCE™ DELUXE</div>
+      <div class="ad-tagline">▶ PROTECTIVE ARMOUR FOR THE MODERN CREATOR ◀</div>
+      <p class="ad-body">Saying things you mean is dangerous. Sincerity gets you cancelled. THE IRONIC DISTANCE™ DELUXE EDITION is a comprehensive protective garment for the YouTube comedian who needs to communicate without ever, technically, committing to anything. Lab-tested. Demonetisation-proof.* Wear it on every video.</p>
+      <ul class="ad-features">
+        <li>Pre-loaded library of 240 deflective hedges ("but, like, in a way", "but I'm joking, obviously", "you know what I mean?")</li>
+        <li>Real-time Sincerity Detector — alerts you when a feeling tries to escape</li>
+        <li>Eyebrow-position regulator: ensures the eyebrow is always raised slightly</li>
+        <li>Auto-attached "but seriously though" disclaimer for any controversial statement</li>
+        <li>Lifetime warranty against accidental meaning</li>
+      </ul>
+      <div class="ad-cta">ONLY £129.99 ☎ NEVER-MEAN-IT</div>
+      <p class="ad-fineprint">*Ironic Distance™ does not guarantee monetisation. The garment may, over time, become indistinguishable from your skin. Removal in adulthood is difficult and traumatic. Some users report a complete loss of the ability to mean anything sincerely. Comedy Lab considers this a feature, not a defect. Not recommended for use during eulogies, marriage proposals, or actual emotional emergencies. The Sincerity Detector cannot be turned off.</p>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="footer">
+  <div class="wrap">
+    <p class="legal">CTRL+WATCH is a work of satirical fiction. All channel reviews represent editorial opinion only. Time Capsule interviews are fictional. Historical figures did not participate.</p>
+    <p class="copy">© CTRL+WATCH 2026 — Issue #014 — THE COMEDY ISSUE</p>
+  </div>
+</footer>
+<script>
+function showTab(tabId) {
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>
