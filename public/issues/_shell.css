@@ -1,0 +1,77 @@
+/* CTRL+WATCH issue shell — global cross-issue overrides loaded
+   by every public/issues/NNN/index.html via <link>.
+
+   Scope: mobile readability + tap-target fixes that apply to all
+   issues. Do not put issue-specific design here. New issues get
+   this file automatically by running `npm run inject:shell`. */
+
+/* Defensive — no horizontal scroll on small phones, even if an
+   issue's own styles leak width. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Media never overflows its container. */
+img,
+iframe,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Tap targets: tab bar and buttons reach the 44×44 threshold. */
+.tab-btn,
+button {
+  min-height: 44px;
+}
+
+/* Mid-phone (≤414px) and small-phone (≤375px) tuning.
+   Each issue ships its own ≤768px breakpoint; this layers on top
+   for the narrowest viewports. */
+@media (max-width: 414px) {
+  .wrap {
+    padding: 0 16px;
+  }
+
+  .score-card,
+  .bf-scorecard {
+    padding: 18px;
+  }
+
+  .prose p,
+  .tc-line {
+    font-size: 15px;
+  }
+
+  /* Top 50 table — compact pad + smaller score/rank cells. */
+  .top50-table th,
+  .top50-table td {
+    padding: 4px 2px;
+    font-size: 11px;
+  }
+  .top50-table td.rank,
+  .top50-table td.score {
+    font-size: 16px;
+    width: auto;
+  }
+
+  .tab-btn {
+    padding: 12px 14px;
+  }
+
+  .pull-quote {
+    padding: 16px 18px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .overall-score {
+    font-size: 42px;
+  }
+  .overall-score .denom {
+    font-size: 18px;
+  }
+}

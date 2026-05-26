@@ -7,7 +7,10 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "promote:open": "node scripts/promote-open.mjs",
+    "promote:status": "node scripts/promote-status.mjs",
+    "inject:shell": "node scripts/inject-issue-shell.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.11",
