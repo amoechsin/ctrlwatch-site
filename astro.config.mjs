@@ -8,6 +8,7 @@ const SITE = 'https://ctrl-watch.xyz';
 const issuePages = issues
   .filter((i) => i.published)
   .map((i) => `${SITE}/issues/${i.slug}/`);
+const extraPages = [`${SITE}/creators/`];
 
 /* Dev-server middleware. Astro's dev server returns 404 for
    trailing-slash directory paths that live in `public/` (e.g.
@@ -41,5 +42,5 @@ function serveIssueDirectoryIndexes() {
 
 export default defineConfig({
   site: SITE,
-  integrations: [sitemap({ customPages: issuePages }), serveIssueDirectoryIndexes()],
+  integrations: [sitemap({ customPages: [...issuePages, ...extraPages] }), serveIssueDirectoryIndexes()],
 });

@@ -17,7 +17,13 @@ Cover art + OpenGraph images:
 - `npm run covers` regenerates `public/covers/NNN-square.png` (1080×1080, archive grid) and `NNN-og.png` (1200×630, social share) for every published issue in `src/data/issues.js`, plus `public/og-default.png`. Driven by `scripts/generate-covers.mjs` (satori + sharp). Fonts cached in `scripts/fonts/`.
 - `npm run inject:og` writes/refreshes a fenced OG+Twitter meta block inside each issue HTML's `<head>`. Re-run after editing `issues.js` titles/subtitles.
 - Per-issue cover PNGs are committed; do not generate at Netlify build time.
-- Adding a new issue: update `issues.js` → `npm run covers` → `npm run inject:og` → `npm run inject:shell` → commit.
+
+Creator Index (`/creators`):
+- `src/data/creators.json` is generated from `docs/continuity/CTRLWATCH_Continuity_Tracker.md` by `scripts/build-creators.mjs`. Run `npm run build:creators` after the tracker is updated for a new issue. Fails loudly on parse errors; warns on score-cell oddities (`Low`, `varies`, ranges like `~91-95`).
+- Tracker tag aliasing for #004 is handled in `src/pages/creators.astro` (#004S → published /issues/004/, #004C unlinked).
+- Hidden Levels rows in the tracker are deliberately skipped per `PLATFORM_BRIEF.md` §5 P1-2.
+
+Adding a new issue: update `issues.js` → `npm run covers` → `npm run inject:og` → `npm run inject:shell` → update tracker → `npm run build:creators` → commit.
 
 ## Platform evolution work (Phase 0 & Phase 1)
 

@@ -1,0 +1,540 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { issues } from '../data/issues.js';
+import creatorsData from '../data/creators.json';
+
+interface CreatorReview {
+  issue: string;
+  score: number | null;
+  verdict: string | null;
+  notes: string;
+  approx: boolean;
+}
+
+interface CreatorReEval {
+  issue: string;
+  scoreChange: string;
+  rankChange: string;
+  notes: string;
+}
+
+interface Creator {
+  name: string;
+  slug: string;
+  currentScore: number | null;
+  verdict: string | null;
+  genre: string | null;
+  currentRank: number | null;
+  status: 'in-top-50' | 'dropped' | 'never-entered';
+  droppedAt: string | null;
+  droppedReason: string | null;
+  reEvaluated: boolean;
+  reviews: CreatorReview[];
+  reEvaluations: CreatorReEval[];
+}
+
+const creators = creatorsData.creators as Creator[];
+const totals = creatorsData.totals;
+
+// Build issue-tag → URL map. Tracker uses #004S (Spectacle) and #004C
+// (Craft) but only Spectacle was published as the canonical #004.
+// Explicit aliases for ambiguous tracker tags; everything else strips
+// trailing letters and falls back to direct slug match.
+const publishedSlugs = new Set(issues.filter((i) => i.published).map((i) => i.slug));
+const TRACKER_ALIASES: Record<string, string | null> = {
+  '#004S': '004',
+  '#004C': null,
+};
+function issueUrl(tag: string): string | null {
+  if (tag in TRACKER_ALIASES) {
+    const aliased = TRACKER_ALIASES[tag];
+    return aliased && publishedSlugs.has(aliased) ? `/issues/${aliased}/` : null;
+  }
+  const stripped = tag.replace(/^#/, '').replace(/[A-Za-z]+$/, '');
+  return publishedSlugs.has(stripped) ? `/issues/${stripped}/` : null;
+}
+
+const VERDICTS = ['ESSENTIAL', 'EXCELLENT', 'GOOD', 'AVERAGE', 'MEDIOCRE', 'GAME OVER'];
+
+function verdictClass(v: string | null): string {
+  if (!v) return 'verdict-unknown';
+  return 'verdict-' + v.toLowerCase().replace(/\s+/g, '-');
+}
+
+// Collect distinct issue tags across all reviews/re-evals, for the latest-
+// review sort key. Most-recent issue tag wins by lexical compare on the
+// numeric prefix (works because issues are zero-padded).
+function latestIssueNumeric(c: Creator): number {
+  const tags: string[] = [
+    ...c.reviews.map((r) => r.issue),
+    ...c.reEvaluations.map((r) => r.issue),
+  ];
+  if (!tags.length) return 0;
+  const max = tags
+    .map((t) => parseInt(t.replace(/[^0-9]/g, ''), 10))
+    .filter((n) => !Number.isNaN(n));
+  return max.length ? Math.max(...max) : 0;
+}
+
+// Pre-sort: in-top-50 first by rank, then dropped, then never-entered.
+const sorted = [...creators].sort((a, b) => {
+  const aRank = a.currentRank ?? (a.status === 'dropped' ? 1000 : 2000);
+  const bRank = b.currentRank ?? (b.status === 'dropped' ? 1000 : 2000);
+  return aRank - bRank;
+});
+---
+
+<BaseLayout
+  title="Creator Index — CTRL+WATCH"
+  description="Every YouTube channel reviewed in CTRL+WATCH. Filterable, sortable, scored 0-100."
+>
+  <section class="creators-page">
+    <div class="container">
+      <header class="creators-header">
+        <h1 class="creators-title">▶ THE CREATOR INDEX</h1>
+        <p class="creators-tagline">
+          {totals.creators} CHANNELS · {totals.inTop50} CURRENTLY IN TOP 50 · {totals.dropped} DROPPED · {totals.reEvaluated} RE-EVALUATED
+        </p>
+      </header>
+
+      <div class="creators-controls">
+        <div class="control-row">
+          <label class="search-label" for="creator-search">FILTER</label>
+          <input
+            id="creator-search"
+            type="search"
+            class="search-input"
+            placeholder="TYPE A CHANNEL NAME..."
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+
+        <div class="control-row">
+          <span class="control-label">STATUS</span>
+          <button class="chip" data-status="all" aria-pressed="true" type="button">ALL</button>
+          <button class="chip" data-status="in-top-50" aria-pressed="false" type="button">IN TOP 50</button>
+          <button class="chip" data-status="dropped" aria-pressed="false" type="button">DROPPED</button>
+          <button class="chip" data-status="never-entered" aria-pressed="false" type="button">NEVER ENTERED</button>
+        </div>
+
+        <div class="control-row">
+          <span class="control-label">VERDICT</span>
+          <button class="chip" data-verdict="all" aria-pressed="true" type="button">ALL</button>
+          {VERDICTS.map((v) => (
+            <button class="chip" data-verdict={v} aria-pressed="false" type="button">{v}</button>
+          ))}
+        </div>
+
+        <div class="control-row">
+          <span class="control-label">SORT</span>
+          <button class="chip" data-sort="rank" aria-pressed="true" type="button">CURRENT RANK</button>
+          <button class="chip" data-sort="name" aria-pressed="false" type="button">A–Z</button>
+          <button class="chip" data-sort="score-desc" aria-pressed="false" type="button">SCORE ↓</button>
+          <button class="chip" data-sort="score-asc" aria-pressed="false" type="button">SCORE ↑</button>
+          <button class="chip" data-sort="latest" aria-pressed="false" type="button">LATEST REVIEW</button>
+        </div>
+      </div>
+
+      <div class="creators-table" id="creators-table" role="table" aria-label="Creator Index">
+        <div class="creators-row creators-row-head" role="row" aria-hidden="true">
+          <div class="cell cell-rank" role="columnheader">RANK</div>
+          <div class="cell cell-name" role="columnheader">CHANNEL</div>
+          <div class="cell cell-score" role="columnheader">SCORE</div>
+          <div class="cell cell-verdict" role="columnheader">VERDICT</div>
+          <div class="cell cell-genre" role="columnheader">GENRE</div>
+          <div class="cell cell-issues" role="columnheader">REVIEWED IN</div>
+        </div>
+
+        {sorted.map((c) => (
+          <article
+            class={`creators-row creator ${c.status}`}
+            role="row"
+            data-name={c.name.toLowerCase()}
+            data-status={c.status}
+            data-verdict={c.verdict ?? ''}
+            data-score={c.currentScore ?? -1}
+            data-rank={c.currentRank ?? (c.status === 'dropped' ? 1000 : 2000)}
+            data-latest={latestIssueNumeric(c)}
+            id={`creator-${c.slug}`}
+          >
+            <div class="cell cell-rank" role="cell" data-label="RANK">
+              {c.currentRank ? `#${c.currentRank}` : (c.status === 'dropped' ? '↓' : '—')}
+            </div>
+            <div class="cell cell-name" role="cell" data-label="CHANNEL">
+              <span class="creator-name">{c.name}</span>
+              {c.reEvaluated && <span class="badge badge-reeval" title="Re-evaluated across issues">RE-EVAL</span>}
+            </div>
+            <div class={`cell cell-score score-${c.verdict ? verdictClass(c.verdict).replace('verdict-', '') : 'unknown'}`} role="cell" data-label="SCORE">
+              {c.currentScore != null ? c.currentScore : '—'}
+            </div>
+            <div class="cell cell-verdict" role="cell" data-label="VERDICT">
+              {c.verdict && <span class={`verdict ${verdictClass(c.verdict)}`}>{c.verdict}</span>}
+            </div>
+            <div class="cell cell-genre" role="cell" data-label="GENRE">
+              {c.genre || '—'}
+            </div>
+            <div class="cell cell-issues" role="cell" data-label="REVIEWED IN">
+              {c.reviews.length === 0 && c.reEvaluations.length === 0 ? (
+                <span class="muted">—</span>
+              ) : (
+                <span class="issue-links">
+                  {[...new Set([
+                    ...c.reviews.map((r) => r.issue),
+                    ...c.reEvaluations.map((r) => r.issue),
+                  ])].sort().map((tag) => {
+                    const href = issueUrl(tag);
+                    return href ? (
+                      <a class="issue-link" href={href}>{tag}</a>
+                    ) : (
+                      <span class="issue-link issue-link-unlinked">{tag}</span>
+                    );
+                  })}
+                </span>
+              )}
+              {c.status === 'dropped' && (
+                <div class="drop-note">dropped {c.droppedAt}{c.droppedReason ? ` — ${c.droppedReason}` : ''}</div>
+              )}
+            </div>
+          </article>
+        ))}
+
+        <div class="creators-empty" id="creators-empty" hidden>
+          <p>NO CHANNELS MATCH. CLEAR FILTERS TO RESET.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .creators-page {
+    padding: var(--space-xl) 0;
+    min-height: 60vh;
+  }
+
+  .creators-header {
+    margin-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: var(--space-md);
+  }
+
+  .creators-title {
+    font-size: var(--text-2xl);
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-sm);
+  }
+
+  .creators-tagline {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+  }
+
+  /* ---- Controls ---- */
+  .creators-controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .control-row {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .control-label,
+  .search-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    min-width: 70px;
+  }
+
+  .search-input {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-md);
+    color: var(--green);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    letter-spacing: 0.05em;
+    flex: 1;
+    min-width: 240px;
+    max-width: 500px;
+    caret-color: var(--green);
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: var(--glow-green);
+  }
+
+  .search-input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .chip {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    min-height: 44px;
+    transition: color 0.15s ease, border-color 0.15s ease, text-shadow 0.15s ease;
+  }
+
+  .chip:hover { color: var(--text-primary); border-color: var(--text-secondary); }
+  .chip[aria-pressed="true"] {
+    color: var(--green);
+    border-color: var(--green);
+    text-shadow: var(--glow-green);
+  }
+
+  /* ---- Table ---- */
+  .creators-table {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--border);
+  }
+
+  .creators-row {
+    display: grid;
+    grid-template-columns: 60px minmax(180px, 1.6fr) 70px 110px 1.4fr 1.4fr;
+    gap: var(--space-md);
+    align-items: center;
+    padding: var(--space-sm) var(--space-xs);
+    border-bottom: 1px solid var(--border);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+  }
+
+  .creators-row-head {
+    background: var(--bg-secondary);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    padding: var(--space-md) var(--space-xs);
+  }
+
+  .creator {
+    transition: background 0.12s ease;
+  }
+  .creator:hover {
+    background: rgba(0, 255, 65, 0.03);
+  }
+  .creator[hidden] { display: none; }
+
+  /* Status row tinting */
+  .creator.dropped .cell-rank { color: var(--red); }
+  .creator.never-entered { opacity: 0.85; }
+
+  .cell { min-width: 0; }
+  .cell-rank {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 0.05em;
+  }
+  .cell-name { font-size: var(--text-md); color: var(--text-primary); display: flex; gap: var(--space-sm); align-items: center; flex-wrap: wrap; }
+  .creator-name { word-break: break-word; }
+
+  .badge {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    padding: 3px 5px;
+    border: 1px solid currentColor;
+    letter-spacing: 0.1em;
+  }
+  .badge-reeval { color: var(--yellow); }
+
+  .cell-score {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+  }
+  .score-essential { color: var(--green); text-shadow: var(--glow-green); }
+  .score-excellent { color: var(--cyan); }
+  .score-good { color: var(--text-primary); }
+  .score-average { color: var(--yellow); }
+  .score-mediocre { color: var(--orange); }
+  .score-game-over { color: var(--red); }
+  .score-unknown { color: var(--text-muted); }
+
+  .verdict {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    padding: 4px 6px;
+    border: 1px solid currentColor;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .verdict-essential { color: var(--green); }
+  .verdict-excellent { color: var(--cyan); }
+  .verdict-good { color: var(--text-primary); }
+  .verdict-average { color: var(--yellow); }
+  .verdict-mediocre { color: var(--orange); }
+  .verdict-game-over { color: var(--red); }
+
+  .cell-genre { color: var(--text-secondary); font-size: var(--text-sm); }
+
+  .issue-links { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+  .issue-link {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    padding: 4px 6px;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+  }
+  .issue-link:hover { background: var(--cyan); color: var(--bg); }
+  .issue-link-unlinked { border-color: var(--text-muted); color: var(--text-muted); }
+  .drop-note {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .muted { color: var(--text-muted); }
+
+  .creators-empty {
+    padding: var(--space-xl) var(--space-md);
+    text-align: center;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ---- Mobile: card stack ---- */
+  @media (max-width: 768px) {
+    .creators-row-head { display: none; }
+
+    .creators-row {
+      grid-template-columns: 1fr;
+      gap: var(--space-xs);
+      padding: var(--space-md) var(--space-sm);
+      border: 1px solid var(--border);
+      margin-bottom: var(--space-sm);
+    }
+
+    .cell::before {
+      content: attr(data-label) " ";
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+      margin-right: var(--space-sm);
+    }
+
+    .cell-name::before { display: none; }
+    .cell-name { font-size: var(--text-lg); border-bottom: 1px solid var(--border); padding-bottom: var(--space-xs); margin-bottom: var(--space-xs); }
+  }
+</style>
+
+<script>
+  type SortKey = 'rank' | 'name' | 'score-desc' | 'score-asc' | 'latest';
+  type StatusKey = 'all' | 'in-top-50' | 'dropped' | 'never-entered';
+  type VerdictKey = string;
+
+  const table = document.getElementById('creators-table');
+  const emptyState = document.getElementById('creators-empty');
+  const search = document.getElementById('creator-search') as HTMLInputElement | null;
+  if (table && emptyState && search) {
+    const rows = Array.from(
+      table.querySelectorAll<HTMLElement>('.creator'),
+    );
+
+    let state = {
+      sort: 'rank' as SortKey,
+      status: 'all' as StatusKey,
+      verdict: 'all' as VerdictKey,
+      query: '',
+    };
+
+    function num(el: HTMLElement, attr: string) {
+      return parseFloat(el.dataset[attr] || '0') || 0;
+    }
+
+    function compare(a: HTMLElement, b: HTMLElement) {
+      switch (state.sort) {
+        case 'name':
+          return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+        case 'score-desc':
+          return num(b, 'score') - num(a, 'score');
+        case 'score-asc':
+          return num(a, 'score') - num(b, 'score');
+        case 'latest':
+          return num(b, 'latest') - num(a, 'latest');
+        case 'rank':
+        default:
+          return num(a, 'rank') - num(b, 'rank');
+      }
+    }
+
+    function passes(row: HTMLElement): boolean {
+      if (state.status !== 'all' && row.dataset.status !== state.status) return false;
+      if (state.verdict !== 'all' && row.dataset.verdict !== state.verdict) return false;
+      if (state.query && !(row.dataset.name || '').includes(state.query)) return false;
+      return true;
+    }
+
+    function render() {
+      let visible = 0;
+      const sorted = [...rows].sort(compare);
+      const head = table!.querySelector('.creators-row-head');
+      rows.forEach((r) => r.remove());
+      sorted.forEach((r) => {
+        const ok = passes(r);
+        r.hidden = !ok;
+        if (ok) visible++;
+        head?.parentNode?.insertBefore(r, emptyState);
+      });
+      emptyState!.hidden = visible > 0;
+    }
+
+    function setPressed(group: NodeListOf<HTMLButtonElement>, active: string, attr: string) {
+      group.forEach((b) => b.setAttribute('aria-pressed', b.getAttribute(attr) === active ? 'true' : 'false'));
+    }
+
+    const statusBtns = document.querySelectorAll<HTMLButtonElement>('[data-status]');
+    statusBtns.forEach((b) => b.addEventListener('click', () => {
+      state.status = b.dataset.status as StatusKey;
+      setPressed(statusBtns, state.status, 'data-status');
+      render();
+    }));
+
+    const verdictBtns = document.querySelectorAll<HTMLButtonElement>('[data-verdict]');
+    verdictBtns.forEach((b) => b.addEventListener('click', () => {
+      state.verdict = b.dataset.verdict || 'all';
+      setPressed(verdictBtns, state.verdict, 'data-verdict');
+      render();
+    }));
+
+    const sortBtns = document.querySelectorAll<HTMLButtonElement>('[data-sort]');
+    sortBtns.forEach((b) => b.addEventListener('click', () => {
+      state.sort = b.dataset.sort as SortKey;
+      setPressed(sortBtns, state.sort, 'data-sort');
+      render();
+    }));
+
+    search.addEventListener('input', () => {
+      state.query = search.value.trim().toLowerCase();
+      render();
+    });
+  }
+</script>

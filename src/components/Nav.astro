@@ -21,6 +21,9 @@ function isActive(path: string): boolean {
         <a href="/archive" class:list={['nav-link', { active: isActive('/archive') }]}>ARCHIVE</a>
       </li>
       <li>
+        <a href="/creators" class:list={['nav-link', { active: isActive('/creators') }]}>CREATORS</a>
+      </li>
+      <li>
         <a href="/about" class:list={['nav-link', { active: isActive('/about') }]}>ABOUT</a>
       </li>
     </ul>
@@ -49,6 +52,9 @@ function isActive(path: string): boolean {
       </li>
       <li>
         <a href="/archive" class:list={['mobile-nav-link', { active: isActive('/archive') }]}>ARCHIVE</a>
+      </li>
+      <li>
+        <a href="/creators" class:list={['mobile-nav-link', { active: isActive('/creators') }]}>CREATORS</a>
       </li>
       <li>
         <a href="/about" class:list={['mobile-nav-link', { active: isActive('/about') }]}>ABOUT</a>

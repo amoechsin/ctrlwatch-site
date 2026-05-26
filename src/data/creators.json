@@ -1,0 +1,1962 @@
+{
+  "generatedAt": "2026-05-26T22:10:35.942Z",
+  "source": "docs/continuity/CTRLWATCH_Continuity_Tracker.md",
+  "totals": {
+    "creators": 95,
+    "inTop50": 50,
+    "dropped": 27,
+    "neverEntered": 18,
+    "reEvaluated": 5,
+    "withApproxScore": 16
+  },
+  "creators": [
+    {
+      "name": "12tone",
+      "slug": "12tone",
+      "currentScore": 86,
+      "verdict": "EXCELLENT",
+      "genre": "Music Theory / Analysis",
+      "currentRank": 29,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#010",
+          "score": 86,
+          "verdict": "EXCELLENT",
+          "notes": "Boss Fight winner; new #24",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "3Blue1Brown",
+      "slug": "3blue1brown",
+      "currentScore": 96,
+      "verdict": "ESSENTIAL",
+      "genre": "Mathematics / Education",
+      "currentRank": 1,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "5-Minute Crafts",
+      "slug": "5-minute-crafts",
+      "currentScore": null,
+      "verdict": "GAME OVER",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#004C",
+          "score": null,
+          "verdict": "GAME OVER",
+          "notes": "Negative — \"craft divorced from content\"",
+          "approx": true
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Abroad in Japan",
+      "slug": "abroad-in-japan",
+      "currentScore": 84,
+      "verdict": "GOOD",
+      "genre": "Travel / Culture / Documentary",
+      "currentRank": 49,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#013",
+          "score": 84,
+          "verdict": "EXCELLENT",
+          "notes": "Travel / Culture; new #46",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Adam Neely",
+      "slug": "adam-neely",
+      "currentScore": 91,
+      "verdict": "ESSENTIAL",
+      "genre": "Music Theory / Jazz Bass",
+      "currentRank": 6,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": true,
+      "reviews": [
+        {
+          "issue": "#010",
+          "score": 91,
+          "verdict": "ESSENTIAL",
+          "notes": "RE-EVALUATION from 84; ↑33 — ALL-TIME RECORD",
+          "approx": false
+        }
+      ],
+      "reEvaluations": [
+        {
+          "issue": "#010",
+          "scoreChange": "84→91",
+          "rankChange": "#38→#5",
+          "notes": "↑33 — ALL-TIME RECORD"
+        }
+      ]
+    },
+    {
+      "name": "Ali Abdaal",
+      "slug": "ali-abdaal",
+      "currentScore": null,
+      "verdict": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#009",
+      "droppedReason": "Breadth over depth",
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Andrew Huberman",
+      "slug": "andrew-huberman",
+      "currentScore": 74,
+      "verdict": "AVERAGE",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#002",
+          "score": 74,
+          "verdict": "GOOD",
+          "notes": "TRT + supplement conflicts",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Answer in Progress",
+      "slug": "answer-in-progress",
+      "currentScore": 81,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#013",
+      "droppedReason": "Displaced by merit — one-issue tenure",
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#012",
+          "score": 81,
+          "verdict": "EXCELLENT",
+          "notes": "Science × Personal Essay × Comedy; new #49",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Baumgartner Restoration",
+      "slug": "baumgartner-restoration",
+      "currentScore": 87,
+      "verdict": "EXCELLENT",
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#008",
+      "droppedReason": "Substantially reduced output",
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#003",
+          "score": 87,
+          "verdict": "EXCELLENT",
+          "notes": "",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Binging with Babish",
+      "slug": "binging-with-babish",
+      "currentScore": 85,
+      "verdict": "EXCELLENT",
+      "genre": "Cooking / Entertainment",
+      "currentRank": 36,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#009",
+          "score": 85,
+          "verdict": "EXCELLENT",
+          "notes": "Boss Fight winner; new #20",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Breaking Points",
+      "slug": "breaking-points",
+      "currentScore": 86,
+      "verdict": "EXCELLENT",
+      "genre": "Political Analysis / Podcast",
+      "currentRank": 28,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#011",
+          "score": 86,
+          "verdict": "EXCELLENT",
+          "notes": "New #25",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Bright Side",
+      "slug": "bright-side",
+      "currentScore": 28,
+      "verdict": "GAME OVER",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#009",
+          "score": 28,
+          "verdict": "GAME OVER",
+          "notes": "Lowest score in history; does NOT enter",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Caddicarus",
+      "slug": "caddicarus",
+      "currentScore": 74,
+      "verdict": "AVERAGE",
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#010",
+      "droppedReason": "Displaced; channel in transition",
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#008",
+          "score": 74,
+          "verdict": "GOOD",
+          "notes": "New #43; in transition",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Captain Disillusion",
+      "slug": "captain-disillusion",
+      "currentScore": null,
+      "verdict": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#012",
+      "droppedReason": "Upload frequency untenable",
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Caspian Report",
+      "slug": "caspian-report",
+      "currentScore": 87,
+      "verdict": "EXCELLENT",
+      "genre": "Geopolitics / Analysis",
+      "currentRank": 24,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#013",
+          "score": 87,
+          "verdict": "EXCELLENT",
+          "notes": "Geopolitics / Analysis; new #23",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "CGP Grey",
+      "slug": "cgp-grey",
+      "currentScore": 91,
+      "verdict": "ESSENTIAL",
+      "genre": "Education / Explainer",
+      "currentRank": 7,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#004S",
+          "score": 87,
+          "verdict": "EXCELLENT",
+          "notes": "\"Minimum production, maximum ideas\"",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Cleo Abram",
+      "slug": "cleo-abram",
+      "currentScore": null,
+      "verdict": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#010",
+      "droppedReason": "Trajectory levelled",
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Clickspring",
+      "slug": "clickspring",
+      "currentScore": 88,
+      "verdict": "EXCELLENT",
+      "genre": "Clockmaking / Machining",
+      "currentRank": 20,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#009",
+          "score": 88,
+          "verdict": "EXCELLENT",
+          "notes": "X-Factor 97; Consistency 62; new #16",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Company Man",
+      "slug": "company-man",
+      "currentScore": null,
+      "verdict": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#010",
+      "droppedReason": "Ceiling apparent",
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Conan O'Brien / Team Coco",
+      "slug": "conan-o-brien-team-coco",
+      "currentScore": 88,
+      "verdict": "EXCELLENT",
+      "genre": "Comedy / Talk",
+      "currentRank": 17,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#002",
+          "score": 88,
+          "verdict": "EXCELLENT",
+          "notes": "Highest new entry",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Contrapoints",
+      "slug": "contrapoints",
+      "currentScore": 88,
+      "verdict": "EXCELLENT",
+      "genre": "Political Essay / Trans Studies",
+      "currentRank": 18,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#011",
+          "score": 88,
+          "verdict": "EXCELLENT",
+          "notes": "Boss Fight winner; new #16",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Corridor Crew",
+      "slug": "corridor-crew",
+      "currentScore": 88,
+      "verdict": "EXCELLENT",
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#011",
+      "droppedReason": "Output slowdown",
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#003",
+          "score": 88,
+          "verdict": "EXCELLENT",
+          "notes": "",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Dan Carlin's Hardcore History",
+      "slug": "dan-carlin-s-hardcore-history",
+      "currentScore": 90,
+      "verdict": "ESSENTIAL",
+      "genre": "History / Long-Form",
+      "currentRank": 11,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#001",
+          "score": 90,
+          "verdict": "ESSENTIAL",
+          "notes": "Won Boss Fight vs Rogan",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Danny Gonzalez",
+      "slug": "danny-gonzalez",
+      "currentScore": 84,
+      "verdict": "GOOD",
+      "genre": "Manic Comedy Commentary",
+      "currentRank": 48,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#014",
+          "score": 84,
+          "verdict": "EXCELLENT",
+          "notes": "Boss Fight loser; manic comedy commentary; new #48",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Davie504",
+      "slug": "davie504",
+      "currentScore": 55,
+      "verdict": "MEDIOCRE",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#010",
+          "score": 55,
+          "verdict": "MEDIOCRE",
+          "notes": "Negative — algorithmic calcification; does NOT enter",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Defunctland",
+      "slug": "defunctland",
+      "currentScore": null,
+      "verdict": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#011",
+      "droppedReason": "Stalled trajectory",
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Drew Gooden",
+      "slug": "drew-gooden",
+      "currentScore": 86,
+      "verdict": "EXCELLENT",
+      "genre": "Deadpan Comedy Commentary",
+      "currentRank": 35,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#014",
+          "score": 86,
+          "verdict": "EXCELLENT",
+          "notes": "Boss Fight winner; deadpan comedy commentary; new #35",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Eddy Burback",
+      "slug": "eddy-burback",
+      "currentScore": 83,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#014",
+          "score": 83,
+          "verdict": "EXCELLENT",
+          "notes": "Stunt-form comedy (Olive Garden, Bass Pro Shops); does NOT enter (below 84 threshold); WATCH-LIST candidate",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Every Frame a Painting",
+      "slug": "every-frame-a-painting",
+      "currentScore": 92,
+      "verdict": "ESSENTIAL",
+      "genre": "Film Analysis",
+      "currentRank": 3,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#004C",
+          "score": 92,
+          "verdict": "ESSENTIAL",
+          "notes": "Archive Review",
+          "approx": true
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "exurb1a",
+      "slug": "exurb1a",
+      "currentScore": 88,
+      "verdict": "EXCELLENT",
+      "genre": "Philosophy / Existential",
+      "currentRank": 19,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Fireship",
+      "slug": "fireship",
+      "currentScore": 90,
+      "verdict": "ESSENTIAL",
+      "genre": "Technology / Programming",
+      "currentRank": 10,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#001",
+          "score": 90,
+          "verdict": "ESSENTIAL",
+          "notes": "\"100 seconds\" format",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Forgotten Formats",
+      "slug": "forgotten-formats",
+      "currentScore": 81,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#005",
+          "score": 81,
+          "verdict": "EXCELLENT",
+          "notes": "~3,891 subs; Boss Fight loser",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Good Mythical Morning",
+      "slug": "good-mythical-morning",
+      "currentScore": 87,
+      "verdict": "EXCELLENT",
+      "genre": "Entertainment / Variety",
+      "currentRank": 23,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#006",
+          "score": 87,
+          "verdict": "EXCELLENT",
+          "notes": "3,000 consecutive episodes",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "HasanAbi",
+      "slug": "hasanabi",
+      "currentScore": 68,
+      "verdict": "AVERAGE",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#011",
+          "score": 68,
+          "verdict": "AVERAGE",
+          "notes": "Does NOT enter",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Historia Civilis",
+      "slug": "historia-civilis",
+      "currentScore": 87,
+      "verdict": "EXCELLENT",
+      "genre": "Ancient History",
+      "currentRank": 25,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Internet Historian",
+      "slug": "internet-historian",
+      "currentScore": 87,
+      "verdict": "EXCELLENT",
+      "genre": "Internet Culture / Documentary",
+      "currentRank": 21,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#003",
+          "score": 85,
+          "verdict": "EXCELLENT",
+          "notes": "",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Jacob Geller",
+      "slug": "jacob-geller",
+      "currentScore": 91,
+      "verdict": "ESSENTIAL",
+      "genre": "Video Games × Philosophy × Art",
+      "currentRank": 5,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#012",
+          "score": 91,
+          "verdict": "ESSENTIAL",
+          "notes": "Video Games × Philosophy × Art; new #5; X-Factor 97",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "JCS — Criminal Psychology",
+      "slug": "jcs-criminal-psychology",
+      "currentScore": 86,
+      "verdict": "EXCELLENT",
+      "genre": "True Crime / Analysis",
+      "currentRank": 26,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": true,
+      "reviews": [
+        {
+          "issue": "#007",
+          "score": 86,
+          "verdict": "EXCELLENT",
+          "notes": "Re-scored from 73; #43→#14",
+          "approx": false
+        }
+      ],
+      "reEvaluations": [
+        {
+          "issue": "#007",
+          "scoreChange": "73→86",
+          "rankChange": "#43→#14",
+          "notes": "↑29 — previous record"
+        }
+      ]
+    },
+    {
+      "name": "Jenny Nicholson",
+      "slug": "jenny-nicholson",
+      "currentScore": 91,
+      "verdict": "ESSENTIAL",
+      "genre": "Long-form comic essay",
+      "currentRank": 9,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#014",
+          "score": 91,
+          "verdict": "ESSENTIAL",
+          "notes": "Long-form comic essay; new #9; Consistency 65 (sporadic output drag); X-Factor 96",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Joe Rogan Experience",
+      "slug": "joe-rogan-experience",
+      "currentScore": 70,
+      "verdict": "AVERAGE",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#001",
+          "score": 70,
+          "verdict": "GOOD",
+          "notes": "Lost Boss Fight",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Johnny Harris",
+      "slug": "johnny-harris",
+      "currentScore": 64,
+      "verdict": "MEDIOCRE",
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#010",
+      "droppedReason": "Methodology criticisms (re-eval #011: 64)",
+      "reEvaluated": true,
+      "reviews": [
+        {
+          "issue": "#011",
+          "score": 64,
+          "verdict": "AVERAGE",
+          "notes": "RE-EVALUATION — does NOT re-enter",
+          "approx": false
+        }
+      ],
+      "reEvaluations": [
+        {
+          "issue": "#011",
+          "scoreChange": "~79→64",
+          "rankChange": "Dropped #010, confirmed #011",
+          "notes": "↓ — methodology critique"
+        }
+      ]
+    },
+    {
+      "name": "Joshua Weissman",
+      "slug": "joshua-weissman",
+      "currentScore": 81,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#013",
+      "droppedReason": "Displaced by merit",
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#009",
+          "score": 81,
+          "verdict": "EXCELLENT",
+          "notes": "Boss Fight loser; new #35",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Kurzgesagt",
+      "slug": "kurzgesagt",
+      "currentScore": 94,
+      "verdict": "ESSENTIAL",
+      "genre": "Science / Animation",
+      "currentRank": 2,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": true,
+      "reviews": [
+        {
+          "issue": "#001",
+          "score": 92,
+          "verdict": "ESSENTIAL",
+          "notes": "Science animation",
+          "approx": false
+        },
+        {
+          "issue": "#004S",
+          "score": 94,
+          "verdict": "ESSENTIAL",
+          "notes": "Re-reviewed, score increase",
+          "approx": false
+        },
+        {
+          "issue": "#013",
+          "score": 91,
+          "verdict": "ESSENTIAL",
+          "notes": "Boss Fight winner; already at #2 — confirmed, no movement",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Legal Eagle",
+      "slug": "legal-eagle",
+      "currentScore": 84,
+      "verdict": "GOOD",
+      "genre": "Law × Pop Culture × Comedy",
+      "currentRank": 47,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#012",
+          "score": 84,
+          "verdict": "EXCELLENT",
+          "notes": "Law × Pop Culture × Comedy; new #39",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Lemmino",
+      "slug": "lemmino",
+      "currentScore": 91,
+      "verdict": "ESSENTIAL",
+      "genre": "Documentary / Mystery",
+      "currentRank": 8,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": true,
+      "reviews": [],
+      "reEvaluations": [
+        {
+          "issue": "#007",
+          "scoreChange": "88→91",
+          "rankChange": "#12→#6",
+          "notes": "Boss Fight re-score"
+        }
+      ]
+    },
+    {
+      "name": "Lessons from the Screenplay",
+      "slug": "lessons-from-the-screenplay",
+      "currentScore": null,
+      "verdict": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#012",
+      "droppedReason": "Stalled trajectory",
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Like Stories of Old",
+      "slug": "like-stories-of-old",
+      "currentScore": 86,
+      "verdict": "EXCELLENT",
+      "genre": "Philosophy / Video Essay",
+      "currentRank": 30,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#013",
+          "score": 86,
+          "verdict": "EXCELLENT",
+          "notes": "Philosophy / Video Essay; Dutch creator; new #29",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Luisito Comunica",
+      "slug": "luisito-comunica",
+      "currentScore": 80,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#013",
+          "score": 80,
+          "verdict": "EXCELLENT",
+          "notes": "Spanish-language travel; DOES NOT ENTER (below threshold); FIRST NON-ENGLISH PRIMARY REVIEW IN MAGAZINE HISTORY",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Map Men (Jay and Mark)",
+      "slug": "map-men-jay-and-mark",
+      "currentScore": 85,
+      "verdict": "EXCELLENT",
+      "genre": "Geography / Comedy",
+      "currentRank": 41,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#009",
+          "score": 85,
+          "verdict": "EXCELLENT",
+          "notes": "X-Factor 95; new #22",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Mark Rober",
+      "slug": "mark-rober",
+      "currentScore": 89,
+      "verdict": "EXCELLENT",
+      "genre": "Engineering / Entertainment",
+      "currentRank": 13,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#002",
+          "score": 89,
+          "verdict": "EXCELLENT",
+          "notes": "Consistency penalty",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "MKBHD",
+      "slug": "mkbhd",
+      "currentScore": null,
+      "verdict": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#011",
+      "droppedReason": "Controversy / conflict-of-interest",
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "MrBeast",
+      "slug": "mrbeast",
+      "currentScore": 82,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#004S",
+          "score": 82,
+          "verdict": "EXCELLENT",
+          "notes": "\"Craft, not consequences\"",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Nas Daily",
+      "slug": "nas-daily",
+      "currentScore": 52,
+      "verdict": "MEDIOCRE",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#012",
+          "score": 52,
+          "verdict": "MEDIOCRE",
+          "notes": "Negative — collision died via industrialisation; does NOT enter",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Nerdwriter1",
+      "slug": "nerdwriter1",
+      "currentScore": 86,
+      "verdict": "EXCELLENT",
+      "genre": "Art / Film Analysis",
+      "currentRank": 31,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#003",
+          "score": 83,
+          "verdict": "EXCELLENT",
+          "notes": "",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Nexpo",
+      "slug": "nexpo",
+      "currentScore": 80,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#011",
+      "droppedReason": "Upload pace concerns",
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#007",
+          "score": 80,
+          "verdict": "EXCELLENT",
+          "notes": "New #27; internet horror narration",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "NileRed",
+      "slug": "nilered",
+      "currentScore": 86,
+      "verdict": "EXCELLENT",
+      "genre": "Chemistry",
+      "currentRank": 32,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Numberphile",
+      "slug": "numberphile",
+      "currentScore": null,
+      "verdict": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#012",
+      "droppedReason": "Displaced",
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Oversimplified",
+      "slug": "oversimplified",
+      "currentScore": 79,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#012",
+          "score": 79,
+          "verdict": "GOOD",
+          "notes": "Boss Fight loser; does NOT enter (#51 in queue)",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "penguinz0 (Cr1TiKaL)",
+      "slug": "penguinz0-cr1tikal",
+      "currentScore": 65,
+      "verdict": "AVERAGE",
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#007",
+      "droppedReason": "Quality trajectory decline",
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#007",
+          "score": 65,
+          "verdict": "AVERAGE",
+          "notes": "Re-scored down from 72; DROPPED",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Philip DeFranco",
+      "slug": "philip-defranco",
+      "currentScore": 84,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#014",
+      "droppedReason": "Ceiling apparent — daily news commentary plateau",
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#006",
+          "score": 84,
+          "verdict": "EXCELLENT",
+          "notes": "17-year veteran",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Philosophy Tube",
+      "slug": "philosophy-tube",
+      "currentScore": 85,
+      "verdict": "EXCELLENT",
+      "genre": "Political Philosophy / Theatre",
+      "currentRank": 38,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#011",
+          "score": 85,
+          "verdict": "EXCELLENT",
+          "notes": "Boss Fight loser; new #33",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Polymatter",
+      "slug": "polymatter",
+      "currentScore": null,
+      "verdict": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#009",
+      "droppedReason": "Crowded out",
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Porta dos Fundos 🇧🇷",
+      "slug": "porta-dos-fundos",
+      "currentScore": 82,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#014",
+          "score": 82,
+          "verdict": "EXCELLENT",
+          "notes": "Brazilian sketch troupe; does NOT enter; MANDATORY non-English Player Profile honoring #013 commitment; Marco T. Portuguese-coverage promise CLOSED",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "PragerU",
+      "slug": "prageru",
+      "currentScore": 22,
+      "verdict": "GAME OVER",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#011",
+          "score": 22,
+          "verdict": "GAME OVER",
+          "notes": "Second lowest score in history; does NOT enter",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Primitive Technology",
+      "slug": "primitive-technology",
+      "currentScore": 91,
+      "verdict": "ESSENTIAL",
+      "genre": "Maker / Survival",
+      "currentRank": 4,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#004C",
+          "score": 93,
+          "verdict": "ESSENTIAL",
+          "notes": "\"Anti-content-creator\"",
+          "approx": true
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "React Media (FBE)",
+      "slug": "react-media-fbe",
+      "currentScore": 52,
+      "verdict": "MEDIOCRE",
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#006",
+      "droppedReason": "Corporate pivot, soulless format",
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#006",
+          "score": 52,
+          "verdict": "MEDIOCRE",
+          "notes": "Negative — soulless corporate pivot",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Real Engineering",
+      "slug": "real-engineering",
+      "currentScore": 85,
+      "verdict": "EXCELLENT",
+      "genre": "Engineering / Education",
+      "currentRank": 39,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Rick Beato",
+      "slug": "rick-beato",
+      "currentScore": 82,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#013",
+      "droppedReason": "Displaced by merit",
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#010",
+          "score": 82,
+          "verdict": "EXCELLENT",
+          "notes": "Boss Fight loser; new #41",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Ryan George / Pitch Meeting",
+      "slug": "ryan-george-pitch-meeting",
+      "currentScore": 84,
+      "verdict": "GOOD",
+      "genre": "Sketch / Format Comedy",
+      "currentRank": 46,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#014",
+          "score": 84,
+          "verdict": "EXCELLENT",
+          "notes": "Sketch / format comedy; new #46; \"Super Easy, Barely An Inconvenience\" meme penetration",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Ryan's World",
+      "slug": "ryan-s-world",
+      "currentScore": 42,
+      "verdict": "GAME OVER",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#004S",
+          "score": 42,
+          "verdict": "GAME OVER",
+          "notes": "Negative review — commercialized childhood",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Sam O'Nella Academy",
+      "slug": "sam-o-nella-academy",
+      "currentScore": 82,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#013",
+      "droppedReason": "Displaced by merit — one-issue tenure",
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#012",
+          "score": 82,
+          "verdict": "EXCELLENT",
+          "notes": "Boss Fight winner; new #47",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Scott The Woz",
+      "slug": "scott-the-woz",
+      "currentScore": 86,
+      "verdict": "EXCELLENT",
+      "genre": "Retro Gaming / Comedy",
+      "currentRank": 34,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#008",
+          "score": 86,
+          "verdict": "EXCELLENT",
+          "notes": "X-Factor 90; new #26",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Sideways",
+      "slug": "sideways",
+      "currentScore": 84,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#014",
+      "droppedReason": "Ceiling apparent — music analysis lane saturated",
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#010",
+          "score": 84,
+          "verdict": "EXCELLENT",
+          "notes": "X-Factor 84; new #35",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Smarter Every Day",
+      "slug": "smarter-every-day",
+      "currentScore": 85,
+      "verdict": "EXCELLENT",
+      "genre": "Science / Curiosity",
+      "currentRank": 42,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Some More News",
+      "slug": "some-more-news",
+      "currentScore": 79,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#012",
+      "droppedReason": "One-issue tenure",
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#011",
+          "score": 79,
+          "verdict": "GOOD",
+          "notes": "New #50",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Stuff Made Here",
+      "slug": "stuff-made-here",
+      "currentScore": 86,
+      "verdict": "EXCELLENT",
+      "genre": "Engineering / Maker",
+      "currentRank": 33,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Summoning Salt",
+      "slug": "summoning-salt",
+      "currentScore": null,
+      "verdict": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#011",
+      "droppedReason": "Displaced",
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Tantacrul",
+      "slug": "tantacrul",
+      "currentScore": 85,
+      "verdict": "EXCELLENT",
+      "genre": "Music Software / Comedy Essay",
+      "currentRank": 37,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#010",
+          "score": 85,
+          "verdict": "EXCELLENT",
+          "notes": "X-Factor 94; new #30",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Tasting History with Max Miller",
+      "slug": "tasting-history-with-max-miller",
+      "currentScore": 86,
+      "verdict": "EXCELLENT",
+      "genre": "History × Cooking",
+      "currentRank": 27,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#012",
+          "score": 86,
+          "verdict": "EXCELLENT",
+          "notes": "History × Cooking; new #24",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Techmoan",
+      "slug": "techmoan",
+      "currentScore": null,
+      "verdict": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#012",
+      "droppedReason": "Displacement injustice (score above several remaining); flagged",
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Technology Connections",
+      "slug": "technology-connections",
+      "currentScore": 88,
+      "verdict": "EXCELLENT",
+      "genre": "Technology / History",
+      "currentRank": 16,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#004C",
+          "score": 93,
+          "verdict": "ESSENTIAL",
+          "notes": "\"Craft wins\"",
+          "approx": true
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "TED-Ed",
+      "slug": "ted-ed",
+      "currentScore": 85,
+      "verdict": "EXCELLENT",
+      "genre": "Animated Education / Global",
+      "currentRank": 43,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#013",
+          "score": 85,
+          "verdict": "EXCELLENT",
+          "notes": "Boss Fight loser; Global Animated Education; new #41",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "The Morphological Cinema",
+      "slug": "the-morphological-cinema",
+      "currentScore": 84,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#005",
+          "score": 84,
+          "verdict": "EXCELLENT",
+          "notes": "~3,200 subs; Boss Fight winner",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "The School of Life",
+      "slug": "the-school-of-life",
+      "currentScore": 76,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#013",
+          "score": 76,
+          "verdict": "GOOD",
+          "notes": "Philosophy-adjacent self-help; does NOT enter",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "The Slow Mo Guys",
+      "slug": "the-slow-mo-guys",
+      "currentScore": 85,
+      "verdict": "EXCELLENT",
+      "genre": "Science / Entertainment",
+      "currentRank": 40,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#006",
+          "score": 85,
+          "verdict": "EXCELLENT",
+          "notes": "15 years, single-concept mastery",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Theo Von",
+      "slug": "theo-von",
+      "currentScore": 87,
+      "verdict": "EXCELLENT",
+      "genre": "Comedy / Podcast",
+      "currentRank": 22,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#002",
+          "score": 87,
+          "verdict": "EXCELLENT",
+          "notes": "X-Factor: 93",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "TLDR News",
+      "slug": "tldr-news",
+      "currentScore": 83,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#014",
+      "droppedReason": "Displaced by merit — below new 84 entry threshold",
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#011",
+          "score": 83,
+          "verdict": "EXCELLENT",
+          "notes": "New #46",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Tom Scott",
+      "slug": "tom-scott",
+      "currentScore": null,
+      "verdict": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#014",
+      "droppedReason": "Confirmed slowdown — re-evaluation candidate if pace returns",
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Townsends",
+      "slug": "townsends",
+      "currentScore": 90,
+      "verdict": "ESSENTIAL",
+      "genre": "Historical Living / Cooking",
+      "currentRank": 12,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#009",
+          "score": 90,
+          "verdict": "ESSENTIAL",
+          "notes": "X-Factor 94; new #9",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Veritasium",
+      "slug": "veritasium",
+      "currentScore": 89,
+      "verdict": "EXCELLENT",
+      "genre": "Science / Education",
+      "currentRank": 14,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Videogamedunkey",
+      "slug": "videogamedunkey",
+      "currentScore": 84,
+      "verdict": "GOOD",
+      "genre": "Gaming / Commentary",
+      "currentRank": 44,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#007",
+          "score": 84,
+          "verdict": "EXCELLENT",
+          "notes": "X-Factor 94; new #21",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Vsauce",
+      "slug": "vsauce",
+      "currentScore": 89,
+      "verdict": "EXCELLENT",
+      "genre": "Science / Philosophy",
+      "currentRank": 15,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "WatchMojo",
+      "slug": "watchmojo",
+      "currentScore": 42,
+      "verdict": "GAME OVER",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#008",
+          "score": 42,
+          "verdict": "GAME OVER",
+          "notes": "Negative — nostalgia as anti-nostalgia",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Wendover Productions",
+      "slug": "wendover-productions",
+      "currentScore": 84,
+      "verdict": "GOOD",
+      "genre": "Logistics / Explainer",
+      "currentRank": 50,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Whang!",
+      "slug": "whang",
+      "currentScore": 84,
+      "verdict": "GOOD",
+      "genre": "Internet History / Archaeology",
+      "currentRank": 45,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#008",
+          "score": 84,
+          "verdict": "EXCELLENT",
+          "notes": "X-Factor 91; new #29",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    }
+  ]
+}
