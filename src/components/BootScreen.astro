@@ -1,6 +1,17 @@
 ---
 ---
 
+{/* Pre-paint check — set the seen class before the boot div paints to
+    avoid a flash on returning sessions. is:inline keeps this out of
+    Vite's processing pipeline. */}
+<script is:inline>
+  try {
+    if (sessionStorage.getItem('ctrlwatch_boot_seen') === '1') {
+      document.documentElement.classList.add('boot-seen');
+    }
+  } catch (e) {}
+</script>
+
 <div class="boot-screen" id="boot-screen" aria-live="polite" role="status">
   <div class="boot-content">
     <p class="boot-line boot-line-1">CTRL+WATCH MAGAZINE OS v1.0</p>
@@ -8,11 +19,18 @@
     <p class="boot-line boot-line-3">CALIBRATING OPINION ENGINE... OK</p>
     <p class="boot-line boot-line-4">DISABLING ALGORITHM... &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OK</p>
     <p class="boot-line boot-line-5 cursor">&gt; WELCOME TO CTRL+WATCH</p>
-    <p class="boot-skip">[ CLICK ANYWHERE TO SKIP ]</p>
+    <button class="boot-skip" type="button" id="boot-skip-btn" aria-label="Skip boot sequence">
+      [ SKIP ▶ ]
+    </button>
   </div>
 </div>
 
 <style>
+  /* Pre-paint hide for returning sessions — set by inline script above. */
+  :global(.boot-seen) .boot-screen {
+    display: none;
+  }
+
   .boot-screen {
     position: fixed;
     inset: 0;
@@ -63,13 +81,25 @@
   .boot-line-5 { animation-delay: 2.2s; }
 
   .boot-skip {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Press Start 2P', monospace;
     font-size: clamp(8px, 1.5vw, 10px);
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
+    color: var(--green);
+    background: transparent;
+    border: 1px solid var(--green);
+    padding: 12px 20px;
     margin-top: var(--space-lg);
-    animation: bootFadeIn 0.3s ease 3s forwards;
-    opacity: 0;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    align-self: center;
+    min-height: 44px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .boot-skip:hover,
+  .boot-skip:focus-visible {
+    background: var(--green);
+    color: #000000;
+    outline: none;
   }
 
   @keyframes bootFadeIn {
@@ -77,6 +107,7 @@
     to   { opacity: 1; }
   }
 
+  /* Below 375px the boot animation overflows; skip it on tiny phones. */
   @media (max-width: 375px) {
     .boot-screen {
       display: none;
@@ -91,12 +122,20 @@
 </style>
 
 <script>
+  const html = document.documentElement;
   const bootScreen = document.getElementById('boot-screen');
+  const skipBtn = document.getElementById('boot-skip-btn');
   let dismissed = false;
+
+  function markSeen() {
+    try { sessionStorage.setItem('ctrlwatch_boot_seen', '1'); } catch {}
+  }
 
   function dismissBoot() {
     if (dismissed) return;
     dismissed = true;
+    markSeen();
+    html.classList.add('boot-seen');
     bootScreen?.classList.add('fade-out');
     document.body.style.overflow = '';
     setTimeout(() => {
@@ -104,17 +143,23 @@
     }, 600);
   }
 
-  // Auto-dismiss after 3.5 seconds
-  const autoTimer = setTimeout(dismissBoot, 3500);
+  // Returning visitor — boot already hidden via pre-paint class, skip wiring.
+  if (!html.classList.contains('boot-seen')) {
+    const autoTimer = setTimeout(dismissBoot, 3500);
 
-  // Click to skip
-  bootScreen?.addEventListener('click', () => {
-    clearTimeout(autoTimer);
-    dismissBoot();
-  });
+    bootScreen?.addEventListener('click', () => {
+      clearTimeout(autoTimer);
+      dismissBoot();
+    });
 
-  // Lock scroll while boot screen is visible
-  if (bootScreen && !bootScreen.classList.contains('hidden')) {
-    document.body.style.overflow = 'hidden';
+    skipBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      clearTimeout(autoTimer);
+      dismissBoot();
+    });
+
+    if (bootScreen && !bootScreen.classList.contains('hidden')) {
+      document.body.style.overflow = 'hidden';
+    }
   }
 </script>
