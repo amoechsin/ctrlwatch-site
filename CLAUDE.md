@@ -13,6 +13,12 @@ Analytics: GoatCounter is wired into BaseLayout.astro and every public/issues/*/
 
 Cross-issue mobile/CSS overrides live in `public/issues/_shell.css` and are pulled into every issue HTML via a `<link>` tag injected by `npm run inject:shell` (script: `scripts/inject-issue-shell.mjs`). Run after shipping a new issue HTML — idempotent, skips files already linked. Do NOT edit issue HTML internals to fix cross-cutting concerns; add the rule to `_shell.css` and re-run.
 
+Cover art + OpenGraph images:
+- `npm run covers` regenerates `public/covers/NNN-square.png` (1080×1080, archive grid) and `NNN-og.png` (1200×630, social share) for every published issue in `src/data/issues.js`, plus `public/og-default.png`. Driven by `scripts/generate-covers.mjs` (satori + sharp). Fonts cached in `scripts/fonts/`.
+- `npm run inject:og` writes/refreshes a fenced OG+Twitter meta block inside each issue HTML's `<head>`. Re-run after editing `issues.js` titles/subtitles.
+- Per-issue cover PNGs are committed; do not generate at Netlify build time.
+- Adding a new issue: update `issues.js` → `npm run covers` → `npm run inject:og` → `npm run inject:shell` → commit.
+
 ## Platform evolution work (Phase 0 & Phase 1)
 
 For platform/UX improvements layered on top of the existing site, read `PLATFORM_BRIEF.md`. It covers:

@@ -32,11 +32,22 @@ const issueUrl = `/issues/${slug}/`;
 >
   <a href={issueUrl} class="issue-card-link" aria-label={`${number} — ${title}`}>
     <div class="issue-cover" style={`border-color: ${coverColor}; box-shadow: 0 0 8px ${coverColor}60, 0 0 20px ${coverColor}20;`}>
-      <span class="issue-cover-number">{number}</span>
-      {!published && (
-        <div class="issue-cover-overlay">
-          <span class="coming-soon-text">COMING<br/>SOON</span>
-        </div>
+      {published ? (
+        <img
+          src={`/covers/${slug}-square.png`}
+          alt={`Cover of CTRL+WATCH ${number} — ${title}`}
+          class="issue-cover-img"
+          loading="lazy"
+          width="1080"
+          height="1080"
+        />
+      ) : (
+        <>
+          <span class="issue-cover-number">{number}</span>
+          <div class="issue-cover-overlay">
+            <span class="coming-soon-text">COMING<br/>SOON</span>
+          </div>
+        </>
       )}
     </div>
 
@@ -79,7 +90,7 @@ const issueUrl = `/issues/${slug}/`;
   }
 
   .issue-cover {
-    aspect-ratio: 3/4;
+    aspect-ratio: 1/1;
     border: 3px solid;
     display: flex;
     align-items: center;
@@ -87,6 +98,13 @@ const issueUrl = `/issues/${slug}/`;
     position: relative;
     background: var(--bg);
     overflow: hidden;
+  }
+
+  .issue-cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .issue-cover-number {

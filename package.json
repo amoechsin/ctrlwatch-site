@@ -10,11 +10,17 @@
     "astro": "astro",
     "promote:open": "node scripts/promote-open.mjs",
     "promote:status": "node scripts/promote-status.mjs",
-    "inject:shell": "node scripts/inject-issue-shell.mjs"
+    "inject:shell": "node scripts/inject-issue-shell.mjs",
+    "covers": "node scripts/generate-covers.mjs",
+    "inject:og": "node scripts/inject-issue-og.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.2.1",
     "astro": "^5.3.0"
+  },
+  "devDependencies": {
+    "satori": "^0.26.0",
+    "sharp": "^0.34.5"
   }
 }
