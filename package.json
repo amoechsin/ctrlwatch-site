@@ -13,7 +13,8 @@
     "inject:shell": "node scripts/inject-issue-shell.mjs",
     "covers": "node scripts/generate-covers.mjs",
     "inject:og": "node scripts/inject-issue-og.mjs",
-    "build:creators": "node scripts/build-creators.mjs"
+    "build:creators": "node scripts/build-creators.mjs",
+    "build:search": "node scripts/build-search-index.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.11",

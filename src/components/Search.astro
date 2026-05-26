@@ -1,0 +1,341 @@
+---
+import searchIndex from '../data/search-index.json';
+const totalEntries = searchIndex.totals.total;
+---
+
+<div class="search-overlay" id="search-overlay" role="dialog" aria-modal="true" aria-label="Search CTRL+WATCH" aria-hidden="true">
+  <div class="search-stage">
+    <button class="search-close" id="search-close" type="button" aria-label="Close search">[ ESC ✕ ]</button>
+
+    <div class="search-prompt">
+      <span class="search-prompt-prefix">&gt;</span>
+      <input
+        id="search-input"
+        class="search-input"
+        type="search"
+        placeholder="TYPE TO SEARCH..."
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Search query"
+      />
+      <span class="search-cursor" aria-hidden="true">█</span>
+    </div>
+
+    <p class="search-status" id="search-status">{totalEntries} ENTRIES INDEXED · ISSUES · CHANNELS · TIME CAPSULE · BOSS FIGHTS · SPECIALS</p>
+
+    <div class="search-results" id="search-results" aria-live="polite"></div>
+  </div>
+</div>
+
+<script define:vars={{ entries: searchIndex.entries }}>
+  const overlay = document.getElementById('search-overlay');
+  const input = document.getElementById('search-input');
+  const closeBtn = document.getElementById('search-close');
+  const results = document.getElementById('search-results');
+  const status = document.getElementById('search-status');
+
+  const GROUP_LABELS = {
+    issue: 'ISSUES',
+    channel: 'CHANNELS',
+    'time-capsule': 'TIME CAPSULE',
+    'boss-fight': 'BOSS FIGHTS',
+    special: 'SPECIAL FEATURES',
+  };
+  const GROUP_ORDER = ['issue', 'channel', 'time-capsule', 'boss-fight', 'special'];
+
+  function open() {
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => input.focus(), 50);
+    if (!input.value) {
+      results.innerHTML = '';
+      status.textContent = `${entries.length} ENTRIES INDEXED · ISSUES · CHANNELS · TIME CAPSULE · BOSS FIGHTS · SPECIALS`;
+    }
+  }
+
+  function close() {
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function highlight(text, query) {
+    if (!query) return escapeHtml(text);
+    const safe = escapeHtml(text);
+    const qSafe = escapeHtml(query).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return safe.replace(new RegExp(qSafe, 'gi'), (m) => `<mark>${m}</mark>`);
+  }
+
+  function score(entry, q) {
+    const t = entry.title.toLowerCase();
+    if (t === q) return 100;
+    if (t.startsWith(q)) return 80;
+    if (t.includes(q)) return 60;
+    if ((entry.subtitle || '').toLowerCase().includes(q)) return 30;
+    return 0;
+  }
+
+  function search(query) {
+    const q = query.trim().toLowerCase();
+    if (!q) {
+      results.innerHTML = '';
+      status.textContent = `${entries.length} ENTRIES INDEXED · ISSUES · CHANNELS · TIME CAPSULE · BOSS FIGHTS · SPECIALS`;
+      return;
+    }
+
+    status.textContent = 'SEARCHING...';
+
+    const hits = entries
+      .map((e) => ({ entry: e, s: score(e, q) }))
+      .filter((x) => x.s > 0)
+      .sort((a, b) => b.s - a.s || a.entry.title.localeCompare(b.entry.title));
+
+    if (!hits.length) {
+      status.textContent = `NO MATCHES FOR "${query.toUpperCase()}"`;
+      results.innerHTML = '';
+      return;
+    }
+
+    const grouped = {};
+    for (const { entry } of hits) {
+      (grouped[entry.type] ||= []).push(entry);
+    }
+
+    const totalHits = hits.length;
+    status.textContent = `${totalHits} RESULT${totalHits === 1 ? '' : 'S'} FOR "${query.toUpperCase()}"`;
+
+    let html = '';
+    for (const type of GROUP_ORDER) {
+      const list = grouped[type];
+      if (!list || !list.length) continue;
+      html += `<section class="result-group">`;
+      html += `<h3 class="result-group-title">▶ ${GROUP_LABELS[type]} <span class="result-group-count">${list.length}</span></h3>`;
+      html += `<ul class="result-list">`;
+      for (const e of list.slice(0, 12)) {
+        const tag = e.issueTag ? `<span class="result-tag">${escapeHtml(e.issueTag)}</span>` : '';
+        html += `<li class="result-item">
+          <a class="result-link" href="${escapeHtml(e.url)}">
+            <span class="result-title">${highlight(e.title, q)}</span>
+            ${e.subtitle ? `<span class="result-sub">${highlight(e.subtitle, q)}</span>` : ''}
+            ${tag}
+          </a>
+        </li>`;
+      }
+      if (list.length > 12) html += `<li class="result-more">+ ${list.length - 12} MORE...</li>`;
+      html += `</ul></section>`;
+    }
+    results.innerHTML = html;
+  }
+
+  // Trigger button lives in Nav.astro — bind to any element with [data-search-trigger].
+  document.querySelectorAll('[data-search-trigger]').forEach((el) => {
+    el.addEventListener('click', open);
+  });
+
+  closeBtn?.addEventListener('click', close);
+  overlay?.addEventListener('click', (e) => {
+    if (e.target === overlay) close();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    // Open with "/" (when nothing is focused on a text input).
+    const active = document.activeElement;
+    const inField = active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA');
+    if (e.key === '/' && !overlay.classList.contains('open') && !inField) {
+      e.preventDefault();
+      open();
+      return;
+    }
+    if (e.key === 'Escape' && overlay.classList.contains('open')) {
+      close();
+    }
+  });
+
+  let raf = null;
+  input?.addEventListener('input', () => {
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => search(input.value));
+  });
+</script>
+
+<style is:global>
+  .search-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    z-index: 5000;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: var(--space-xl) var(--space-md);
+    overflow-y: auto;
+  }
+  .search-overlay.open {
+    display: flex;
+  }
+
+  .search-stage {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .search-close {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    align-self: flex-end;
+    min-height: 44px;
+  }
+  .search-close:hover { color: var(--green); border-color: var(--green); }
+
+  .search-prompt {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: var(--bg-secondary);
+    border: 1px solid var(--green);
+    padding: var(--space-md);
+    box-shadow: var(--glow-green);
+  }
+
+  .search-prompt-prefix {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px;
+    color: var(--green);
+    text-shadow: var(--glow-green);
+    line-height: 1;
+  }
+
+  .search-overlay .search-input {
+    flex: 1;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(16px, 3vw, 22px);
+    color: var(--text-primary);
+    background: transparent;
+    border: none;
+    padding: 0;
+    letter-spacing: 0.05em;
+    min-width: 0;
+    caret-color: transparent;       /* fake cursor below */
+  }
+  .search-overlay .search-input:focus { outline: none; }
+  .search-overlay .search-input::placeholder { color: var(--text-muted); }
+
+  .search-cursor {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(16px, 3vw, 22px);
+    color: var(--green);
+    text-shadow: var(--glow-green);
+    animation: blink 1s steps(2, start) infinite;
+    line-height: 1;
+  }
+  @keyframes blink {
+    to { visibility: hidden; }
+  }
+
+  .search-status {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    margin: 0;
+    padding: var(--space-xs) 0;
+  }
+
+  .search-results {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .result-group { display: flex; flex-direction: column; gap: var(--space-sm); }
+
+  .result-group-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--green);
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--green);
+    padding-bottom: var(--space-xs);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 0;
+  }
+  .result-group-count {
+    color: var(--text-muted);
+    font-size: 8px;
+  }
+
+  .result-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
+
+  .result-link {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-sm);
+    align-items: center;
+    text-decoration: none;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    transition: border-color 0.12s ease, background 0.12s ease;
+  }
+  .result-link:hover, .result-link:focus-visible {
+    border-color: var(--cyan);
+    background: rgba(0, 240, 255, 0.04);
+    outline: none;
+  }
+
+  .result-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-md);
+    color: var(--text-primary);
+    grid-column: 1;
+  }
+  .result-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    grid-column: 1;
+  }
+  .result-tag {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--cyan);
+    border: 1px solid var(--cyan);
+    padding: 4px 6px;
+    letter-spacing: 0.1em;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+  mark {
+    background: var(--yellow);
+    color: var(--bg);
+    padding: 0 2px;
+  }
+  .result-more {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    padding: 8px 12px;
+    text-align: center;
+  }
+</style>
