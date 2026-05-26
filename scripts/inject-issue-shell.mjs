@@ -15,6 +15,8 @@ import { join } from 'node:path';
 const ISSUES_DIR = 'public/issues';
 const LINK_TAG = '<link rel="stylesheet" href="/issues/_shell.css">';
 const MARKER = '/issues/_shell.css';
+const MODE_MARKER = 'ctrlwatch_mode';
+const MODE_SCRIPT = `<script>try{if(localStorage.getItem('ctrlwatch_mode')==='print')document.documentElement.classList.add('mode-print');}catch(e){}</script>`;
 
 const entries = await readdir(ISSUES_DIR, { withFileTypes: true });
 const slugs = entries
@@ -34,7 +36,9 @@ for (const slug of slugs) {
     continue;
   }
 
-  if (html.includes(MARKER)) {
+  const hasLink = html.includes(MARKER);
+  const hasMode = html.includes(MODE_MARKER);
+  if (hasLink && hasMode) {
     skipped++;
     continue;
   }
@@ -45,11 +49,14 @@ for (const slug of slugs) {
     continue;
   }
 
-  const out =
-    html.slice(0, headClose) + `${LINK_TAG}\n` + html.slice(headClose);
+  let insertion = '';
+  if (!hasLink) insertion += `${LINK_TAG}\n`;
+  if (!hasMode) insertion += `${MODE_SCRIPT}\n`;
+
+  const out = html.slice(0, headClose) + insertion + html.slice(headClose);
   await writeFile(file, out);
-  console.log(`+ ${file}`);
+  console.log(`+ ${file}${hasLink ? ' (added mode script only)' : ''}`);
   touched++;
 }
 
-console.log(`\nDone. Touched: ${touched}. Already had link: ${skipped}.`);
+console.log(`\nDone. Touched: ${touched}. Already complete: ${skipped}.`);
