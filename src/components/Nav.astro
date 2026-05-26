@@ -18,6 +18,9 @@ function isActive(path: string): boolean {
         <a href="/" class:list={['nav-link', { active: isActive('/') }]}>HOME</a>
       </li>
       <li>
+        <a href="/start" class:list={['nav-link nav-link-start', { active: isActive('/start') }]}>START HERE</a>
+      </li>
+      <li>
         <a href="/archive" class:list={['nav-link', { active: isActive('/archive') }]}>ARCHIVE</a>
       </li>
       <li>
@@ -68,6 +71,9 @@ function isActive(path: string): boolean {
     <ul class="mobile-nav-links" role="list">
       <li>
         <a href="/" class:list={['mobile-nav-link', { active: isActive('/') }]}>HOME</a>
+      </li>
+      <li>
+        <a href="/start" class:list={['mobile-nav-link', { active: isActive('/start') }]}>START HERE</a>
       </li>
       <li>
         <a href="/archive" class:list={['mobile-nav-link', { active: isActive('/archive') }]}>ARCHIVE</a>
@@ -152,6 +158,11 @@ function isActive(path: string): boolean {
     color: var(--yellow);
     text-shadow: var(--glow-yellow);
   }
+
+  /* Visual nudge for first-time visitors */
+  .nav-link-start { color: var(--green); }
+  .nav-link-start:hover { color: var(--green); text-shadow: var(--glow-green); }
+  .nav-link-start.active { color: var(--green); text-shadow: var(--glow-green); }
 
   .nav-cta {
     font-size: 8px;

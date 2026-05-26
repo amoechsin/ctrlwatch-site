@@ -8,7 +8,7 @@ const SITE = 'https://ctrl-watch.xyz';
 const issuePages = issues
   .filter((i) => i.published)
   .map((i) => `${SITE}/issues/${i.slug}/`);
-const extraPages = [`${SITE}/creators/`];
+const extraPages = [`${SITE}/creators/`, `${SITE}/start/`];
 
 /* Dev-server middleware. Astro's dev server returns 404 for
    trailing-slash directory paths that live in `public/` (e.g.

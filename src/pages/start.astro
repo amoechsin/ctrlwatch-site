@@ -1,0 +1,491 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { issues } from '../data/issues.js';
+
+const latest = issues.filter((i) => i.published).at(-1)!;
+
+const picks = [
+  {
+    kind: 'BOSS FIGHT',
+    title: 'Drew Gooden vs Danny Gonzalez',
+    issueTag: '#014',
+    issueSlug: '014',
+    teaser:
+      "Two post-Vine comedy commentators enter. Drew's deadpan beats Danny's mania, 86 to 84.",
+    color: 'var(--orange)',
+  },
+  {
+    kind: 'TIME CAPSULE',
+    title: 'The Algorithm',
+    issueTag: '#003',
+    issueSlug: '003',
+    teaser:
+      'A fictional sit-down interview with the recommendation engine itself. The most CTRL+WATCH thing the magazine has ever done.',
+    color: 'var(--magenta)',
+  },
+  {
+    kind: 'SPECIAL FEATURE',
+    title: 'Type 7: The Collision',
+    issueTag: '#012',
+    issueSlug: '012',
+    teaser:
+      "DepthCharge's framework for creators who survive at the borders of disciplines. Four sub-types, four failure modes, one five-question diagnostic.",
+    color: 'var(--cyan)',
+  },
+  {
+    kind: 'PLAYER PROFILE',
+    title: 'Adam Neely',
+    issueTag: '#010',
+    issueSlug: '010',
+    teaser:
+      "We reviewed him at 84. In #010 we re-reviewed him at 91. That's the largest single-issue score revision in magazine history — and the issue explains exactly why.",
+    color: 'var(--green)',
+  },
+  {
+    kind: 'LATEST ISSUE',
+    title: latest.title,
+    issueTag: latest.number,
+    issueSlug: latest.slug,
+    teaser: latest.subtitle,
+    color: latest.coverColor,
+  },
+];
+
+const cast = [
+  {
+    name: 'YOB',
+    role: 'Editor / Mascot',
+    bio: 'Born in a dead pixel, 1987. Sole full-time employee. Does not take sponsorships. Has opinions. Catchphrase: "I\'ve seen better pixels."',
+  },
+  {
+    name: 'DEPTHCHARGE',
+    role: 'Contributor',
+    bio: 'Magazine theorist credited with the Type 7 (Collision, #012) and Type 8 (Wrapped Confession, #014) taxonomies. Authoritative on cross-disciplinary creators.',
+  },
+  {
+    name: 'PRIYA M.',
+    role: 'Reader, Mumbai',
+    bio: "Save Point letter writer. Yob's standing promise: a Hindi-language Player Profile by #016.",
+  },
+  {
+    name: 'MARCO T.',
+    role: 'Reader, São Paulo',
+    bio: "Save Point letter writer. Closed the magazine's Portuguese-coverage promise with Porta dos Fundos in #014. Next pick: Choque de Cultura.",
+  },
+];
+
+const taxonomy = [
+  {
+    type: 'TYPE 7',
+    name: 'THE COLLISION',
+    intro: '#012 — Collisions Issue',
+    body:
+      'Creators who live at the intersection of disciplines. Four sub-types, four ways the collision can fail, and a five-question diagnostic for spotting one. DepthCharge framework. Jacob Geller (Video Games × Philosophy × Art) is the exemplar.',
+    href: '/issues/012/',
+  },
+  {
+    type: 'TYPE 8',
+    name: 'THE WRAPPED CONFESSION',
+    intro: '#014 — Comedy Issue',
+    body:
+      "Adopted from DepthCharge's framework in Yob's Save Point, #014. The magazine's category for long-form essays that wrap a personal admission inside the run-time. A 2025-26 phenomenon the taxonomy now accounts for.",
+    href: '/issues/014/',
+  },
+];
+---
+
+<BaseLayout
+  title="Start Here — CTRL+WATCH"
+  description="New to CTRL+WATCH? Read these first. The magazine's editorial position, five entry points, the cast, and the taxonomy that runs through it all."
+>
+  <article class="start">
+    <div class="container">
+
+      <!-- HEADER -->
+      <header class="start-header">
+        <p class="start-eyebrow">[ NEW PLAYER ]</p>
+        <h1 class="start-title">START HERE</h1>
+      </header>
+
+      <hr class="divider" />
+
+      <!-- SECTION 1 — WHAT IS CTRL+WATCH -->
+      <section class="start-section section-intro">
+        <h2 class="section-title">▶ WHAT IS CTRL+WATCH</h2>
+        <div class="prose">
+          <p>
+            CTRL+WATCH reviews YouTube the way <em>Edge</em> reviewed games and <em>Spin</em> reviewed records.
+            Loud, opinionated, willing to put a number on a creator and defend it. Once a month, an issue ships.
+            Every channel reviewed gets scored zero to one hundred. The algorithm is not consulted.
+            Neither is the creator's PR team.
+          </p>
+          <p class="prose-tagline">Your algorithm is broken. We're the fix.</p>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- SECTION 2 — READ THESE FIRST -->
+      <section class="start-section">
+        <h2 class="section-title">▶ READ THESE FIRST</h2>
+        <p class="section-sub">Five entry points across the magazine's recurring formats. Start anywhere.</p>
+
+        <div class="picks">
+          {picks.map((p, i) => (
+            <a class="pick" href={`/issues/${p.issueSlug}/`} style={`--pick-color: ${p.color};`}>
+              <div class="pick-meta">
+                <span class="pick-kind">{p.kind}</span>
+                <span class="pick-num">{String(i + 1).padStart(2, '0')}</span>
+              </div>
+              <h3 class="pick-title">{p.title}</h3>
+              <p class="pick-teaser">{p.teaser}</p>
+              <div class="pick-foot">
+                <span class="pick-issue">{p.issueTag}</span>
+                <span class="pick-cta">READ ▶</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- SECTION 3 — WHO'S WHO -->
+      <section class="start-section">
+        <h2 class="section-title">▶ WHO'S WHO</h2>
+        <p class="section-sub">The voices you'll meet across the issues.</p>
+
+        <div class="cast">
+          {cast.map((c) => (
+            <article class="cast-card">
+              <div class="cast-head">
+                <span class="cast-name">{c.name}</span>
+                <span class="cast-role">{c.role}</span>
+              </div>
+              <p class="cast-bio">{c.bio}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- SECTION 4 — TAXONOMY -->
+      <section class="start-section">
+        <h2 class="section-title">▶ THE TAXONOMY</h2>
+        <p class="section-sub">The magazine has its own framework for what creators are. Two types live here.</p>
+
+        <div class="taxonomy">
+          {taxonomy.map((t) => (
+            <a class="tax-card" href={t.href}>
+              <span class="tax-type">{t.type}</span>
+              <h3 class="tax-name">{t.name}</h3>
+              <p class="tax-intro">{t.intro}</p>
+              <p class="tax-body">{t.body}</p>
+              <span class="tax-cta">READ ISSUE ▶</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- SECTION 5 — HOW WE SCORE -->
+      <section class="start-section">
+        <h2 class="section-title">▶ HOW WE SCORE</h2>
+        <p class="section-sub">
+          Every channel gets a number, 0 to 100. The numbers mean things. They're not negotiable.
+        </p>
+        <a class="link-ghost" href="/about#how-we-score">SEE THE FULL SCORING SYSTEM →</a>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- SECTION 6 — CTAs -->
+      <section class="start-cta">
+        <a href="/archive" class="btn">BROWSE THE ARCHIVE ▶</a>
+        <a href="/creators" class="btn">FIND A CREATOR ▶</a>
+        <a href={`/issues/${latest.slug}/`} class="btn">LATEST ISSUE ▶</a>
+      </section>
+
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .start { padding: var(--space-xl) 0; }
+
+  .start-header { padding: var(--space-lg) 0 var(--space-md); }
+  .start-eyebrow {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--green);
+    text-shadow: var(--glow-green);
+    letter-spacing: 0.2em;
+    margin-bottom: var(--space-md);
+  }
+  .start-title {
+    font-size: var(--text-3xl);
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
+    line-height: 1.4;
+  }
+
+  .start-section { padding: var(--space-xl) 0; }
+
+  .section-title {
+    font-size: var(--text-xl);
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-sm);
+  }
+  .section-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-md);
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-lg);
+    line-height: 1.7;
+  }
+
+  /* ---- Intro prose ---- */
+  .prose {
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  .prose p {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-md);
+    color: var(--text-primary);
+    line-height: 1.9;
+    letter-spacing: 0.02em;
+  }
+  .prose em {
+    color: var(--green);
+    font-style: italic;
+  }
+  .prose-tagline {
+    font-family: 'Press Start 2P', monospace !important;
+    font-size: var(--text-md) !important;
+    color: var(--green) !important;
+    text-shadow: var(--glow-green);
+    letter-spacing: 0.05em !important;
+    line-height: 1.8 !important;
+  }
+
+  /* ---- Picks ---- */
+  .picks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-md);
+  }
+
+  .pick {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--pick-color, var(--green));
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .pick:hover, .pick:focus-visible {
+    border-color: var(--pick-color, var(--green));
+    box-shadow:
+      0 0 12px color-mix(in srgb, var(--pick-color, var(--green)) 40%, transparent),
+      0 0 28px color-mix(in srgb, var(--pick-color, var(--green)) 14%, transparent);
+    transform: translateY(-2px);
+    outline: none;
+  }
+
+  .pick-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+  .pick-kind {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--pick-color, var(--green));
+    letter-spacing: 0.15em;
+  }
+  .pick-num {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+  .pick-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: var(--text-primary);
+    line-height: 1.5;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+  .pick-teaser {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin: 0;
+    flex: 1;
+  }
+  .pick-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-sm);
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border);
+  }
+  .pick-issue {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--pick-color, var(--green));
+    border: 1px solid currentColor;
+    padding: 4px 6px;
+    letter-spacing: 0.1em;
+  }
+  .pick-cta {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+  .pick:hover .pick-cta { color: var(--pick-color, var(--green)); }
+
+  /* ---- Cast ---- */
+  .cast {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-md);
+  }
+  .cast-card {
+    padding: var(--space-md);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+  }
+  .cast-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--border);
+  }
+  .cast-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--green);
+    text-shadow: var(--glow-green);
+    letter-spacing: 0.1em;
+  }
+  .cast-role {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .cast-bio {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* ---- Taxonomy ---- */
+  .taxonomy {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+  }
+  .tax-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--cyan);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s ease, box-shadow 0.2s ease;
+  }
+  .tax-card:hover, .tax-card:focus-visible {
+    border-top-color: var(--magenta);
+    box-shadow: 0 0 12px rgba(255, 0, 170, 0.18);
+    outline: none;
+  }
+  .tax-type {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--cyan);
+    letter-spacing: 0.2em;
+  }
+  .tax-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
+    margin: 0;
+    line-height: 1.4;
+  }
+  .tax-intro {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    margin: 0;
+  }
+  .tax-body {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+    flex: 1;
+  }
+  .tax-cta {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+    align-self: flex-start;
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border);
+    margin-top: var(--space-xs);
+  }
+
+  /* ---- Score link ---- */
+  .link-ghost {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+  .link-ghost:hover { color: var(--green); text-shadow: var(--glow-green); }
+
+  /* ---- CTAs ---- */
+  .start-cta {
+    padding: var(--space-xl) 0;
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .taxonomy { grid-template-columns: 1fr; }
+    .start-title { font-size: var(--text-2xl); }
+  }
+</style>
