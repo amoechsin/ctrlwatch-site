@@ -1,0 +1,487 @@
+/* =============================================================
+   Print Mode (P1-4)
+   ============================================================
+   Activated by `html.mode-print`. Toggle via the ModeToggle
+   component; persists in localStorage('ctrlwatch_mode').
+
+   Strategy: re-bind primary CSS variables to print tokens so most
+   components adapt automatically, then layer magazine-specific
+   typography (Source Serif 4 body, drop caps, magazine red accent,
+   killed glow + scanlines).
+
+   This file styles Astro-rendered pages. Per-issue HTML overrides
+   live in public/issues/_shell.css so they reach the standalone
+   issue files without touching their internals.
+   ============================================================ */
+
+html.mode-print {
+  --bg:               var(--bg-print);
+  --bg-secondary:     var(--bg-print-secondary);
+  --bg-card:          var(--bg-print-card);
+  --border:           var(--border-print-light);
+  --text-primary:     var(--text-print-primary);
+  --text-secondary:   var(--text-print-secondary);
+  --text-muted:       var(--text-print-muted);
+
+  /* Glows: gone */
+  --glow-green:       none;
+  --glow-cyan:        none;
+  --glow-yellow:      none;
+}
+
+/* ---- Kill CRT + glow effects ---- */
+html.mode-print body.crt::before,
+html.mode-print body.crt::after {
+  display: none !important;
+}
+html.mode-print body * {
+  text-shadow: none !important;
+}
+
+/* ---- Body: serif, longer measure, paper background ---- */
+html.mode-print body {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.7;
+  letter-spacing: 0;
+}
+
+html.mode-print p {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.75;
+  letter-spacing: 0;
+}
+
+/* ---- Headings: serif at heavier weight, accent red for h1 ---- */
+html.mode-print h1,
+html.mode-print h2,
+html.mode-print h3,
+html.mode-print h4,
+html.mode-print .archive-title,
+html.mode-print .creators-title,
+html.mode-print .start-title,
+html.mode-print .about-title,
+html.mode-print .section-title,
+html.mode-print .section-header,
+html.mode-print .hero-title,
+html.mode-print .hero-issue-number,
+html.mode-print .creators-tagline,
+html.mode-print .archive-tagline,
+html.mode-print .start-eyebrow {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+html.mode-print .archive-title,
+html.mode-print .creators-title,
+html.mode-print .about-title,
+html.mode-print .start-title {
+  color: var(--accent-print);
+}
+
+html.mode-print .start-eyebrow,
+html.mode-print .archive-tagline,
+html.mode-print .creators-tagline {
+  color: var(--accent-print);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ---- Brand wordmark: stays Press Start 2P (identity mark) ---- */
+html.mode-print .nav-logo-text,
+html.mode-print .hero-label {
+  font-family: 'Press Start 2P', monospace !important;
+  color: var(--accent-print);
+}
+
+/* ---- Nav ---- */
+html.mode-print .nav {
+  background: var(--bg-print);
+  border-bottom: 2px solid var(--border-print);
+  backdrop-filter: none;
+}
+html.mode-print .nav-link {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 600;
+  color: var(--text-print-secondary);
+  letter-spacing: 0.05em;
+}
+html.mode-print .nav-link:hover,
+html.mode-print .nav-link.active,
+html.mode-print .nav-link-start,
+html.mode-print .nav-link-start.active {
+  color: var(--accent-print);
+}
+html.mode-print .nav-search-btn {
+  font-family: 'Press Start 2P', monospace;
+  color: var(--accent-print);
+  border-color: var(--accent-print);
+}
+html.mode-print .nav-search-btn:hover,
+html.mode-print .nav-search-btn:focus-visible {
+  background: var(--accent-print);
+  color: var(--bg-print);
+}
+html.mode-print .nav-cta {
+  color: var(--accent-print);
+  border-color: var(--accent-print);
+}
+
+/* ---- Buttons / chips ---- */
+html.mode-print .btn {
+  background: transparent;
+  color: var(--accent-print);
+  border: 1px solid var(--accent-print);
+  font-family: 'Press Start 2P', monospace;
+}
+html.mode-print .btn:hover {
+  background: var(--accent-print);
+  color: var(--bg-print);
+}
+html.mode-print .chip[aria-pressed="true"] {
+  color: var(--accent-print);
+  border-color: var(--accent-print);
+}
+html.mode-print .control-btn[aria-pressed="true"] {
+  color: var(--accent-print);
+  border-color: var(--accent-print);
+}
+
+/* ---- Hero ---- */
+html.mode-print .hero-cover {
+  background: var(--bg-print-card);
+  box-shadow: none !important;
+}
+html.mode-print .hero-cover-number {
+  font-family: 'Press Start 2P', monospace;
+  color: var(--accent-print);
+}
+html.mode-print .hero-cover::before {
+  display: none;
+}
+html.mode-print .hero-subtitle {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-style: italic;
+  font-size: 19px;
+}
+html.mode-print .hero-title {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-weight: 700;
+  font-size: 42px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+/* ---- Ticker ---- */
+html.mode-print .ticker {
+  background: var(--bg-print-secondary);
+  border-top: 1px solid var(--border-print);
+  border-bottom: 1px solid var(--border-print);
+}
+html.mode-print .ticker-content {
+  font-family: 'Press Start 2P', monospace;
+  color: var(--accent-print-blue);
+}
+
+/* ---- Issue cards (archive + homepage) ---- */
+html.mode-print .issue-card-link {
+  background: var(--bg-print-card);
+  border: 1px solid var(--border-print-light);
+}
+html.mode-print .issue-card-link:hover,
+html.mode-print .issue-card-link:focus-visible {
+  border-color: var(--accent-print);
+  box-shadow: 0 0 0 1px var(--accent-print);
+}
+html.mode-print .issue-cover {
+  background: var(--bg-print-card);
+  box-shadow: none !important;
+}
+html.mode-print .issue-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--text-print-primary);
+}
+html.mode-print .issue-subtitle {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-style: italic;
+  color: var(--text-print-secondary);
+}
+html.mode-print .tag-latest {
+  color: var(--accent-print);
+}
+
+/* ---- Pitch cards ---- */
+html.mode-print .pitch-card {
+  background: var(--bg-print-card);
+  border-color: var(--border-print-light);
+}
+html.mode-print .pitch-icon {
+  color: var(--accent-print);
+}
+html.mode-print .pitch-title {
+  font-family: 'Press Start 2P', monospace;
+}
+html.mode-print .pitch-body {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 16px;
+}
+
+/* ---- Manifesto quote on homepage ---- */
+html.mode-print .manifesto-quote {
+  background: var(--bg-print-secondary);
+}
+html.mode-print .quote-text {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-style: italic;
+  color: var(--text-print-primary);
+  font-size: 22px;
+  line-height: 1.6;
+}
+html.mode-print .quote-mark {
+  color: var(--accent-print);
+  opacity: 0.25;
+}
+html.mode-print .quote-attribution {
+  font-family: 'Press Start 2P', monospace !important;
+  color: var(--accent-print) !important;
+}
+
+/* ---- About page manifesto ---- */
+html.mode-print .manifesto-text p {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.85;
+  color: var(--text-print-primary);
+}
+html.mode-print .manifesto-tagline {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: var(--accent-print) !important;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 22px !important;
+}
+html.mode-print .manifesto-attribution {
+  font-family: 'Press Start 2P', monospace !important;
+  color: var(--text-print-muted) !important;
+}
+
+/* ---- Drop cap on first paragraph of major prose blocks ---- */
+html.mode-print .manifesto-text > p:first-of-type::first-letter,
+html.mode-print .prose > p:first-of-type::first-letter {
+  float: left;
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 700;
+  font-size: 72px;
+  line-height: 0.85;
+  padding: 4px 10px 0 0;
+  color: var(--accent-print);
+}
+
+/* ---- Start Here picks ---- */
+html.mode-print .pick {
+  background: var(--bg-print-card);
+  border-color: var(--border-print-light);
+}
+html.mode-print .pick-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.005em;
+}
+html.mode-print .pick-teaser {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 16px;
+}
+html.mode-print .pick-kind,
+html.mode-print .pick-issue,
+html.mode-print .pick-cta {
+  font-family: 'Press Start 2P', monospace;
+  color: var(--accent-print);
+}
+html.mode-print .cast-card {
+  background: var(--bg-print-card);
+}
+html.mode-print .cast-name {
+  font-family: 'Press Start 2P', monospace;
+  color: var(--accent-print);
+}
+html.mode-print .cast-bio {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 16px;
+}
+html.mode-print .tax-card {
+  background: var(--bg-print-card);
+  border-color: var(--border-print-light);
+  border-top-color: var(--accent-print);
+}
+html.mode-print .tax-name {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 700;
+}
+html.mode-print .tax-body {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 16px;
+}
+html.mode-print .tax-type,
+html.mode-print .tax-cta {
+  color: var(--accent-print);
+}
+
+/* ---- Creators table ---- */
+html.mode-print .creators-row {
+  border-bottom: 1px solid var(--border-print-light);
+}
+html.mode-print .creators-row-head {
+  background: transparent;
+  border-top: 2px solid var(--border-print);
+  border-bottom: 2px solid var(--border-print);
+}
+html.mode-print .creator:hover {
+  background: var(--bg-print-secondary);
+}
+html.mode-print .cell-rank,
+html.mode-print .cell-name {
+  font-family: 'Source Serif 4', Georgia, serif;
+}
+html.mode-print .cell-rank {
+  color: var(--accent-print);
+  font-weight: 700;
+}
+html.mode-print .cell-score {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 700;
+}
+html.mode-print .creator-name { color: var(--text-print-primary); }
+html.mode-print .cell-genre   { color: var(--text-print-secondary); }
+html.mode-print .issue-link {
+  border-color: var(--accent-print);
+  color: var(--accent-print);
+}
+html.mode-print .issue-link:hover {
+  background: var(--accent-print);
+  color: var(--bg-print);
+}
+/* Score color overrides — keep verdict semantics but in print palette */
+html.mode-print .score-essential { color: var(--accent-print); }
+html.mode-print .score-excellent { color: var(--accent-print-blue); }
+html.mode-print .score-good      { color: var(--text-print-primary); }
+html.mode-print .score-average   { color: #8a6b00; }
+html.mode-print .score-mediocre  { color: #a05a00; }
+html.mode-print .score-game-over { color: #7a1a1a; }
+
+html.mode-print .verdict-essential { color: var(--accent-print); }
+html.mode-print .verdict-excellent { color: var(--accent-print-blue); }
+html.mode-print .verdict-game-over { color: #7a1a1a; }
+
+html.mode-print .badge-reeval {
+  color: var(--accent-print);
+  border-color: var(--accent-print);
+}
+
+/* ---- Search overlay ---- */
+html.mode-print .search-overlay {
+  background: rgba(244, 241, 232, 0.96);
+}
+html.mode-print .search-stage * {
+  text-shadow: none !important;
+}
+html.mode-print .search-prompt {
+  background: var(--bg-print-card);
+  border-color: var(--accent-print);
+  box-shadow: none;
+}
+html.mode-print .search-prompt-prefix,
+html.mode-print .search-cursor {
+  color: var(--accent-print);
+}
+html.mode-print .search-overlay .search-input {
+  color: var(--text-print-primary);
+}
+html.mode-print .result-group-title {
+  color: var(--accent-print);
+  border-bottom-color: var(--accent-print);
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 700;
+}
+html.mode-print .result-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+}
+html.mode-print .result-tag {
+  color: var(--accent-print);
+  border-color: var(--accent-print);
+}
+html.mode-print mark {
+  background: var(--accent-print);
+  color: var(--bg-print);
+}
+
+/* ---- About — scoring table ---- */
+html.mode-print .score-table th {
+  font-family: 'Press Start 2P', monospace;
+  background: var(--bg-print-secondary);
+}
+html.mode-print .score-table td {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 16px;
+}
+html.mode-print .score-legendary { color: var(--accent-print); }
+html.mode-print .score-skip      { color: #7a1a1a; }
+
+html.mode-print .yob-art-large {
+  color: var(--accent-print);
+}
+html.mode-print .yob-bio p {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 17px;
+}
+html.mode-print .yob-catchphrase {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-style: italic;
+  color: var(--accent-print) !important;
+}
+
+/* ---- Footer ---- */
+html.mode-print .footer {
+  background: var(--bg-print-secondary);
+  border-top: 2px solid var(--border-print);
+}
+
+/* ===========================================================
+   @media print — Cmd+P from inside Print Mode = clean PDF.
+   Hide all interactive chrome.
+   =========================================================== */
+@media print {
+  html.mode-print body,
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  html.mode-print .nav,
+  html.mode-print .footer,
+  html.mode-print .search-overlay,
+  html.mode-print .ticker,
+  html.mode-print .creators-controls,
+  html.mode-print .archive-controls,
+  html.mode-print .nav-search-btn,
+  html.mode-print .nav-search-icon,
+  html.mode-print .nav-hamburger,
+  html.mode-print .mode-toggle,
+  .nav,
+  .footer,
+  .search-overlay,
+  .ticker,
+  .nav-search-btn,
+  .nav-hamburger,
+  .mode-toggle {
+    display: none !important;
+  }
+  html.mode-print body.crt::before,
+  html.mode-print body.crt::after,
+  body.crt::before,
+  body.crt::after {
+    display: none !important;
+  }
+}

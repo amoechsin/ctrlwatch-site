@@ -1,4 +1,6 @@
 ---
+import ModeToggle from './ModeToggle.astro';
+
 const currentPath = Astro.url.pathname;
 
 function isActive(path: string): boolean {
@@ -30,6 +32,8 @@ function isActive(path: string): boolean {
         <a href="/about" class:list={['nav-link', { active: isActive('/about') }]}>ABOUT</a>
       </li>
     </ul>
+
+    <ModeToggle />
 
     <button
       type="button"
@@ -86,6 +90,10 @@ function isActive(path: string): boolean {
       </li>
       <li>
         <button type="button" class="mobile-nav-link mobile-nav-search" data-search-trigger>SEARCH ▶</button>
+      </li>
+      <li class="mobile-nav-mode-row">
+        <button type="button" class="mobile-nav-link mobile-mode-btn" data-mode="terminal">[TERMINAL]</button>
+        <button type="button" class="mobile-nav-link mobile-mode-btn" data-mode="print">[MAGAZINE]</button>
       </li>
       <li>
         <a href="#subscribe" class="mobile-nav-link">INSERT COIN ▶</a>
@@ -209,6 +217,26 @@ function isActive(path: string): boolean {
     border: none;
     cursor: pointer;
     padding: 0;
+  }
+
+  .mobile-nav-mode-row {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: center;
+  }
+  .mobile-mode-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 12px 14px;
+    font-size: var(--text-sm);
+    min-height: 44px;
+  }
+  .mobile-mode-btn[aria-pressed="true"] {
+    color: var(--green);
+    border-color: var(--green);
+    text-shadow: var(--glow-green);
   }
 
   .nav-hamburger {
@@ -337,6 +365,7 @@ function isActive(path: string): boolean {
     hamburger?.setAttribute('aria-expanded', 'true');
     mobileNav?.removeAttribute('aria-hidden');
     document.body.style.overflow = 'hidden';
+    syncMobileMode();
   }
 
   function closeNav() {
@@ -362,5 +391,30 @@ function isActive(path: string): boolean {
   // Close nav when a link is clicked
   mobileNav?.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', closeNav);
+  });
+
+  // Wire the mobile-overlay mode buttons to the global mode setter
+  // exposed by ModeToggle.astro. Reflect initial state too.
+  const html = document.documentElement;
+  const mobileModeBtns = mobileNav?.querySelectorAll<HTMLButtonElement>('.mobile-mode-btn');
+  function syncMobileMode() {
+    const mode = html.classList.contains('mode-print') ? 'print' : 'terminal';
+    mobileModeBtns?.forEach((b) => {
+      b.setAttribute('aria-pressed', b.dataset.mode === mode ? 'true' : 'false');
+    });
+  }
+  syncMobileMode();
+  mobileModeBtns?.forEach((b) => {
+    b.addEventListener('click', () => {
+      const mode = b.dataset.mode;
+      if (mode === 'print') html.classList.add('mode-print');
+      else html.classList.remove('mode-print');
+      try { localStorage.setItem('ctrlwatch_mode', mode!); } catch {}
+      syncMobileMode();
+      // Also sync desktop toggle if it's in the DOM
+      document.querySelectorAll<HTMLButtonElement>('.mode-btn[data-mode]').forEach((b2) => {
+        b2.setAttribute('aria-pressed', b2.dataset.mode === mode ? 'true' : 'false');
+      });
+    });
   });
 </script>

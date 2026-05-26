@@ -42,4 +42,19 @@
   /* Layout */
   --max-width: 1200px;
   --border-radius: 2px; /* Keep sharp — retro feel */
+
+  /* ===== Print Mode additions (PLATFORM_BRIEF §3) =====
+     Activated by .mode-print on <html>. The tokens themselves stay
+     here; the overrides that re-bind --bg / --text-primary / etc. to
+     these print values live in styles/print-mode.css. */
+  --bg-print:              #F4F1E8;
+  --bg-print-secondary:    #ECE7D8;
+  --bg-print-card:         #FAF7EE;
+  --border-print:          #1A1A1A;
+  --border-print-light:    #C8C2B0;
+  --text-print-primary:    #1A1A1A;
+  --text-print-secondary:  #555555;
+  --text-print-muted:      #888888;
+  --accent-print:          #B22222;  /* magazine red */
+  --accent-print-blue:     #1F4788;
 }

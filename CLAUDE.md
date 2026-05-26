@@ -28,6 +28,14 @@ Search:
 - Trigger: `[ SEARCH ▶ ]` button in nav, search icon on mobile, or `/` keyboard shortcut. Closes on Esc or backdrop click.
 - Yob's Save Point letter writers are NOT yet indexed (no structured source in the tracker). Add when the tracker has a Letters section.
 
+Print Mode (`[TERMINAL]/[MAGAZINE]` toggle):
+- Default is Terminal (the existing CRT aesthetic). Toggle persists in `localStorage('ctrlwatch_mode')`; a pre-paint inline script in `BaseLayout.astro` sets `html.mode-print` before first paint to avoid a flash on returners.
+- Print body font is **Source Serif 4** (Google Fonts, loaded alongside Press Start 2P and Share Tech Mono). Press Start 2P is preserved for brand wordmark and chip-style labels only.
+- Astro-page overrides live in `src/styles/print-mode.css` (re-binds primary CSS variables to `--*-print` tokens defined in `tokens.css`, then layers magazine typography: drop caps, magazine red accent, killed glow + scanline).
+- Standalone issue HTML overrides live in `public/issues/_shell.css` under a `html.mode-print` selector with `!important` (necessary to win specificity against each issue's embedded styles). Source Serif 4 is loaded for issue pages via `@import` at the top of `_shell.css`.
+- `Cmd+P` in Print Mode hides nav, footer, search overlay, and ticker for a clean PDF.
+- ModeToggle component is `src/components/ModeToggle.astro` (desktop) plus a mirrored pair of buttons in the mobile nav overlay (`Nav.astro`).
+
 Adding a new issue: update `issues.js` → `npm run covers` → `npm run inject:og` → `npm run inject:shell` → update tracker → `npm run build:creators` → `npm run build:search` → commit.
 
 ## Platform evolution work (Phase 0 & Phase 1)

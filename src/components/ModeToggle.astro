@@ -1,0 +1,70 @@
+---
+---
+
+<div class="mode-toggle" role="group" aria-label="Display mode">
+  <button type="button" class="mode-btn" data-mode="terminal" aria-pressed="true" title="Terminal mode (default)">[TERMINAL]</button>
+  <button type="button" class="mode-btn" data-mode="print" aria-pressed="false" title="Magazine / print mode">[MAGAZINE]</button>
+</div>
+
+<style>
+  .mode-toggle {
+    display: inline-flex;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .mode-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    padding: 8px 10px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    min-height: 44px;
+    transition: color 0.12s ease, background 0.12s ease, text-shadow 0.12s ease;
+  }
+  .mode-btn:hover {
+    color: var(--text-primary);
+  }
+  .mode-btn[aria-pressed="true"] {
+    color: var(--green);
+    background: rgba(0, 255, 65, 0.08);
+    text-shadow: var(--glow-green);
+  }
+  :global(html.mode-print) .mode-btn[aria-pressed="true"] {
+    color: var(--accent-print);
+    background: rgba(178, 34, 34, 0.08);
+    text-shadow: none !important;
+  }
+
+  @media (max-width: 768px) {
+    /* Hidden in main nav row on mobile; mobile overlay has its own
+       toggle entry to keep the header un-cluttered. */
+    .mode-toggle { display: none; }
+  }
+</style>
+
+<script>
+  const html = document.documentElement;
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-mode]');
+
+  function setMode(mode: 'terminal' | 'print') {
+    if (mode === 'print') html.classList.add('mode-print');
+    else html.classList.remove('mode-print');
+    try { localStorage.setItem('ctrlwatch_mode', mode); } catch (e) {}
+    buttons.forEach((b) => {
+      b.setAttribute('aria-pressed', b.dataset.mode === mode ? 'true' : 'false');
+    });
+  }
+
+  // Reflect persisted state on mount (pre-paint script already set the class).
+  const initial = html.classList.contains('mode-print') ? 'print' : 'terminal';
+  buttons.forEach((b) => {
+    b.setAttribute('aria-pressed', b.dataset.mode === initial ? 'true' : 'false');
+    b.addEventListener('click', () => {
+      const mode = b.dataset.mode as 'terminal' | 'print';
+      if (mode) setMode(mode);
+    });
+  });
+</script>

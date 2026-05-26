@@ -1,9 +1,13 @@
 /* CTRL+WATCH issue shell — global cross-issue overrides loaded
    by every public/issues/NNN/index.html via <link>.
 
-   Scope: mobile readability + tap-target fixes that apply to all
-   issues. Do not put issue-specific design here. New issues get
-   this file automatically by running `npm run inject:shell`. */
+   Scope: (1) mobile readability + tap-target fixes that apply to all
+   issues, (2) Print Mode overrides activated by html.mode-print.
+
+   Do not put issue-specific design here. New issues get this file
+   automatically by running `npm run inject:shell`. */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap');
 
 /* Defensive — no horizontal scroll on small phones, even if an
    issue's own styles leak width. */
@@ -73,5 +77,209 @@ button {
   }
   .overall-score .denom {
     font-size: 18px;
+  }
+}
+
+/* =============================================================
+   PRINT MODE OVERRIDES FOR STANDALONE ISSUE HTMLs
+   Activated by `html.mode-print` (set by BaseLayout's pre-paint
+   inline script, persisted via localStorage). Selectors use !important
+   because issue HTMLs ship with their own embedded styles.
+   ============================================================= */
+
+html.mode-print body {
+  background: #F4F1E8 !important;
+  color: #1A1A1A !important;
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-size: 17px !important;
+  line-height: 1.7 !important;
+}
+
+/* Kill scanline + glows */
+html.mode-print body::before,
+html.mode-print body::after { display: none !important; }
+html.mode-print body * { text-shadow: none !important; }
+
+/* Masthead */
+html.mode-print .masthead {
+  background: #F4F1E8 !important;
+  border-bottom: 2px solid #1A1A1A !important;
+}
+html.mode-print .masthead-top,
+html.mode-print .masthead-sub {
+  color: #555555 !important;
+}
+html.mode-print .masthead-title h1 {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #B22222 !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+html.mode-print .pixel-bar { display: none !important; }
+
+/* Tabs */
+html.mode-print .tabs {
+  background: #F4F1E8 !important;
+  border-bottom: 1px solid #1A1A1A !important;
+}
+html.mode-print .tab-btn {
+  color: #555555 !important;
+}
+html.mode-print .tab-btn:hover {
+  color: #1A1A1A !important;
+}
+html.mode-print .tab-btn.active {
+  color: #B22222 !important;
+  border-bottom: 2px solid #B22222 !important;
+  background: transparent !important;
+}
+
+/* Sections */
+html.mode-print .section-label {
+  color: #555555 !important;
+  font-style: italic !important;
+}
+html.mode-print .section-title {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #B22222 !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* Prose */
+html.mode-print .prose p {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #1A1A1A !important;
+  font-size: 17px !important;
+  line-height: 1.75 !important;
+}
+html.mode-print .prose h3 {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #B22222 !important;
+  font-weight: 700 !important;
+}
+html.mode-print .prose h4 {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #555555 !important;
+  letter-spacing: 0 !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+}
+html.mode-print .prose strong {
+  color: #1A1A1A !important;
+  font-weight: 700 !important;
+}
+html.mode-print .prose em {
+  color: #1A1A1A !important;
+  font-style: italic !important;
+}
+
+/* Drop cap on first paragraph of active panel */
+html.mode-print .section-panel.active > .prose > p:first-of-type::first-letter,
+html.mode-print .section-panel.active > .wrap .prose > p:first-of-type::first-letter {
+  float: left;
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 0.85;
+  padding: 4px 10px 0 0;
+  color: #B22222;
+}
+
+/* Pull quote */
+html.mode-print .pull-quote {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #B22222 !important;
+  background: transparent !important;
+  border-left: 4px solid #B22222 !important;
+  font-style: italic !important;
+  font-size: 22px !important;
+  line-height: 1.4 !important;
+}
+
+/* Scorecards */
+html.mode-print .score-card,
+html.mode-print .bf-scorecard {
+  background: #FAF7EE !important;
+  border: 2px solid #1A1A1A !important;
+}
+html.mode-print .score-header { border-bottom-color: #1A1A1A !important; }
+html.mode-print .overall-score {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #B22222 !important;
+  font-weight: 700 !important;
+}
+html.mode-print .overall-score .denom {
+  color: #888888 !important;
+}
+html.mode-print .cat-score {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #1A1A1A !important;
+  font-weight: 700 !important;
+}
+
+/* Top 50 table */
+html.mode-print .top50-table th {
+  font-family: 'Press Start 2P', monospace !important;
+  background: #ECE7D8 !important;
+  color: #B22222 !important;
+  border-bottom-color: #1A1A1A !important;
+}
+html.mode-print .top50-table td {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #1A1A1A !important;
+  border-bottom-color: #C8C2B0 !important;
+}
+html.mode-print .top50-table td.rank,
+html.mode-print .top50-table td.score {
+  color: #B22222 !important;
+  font-weight: 700 !important;
+}
+html.mode-print .top50-table tr.top3 td {
+  background: rgba(178, 34, 34, 0.06) !important;
+}
+html.mode-print .top50-table tr.new-entry td {
+  background: rgba(31, 71, 136, 0.04) !important;
+  border-left: 3px solid #1F4788 !important;
+}
+
+/* Time-capsule exchanges */
+html.mode-print .tc-line {
+  color: #1A1A1A !important;
+}
+html.mode-print .tc-speaker {
+  color: #B22222 !important;
+  font-weight: 700 !important;
+}
+html.mode-print .tc-stage {
+  color: #888888 !important;
+  font-style: italic !important;
+}
+
+/* Pixel dividers — soften to thin rules */
+html.mode-print .pixel-divider,
+html.mode-print .pixel-divider-light,
+html.mode-print .pixel-divider-magenta {
+  background: #1A1A1A !important;
+  height: 1px !important;
+}
+
+/* Tale-of-the-tape, news/ads grids — keep layout, paper palette */
+html.mode-print .tale-tape {
+  border-color: #1A1A1A !important;
+}
+
+/* @media print — Cmd+P from inside an issue in Print Mode = clean PDF */
+@media print {
+  html.mode-print .tabs,
+  html.mode-print .masthead-top {
+    display: none !important;
+  }
+  html.mode-print .section-panel {
+    display: block !important;       /* show all panels in PDF */
+    page-break-before: always;
+  }
+  html.mode-print .section-panel:first-of-type {
+    page-break-before: avoid;
   }
 }
