@@ -7,6 +7,7 @@ import { issues } from '../data/issues.js';
 const publishedIssues = issues.filter(i => i.published);
 const featuredIssue = publishedIssues[publishedIssues.length - 1]; // latest published
 const latestIssues = publishedIssues.slice(-2).reverse(); // 2 most recent
+const publishedCount = publishedIssues.length;
 ---
 
 <BaseLayout
@@ -52,10 +53,10 @@ const latestIssues = publishedIssues.slice(-2).reverse(); // 2 most recent
   <div class="ticker" aria-label="Announcement ticker" role="marquee">
     <div class="ticker-track">
       <span class="ticker-content">
-        ▶ CTRL+WATCH {featuredIssue.number} NOW AVAILABLE ◀ {featuredIssue.title} ◀ YOUR ALGORITHM IS BROKEN ◀ WE'RE THE FIX ◀ 9 ISSUES AND COUNTING ◀ CTRL+WATCH {featuredIssue.number} NOW AVAILABLE ◀ {featuredIssue.title} ◀ YOUR ALGORITHM IS BROKEN ◀ WE'RE THE FIX ◀ 9 ISSUES AND COUNTING ◀&nbsp;
+        ▶ CTRL+WATCH {featuredIssue.number} NOW AVAILABLE ◀ {featuredIssue.title} ◀ YOUR ALGORITHM IS BROKEN ◀ WE'RE THE FIX ◀ {publishedCount} ISSUES AND COUNTING ◀ CTRL+WATCH {featuredIssue.number} NOW AVAILABLE ◀ {featuredIssue.title} ◀ YOUR ALGORITHM IS BROKEN ◀ WE'RE THE FIX ◀ {publishedCount} ISSUES AND COUNTING ◀&nbsp;
       </span>
       <span class="ticker-content" aria-hidden="true">
-        ▶ CTRL+WATCH {featuredIssue.number} NOW AVAILABLE ◀ {featuredIssue.title} ◀ YOUR ALGORITHM IS BROKEN ◀ WE'RE THE FIX ◀ 9 ISSUES AND COUNTING ◀ CTRL+WATCH {featuredIssue.number} NOW AVAILABLE ◀ {featuredIssue.title} ◀ YOUR ALGORITHM IS BROKEN ◀ WE'RE THE FIX ◀ 9 ISSUES AND COUNTING ◀&nbsp;
+        ▶ CTRL+WATCH {featuredIssue.number} NOW AVAILABLE ◀ {featuredIssue.title} ◀ YOUR ALGORITHM IS BROKEN ◀ WE'RE THE FIX ◀ {publishedCount} ISSUES AND COUNTING ◀ CTRL+WATCH {featuredIssue.number} NOW AVAILABLE ◀ {featuredIssue.title} ◀ YOUR ALGORITHM IS BROKEN ◀ WE'RE THE FIX ◀ {publishedCount} ISSUES AND COUNTING ◀&nbsp;
       </span>
     </div>
   </div>

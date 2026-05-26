@@ -8,6 +8,7 @@ interface Props {
   coverColor: string;
   tag: string;
   published: boolean;
+  isLatest?: boolean;
   animationDelay?: number;
 }
 
@@ -20,6 +21,7 @@ const {
   coverColor,
   tag,
   published,
+  isLatest = false,
   animationDelay = 0,
 } = Astro.props;
 
@@ -28,6 +30,8 @@ const issueUrl = `/issues/${slug}/`;
 
 <article
   class="issue-card stagger-in"
+  data-published={published ? 'true' : 'false'}
+  data-latest={isLatest ? 'true' : 'false'}
   style={`animation-delay: ${animationDelay}ms; --cover-color: ${coverColor};`}
 >
   <a href={issueUrl} class="issue-card-link" aria-label={`${number} — ${title}`}>
@@ -54,6 +58,7 @@ const issueUrl = `/issues/${slug}/`;
     <div class="issue-meta">
       <div class="issue-meta-top">
         <span class="tag" style={`color: ${coverColor}; border-color: ${coverColor};`}>{tag}</span>
+        {isLatest && <span class="tag tag-latest">[LATEST]</span>}
         <span class="issue-date">{date}</span>
       </div>
 
@@ -80,13 +85,29 @@ const issueUrl = `/issues/${slug}/`;
     color: inherit;
     background: var(--bg-card);
     border: 1px solid var(--border);
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.25s ease, transform 0.25s ease;
     border-radius: var(--border-radius);
     overflow: hidden;
   }
 
-  .issue-card-link:hover {
+  .issue-card-link:hover,
+  .issue-card-link:focus-visible {
     border-color: var(--cover-color, var(--green));
+    box-shadow:
+      0 0 12px color-mix(in srgb, var(--cover-color, var(--green)) 50%, transparent),
+      0 0 32px color-mix(in srgb, var(--cover-color, var(--green)) 20%, transparent);
+    transform: translateY(-2px);
+    outline: none;
+  }
+
+  .tag-latest {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--yellow);
+    border: 1px solid var(--yellow);
+    padding: 4px 6px;
+    letter-spacing: 0.1em;
+    text-shadow: var(--glow-yellow);
   }
 
   .issue-cover {

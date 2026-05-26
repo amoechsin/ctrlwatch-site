@@ -2,21 +2,59 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import IssueCard from '../components/IssueCard.astro';
 import { issues } from '../data/issues.js';
+
+const publishedCount = issues.filter((i) => i.published).length;
+
+const ONES = [
+  'ZERO', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE',
+  'TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN', 'SIXTEEN',
+  'SEVENTEEN', 'EIGHTEEN', 'NINETEEN',
+];
+const TENS = ['', '', 'TWENTY', 'THIRTY', 'FORTY', 'FIFTY', 'SIXTY', 'SEVENTY', 'EIGHTY', 'NINETY'];
+
+function toWord(n: number): string {
+  if (n < 20) return ONES[n];
+  const t = Math.floor(n / 10);
+  const o = n % 10;
+  return o === 0 ? TENS[t] : `${TENS[t]}-${ONES[o]}`;
+}
+
+// Latest published issue gets the [LATEST] chip.
+const publishedOrdered = issues.filter((i) => i.published);
+const latestSlug = publishedOrdered.length
+  ? publishedOrdered[publishedOrdered.length - 1].slug
+  : null;
+
+// Newest first in the DOM so the default order matches the default sort.
+const ordered = [...issues].reverse();
 ---
 
 <BaseLayout
   title="Archive — CTRL+WATCH Magazine"
-  description="All CTRL+WATCH issues from #001 to present. Browse the full archive of YouTube channel reviews."
+  description="Every CTRL+WATCH issue. No paywall, no recommendation engine, no ratings inflation."
 >
   <section class="archive">
     <div class="container">
       <div class="archive-header">
         <h1 class="archive-title">▶ THE ARCHIVE</h1>
-        <p class="archive-subtitle">ALL ISSUES — #001 TO PRESENT</p>
+        <p class="archive-tagline">{toWord(publishedCount)} ISSUES. ZERO ALGORITHMIC INTERFERENCE.</p>
+
+        <div class="archive-controls" role="toolbar" aria-label="Archive sort and filter">
+          <div class="control-group" role="group" aria-label="Sort order">
+            <span class="control-label">SORT</span>
+            <button class="control-btn" data-sort="newest" aria-pressed="true" type="button">NEWEST FIRST</button>
+            <button class="control-btn" data-sort="oldest" aria-pressed="false" type="button">OLDEST FIRST</button>
+          </div>
+          <div class="control-group" role="group" aria-label="Issue filter">
+            <span class="control-label">FILTER</span>
+            <button class="control-btn" data-filter="published" aria-pressed="true" type="button">PUBLISHED</button>
+            <button class="control-btn" data-filter="all" aria-pressed="false" type="button">INCLUDE COMING SOON</button>
+          </div>
+        </div>
       </div>
 
-      <div class="archive-grid">
-        {issues.map((issue, index) => (
+      <div class="archive-grid" id="archive-grid">
+        {ordered.map((issue, index) => (
           <IssueCard
             slug={issue.slug}
             number={issue.number}
@@ -26,7 +64,8 @@ import { issues } from '../data/issues.js';
             coverColor={issue.coverColor}
             tag={issue.tag}
             published={issue.published}
-            animationDelay={index * 100}
+            isLatest={issue.slug === latestSlug}
+            animationDelay={index * 60}
           />
         ))}
       </div>
@@ -53,29 +92,138 @@ import { issues } from '../data/issues.js';
     margin-bottom: var(--space-sm);
   }
 
-  .archive-subtitle {
-    font-family: 'Share Tech Mono', monospace;
+  .archive-tagline {
+    font-family: 'Press Start 2P', monospace;
     font-size: var(--text-sm);
-    color: var(--text-secondary);
+    color: var(--green);
+    text-shadow: var(--glow-green);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-lg);
+  }
+
+  .archive-controls {
+    display: flex;
+    gap: var(--space-xl);
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .control-group {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .control-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--text-muted);
     letter-spacing: 0.15em;
-    text-transform: uppercase;
+    margin-right: var(--space-xs);
+  }
+
+  .control-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    min-height: 44px;
+    transition: color 0.15s ease, border-color 0.15s ease, text-shadow 0.15s ease;
+  }
+
+  .control-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
+  }
+
+  .control-btn[aria-pressed="true"] {
+    color: var(--green);
+    border-color: var(--green);
+    text-shadow: var(--glow-green);
   }
 
   .archive-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--space-lg);
+  }
+
+  /* Hide cards filtered out client-side. */
+  .archive-grid[data-filter="published"] .issue-card[data-published="false"] {
+    display: none;
   }
 
   @media (max-width: 1024px) {
     .archive-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
   @media (max-width: 768px) {
     .archive-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+
+    .archive-controls {
+      gap: var(--space-md);
+    }
+  }
+
+  @media (max-width: 375px) {
+    .archive-grid {
       grid-template-columns: 1fr;
     }
   }
 </style>
+
+<script>
+  const grid = document.getElementById('archive-grid');
+  if (grid) {
+    const sortBtns = document.querySelectorAll<HTMLButtonElement>('[data-sort]');
+    const filterBtns = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+
+    // Default order in the DOM is newest-first.
+    let currentSort: 'newest' | 'oldest' = 'newest';
+
+    function setPressed(group: NodeListOf<HTMLButtonElement>, activeKey: string, attr: string) {
+      group.forEach((b) => b.setAttribute('aria-pressed', b.getAttribute(attr) === activeKey ? 'true' : 'false'));
+    }
+
+    function applySort(next: 'newest' | 'oldest') {
+      if (next === currentSort) return;
+      // Reverse the children in place.
+      const cards = Array.from(grid!.children);
+      cards.reverse().forEach((c) => grid!.appendChild(c));
+      currentSort = next;
+    }
+
+    function applyFilter(next: 'published' | 'all') {
+      grid!.setAttribute('data-filter', next);
+    }
+
+    sortBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const next = btn.dataset.sort as 'newest' | 'oldest';
+        setPressed(sortBtns, next, 'data-sort');
+        applySort(next);
+      });
+    });
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const next = btn.dataset.filter as 'published' | 'all';
+        setPressed(filterBtns, next, 'data-filter');
+        applyFilter(next);
+      });
+    });
+
+    // Initial state
+    applyFilter('published');
+  }
+</script>
