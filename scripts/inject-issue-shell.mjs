@@ -10,11 +10,25 @@
  */
 
 import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 
 const ISSUES_DIR = 'public/issues';
-const LINK_TAG = '<link rel="stylesheet" href="/issues/_shell.css">';
-const MARKER = '/issues/_shell.css';
+
+/* Content-hash the shared shell.css so any time its content changes the
+ * stylesheet URL changes, forcing the browser to bypass its cache. The
+ * browser may still have an old HTML referencing /issues/_shell.css
+ * (unversioned) cached, but our cache-control rules now revalidate issue
+ * HTML on every visit, so the next visit yields HTML with the new URL. */
+const SHELL_CSS_PATH = join(ISSUES_DIR, '_shell.css');
+const SHELL_CSS_HASH = createHash('md5')
+  .update(await readFile(SHELL_CSS_PATH))
+  .digest('hex')
+  .slice(0, 8);
+
+const LINK_HREF = `/issues/_shell.css?v=${SHELL_CSS_HASH}`;
+const LINK_TAG = `<link rel="stylesheet" href="${LINK_HREF}">`;
+const OLD_LINK_RE = /<link rel="stylesheet" href="\/issues\/_shell\.css(?:\?v=[a-z0-9]+)?">\n?/g;
 
 /* Mode script — v5.
  * - sessionStorage is authoritative for session-scoped magazine mode.
@@ -46,12 +60,18 @@ for (const slug of slugs) {
     continue;
   }
 
-  const hasLink = html.includes(MARKER);
+  const hasCurrentLink = html.includes(LINK_HREF);
   const hasV5 = html.includes(MODE_MARKER_V5);
 
-  if (hasLink && hasV5) {
+  if (hasCurrentLink && hasV5) {
     skipped++;
     continue;
+  }
+
+  // Strip any existing _shell.css link (versioned or not) so we can
+  // re-inject with the current content-hash.
+  if (!hasCurrentLink) {
+    html = html.replace(OLD_LINK_RE, '');
   }
 
   // Strip any older mode-script versions so we can re-inject the latest.
@@ -66,7 +86,7 @@ for (const slug of slugs) {
   }
 
   let insertion = '';
-  if (!hasLink) insertion += `${LINK_TAG}\n`;
+  if (!hasCurrentLink) insertion += `${LINK_TAG}\n`;
   if (!hasV5) insertion += `${MODE_SCRIPT}\n`;
 
   const out = html.slice(0, headClose) + insertion + html.slice(headClose);
