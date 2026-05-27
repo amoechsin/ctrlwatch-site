@@ -52,7 +52,7 @@
   function setMode(mode: 'terminal' | 'print') {
     if (mode === 'print') html.classList.add('mode-print');
     else html.classList.remove('mode-print');
-    try { localStorage.setItem('ctrlwatch_mode', mode); } catch (e) {}
+    try { sessionStorage.setItem('ctrlwatch_mode', mode); } catch (e) {}
     buttons.forEach((b) => {
       b.setAttribute('aria-pressed', b.dataset.mode === mode ? 'true' : 'false');
     });

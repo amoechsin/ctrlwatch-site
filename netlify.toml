@@ -12,7 +12,24 @@
     X-Content-Type-Options = "nosniff"
     Cache-Control = "public, max-age=3600"
 
+## Cache strategy:
+## - Issue HTML pages (index.html under /issues/NNN/) revalidate every visit.
+##   Cheap (ETag 304s) and lets shell-script updates propagate without waiting
+##   24h. Aggressive caching here previously caused stale mode-toggle scripts
+##   on returning visitors.
+## - The shared /issues/_shell.css and any static assets keep a longer cache;
+##   they're hash-invalidated implicitly by content change + ETag.
 [[headers]]
-  for = "/issues/*"
+  for = "/issues/*/"
   [headers.values]
-    Cache-Control = "public, max-age=86400"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/issues/*/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/issues/_shell.css"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
