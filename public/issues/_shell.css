@@ -414,6 +414,8 @@ html.mode-print .tab-btn.active {
   font: inherit;
   letter-spacing: 0.1em;
   transition: background 0.12s ease, color 0.12s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(0, 255, 65, 0.3);
 }
 .cw-mode-widget button:hover {
   background: rgba(0, 255, 65, 0.15);

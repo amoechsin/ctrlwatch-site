@@ -409,7 +409,10 @@ function isActive(path: string): boolean {
       const mode = b.dataset.mode;
       if (mode === 'print') html.classList.add('mode-print');
       else html.classList.remove('mode-print');
-      try { sessionStorage.setItem('ctrlwatch_mode', mode!); } catch {}
+      try {
+        sessionStorage.setItem('ctrlwatch_mode', mode!);
+        localStorage.setItem('ctrlwatch_mode', mode!);
+      } catch {}
       syncMobileMode();
       // Also sync desktop toggle if it's in the DOM
       document.querySelectorAll<HTMLButtonElement>('.mode-btn[data-mode]').forEach((b2) => {

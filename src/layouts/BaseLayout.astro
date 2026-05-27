@@ -70,19 +70,21 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap"
     />
 
-    {/* Print-Mode pre-paint — read session-scoped mode before first paint
-        to avoid a flash of terminal styles when navigating within a session.
-        Uses sessionStorage so each new browser session starts in terminal
-        (the canonical brand look); magazine is opt-in per session.
-        Migration: clear any legacy localStorage key once. */}
+    {/* Print-Mode pre-paint — sessionStorage is authoritative (session-scoped:
+        magazine is opt-in per browser session). localStorage is mirrored so
+        cached v2 issue HTMLs (which read localStorage) stay in sync until
+        the cache rolls over. */}
     <script is:inline>
       try {
-        if (localStorage.getItem('ctrlwatch_mode') !== null) {
-          localStorage.removeItem('ctrlwatch_mode');
+        var ss = sessionStorage.getItem('ctrlwatch_mode');
+        if (ss === null) {
+          if (localStorage.getItem('ctrlwatch_mode') !== null) {
+            localStorage.removeItem('ctrlwatch_mode');
+          }
+        } else if (localStorage.getItem('ctrlwatch_mode') !== ss) {
+          localStorage.setItem('ctrlwatch_mode', ss);
         }
-        if (sessionStorage.getItem('ctrlwatch_mode') === 'print') {
-          document.documentElement.classList.add('mode-print');
-        }
+        if (ss === 'print') document.documentElement.classList.add('mode-print');
       } catch (e) {}
     </script>
 
