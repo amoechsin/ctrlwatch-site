@@ -50,7 +50,7 @@ Score each category 0–100. The overall score is a weighted aggregate, not a st
 | 50–59 | **MEDIOCRE** |
 | Below 50 | **GAME OVER** |
 
-**ESSENTIAL is the magazine's highest honour.** Do not award it without specific justification for why this channel is irreplaceable. See `.claude/tracker.md` → "ESSENTIAL Channels" for the current list.
+**ESSENTIAL is the magazine's highest honour.** Do not award it without specific justification for why this channel is irreplaceable. The live ESSENTIAL roster (90+) is whatever the tracker's TOP 50 currently shows — read it there, don't trust a hardcoded list. As of Post-#014 there are twelve: 3Blue1Brown (96), Kurzgesagt (94), Every Frame a Painting (92), Primitive Technology (91), Jacob Geller (91), Adam Neely (91), CGP Grey (91), Lemmino (91), Jenny Nicholson (91), Fireship (90), Dan Carlin (90), Townsends (90).
 
 ---
 
@@ -130,9 +130,9 @@ Verdict CSS classes: `verdict-essential`, `verdict-excellent`, `verdict-good`, `
 
 ## Negative Review Protocol
 
-**The negative review is a structural requirement.** Every 2–3 issues must include at least one review below 70. Check the continuity tracker's Negative Review Tracker before planning an issue.
+**The negative review is a structural requirement.** Every 2–3 issues must include at least one review below 70 — that means AVERAGE (60–69) or worse, not only MEDIOCRE. Check the continuity tracker's NEGATIVE REVIEW TRACKER before planning an issue.
 
-Negative review counter resets with each below-70 review. **Check `.claude/tracker.md` → "Negative Reviews"** for current counter state.
+The counter resets with each below-70 review. Do not hardcode its value here — read the current counter and any **MANDATORY in #0XX** flag from the tracker. (As of Post-#014: last negative was #012, Nas Daily at 52; counter at 2; a negative review is **MANDATORY in #015**, no further deferral.)
 
 ### What a Negative Review Is Not
 - Cruelty
@@ -148,13 +148,11 @@ Negative review counter resets with each below-70 review. **Check `.claude/track
 
 ### Negative Review Categories
 
-**GAME OVER (below 50):** Reserved for channels that are actively harmful to the medium — content mills, misinformation, exploitative formats. Requires specific evidence for why this is beyond redemption.
+**GAME OVER (below 50):** Reserved for channels that are actively harmful to the medium — content mills, misinformation, exploitative formats. Requires specific evidence for why this is beyond redemption. Previous: Ryan's World (42), WatchMojo (42), Bright Side (28), PragerU (22).
 
-**MEDIOCRE (50–59):** Channels that started with potential but have algorithmically calcified, pivoted soullessly, or simply stopped trying. Still watchable in small doses but not recommended.
+**MEDIOCRE (50–59):** Channels that started with potential but have algorithmically calcified, pivoted soullessly, or simply stopped trying. Still watchable in small doses but not recommended. Previous: React Media/FBE (52), Nas Daily (52), Davie504 (55).
 
-**AVERAGE (60–69):** Channels with genuine strengths but serious structural problems. Not bad, not good.
-
-See `.claude/tracker.md` → "Negative Reviews" for all previous negative reviews and their scores.
+**AVERAGE (60–69):** Channels with genuine strengths but serious structural problems. Not bad, not good. Previous: HasanAbi (68), Johnny Harris (64 re-eval), penguinz0 (65 re-eval).
 
 ### Tone Calibration for Negative Reviews
 
@@ -181,7 +179,10 @@ Re-evaluating a previously scored channel is rare and must be justified. It sign
 4. Re-evaluation reviews are typically shorter (500–700 words) — the context is already established
 
 ### Record-Keeping
-**Read `.claude/tracker.md` → "Re-Evaluations"** for all-time re-evaluation records before writing any re-eval.
+All-time re-evaluation records (check tracker for current state):
+- Adam Neely: 84→91, ↑33 to #5 — all-time record (Issue #010)
+- JCS Criminal Psychology: 73→86, ↑29 (Issue #007)
+- Johnny Harris: ~79→64 — downward re-evaluation (Issue #011)
 
 ---
 
@@ -222,3 +223,55 @@ Before writing any Player Profile:
 | Negative review reads as contemptuous | Rewrite opening to establish genuine understanding of what the channel was trying to do |
 | Pull quote is generic | Run the "name swap" test — if another channel could replace the name, rewrite it |
 | X-Factor undefined | X-Factor must be named specifically — what is the one thing this channel has that no other channel has? |
+
+
+## Required SEO/AEO outputs
+
+Every output from this skill MUST include the following metadata block alongside the content. Outputs missing this block are incomplete. This is how CTRL+WATCH content becomes canonical, citable, and discoverable in both classical search and AI engines.
+
+### Canonical URL
+
+Recommend the canonical URL path using the convention in the per-skill mapping below. Slug rules: kebab-case, no year, no issue number unless the asset is intrinsically per-issue (Top 50 archive snapshots, issue pages themselves).
+
+### Title tag (≤60 chars including ` | CTRL+WATCH` suffix)
+
+Magazine voice intact. No clickbait. The brand suffix counts toward the limit. Use the per-skill format below.
+
+### Meta description (≤155 chars)
+
+One sentence, magazine voice, reads naturally as a SERP snippet. Includes the central claim or verdict where one exists. Avoid emoji, all-caps, exclamation marks.
+
+### Schema (JSON-LD)
+
+Use the schema type specified in the per-skill mapping below. Include the JSON-LD block in the output, ready to drop into the page `<head>`. Always include `@context: "https://schema.org"`.
+
+### Internal link targets (3–7 URLs)
+
+List the canonical URLs this page should link to outbound:
+- Pillar/hub page for the asset type
+- 2–4 related canonical pages (similar channels, prior matchups, related rankings)
+- Originating issue (if applicable)
+- 1–2 concept pages from `/concepts/` if the content invokes a framework
+
+### Canonical separation from issues
+
+Issues at `/issues/[NNN]/` contain reviews, boss fights, and concept references but ARE NOT the canonical home of those assets. Each Player Profile, Boss Fight, and Concept Page has its own canonical URL. Within an issue, each section must link OUT to its standalone canonical URL, not to an in-issue anchor. The issue page's `rel="canonical"` points to itself only for the issue as a whole.
+
+### Per-skill mapping
+
+| Skill | URL pattern | Schema type | Title tag format |
+|---|---|---|---|
+| player-profile | `/reviews/[channel-slug]/` | `Review` + `aggregateRating` (5-axis score) + `Person` (creator) + `creativeWorkReviewed` (channel as CreativeWork) | `[Channel] Review — Score N/100 \| CTRL+WATCH` |
+| boss-fight | `/vs/[channel-a]-vs-[channel-b]/` (alphabetical) | `Article` with `about` referencing both channels; optionally `ComparativeArticle` if rendered | `[Channel A] vs [Channel B] — Boss Fight \| CTRL+WATCH` |
+| time-capsule | `/criticism/time-capsule/[figure-slug]/` | `Article` + `CreativeWork`. Do NOT use `Person` schema — content is fictional and attributing fictional quotes to real figures via Person schema misrepresents authorship | `[Figure] on YouTube — Time Capsule \| CTRL+WATCH` |
+| top50-updater | Live: `/top50/` (canonical, always-current). Archived: `/top50/history/[issue]/` with `rel="canonical"` pointing to `/top50/` | `ItemList` with `ListItem` entries, each `item` linking to the canonical Player Profile URL | `Top 50 YouTube Channels — [Month Year] \| CTRL+WATCH` |
+| html-generation (issue pages) | `/issues/[NNN]/` | `Article` (the issue as a whole) + `hasPart` referencing the canonical URL of each section | `Issue #[NNN] — [Issue Title] \| CTRL+WATCH` |
+
+### Validation before publish
+
+- Schema validates at https://validator.schema.org/
+- Title and meta description within character limits
+- All internal link targets resolve (no dead canonical URLs)
+- For Player Profiles: aggregateRating values match the 5-axis scores in the body
+- For Top 50: every ListItem.item URL points to a real canonical Player Profile (or is noted as forthcoming)
+- For issue pages: every section that has a canonical home elsewhere links OUT to that canonical, not to an in-issue anchor

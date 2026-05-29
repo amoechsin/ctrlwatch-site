@@ -7,10 +7,10 @@ description: "Generates complete, publication-ready HTML files for CTRL+WATCH ma
 
 ## Workflow
 
-1. Read the continuity tracker from `.claude/tracker.md` before writing any HTML
+1. Read the continuity tracker from `docs/continuity/CTRLWATCH_Continuity_Tracker.md` before writing any HTML (never `.claude/tracker.md` — it is deprecated)
 2. Read this skill fully before writing any HTML
 3. Generate the complete HTML as a single self-contained file
-4. Write output to `public/issues/[NNN]/index.html`
+4. Copy output to `public/issues/[NNN]/index.html`
 5. Verify file size with `wc -c` — target 160–175KB, minimum 140KB
 6. Report file size to user
 
@@ -409,5 +409,57 @@ Font: `Exo 2`, 10px, `var(--text-dim)`. Centered. Full width.
 - [ ] Pull quotes in every Player Profile
 - [ ] Time Capsule disclaimer present for every interview
 - [ ] Yob SVG renders in Save Point
-- [ ] File copied to `/mnt/user-data/outputs/`
+- [ ] File written to `public/issues/[NNN]/index.html` (matches Workflow step 4)
 - [ ] File size verified with `wc -c` and reported to user
+
+
+## Required SEO/AEO outputs
+
+Every output from this skill MUST include the following metadata block alongside the content. Outputs missing this block are incomplete. This is how CTRL+WATCH content becomes canonical, citable, and discoverable in both classical search and AI engines.
+
+### Canonical URL
+
+Recommend the canonical URL path using the convention in the per-skill mapping below. Slug rules: kebab-case, no year, no issue number unless the asset is intrinsically per-issue (Top 50 archive snapshots, issue pages themselves).
+
+### Title tag (≤60 chars including ` | CTRL+WATCH` suffix)
+
+Magazine voice intact. No clickbait. The brand suffix counts toward the limit. Use the per-skill format below.
+
+### Meta description (≤155 chars)
+
+One sentence, magazine voice, reads naturally as a SERP snippet. Includes the central claim or verdict where one exists. Avoid emoji, all-caps, exclamation marks.
+
+### Schema (JSON-LD)
+
+Use the schema type specified in the per-skill mapping below. Include the JSON-LD block in the output, ready to drop into the page `<head>`. Always include `@context: "https://schema.org"`.
+
+### Internal link targets (3–7 URLs)
+
+List the canonical URLs this page should link to outbound:
+- Pillar/hub page for the asset type
+- 2–4 related canonical pages (similar channels, prior matchups, related rankings)
+- Originating issue (if applicable)
+- 1–2 concept pages from `/concepts/` if the content invokes a framework
+
+### Canonical separation from issues
+
+Issues at `/issues/[NNN]/` contain reviews, boss fights, and concept references but ARE NOT the canonical home of those assets. Each Player Profile, Boss Fight, and Concept Page has its own canonical URL. Within an issue, each section must link OUT to its standalone canonical URL, not to an in-issue anchor. The issue page's `rel="canonical"` points to itself only for the issue as a whole.
+
+### Per-skill mapping
+
+| Skill | URL pattern | Schema type | Title tag format |
+|---|---|---|---|
+| player-profile | `/reviews/[channel-slug]/` | `Review` + `aggregateRating` (5-axis score) + `Person` (creator) + `creativeWorkReviewed` (channel as CreativeWork) | `[Channel] Review — Score N/100 \| CTRL+WATCH` |
+| boss-fight | `/vs/[channel-a]-vs-[channel-b]/` (alphabetical) | `Article` with `about` referencing both channels; optionally `ComparativeArticle` if rendered | `[Channel A] vs [Channel B] — Boss Fight \| CTRL+WATCH` |
+| time-capsule | `/criticism/time-capsule/[figure-slug]/` | `Article` + `CreativeWork`. Do NOT use `Person` schema — content is fictional and attributing fictional quotes to real figures via Person schema misrepresents authorship | `[Figure] on YouTube — Time Capsule \| CTRL+WATCH` |
+| top50-updater | Live: `/top50/` (canonical, always-current). Archived: `/top50/history/[issue]/` with `rel="canonical"` pointing to `/top50/` | `ItemList` with `ListItem` entries, each `item` linking to the canonical Player Profile URL | `Top 50 YouTube Channels — [Month Year] \| CTRL+WATCH` |
+| html-generation (issue pages) | `/issues/[NNN]/` | `Article` (the issue as a whole) + `hasPart` referencing the canonical URL of each section | `Issue #[NNN] — [Issue Title] \| CTRL+WATCH` |
+
+### Validation before publish
+
+- Schema validates at https://validator.schema.org/
+- Title and meta description within character limits
+- All internal link targets resolve (no dead canonical URLs)
+- For Player Profiles: aggregateRating values match the 5-axis scores in the body
+- For Top 50: every ListItem.item URL points to a real canonical Player Profile (or is noted as forthcoming)
+- For issue pages: every section that has a canonical home elsewhere links OUT to that canonical, not to an in-issue anchor

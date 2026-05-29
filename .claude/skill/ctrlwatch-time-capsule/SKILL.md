@@ -28,7 +28,15 @@ The result is: **serious media criticism delivered through the most unexpected p
 
 ## Continuity Tracker Check
 
-Before selecting any figure, **read `.claude/tracker.md` → "Time Capsule — Used Subjects"** for the complete list of retired figures. If a figure is on that list: **do not use them.**
+Before selecting any figure, cross-reference the tracker's **TIME CAPSULE SUBJECTS — COMPLETE LIST** (the authoritative roster of every figure used so far) and its **SAFE TO USE** / pool-warning block. Do NOT rely on a list inlined here — roughly six fresh figures are consumed every issue, so any enumeration in this skill is stale within one issue. Read the used list from the tracker every single time.
+
+**Critical pool state (as of Post-#014 — verify the live count in the tracker):** the figure pool is nearly exhausted, and this is now a structural constraint on issue planning, not a footnote.
+- **Comedy: EXHAUSTED. Film/TV: EXHAUSTED. Sport/Activism/Polymaths: EXHAUSTED. Journalism/Politics: EXHAUSTED.**
+- **Arts/Literature: ~1 remaining** (Virginia Woolf). **Science/Philosophy: ~1 remaining** (Alan Turing).
+- **Music: ~4 remaining** (Lennon, Joplin, Hendrix, Mitchell) — a PROTECTED reserve; propose only for a music-adjacent issue.
+- **Total ≈ 6 figures.** Six fresh subjects for a general-theme issue is no longer possible from the existing pool. Surface this at proposal stage and pick a path: (a) expand into new categories (visual artists, architects, athletes, non-Western historical figures, inventors/engineers); (b) draw the music reserve only if the issue is music-adjacent; or (c) run 4–5 subjects instead of 6.
+
+If a figure appears anywhere in the tracker's used list: **do not use them.**
 
 ---
 
@@ -192,3 +200,55 @@ Before finalising any Time Capsule section:
 - [ ] Figure's blind spot represented (the thing they'd get wrong)
 - [ ] Total exchanges: 8–12 per interview
 - [ ] Dramatic irony present (they see our world through their era's eyes)
+
+
+## Required SEO/AEO outputs
+
+Every output from this skill MUST include the following metadata block alongside the content. Outputs missing this block are incomplete. This is how CTRL+WATCH content becomes canonical, citable, and discoverable in both classical search and AI engines.
+
+### Canonical URL
+
+Recommend the canonical URL path using the convention in the per-skill mapping below. Slug rules: kebab-case, no year, no issue number unless the asset is intrinsically per-issue (Top 50 archive snapshots, issue pages themselves).
+
+### Title tag (≤60 chars including ` | CTRL+WATCH` suffix)
+
+Magazine voice intact. No clickbait. The brand suffix counts toward the limit. Use the per-skill format below.
+
+### Meta description (≤155 chars)
+
+One sentence, magazine voice, reads naturally as a SERP snippet. Includes the central claim or verdict where one exists. Avoid emoji, all-caps, exclamation marks.
+
+### Schema (JSON-LD)
+
+Use the schema type specified in the per-skill mapping below. Include the JSON-LD block in the output, ready to drop into the page `<head>`. Always include `@context: "https://schema.org"`.
+
+### Internal link targets (3–7 URLs)
+
+List the canonical URLs this page should link to outbound:
+- Pillar/hub page for the asset type
+- 2–4 related canonical pages (similar channels, prior matchups, related rankings)
+- Originating issue (if applicable)
+- 1–2 concept pages from `/concepts/` if the content invokes a framework
+
+### Canonical separation from issues
+
+Issues at `/issues/[NNN]/` contain reviews, boss fights, and concept references but ARE NOT the canonical home of those assets. Each Player Profile, Boss Fight, and Concept Page has its own canonical URL. Within an issue, each section must link OUT to its standalone canonical URL, not to an in-issue anchor. The issue page's `rel="canonical"` points to itself only for the issue as a whole.
+
+### Per-skill mapping
+
+| Skill | URL pattern | Schema type | Title tag format |
+|---|---|---|---|
+| player-profile | `/reviews/[channel-slug]/` | `Review` + `aggregateRating` (5-axis score) + `Person` (creator) + `creativeWorkReviewed` (channel as CreativeWork) | `[Channel] Review — Score N/100 \| CTRL+WATCH` |
+| boss-fight | `/vs/[channel-a]-vs-[channel-b]/` (alphabetical) | `Article` with `about` referencing both channels; optionally `ComparativeArticle` if rendered | `[Channel A] vs [Channel B] — Boss Fight \| CTRL+WATCH` |
+| time-capsule | `/criticism/time-capsule/[figure-slug]/` | `Article` + `CreativeWork`. Do NOT use `Person` schema — content is fictional and attributing fictional quotes to real figures via Person schema misrepresents authorship | `[Figure] on YouTube — Time Capsule \| CTRL+WATCH` |
+| top50-updater | Live: `/top50/` (canonical, always-current). Archived: `/top50/history/[issue]/` with `rel="canonical"` pointing to `/top50/` | `ItemList` with `ListItem` entries, each `item` linking to the canonical Player Profile URL | `Top 50 YouTube Channels — [Month Year] \| CTRL+WATCH` |
+| html-generation (issue pages) | `/issues/[NNN]/` | `Article` (the issue as a whole) + `hasPart` referencing the canonical URL of each section | `Issue #[NNN] — [Issue Title] \| CTRL+WATCH` |
+
+### Validation before publish
+
+- Schema validates at https://validator.schema.org/
+- Title and meta description within character limits
+- All internal link targets resolve (no dead canonical URLs)
+- For Player Profiles: aggregateRating values match the 5-axis scores in the body
+- For Top 50: every ListItem.item URL points to a real canonical Player Profile (or is noted as forthcoming)
+- For issue pages: every section that has a canonical home elsewhere links OUT to that canonical, not to an in-issue anchor
