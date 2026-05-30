@@ -36,12 +36,13 @@ const totalEntries = searchIndex.totals.total;
 
   const GROUP_LABELS = {
     issue: 'ISSUES',
+    review: 'REVIEWS',
     channel: 'CHANNELS',
     'time-capsule': 'TIME CAPSULE',
     'boss-fight': 'BOSS FIGHTS',
     special: 'SPECIAL FEATURES',
   };
-  const GROUP_ORDER = ['issue', 'channel', 'time-capsule', 'boss-fight', 'special'];
+  const GROUP_ORDER = ['issue', 'review', 'channel', 'time-capsule', 'boss-fight', 'special'];
 
   function open() {
     overlay.classList.add('open');

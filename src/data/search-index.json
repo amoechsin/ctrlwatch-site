@@ -1,9 +1,10 @@
 {
-  "generatedAt": "2026-05-30T11:53:47.003Z",
+  "generatedAt": "2026-05-30T19:12:27.645Z",
   "totals": {
     "total": 231,
     "issue": 14,
-    "channel": 95,
+    "review": 82,
+    "channel": 13,
     "time-capsule": 87,
     "boss-fight": 15,
     "special": 20
@@ -108,18 +109,18 @@
       "issueTag": "#014"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "12tone",
-      "subtitle": "Music Theory / Analysis",
-      "url": "/creators/#creator-12tone",
+      "subtitle": "Music Theory / Analysis · 86/100 · EXCELLENT",
+      "url": "/reviews/12tone/",
       "issueTag": "#010"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "3Blue1Brown",
-      "subtitle": "Mathematics / Education",
-      "url": "/creators/#creator-3blue1brown",
-      "issueTag": null
+      "subtitle": "Mathematics / Education · 96/100 · ESSENTIAL",
+      "url": "/reviews/3blue1brown/",
+      "issueTag": "#001"
     },
     {
       "type": "channel",
@@ -129,17 +130,17 @@
       "issueTag": "#004C"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Abroad in Japan",
-      "subtitle": "Travel / Culture / Documentary",
-      "url": "/creators/#creator-abroad-in-japan",
+      "subtitle": "Travel / Culture / Documentary · 84/100 · EXCELLENT",
+      "url": "/reviews/abroad-in-japan/",
       "issueTag": "#013"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Adam Neely",
-      "subtitle": "Music Theory / Jazz Bass",
-      "url": "/creators/#creator-adam-neely",
+      "subtitle": "Music Theory / Jazz Bass · 91/100 · ESSENTIAL",
+      "url": "/reviews/adam-neely/",
       "issueTag": "#010"
     },
     {
@@ -150,52 +151,52 @@
       "issueTag": null
     },
     {
-      "type": "channel",
-      "title": "Andrew Huberman",
-      "subtitle": "GOOD",
-      "url": "/creators/#creator-andrew-huberman",
+      "type": "review",
+      "title": "Huberman Lab",
+      "subtitle": "Science / Health · 74/100 · GOOD",
+      "url": "/reviews/andrew-huberman/",
       "issueTag": "#002"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Answer in Progress",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-answer-in-progress",
+      "subtitle": "Science × Personal Essay × Comedy · 81/100 · EXCELLENT",
+      "url": "/reviews/answer-in-progress/",
       "issueTag": "#012"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Baumgartner Restoration",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-baumgartner-restoration",
+      "subtitle": "Art Restoration · 87/100 · EXCELLENT",
+      "url": "/reviews/baumgartner-restoration/",
       "issueTag": "#003"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Binging with Babish",
-      "subtitle": "Cooking / Entertainment",
-      "url": "/creators/#creator-binging-with-babish",
+      "subtitle": "Cooking / Entertainment · 85/100 · EXCELLENT",
+      "url": "/reviews/binging-with-babish/",
       "issueTag": "#009"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Breaking Points",
-      "subtitle": "Political Analysis / Podcast",
-      "url": "/creators/#creator-breaking-points",
+      "subtitle": "Political Analysis / Podcast · 86/100 · EXCELLENT",
+      "url": "/reviews/breaking-points/",
       "issueTag": "#011"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Bright Side",
-      "subtitle": "GAME OVER",
-      "url": "/creators/#creator-bright-side",
+      "subtitle": "Content Mill / Infotainment · 28/100 · GAME OVER",
+      "url": "/reviews/bright-side/",
       "issueTag": "#009"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Caddicarus",
-      "subtitle": "GOOD",
-      "url": "/creators/#creator-caddicarus",
+      "subtitle": "Retro Gaming / Comedy · 74/100 · GOOD",
+      "url": "/reviews/caddicarus/",
       "issueTag": "#008"
     },
     {
@@ -206,18 +207,18 @@
       "issueTag": null
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Caspian Report",
-      "subtitle": "Geopolitics / Analysis",
-      "url": "/creators/#creator-caspian-report",
+      "subtitle": "Geopolitics / Analysis · 87/100 · EXCELLENT",
+      "url": "/reviews/caspian-report/",
       "issueTag": "#013"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "CGP Grey",
-      "subtitle": "Education / Explainer",
-      "url": "/creators/#creator-cgp-grey",
-      "issueTag": "#004S"
+      "subtitle": "Education / Explainer · 91/100 · ESSENTIAL",
+      "url": "/reviews/cgp-grey/",
+      "issueTag": "#004"
     },
     {
       "type": "channel",
@@ -227,10 +228,10 @@
       "issueTag": null
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Clickspring",
-      "subtitle": "Clockmaking / Machining",
-      "url": "/creators/#creator-clickspring",
+      "subtitle": "Clockmaking / Machining · 88/100 · EXCELLENT",
+      "url": "/reviews/clickspring/",
       "issueTag": "#009"
     },
     {
@@ -241,45 +242,45 @@
       "issueTag": null
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Conan O'Brien / Team Coco",
-      "subtitle": "Comedy / Talk",
-      "url": "/creators/#creator-conan-o-brien-team-coco",
+      "subtitle": "Comedy / Talk · 88/100 · EXCELLENT",
+      "url": "/reviews/conan-o-brien-team-coco/",
       "issueTag": "#002"
     },
     {
-      "type": "channel",
-      "title": "Contrapoints",
-      "subtitle": "Political Essay / Trans Studies",
-      "url": "/creators/#creator-contrapoints",
+      "type": "review",
+      "title": "ContraPoints",
+      "subtitle": "Political Essay / Trans Studies · 88/100 · EXCELLENT",
+      "url": "/reviews/contrapoints/",
       "issueTag": "#011"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Corridor Crew",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-corridor-crew",
+      "subtitle": "VFX / Filmmaking · 88/100 · EXCELLENT",
+      "url": "/reviews/corridor-crew/",
       "issueTag": "#003"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Dan Carlin's Hardcore History",
-      "subtitle": "History / Long-Form",
-      "url": "/creators/#creator-dan-carlin-s-hardcore-history",
+      "subtitle": "History / Long-Form · 90/100 · ESSENTIAL",
+      "url": "/reviews/dan-carlin-s-hardcore-history/",
       "issueTag": "#001"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Danny Gonzalez",
-      "subtitle": "Manic Comedy Commentary",
-      "url": "/creators/#creator-danny-gonzalez",
+      "subtitle": "Manic Comedy Commentary · 84/100 · EXCELLENT",
+      "url": "/reviews/danny-gonzalez/",
       "issueTag": "#014"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Davie504",
-      "subtitle": "MEDIOCRE",
-      "url": "/creators/#creator-davie504",
+      "subtitle": "Bass / Comedy · 55/100 · MEDIOCRE",
+      "url": "/reviews/davie504/",
       "issueTag": "#010"
     },
     {
@@ -290,136 +291,136 @@
       "issueTag": null
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Drew Gooden",
-      "subtitle": "Deadpan Comedy Commentary",
-      "url": "/creators/#creator-drew-gooden",
+      "subtitle": "Deadpan Comedy Commentary · 86/100 · EXCELLENT",
+      "url": "/reviews/drew-gooden/",
       "issueTag": "#014"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Eddy Burback",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-eddy-burback",
+      "subtitle": "Comedy / Stunt Documentary · 83/100 · EXCELLENT",
+      "url": "/reviews/eddy-burback/",
       "issueTag": "#014"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Every Frame a Painting",
-      "subtitle": "Film Analysis",
-      "url": "/creators/#creator-every-frame-a-painting",
-      "issueTag": "#004C"
+      "subtitle": "Film Analysis · 92/100 · ESSENTIAL",
+      "url": "/reviews/every-frame-a-painting/",
+      "issueTag": "#004"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "exurb1a",
-      "subtitle": "Philosophy / Existential",
-      "url": "/creators/#creator-exurb1a",
-      "issueTag": null
-    },
-    {
-      "type": "channel",
-      "title": "Fireship",
-      "subtitle": "Technology / Programming",
-      "url": "/creators/#creator-fireship",
+      "subtitle": "Philosophy / Existential · 88/100 · EXCELLENT",
+      "url": "/reviews/exurb1a/",
       "issueTag": "#001"
     },
     {
-      "type": "channel",
+      "type": "review",
+      "title": "Fireship",
+      "subtitle": "Technology / Programming · 90/100 · ESSENTIAL",
+      "url": "/reviews/fireship/",
+      "issueTag": "#001"
+    },
+    {
+      "type": "review",
       "title": "Forgotten Formats",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-forgotten-formats",
+      "subtitle": "Underground / Media Archaeology · 81/100 · EXCELLENT",
+      "url": "/reviews/forgotten-formats/",
       "issueTag": "#005"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Good Mythical Morning",
-      "subtitle": "Entertainment / Variety",
-      "url": "/creators/#creator-good-mythical-morning",
+      "subtitle": "Entertainment / Variety · 87/100 · EXCELLENT",
+      "url": "/reviews/good-mythical-morning/",
       "issueTag": "#006"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "HasanAbi",
-      "subtitle": "AVERAGE",
-      "url": "/creators/#creator-hasanabi",
+      "subtitle": "Political Commentary / Streaming · 68/100 · AVERAGE",
+      "url": "/reviews/hasanabi/",
       "issueTag": "#011"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Historia Civilis",
-      "subtitle": "Ancient History",
-      "url": "/creators/#creator-historia-civilis",
-      "issueTag": null
-    },
-    {
-      "type": "channel",
-      "title": "Internet Historian",
-      "subtitle": "Internet Culture / Documentary",
-      "url": "/creators/#creator-internet-historian",
-      "issueTag": "#003"
-    },
-    {
-      "type": "channel",
-      "title": "Jacob Geller",
-      "subtitle": "Video Games × Philosophy × Art",
-      "url": "/creators/#creator-jacob-geller",
-      "issueTag": "#012"
-    },
-    {
-      "type": "channel",
-      "title": "JCS — Criminal Psychology",
-      "subtitle": "True Crime / Analysis",
-      "url": "/creators/#creator-jcs-criminal-psychology",
-      "issueTag": "#007"
-    },
-    {
-      "type": "channel",
-      "title": "Jenny Nicholson",
-      "subtitle": "Long-form comic essay",
-      "url": "/creators/#creator-jenny-nicholson",
-      "issueTag": "#014"
-    },
-    {
-      "type": "channel",
-      "title": "Joe Rogan Experience",
-      "subtitle": "GOOD",
-      "url": "/creators/#creator-joe-rogan-experience",
+      "subtitle": "Ancient History · 87/100 · EXCELLENT",
+      "url": "/reviews/historia-civilis/",
       "issueTag": "#001"
     },
     {
-      "type": "channel",
-      "title": "Johnny Harris",
-      "subtitle": "AVERAGE",
-      "url": "/creators/#creator-johnny-harris",
-      "issueTag": "#011"
+      "type": "review",
+      "title": "Internet Historian",
+      "subtitle": "Internet Culture / Documentary · 87/100 · EXCELLENT",
+      "url": "/reviews/internet-historian/",
+      "issueTag": "#003"
     },
     {
-      "type": "channel",
-      "title": "Joshua Weissman",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-joshua-weissman",
-      "issueTag": "#009"
-    },
-    {
-      "type": "channel",
-      "title": "Kurzgesagt",
-      "subtitle": "Science / Animation",
-      "url": "/creators/#creator-kurzgesagt",
-      "issueTag": "#013"
-    },
-    {
-      "type": "channel",
-      "title": "Legal Eagle",
-      "subtitle": "Law × Pop Culture × Comedy",
-      "url": "/creators/#creator-legal-eagle",
+      "type": "review",
+      "title": "Jacob Geller",
+      "subtitle": "Video Games × Philosophy × Art · 91/100 · ESSENTIAL",
+      "url": "/reviews/jacob-geller/",
       "issueTag": "#012"
     },
     {
-      "type": "channel",
+      "type": "review",
+      "title": "JCS – Criminal Psychology",
+      "subtitle": "True Crime / Analysis · 86/100 · EXCELLENT",
+      "url": "/reviews/jcs-criminal-psychology/",
+      "issueTag": "#007"
+    },
+    {
+      "type": "review",
+      "title": "Jenny Nicholson",
+      "subtitle": "Comedy / Video Essay · 91/100 · ESSENTIAL",
+      "url": "/reviews/jenny-nicholson/",
+      "issueTag": "#014"
+    },
+    {
+      "type": "review",
+      "title": "The Joe Rogan Experience",
+      "subtitle": "Podcast / Long-Form · 70/100 · GOOD",
+      "url": "/reviews/joe-rogan-experience/",
+      "issueTag": "#001"
+    },
+    {
+      "type": "review",
+      "title": "Johnny Harris",
+      "subtitle": "Journalism / Explainer · 64/100 · AVERAGE",
+      "url": "/reviews/johnny-harris/",
+      "issueTag": "#011"
+    },
+    {
+      "type": "review",
+      "title": "Joshua Weissman",
+      "subtitle": "Cooking / Entertainment · 81/100 · EXCELLENT",
+      "url": "/reviews/joshua-weissman/",
+      "issueTag": "#009"
+    },
+    {
+      "type": "review",
+      "title": "Kurzgesagt – In a Nutshell",
+      "subtitle": "Science / Animation · 94/100 · ESSENTIAL",
+      "url": "/reviews/kurzgesagt/",
+      "issueTag": "#001"
+    },
+    {
+      "type": "review",
+      "title": "Legal Eagle",
+      "subtitle": "Law × Pop Culture × Comedy · 84/100 · EXCELLENT",
+      "url": "/reviews/legal-eagle/",
+      "issueTag": "#012"
+    },
+    {
+      "type": "review",
       "title": "Lemmino",
-      "subtitle": "Documentary / Mystery",
-      "url": "/creators/#creator-lemmino",
+      "subtitle": "Documentary / Mystery · 91/100 · ESSENTIAL",
+      "url": "/reviews/lemmino/",
       "issueTag": "#007"
     },
     {
@@ -430,31 +431,31 @@
       "issueTag": null
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Like Stories of Old",
-      "subtitle": "Philosophy / Video Essay",
-      "url": "/creators/#creator-like-stories-of-old",
+      "subtitle": "Philosophy / Video Essay · 86/100 · EXCELLENT",
+      "url": "/reviews/like-stories-of-old/",
       "issueTag": "#013"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Luisito Comunica",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-luisito-comunica",
+      "subtitle": "Travel / Culture / Entertainment · 80/100 · EXCELLENT",
+      "url": "/reviews/luisito-comunica/",
       "issueTag": "#013"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Map Men (Jay and Mark)",
-      "subtitle": "Geography / Comedy",
-      "url": "/creators/#creator-map-men-jay-and-mark",
+      "subtitle": "Geography / Comedy · 85/100 · EXCELLENT",
+      "url": "/reviews/map-men-jay-and-mark/",
       "issueTag": "#009"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Mark Rober",
-      "subtitle": "Engineering / Entertainment",
-      "url": "/creators/#creator-mark-rober",
+      "subtitle": "Engineering / Entertainment · 89/100 · EXCELLENT",
+      "url": "/reviews/mark-rober/",
       "issueTag": "#002"
     },
     {
@@ -465,39 +466,39 @@
       "issueTag": null
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "MrBeast",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-mrbeast",
-      "issueTag": "#004S"
+      "subtitle": "Stunt / Entertainment · 82/100 · EXCELLENT",
+      "url": "/reviews/mrbeast/",
+      "issueTag": "#004"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Nas Daily",
-      "subtitle": "MEDIOCRE",
-      "url": "/creators/#creator-nas-daily",
+      "subtitle": "Travel × Human Stories · 52/100 · MEDIOCRE",
+      "url": "/reviews/nas-daily/",
       "issueTag": "#012"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Nerdwriter1",
-      "subtitle": "Art / Film Analysis",
-      "url": "/creators/#creator-nerdwriter1",
+      "subtitle": "Art / Film Analysis · 86/100 · EXCELLENT",
+      "url": "/reviews/nerdwriter1/",
       "issueTag": "#003"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Nexpo",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-nexpo",
+      "subtitle": "Internet Mystery / Analysis · 80/100 · EXCELLENT",
+      "url": "/reviews/nexpo/",
       "issueTag": "#007"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "NileRed",
-      "subtitle": "Chemistry",
-      "url": "/creators/#creator-nilered",
-      "issueTag": null
+      "subtitle": "Chemistry · 86/100 · EXCELLENT",
+      "url": "/reviews/nilered/",
+      "issueTag": "#001"
     },
     {
       "type": "channel",
@@ -507,31 +508,31 @@
       "issueTag": null
     },
     {
-      "type": "channel",
-      "title": "Oversimplified",
-      "subtitle": "GOOD",
-      "url": "/creators/#creator-oversimplified",
+      "type": "review",
+      "title": "OverSimplified",
+      "subtitle": "History Comedy / Animation · 79/100 · GOOD",
+      "url": "/reviews/oversimplified/",
       "issueTag": "#012"
     },
     {
-      "type": "channel",
-      "title": "penguinz0 (Cr1TiKaL)",
-      "subtitle": "AVERAGE",
-      "url": "/creators/#creator-penguinz0-cr1tikal",
+      "type": "review",
+      "title": "penguinz0 / Cr1TiKaL",
+      "subtitle": "Commentary / Gaming · 65/100 · AVERAGE",
+      "url": "/reviews/penguinz0-cr1tikal/",
       "issueTag": "#007"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Philip DeFranco",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-philip-defranco",
+      "subtitle": "News / Commentary · 84/100 · EXCELLENT",
+      "url": "/reviews/philip-defranco/",
       "issueTag": "#006"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Philosophy Tube",
-      "subtitle": "Political Philosophy / Theatre",
-      "url": "/creators/#creator-philosophy-tube",
+      "subtitle": "Political Philosophy / Theatre · 85/100 · EXCELLENT",
+      "url": "/reviews/philosophy-tube/",
       "issueTag": "#011"
     },
     {
@@ -542,102 +543,102 @@
       "issueTag": null
     },
     {
-      "type": "channel",
-      "title": "Porta dos Fundos 🇧🇷",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-porta-dos-fundos",
+      "type": "review",
+      "title": "Porta dos Fundos",
+      "subtitle": "Sketch Comedy · 82/100 · EXCELLENT",
+      "url": "/reviews/porta-dos-fundos/",
       "issueTag": "#014"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "PragerU",
-      "subtitle": "GAME OVER",
-      "url": "/creators/#creator-prageru",
+      "subtitle": "Political Advocacy / Propaganda · 22/100 · GAME OVER",
+      "url": "/reviews/prageru/",
       "issueTag": "#011"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Primitive Technology",
-      "subtitle": "Maker / Survival",
-      "url": "/creators/#creator-primitive-technology",
-      "issueTag": "#004C"
+      "subtitle": "Maker / Survival · 91/100 · ESSENTIAL",
+      "url": "/reviews/primitive-technology/",
+      "issueTag": "#004"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "React Media (FBE)",
-      "subtitle": "MEDIOCRE",
-      "url": "/creators/#creator-react-media-fbe",
+      "subtitle": "Reaction / Entertainment · 52/100 · MEDIOCRE",
+      "url": "/reviews/react-media-fbe/",
       "issueTag": "#006"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Real Engineering",
-      "subtitle": "Engineering / Education",
-      "url": "/creators/#creator-real-engineering",
-      "issueTag": null
+      "subtitle": "Engineering / Education · 85/100 · EXCELLENT",
+      "url": "/reviews/real-engineering/",
+      "issueTag": "#001"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Rick Beato",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-rick-beato",
+      "subtitle": "Music Analysis / Education · 82/100 · EXCELLENT",
+      "url": "/reviews/rick-beato/",
       "issueTag": "#010"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Ryan George / Pitch Meeting",
-      "subtitle": "Sketch / Format Comedy",
-      "url": "/creators/#creator-ryan-george-pitch-meeting",
+      "subtitle": "Comedy / Structural · 84/100 · EXCELLENT",
+      "url": "/reviews/ryan-george-pitch-meeting/",
       "issueTag": "#014"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Ryan's World",
-      "subtitle": "GAME OVER",
-      "url": "/creators/#creator-ryan-s-world",
-      "issueTag": "#004S"
+      "subtitle": "Kids / Toy · 42/100 · GAME OVER",
+      "url": "/reviews/ryan-s-world/",
+      "issueTag": "#004"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Sam O'Nella Academy",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-sam-o-nella-academy",
+      "subtitle": "History Comedy · 82/100 · EXCELLENT",
+      "url": "/reviews/sam-o-nella-academy/",
       "issueTag": "#012"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Scott The Woz",
-      "subtitle": "Retro Gaming / Comedy",
-      "url": "/creators/#creator-scott-the-woz",
+      "subtitle": "Retro Gaming / Comedy · 86/100 · EXCELLENT",
+      "url": "/reviews/scott-the-woz/",
       "issueTag": "#008"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Sideways",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-sideways",
+      "subtitle": "Film Music / Analysis · 84/100 · EXCELLENT",
+      "url": "/reviews/sideways/",
       "issueTag": "#010"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Smarter Every Day",
-      "subtitle": "Science / Curiosity",
-      "url": "/creators/#creator-smarter-every-day",
-      "issueTag": null
+      "subtitle": "Science / Curiosity · 85/100 · EXCELLENT",
+      "url": "/reviews/smarter-every-day/",
+      "issueTag": "#001"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Some More News",
-      "subtitle": "GOOD",
-      "url": "/creators/#creator-some-more-news",
+      "subtitle": "Political Comedy / News · 79/100 · GOOD",
+      "url": "/reviews/some-more-news/",
       "issueTag": "#011"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Stuff Made Here",
-      "subtitle": "Engineering / Maker",
-      "url": "/creators/#creator-stuff-made-here",
-      "issueTag": null
+      "subtitle": "Engineering / Maker · 86/100 · EXCELLENT",
+      "url": "/reviews/stuff-made-here/",
+      "issueTag": "#001"
     },
     {
       "type": "channel",
@@ -647,17 +648,17 @@
       "issueTag": null
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Tantacrul",
-      "subtitle": "Music Software / Comedy Essay",
-      "url": "/creators/#creator-tantacrul",
+      "subtitle": "Music Software / Comedy Essay · 85/100 · EXCELLENT",
+      "url": "/reviews/tantacrul/",
       "issueTag": "#010"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Tasting History with Max Miller",
-      "subtitle": "History × Cooking",
-      "url": "/creators/#creator-tasting-history-with-max-miller",
+      "subtitle": "History × Cooking · 86/100 · EXCELLENT",
+      "url": "/reviews/tasting-history-with-max-miller/",
       "issueTag": "#012"
     },
     {
@@ -668,52 +669,52 @@
       "issueTag": null
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Technology Connections",
-      "subtitle": "Technology / History",
-      "url": "/creators/#creator-technology-connections",
-      "issueTag": "#004C"
+      "subtitle": "Technology / History · 88/100 · EXCELLENT",
+      "url": "/reviews/technology-connections/",
+      "issueTag": "#004"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "TED-Ed",
-      "subtitle": "Animated Education / Global",
-      "url": "/creators/#creator-ted-ed",
+      "subtitle": "Animated Education / Global · 85/100 · EXCELLENT",
+      "url": "/reviews/ted-ed/",
       "issueTag": "#013"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "The Morphological Cinema",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-the-morphological-cinema",
+      "subtitle": "Underground / Experimental Film · 84/100 · EXCELLENT",
+      "url": "/reviews/the-morphological-cinema/",
       "issueTag": "#005"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "The School of Life",
-      "subtitle": "GOOD",
-      "url": "/creators/#creator-the-school-of-life",
+      "subtitle": "Philosophy / Psychology · 76/100 · GOOD",
+      "url": "/reviews/the-school-of-life/",
       "issueTag": "#013"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "The Slow Mo Guys",
-      "subtitle": "Science / Entertainment",
-      "url": "/creators/#creator-the-slow-mo-guys",
+      "subtitle": "Science / Entertainment · 85/100 · EXCELLENT",
+      "url": "/reviews/the-slow-mo-guys/",
       "issueTag": "#006"
     },
     {
-      "type": "channel",
-      "title": "Theo Von",
-      "subtitle": "Comedy / Podcast",
-      "url": "/creators/#creator-theo-von",
+      "type": "review",
+      "title": "Theo Von / This Past Weekend",
+      "subtitle": "Comedy / Podcast · 87/100 · EXCELLENT",
+      "url": "/reviews/theo-von/",
       "issueTag": "#002"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "TLDR News",
-      "subtitle": "EXCELLENT",
-      "url": "/creators/#creator-tldr-news",
+      "subtitle": "News / Explainer · 83/100 · EXCELLENT",
+      "url": "/reviews/tldr-news/",
       "issueTag": "#011"
     },
     {
@@ -724,52 +725,52 @@
       "issueTag": null
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Townsends",
-      "subtitle": "Historical Living / Cooking",
-      "url": "/creators/#creator-townsends",
+      "subtitle": "Historical Living / Cooking · 90/100 · ESSENTIAL",
+      "url": "/reviews/townsends/",
       "issueTag": "#009"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Veritasium",
-      "subtitle": "Science / Education",
-      "url": "/creators/#creator-veritasium",
-      "issueTag": null
+      "subtitle": "Science / Education · 89/100 · EXCELLENT",
+      "url": "/reviews/veritasium/",
+      "issueTag": "#004"
     },
     {
-      "type": "channel",
-      "title": "Videogamedunkey",
-      "subtitle": "Gaming / Commentary",
-      "url": "/creators/#creator-videogamedunkey",
+      "type": "review",
+      "title": "videogamedunkey",
+      "subtitle": "Gaming / Commentary · 84/100 · EXCELLENT",
+      "url": "/reviews/videogamedunkey/",
       "issueTag": "#007"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Vsauce",
-      "subtitle": "Science / Philosophy",
-      "url": "/creators/#creator-vsauce",
-      "issueTag": null
+      "subtitle": "Science / Philosophy · 89/100 · EXCELLENT",
+      "url": "/reviews/vsauce/",
+      "issueTag": "#004"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "WatchMojo",
-      "subtitle": "GAME OVER",
-      "url": "/creators/#creator-watchmojo",
+      "subtitle": "List / Aggregation · 42/100 · GAME OVER",
+      "url": "/reviews/watchmojo/",
       "issueTag": "#008"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Wendover Productions",
-      "subtitle": "Logistics / Explainer",
-      "url": "/creators/#creator-wendover-productions",
-      "issueTag": null
+      "subtitle": "Logistics / Explainer · 84/100 · EXCELLENT",
+      "url": "/reviews/wendover-productions/",
+      "issueTag": "#001"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Whang!",
-      "subtitle": "Internet History / Archaeology",
-      "url": "/creators/#creator-whang",
+      "subtitle": "Internet History / Archaeology · 84/100 · EXCELLENT",
+      "url": "/reviews/whang/",
       "issueTag": "#008"
     },
     {

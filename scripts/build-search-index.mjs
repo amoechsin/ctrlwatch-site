@@ -5,6 +5,7 @@
  * Sources:
  *   src/data/issues.js                          (issue titles + subtitles)
  *   src/data/creators.json                      (channel names)
+ *   src/content/reviews/*.md                     (canonical Player Profiles)
  *   docs/continuity/CTRLWATCH_Continuity_Tracker.md
  *     - "## TIME CAPSULE SUBJECTS — COMPLETE LIST"
  *     - "## BOSS FIGHTS — COMPLETE LIST"
@@ -18,7 +19,11 @@
  *     ]
  *   }
  *
- * type ∈ "issue" | "channel" | "time-capsule" | "boss-fight" | "special"
+ * type ∈ "issue" | "review" | "channel" | "time-capsule" | "boss-fight" | "special"
+ *
+ * A channel with a canonical /reviews/ page is emitted as a "review" (linking
+ * to that page); channels without one stay as "channel" (linking to the
+ * /creators/ index) — one entry per channel, no duplicates.
  *
  * Run: `npm run build:search`. Re-run after editing the tracker or
  * issues.js. Fails loudly on tracker parse errors.
@@ -28,11 +33,12 @@
  * Revisit when the tracker has a Letters section.
  */
 
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile, readdir } from 'node:fs/promises';
 import { issues } from '../src/data/issues.js';
 
 const TRACKER = 'docs/continuity/CTRLWATCH_Continuity_Tracker.md';
 const CREATORS = 'src/data/creators.json';
+const REVIEWS_DIR = 'src/content/reviews';
 const OUT = 'src/data/search-index.json';
 
 const TRACKER_ALIASES = {
@@ -63,6 +69,27 @@ const lines = src.split('\n');
 
 const creatorsRaw = JSON.parse(await readFile(CREATORS, 'utf8'));
 
+/* ---- Canonical reviews (frontmatter map, slug → fields) ---- */
+function fmField(fm, key) {
+  const m = fm.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
+  return m ? m[1].trim().replace(/^["']|["']$/g, '') : null;
+}
+const reviewBySlug = new Map();
+for (const f of (await readdir(REVIEWS_DIR)).filter((x) => x.endsWith('.md'))) {
+  const raw = await readFile(`${REVIEWS_DIR}/${f}`, 'utf8');
+  const m = raw.match(/^---\n([\s\S]*?)\n---/);
+  if (!m) { warn(`review ${f} — no frontmatter, skipped`); continue; }
+  const fm = m[1];
+  if (fmField(fm, 'draft') === 'true') continue;
+  reviewBySlug.set(f.replace(/\.md$/, ''), {
+    channel: fmField(fm, 'channel'),
+    genre: fmField(fm, 'genre') || '',
+    overall: fmField(fm, 'overall') || '',
+    verdict: fmField(fm, 'verdict') || '',
+    issue: fmField(fm, 'originatingIssue'),
+  });
+}
+
 function findSection(re, startIdx = 0) {
   for (let i = startIdx; i < lines.length; i++) {
     if (re.test(lines[i])) return i;
@@ -83,20 +110,37 @@ for (const i of issues.filter((x) => x.published)) {
   });
 }
 
-/* ---- Channels (from creators.json) ---- */
+/* ---- Channels (from creators.json) ----
+ * If the channel has a canonical /reviews/ page, emit it as a "review"
+ * (richer destination + score/verdict); otherwise a "channel" → /creators/.
+ */
 for (const c of creatorsRaw.creators) {
   // Surface the most recent / current issue tag if available, for display.
   const lastIssue =
     c.reviews.length ? c.reviews[c.reviews.length - 1].issue
     : c.reEvaluations.length ? c.reEvaluations[c.reEvaluations.length - 1].issue
     : null;
-  entries.push({
-    type: 'channel',
-    title: c.name,
-    subtitle: c.genre || (c.verdict || ''),
-    url: `/creators/#creator-${c.slug}`,
-    issueTag: lastIssue,
-  });
+  const rev = reviewBySlug.get(c.slug);
+  if (rev) {
+    const subtitle = [rev.genre, rev.overall ? `${rev.overall}/100` : '', rev.verdict]
+      .filter(Boolean)
+      .join(' · ');
+    entries.push({
+      type: 'review',
+      title: rev.channel || c.name,
+      subtitle,
+      url: `/reviews/${c.slug}/`,
+      issueTag: rev.issue || lastIssue,
+    });
+  } else {
+    entries.push({
+      type: 'channel',
+      title: c.name,
+      subtitle: c.genre || (c.verdict || ''),
+      url: `/creators/#creator-${c.slug}`,
+      issueTag: lastIssue,
+    });
+  }
 }
 
 /* ---- Time Capsule subjects ---- */
@@ -192,6 +236,7 @@ else {
 const totals = {
   total: entries.length,
   issue: entries.filter((e) => e.type === 'issue').length,
+  review: entries.filter((e) => e.type === 'review').length,
   channel: entries.filter((e) => e.type === 'channel').length,
   'time-capsule': entries.filter((e) => e.type === 'time-capsule').length,
   'boss-fight': entries.filter((e) => e.type === 'boss-fight').length,
