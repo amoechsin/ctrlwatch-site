@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T22:19:45.088Z",
+  "generatedAt": "2026-05-30T11:53:47.003Z",
   "totals": {
     "total": 231,
     "issue": 14,
@@ -152,14 +152,14 @@
     {
       "type": "channel",
       "title": "Andrew Huberman",
-      "subtitle": "AVERAGE",
+      "subtitle": "GOOD",
       "url": "/creators/#creator-andrew-huberman",
       "issueTag": "#002"
     },
     {
       "type": "channel",
       "title": "Answer in Progress",
-      "subtitle": "GOOD",
+      "subtitle": "EXCELLENT",
       "url": "/creators/#creator-answer-in-progress",
       "issueTag": "#012"
     },
@@ -194,7 +194,7 @@
     {
       "type": "channel",
       "title": "Caddicarus",
-      "subtitle": "AVERAGE",
+      "subtitle": "GOOD",
       "url": "/creators/#creator-caddicarus",
       "issueTag": "#008"
     },
@@ -299,7 +299,7 @@
     {
       "type": "channel",
       "title": "Eddy Burback",
-      "subtitle": "GOOD",
+      "subtitle": "EXCELLENT",
       "url": "/creators/#creator-eddy-burback",
       "issueTag": "#014"
     },
@@ -327,7 +327,7 @@
     {
       "type": "channel",
       "title": "Forgotten Formats",
-      "subtitle": "GOOD",
+      "subtitle": "EXCELLENT",
       "url": "/creators/#creator-forgotten-formats",
       "issueTag": "#005"
     },
@@ -383,21 +383,21 @@
     {
       "type": "channel",
       "title": "Joe Rogan Experience",
-      "subtitle": "AVERAGE",
+      "subtitle": "GOOD",
       "url": "/creators/#creator-joe-rogan-experience",
       "issueTag": "#001"
     },
     {
       "type": "channel",
       "title": "Johnny Harris",
-      "subtitle": "MEDIOCRE",
+      "subtitle": "AVERAGE",
       "url": "/creators/#creator-johnny-harris",
       "issueTag": "#011"
     },
     {
       "type": "channel",
       "title": "Joshua Weissman",
-      "subtitle": "GOOD",
+      "subtitle": "EXCELLENT",
       "url": "/creators/#creator-joshua-weissman",
       "issueTag": "#009"
     },
@@ -439,7 +439,7 @@
     {
       "type": "channel",
       "title": "Luisito Comunica",
-      "subtitle": "GOOD",
+      "subtitle": "EXCELLENT",
       "url": "/creators/#creator-luisito-comunica",
       "issueTag": "#013"
     },
@@ -467,7 +467,7 @@
     {
       "type": "channel",
       "title": "MrBeast",
-      "subtitle": "GOOD",
+      "subtitle": "EXCELLENT",
       "url": "/creators/#creator-mrbeast",
       "issueTag": "#004S"
     },
@@ -488,7 +488,7 @@
     {
       "type": "channel",
       "title": "Nexpo",
-      "subtitle": "GOOD",
+      "subtitle": "EXCELLENT",
       "url": "/creators/#creator-nexpo",
       "issueTag": "#007"
     },
@@ -523,7 +523,7 @@
     {
       "type": "channel",
       "title": "Philip DeFranco",
-      "subtitle": "GOOD",
+      "subtitle": "EXCELLENT",
       "url": "/creators/#creator-philip-defranco",
       "issueTag": "#006"
     },
@@ -544,7 +544,7 @@
     {
       "type": "channel",
       "title": "Porta dos Fundos 🇧🇷",
-      "subtitle": "GOOD",
+      "subtitle": "EXCELLENT",
       "url": "/creators/#creator-porta-dos-fundos",
       "issueTag": "#014"
     },
@@ -579,7 +579,7 @@
     {
       "type": "channel",
       "title": "Rick Beato",
-      "subtitle": "GOOD",
+      "subtitle": "EXCELLENT",
       "url": "/creators/#creator-rick-beato",
       "issueTag": "#010"
     },
@@ -600,7 +600,7 @@
     {
       "type": "channel",
       "title": "Sam O'Nella Academy",
-      "subtitle": "GOOD",
+      "subtitle": "EXCELLENT",
       "url": "/creators/#creator-sam-o-nella-academy",
       "issueTag": "#012"
     },
@@ -614,7 +614,7 @@
     {
       "type": "channel",
       "title": "Sideways",
-      "subtitle": "GOOD",
+      "subtitle": "EXCELLENT",
       "url": "/creators/#creator-sideways",
       "issueTag": "#010"
     },
@@ -684,7 +684,7 @@
     {
       "type": "channel",
       "title": "The Morphological Cinema",
-      "subtitle": "GOOD",
+      "subtitle": "EXCELLENT",
       "url": "/creators/#creator-the-morphological-cinema",
       "issueTag": "#005"
     },
@@ -712,7 +712,7 @@
     {
       "type": "channel",
       "title": "TLDR News",
-      "subtitle": "GOOD",
+      "subtitle": "EXCELLENT",
       "url": "/creators/#creator-tldr-news",
       "issueTag": "#011"
     },

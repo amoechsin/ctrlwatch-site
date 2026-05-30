@@ -25,11 +25,14 @@ import { readFile, writeFile } from 'node:fs/promises';
 const TRACKER = 'docs/continuity/CTRLWATCH_Continuity_Tracker.md';
 const OUT = 'src/data/creators.json';
 
+// Canonical verdict bands (CLAUDE.md / ctrlwatch-player-profile):
+// 90–100 ESSENTIAL · 80–89 EXCELLENT · 70–79 GOOD · 60–69 AVERAGE ·
+// 50–59 MEDIOCRE · <50 GAME OVER.
 const VERDICT_THRESHOLDS = [
   { min: 90, verdict: 'ESSENTIAL' },
-  { min: 85, verdict: 'EXCELLENT' },
-  { min: 75, verdict: 'GOOD' },
-  { min: 65, verdict: 'AVERAGE' },
+  { min: 80, verdict: 'EXCELLENT' },
+  { min: 70, verdict: 'GOOD' },
+  { min: 60, verdict: 'AVERAGE' },
   { min: 50, verdict: 'MEDIOCRE' },
   { min: 0,  verdict: 'GAME OVER' },
 ];
