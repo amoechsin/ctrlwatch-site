@@ -1,0 +1,106 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import creatorsData from '../../data/creators.json';
+
+const entries = (await getCollection('reviews')).filter((e) => !e.data.draft);
+
+const rankBySlug = new Map(
+  creatorsData.creators
+    .filter((c) => c.status === 'in-top-50')
+    .map((c) => [c.slug, c.currentRank]),
+);
+
+// Sort: Top 50 members by rank first, then the rest by score desc.
+const sorted = [...entries].sort((a, b) => {
+  const ra = rankBySlug.get(a.id) ?? 9999;
+  const rb = rankBySlug.get(b.id) ?? 9999;
+  if (ra !== rb) return ra - rb;
+  return b.data.overall - a.data.overall;
+});
+
+const title = 'Player Profiles — Channel Reviews | CTRL+WATCH';
+const description =
+  'Every CTRL+WATCH Player Profile: full channel reviews scored 0-100 across five axes. Opinionated, evidence-based, argue-with-it criticism.';
+
+function verdictClass(v: string) {
+  return 'v-' + v.toLowerCase().replace(/\s+/g, '');
+}
+---
+
+<BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&display=swap" />
+  </Fragment>
+
+  <section class="reviews-index">
+    <div class="container">
+      <header class="ri-header">
+        <h1 class="ri-title">▶ PLAYER PROFILES</h1>
+        <p class="ri-tagline">{entries.length} CHANNEL{entries.length === 1 ? '' : 'S'} REVIEWED · SCORED 0–100 · NO PARTICIPATION TROPHIES</p>
+        <p class="ri-blurb">
+          Full reviews — 700+ words and a five-axis scorecard each. Canonical home for every channel we've put a number on.
+          <a href="/creators/">The full index of every channel ever mentioned →</a>
+        </p>
+      </header>
+
+      <ul class="ri-list">
+        {sorted.map((e) => {
+          const rank = rankBySlug.get(e.id);
+          return (
+            <li class="ri-row">
+              <a class="ri-link" href={`/reviews/${e.id}/`}>
+                <span class="ri-score">{e.data.overall}</span>
+                <span class="ri-main">
+                  <span class="ri-name">{e.data.channel}</span>
+                  <span class="ri-genre">{e.data.genre}</span>
+                </span>
+                <span class={`ri-verdict ${verdictClass(e.data.verdict)}`}>{e.data.verdict}</span>
+                <span class="ri-rank">{rank ? `#${rank}` : '—'}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .reviews-index { padding: var(--space-xl) 0; min-height: 60vh; }
+  .ri-header { border-bottom: 1px solid var(--border); padding-bottom: var(--space-md); margin-bottom: var(--space-lg); }
+  .ri-title { font-size: var(--text-2xl); color: var(--text-primary); letter-spacing: 0.05em; margin-bottom: var(--space-sm); }
+  .ri-tagline { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--green); letter-spacing: 0.12em; text-shadow: var(--glow-green); margin-bottom: var(--space-md); }
+  .ri-blurb { font-family: 'Share Tech Mono', monospace; font-size: var(--text-md); color: var(--text-secondary); line-height: 1.6; max-width: 720px; }
+  .ri-blurb a { color: var(--cyan); text-decoration: none; }
+
+  .ri-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+  .ri-link {
+    display: grid;
+    grid-template-columns: 56px 1fr 110px 60px;
+    gap: var(--space-md);
+    align-items: center;
+    padding: var(--space-sm) var(--space-xs);
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: background 0.12s ease;
+  }
+  .ri-link:hover { background: rgba(0,255,65,0.03); }
+  .ri-score { font-family: 'VT323', monospace; font-size: 30px; color: var(--cyan); line-height: 1; }
+  .ri-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .ri-name { font-family: 'Share Tech Mono', monospace; font-size: var(--text-md); color: var(--text-primary); }
+  .ri-genre { font-family: 'Share Tech Mono', monospace; font-size: var(--text-xs); color: var(--text-muted); }
+  .ri-verdict { font-family: 'Press Start 2P', monospace; font-size: 8px; letter-spacing: 0.1em; white-space: nowrap; }
+  .ri-rank { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--green); text-align: right; }
+  .v-essential { color: var(--yellow); }
+  .v-excellent { color: var(--green); }
+  .v-good { color: var(--cyan); }
+  .v-average { color: var(--text-secondary); }
+  .v-mediocre { color: var(--orange); }
+  .v-gameover { color: var(--red); }
+
+  @media (max-width: 768px) {
+    .ri-link { grid-template-columns: 44px 1fr 56px; }
+    .ri-verdict { display: none; }
+  }
+</style>

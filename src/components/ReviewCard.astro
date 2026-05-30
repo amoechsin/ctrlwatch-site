@@ -1,0 +1,81 @@
+---
+// Player Profile scorecard — ports the ctrlwatch-player-profile `score-card`
+// markup/CSS into the Astro design system. Driven by the reviews collection
+// schema, so the rendered bars always match the validated axis scores.
+interface Axes {
+  contentQuality: number;
+  consistency: number;
+  replayValue: number;
+  community: number;
+  xFactor: number;
+}
+interface Props {
+  channel: string;
+  overall: number;
+  verdict: string;
+  axes: Axes;
+}
+const { channel, overall, verdict, axes } = Astro.props;
+
+const CATEGORIES: [string, number][] = [
+  ['Content Quality', axes.contentQuality],
+  ['Consistency', axes.consistency],
+  ['Replay Value', axes.replayValue],
+  ['Community', axes.community],
+  ['X-Factor', axes.xFactor],
+];
+
+// Bar color tier — matches issue HTML s-NN classes (floor to ten, 40–90).
+const tier = (s: number) => Math.min(90, Math.max(40, Math.floor(s / 10) * 10));
+const verdictClass = 'verdict-' + verdict.toLowerCase().replace(/\s+/g, '');
+---
+
+<div class="score-card">
+  <div class="score-header">
+    <span class="channel-name">{channel}</span>
+    <span class="overall-score">{overall}<span class="denom">/100</span></span>
+  </div>
+  <div class="score-bars">
+    {CATEGORIES.map(([label, s]) => (
+      <div class="category">
+        <span class="cat-label">{label}</span>
+        <div class="bar-track"><div class={`bar-fill s-${tier(s)}`} style={`width:${s}%`}></div></div>
+        <span class="cat-score">{s}</span>
+      </div>
+    ))}
+  </div>
+  <div class={`verdict-banner ${verdictClass}`}>▌ ▌ ▌&nbsp;&nbsp;{verdict}&nbsp;&nbsp;▌ ▌ ▌</div>
+</div>
+
+<style>
+  .score-card { background: var(--bg-card); border: 2px solid var(--border); margin: 32px 0; padding: 28px; }
+  .score-header { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px; border-bottom: 2px solid var(--border); flex-wrap: wrap; gap: 12px; }
+  .channel-name { font-family: 'Press Start 2P', monospace; font-size: 13px; color: var(--text-primary); letter-spacing: 0.05em; }
+  .overall-score { font-family: 'VT323', monospace; font-size: 64px; color: var(--cyan); text-shadow: var(--glow-cyan); line-height: 1; }
+  .overall-score .denom { font-size: 28px; color: var(--text-muted); }
+  .score-bars { padding: 20px 0; }
+  .category { display: grid; grid-template-columns: 160px 1fr 60px; align-items: center; gap: 12px; padding: 8px 0; }
+  .cat-label { font-family: 'Exo 2', sans-serif; font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+  .bar-track { background: rgba(255,255,255,0.05); height: 14px; border: 1px solid var(--border); position: relative; overflow: hidden; }
+  .bar-fill { height: 100%; transition: width 0.3s; }
+  .bar-fill.s-90 { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+  .bar-fill.s-80 { background: var(--green); }
+  .bar-fill.s-70 { background: var(--cyan); }
+  .bar-fill.s-60 { background: var(--text-secondary); }
+  .bar-fill.s-50 { background: var(--orange); }
+  .bar-fill.s-40 { background: var(--red); }
+  .cat-score { font-family: 'VT323', monospace; font-size: 24px; color: var(--text-primary); text-align: right; }
+  .verdict-banner { font-family: 'Press Start 2P', monospace; font-size: 14px; padding: 16px; text-align: center; letter-spacing: 3px; margin-top: 16px; border: 2px solid; }
+  .verdict-essential { color: var(--yellow); border-color: var(--yellow); text-shadow: var(--glow-yellow); }
+  .verdict-excellent { color: var(--green); border-color: var(--green); text-shadow: var(--glow-green); }
+  .verdict-good { color: var(--cyan); border-color: var(--cyan); text-shadow: var(--glow-cyan); }
+  .verdict-average { color: var(--text-secondary); border-color: var(--text-secondary); }
+  .verdict-mediocre { color: var(--orange); border-color: var(--orange); }
+  .verdict-gameover { color: var(--red); border-color: var(--red); }
+
+  @media (max-width: 768px) {
+    .category { grid-template-columns: 110px 1fr 44px; gap: 8px; }
+    .cat-label { font-size: 11px; }
+    .overall-score { font-size: 48px; }
+  }
+</style>

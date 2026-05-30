@@ -1,14 +1,32 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { issues } from './src/data/issues.js';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const SITE = 'https://ctrl-watch.xyz';
 const issuePages = issues
   .filter((i) => i.published)
   .map((i) => `${SITE}/issues/${i.slug}/`);
-const extraPages = [`${SITE}/creators/`, `${SITE}/start/`, `${SITE}/top50/`];
+
+// Canonical Player Profile pages — one per markdown file in the reviews
+// collection. Read from disk so the sitemap tracks the content folder.
+let reviewPages = [];
+try {
+  reviewPages = (await readdir('./src/content/reviews'))
+    .filter((f) => f.endsWith('.md'))
+    .map((f) => `${SITE}/reviews/${f.replace(/\.md$/, '')}/`);
+} catch {
+  /* no reviews yet */
+}
+
+const extraPages = [
+  `${SITE}/creators/`,
+  `${SITE}/start/`,
+  `${SITE}/top50/`,
+  `${SITE}/reviews/`,
+  ...reviewPages,
+];
 
 /* Dev-server middleware. Astro's dev server returns 404 for
    trailing-slash directory paths that live in `public/` (e.g.

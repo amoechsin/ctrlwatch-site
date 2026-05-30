@@ -1,0 +1,212 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReviewCard from '../../components/ReviewCard.astro';
+import { issues } from '../../data/issues.js';
+import creatorsData from '../../data/creators.json';
+
+export async function getStaticPaths() {
+  const entries = (await getCollection('reviews')).filter((e) => !e.data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry, all: entries },
+  }));
+}
+
+const { entry, all } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+
+const SITE = 'https://ctrl-watch.xyz';
+
+// Slug → display name for related links (only review pages that actually exist
+// — never link to a /reviews/ 404).
+const nameBySlug = new Map(all.map((e) => [e.id, e.data.channel]));
+const related = d.related
+  .filter((s) => nameBySlug.has(s) && s !== entry.id)
+  .map((s) => ({ slug: s, name: nameBySlug.get(s)! }));
+
+// Current Top 50 standing from the editorial source of truth.
+const creator = creatorsData.creators.find((c) => c.slug === entry.id);
+const currentRank =
+  creator && creator.status === 'in-top-50' ? creator.currentRank : null;
+
+// Originating-issue link (mirrors creators.astro / top50.astro).
+const publishedSlugs = new Set(issues.filter((i) => i.published).map((i) => i.slug));
+function issueUrl(tag: string): string | null {
+  const stripped = tag.replace(/^#/, '').replace(/[A-Za-z]+$/, '');
+  return publishedSlugs.has(stripped) ? `/issues/${stripped}/` : null;
+}
+const originUrl = issueUrl(d.originatingIssue);
+
+// Title: skill format, but fall back to a shorter form when the channel name
+// would push the title past 60 chars.
+const fullTitle = `${d.channel} Review — Score ${d.overall}/100 | CTRL+WATCH`;
+const title = fullTitle.length <= 60 ? fullTitle : `${d.channel} Review | CTRL+WATCH`;
+const description =
+  `${d.channel} scores ${d.overall}/100 — ${d.verdict} in CTRL+WATCH's Player Profile. ${d.genre}.`.slice(
+    0,
+    155,
+  );
+
+// Review JSON-LD. reviewRating carries the overall (schema.org's single-review
+// shape); the 5 axes live in the rendered scorecard. itemReviewed is the
+// channel as a CreativeWork, with the creator as a Person when known.
+const itemReviewed: Record<string, unknown> = {
+  '@type': 'CreativeWork',
+  name: d.channel,
+  ...(d.genre ? { genre: d.genre } : {}),
+  ...(d.creator ? { creator: { '@type': 'Person', name: d.creator } } : {}),
+};
+const reviewJson = {
+  '@context': 'https://schema.org',
+  '@type': 'Review',
+  name: `${d.channel} Review`,
+  url: `${SITE}/reviews/${entry.id}/`,
+  datePublished: d.updated.toISOString().slice(0, 10),
+  author: { '@type': 'Organization', name: 'CTRL+WATCH', url: `${SITE}/` },
+  publisher: { '@type': 'Organization', name: 'CTRL+WATCH' },
+  reviewRating: {
+    '@type': 'Rating',
+    ratingValue: d.overall,
+    bestRating: 100,
+    worstRating: 0,
+    alternateName: d.verdict,
+  },
+  itemReviewed,
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,600;1,400&family=Russo+One&family=VT323&display=swap"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(reviewJson)} />
+  </Fragment>
+
+  <article class="review-page">
+    <div class="container">
+      <nav class="review-breadcrumb" aria-label="Breadcrumb">
+        <a href="/reviews/">REVIEWS</a> <span>/</span> <span>{d.channel}</span>
+      </nav>
+
+      <header class="review-header">
+        <p class="review-kicker">▌ PLAYER PROFILE ▌</p>
+        <h1 class="review-title">{d.channel}</h1>
+        {d.dateline && <p class="review-dateline">{d.dateline}</p>}
+        <div class="review-meta">
+          <span class={`verdict-chip v-${d.verdict.toLowerCase().replace(/\s+/g, '')}`}>{d.verdict} · {d.overall}/100</span>
+          {currentRank && <a class="rank-chip" href="/top50/">▲ #{currentRank} IN THE TOP 50</a>}
+          {originUrl && <a class="issue-chip" href={originUrl}>FIRST REVIEWED IN {d.originatingIssue}</a>}
+        </div>
+      </header>
+
+      <div class="review-body prose">
+        <Content />
+      </div>
+
+      <ReviewCard channel={d.channel} overall={d.overall} verdict={d.verdict} axes={d.axes} />
+
+      {related.length > 0 && (
+        <section class="review-related">
+          <h2 class="related-title">RELATED PROFILES</h2>
+          <ul class="related-list">
+            {related.map((r) => (
+              <li><a href={`/reviews/${r.slug}/`}>{r.name}</a></li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <p class="review-foot">
+        <a href="/top50/">◀ See the live Top 50</a> · <a href="/creators/">Every channel reviewed →</a>
+      </p>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .review-page { padding: var(--space-xl) 0; min-height: 60vh; }
+
+  .review-breadcrumb {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: var(--space-lg);
+  }
+  .review-breadcrumb a { color: var(--cyan); text-decoration: none; }
+  .review-breadcrumb span { margin: 0 6px; }
+
+  .review-header { border-bottom: 1px solid var(--border); padding-bottom: var(--space-md); margin-bottom: var(--space-lg); }
+  .review-kicker { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--magenta); letter-spacing: 0.15em; margin-bottom: var(--space-sm); }
+  .review-title { font-size: var(--text-3xl); color: var(--text-primary); letter-spacing: 0.02em; margin-bottom: var(--space-sm); }
+  .review-dateline { font-family: 'VT323', monospace; font-size: 18px; color: var(--text-secondary); margin-bottom: var(--space-md); }
+
+  .review-meta { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; }
+  .verdict-chip, .rank-chip, .issue-chip {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    padding: 6px 8px;
+    border: 1px solid currentColor;
+    text-decoration: none;
+  }
+  .rank-chip { color: var(--yellow); }
+  .issue-chip { color: var(--cyan); }
+  .v-essential { color: var(--yellow); }
+  .v-excellent { color: var(--green); }
+  .v-good { color: var(--cyan); }
+  .v-average { color: var(--text-secondary); }
+  .v-mediocre { color: var(--orange); }
+  .v-gameover { color: var(--red); }
+
+  /* Body prose — Exo 2, generous measure */
+  .review-body {
+    font-family: 'Exo 2', sans-serif;
+    font-size: var(--text-md);
+    line-height: 1.75;
+    color: var(--text-secondary);
+    max-width: 720px;
+  }
+  .review-body :global(p) { margin: 0 0 1.2em; }
+  .review-body :global(h4) {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--text-primary);
+    letter-spacing: 0.08em;
+    margin: 2em 0 1em;
+  }
+  .review-body :global(strong) { color: var(--text-primary); }
+  .review-body :global(em) { color: var(--text-primary); font-style: italic; }
+  .review-body :global(blockquote) {
+    font-family: 'Russo One', sans-serif;
+    font-size: 1.4rem;
+    line-height: 1.4;
+    color: var(--cyan);
+    border-left: 4px solid var(--magenta);
+    padding: 18px 26px;
+    margin: 2em 0;
+    background: rgba(0,240,255,0.05);
+    font-style: italic;
+  }
+  .review-body :global(blockquote p) { margin: 0; }
+
+  .review-related { margin: var(--space-xl) 0 var(--space-lg); border-top: 1px solid var(--border); padding-top: var(--space-md); }
+  .related-title { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 0.15em; margin-bottom: var(--space-md); }
+  .related-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+  .related-list a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+    color: var(--cyan);
+    border: 1px solid var(--cyan);
+    padding: 8px 12px;
+    text-decoration: none;
+  }
+  .related-list a:hover { background: var(--cyan); color: var(--bg); }
+
+  .review-foot { font-family: 'Share Tech Mono', monospace; font-size: var(--text-sm); color: var(--text-muted); margin-top: var(--space-lg); }
+  .review-foot a { color: var(--cyan); text-decoration: none; }
+</style>

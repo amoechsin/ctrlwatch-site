@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { issues } from '../data/issues.js';
 import creatorsData from '../data/creators.json';
@@ -41,6 +42,14 @@ const SITE = 'https://ctrl-watch.xyz';
 const top50 = (creatorsData.creators as Creator[])
   .filter((c) => c.status === 'in-top-50')
   .sort((a, b) => (a.currentRank ?? 999) - (b.currentRank ?? 999));
+
+// Channels with a published canonical Player Profile — these get a /reviews/
+// link and an ItemList item.url. Others stay name-only (never link to a 404).
+const reviewSlugs = new Set(
+  (await getCollection('reviews')).filter((e) => !e.data.draft).map((e) => e.id),
+);
+const reviewUrl = (slug: string) =>
+  reviewSlugs.has(slug) ? `/reviews/${slug}/` : null;
 
 // Issue-tag → URL map (mirrors creators.astro). Tracker uses #004S
 // (Spectacle, published as canonical #004) and #004C (Craft, unpublished).
@@ -101,6 +110,7 @@ const itemListJson = {
     '@type': 'ListItem',
     position: c.currentRank,
     name: c.name,
+    ...(reviewUrl(c.slug) ? { url: `${SITE}${reviewUrl(c.slug)}` } : {}),
   })),
 };
 ---
@@ -127,15 +137,20 @@ const itemListJson = {
       <ol class="top50-list" aria-label="Top 50 YouTube channels ranked">
         {top50.map((c) => {
           const link = latestIssueLink(c);
+          const rUrl = reviewUrl(c.slug);
+          // Channel name links to its canonical Player Profile when one exists,
+          // else to the most-recent issue it appeared in, else plain text.
+          const nameHref = rUrl ?? link?.href ?? null;
           return (
             <li class="top50-row" id={`rank-${c.currentRank}`}>
               <span class="cell-rank" data-label="RANK">#{c.currentRank}</span>
               <span class="cell-name" data-label="CHANNEL">
-                {link ? (
-                  <a class="channel-link" href={link.href}>{c.name}</a>
+                {nameHref ? (
+                  <a class="channel-link" href={nameHref}>{c.name}</a>
                 ) : (
                   <span class="channel-name">{c.name}</span>
                 )}
+                {rUrl && <span class="has-review" title="Full Player Profile">★</span>}
               </span>
               <span class={`cell-score score-${verdictClass(c.verdict).replace('verdict-', '')}`} data-label="SCORE">
                 {c.currentScore != null ? c.currentScore : '—'}
@@ -233,6 +248,7 @@ const itemListJson = {
   .cell-name { font-size: var(--text-md); color: var(--text-primary); word-break: break-word; }
   .channel-link { color: var(--text-primary); text-decoration: none; }
   .channel-link:hover { color: var(--cyan); text-shadow: var(--glow-cyan); }
+  .has-review { color: var(--yellow); font-size: 11px; margin-left: 6px; }
 
   .cell-score {
     font-family: 'Press Start 2P', monospace;
