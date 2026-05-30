@@ -91,6 +91,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <!-- GoatCounter analytics -->
     <script data-goatcounter="https://ctrlwatch.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
+
+    <!-- Per-page head extras (structured data, etc.) -->
+    <slot name="head" />
   </head>
   <body class="crt">
     <Nav />
