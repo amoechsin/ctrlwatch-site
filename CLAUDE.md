@@ -203,7 +203,7 @@ Everything below is the build-and-ship runbook. Do not let it bleed into editori
 # BUILD & CONTENT PIPELINE
 
 **Adding a new issue (run in order):**
-`issues.js` update → `npm run covers` → `npm run inject:og` → `npm run inject:seo` → `npm run inject:shell` → update tracker → `npm run build:creators` → `npm run build:search` → commit.
+`issues.js` update → `npm run covers` → `npm run inject:og` → `npm run inject:seo` → `npm run inject:top50link` → `npm run inject:shell` → update tracker → `npm run build:creators` → `npm run build:search` → commit.
 
 **Source of truth split:** `src/data/issues.js` is the **platform** source of truth; the continuity tracker is the **editorial** source of truth (read-only from platform code).
 
@@ -213,6 +213,7 @@ Everything below is the build-and-ship runbook. Do not let it bleed into editori
 - `npm run covers` regenerates `public/covers/NNN-square.png` (1080×1080, archive grid) and `NNN-og.png` (1200×630, social) for every published issue in `issues.js`, plus `public/og-default.png`. Driven by `scripts/generate-covers.mjs` (satori + sharp); fonts cached in `scripts/fonts/`.
 - `npm run inject:og` writes/refreshes a fenced OG+Twitter meta block inside each issue HTML `<head>`. Re-run after editing `issues.js` titles/subtitles.
 - `npm run inject:seo` (`scripts/inject-issue-seo.mjs`) writes/refreshes a fenced `<!-- ctrlwatch:seo:start -->` block in each issue `<head>`: `<meta name="description">` (reuses `issue.subtitle`), self-referential `<link rel="canonical">`, and a Top 50 `ItemList` JSON-LD parsed from that issue's own `<table class="top50-table">`. Idempotent; same fenced-block pattern as `inject:og`. Note: only the current issue template (#014+) uses the `td.rank` markup the ItemList parser expects — legacy issues (#001–#013, `td.rank-num`/`td.channel-cell`) get meta+canonical only, ItemList omitted. ListItems are position+name (no `item.url`) until canonical `/reviews/` pages exist.
+- `npm run inject:top50link` (`scripts/inject-issue-top50link.mjs`) writes/refreshes a fenced `<!-- ctrlwatch:top50link:start -->` block at the top of each issue's High Scores section — an inline-styled "see the live Top 50" banner linking to `/top50/` (internal-linking signal; the issue ranking is a snapshot, `/top50/` is canonical). Section anchor varies by template (`id` = `high-scores`/`top-50`/`highscores`); #003 and #010 have no recognizable anchor and are skipped (nav link only). Idempotent; inline styles so it never depends on a given issue's CSS.
 - Per-issue cover PNGs are committed; do NOT generate at Netlify build time.
 
 **Creator Index (`/creators`):**
