@@ -9,15 +9,15 @@ scoresA:
   replayValue: 88
   community: 85
   xFactor: 90
-  overall: 92
+  overall: 89
 scoresB:
   contentQuality: 92
   consistency: 65
   replayValue: 90
   community: 88
   xFactor: 95
-  overall: 64
-description: "Boss Fight: Veritasium vs Vsauce — science education spectacle. Veritasium wins 92–64; consistency and accessibility decide it."
+  overall: 89
+description: "Boss Fight: Veritasium vs Vsauce — science education spectacle. Both land at 89; consistency and accessibility edge it to Veritasium."
 originatingIssue: "#004"
 related:
   - kurzgesagt-vs-ted-ed
@@ -74,4 +74,4 @@ The deciding factor: consistency and accessibility. Veritasium reaches more peop
 
 > The deciding factor is consistency and accessibility. Veritasium reaches more people more regularly while maintaining exceptional quality. Vsauce's brilliance is undermined by its rarity.
 
-**Post-Fight.** Veritasium enters the [Top 50](/top50/) at #2 overall — a debut that reflects both the exceptional quality and the consistency that won this fight. Vsauce drops to #33, entirely due to consistency problems; the quality remains exceptional when content actually appears. Both channels are excellent. Veritasium is more reliably excellent. The [full issue](/issues/004/) has more on how production spectacle does and doesn't serve science education on YouTube.
+**Post-Fight.** Veritasium and Vsauce both sit at 89 on the [Top 50](/top50/), separated by a single rank — Veritasium just ahead, on the strength of the consistency that won this fight. Vsauce's quality remains exceptional when content actually appears; the rarity is the only thing keeping it level rather than ahead. Both channels are excellent. Veritasium is more reliably excellent. The [full issue](/issues/004/) has more on how production spectacle does and doesn't serve science education on YouTube.

@@ -23,7 +23,10 @@ import { issues } from '../src/data/issues.js';
 const REVIEWS_DIR = 'src/content/reviews';
 const START_MARK = '<!-- ctrlwatch:reviewlinks:start -->';
 const END_MARK = '<!-- ctrlwatch:reviewlinks:end -->';
-const SECTION_RE = /<(?:section|div)[^>]*\bid="player-profiles"[^>]*>/i;
+// Player-profile section anchor varies by template: id="player-profiles" (most),
+// id="player-profile" (#008), id="reviews" (#001–#004), id="tab-profiles" (#010).
+// #005 has no review-section anchor (only high-scores) → skipped, nav link only.
+const SECTION_RE = /<(?:section|div)[^>]*\bid="(?:player-profiles|player-profile|reviews|tab-profiles)"[^>]*>/i;
 
 function escapeHtml(s) {
   return String(s)
@@ -107,7 +110,7 @@ for (const issue of issues.filter((i) => i.published)) {
   } else {
     const m = html.match(SECTION_RE);
     if (!m) {
-      console.warn(`! ${file} — no id="player-profiles" section, skipping`);
+      console.warn(`! ${file} — no player-profile section anchor, skipping`);
       skipped++;
       continue;
     }
