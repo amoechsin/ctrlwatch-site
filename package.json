@@ -13,6 +13,7 @@
     "inject:shell": "node scripts/inject-issue-shell.mjs",
     "covers": "node scripts/generate-covers.mjs",
     "inject:og": "node scripts/inject-issue-og.mjs",
+    "inject:seo": "node scripts/inject-issue-seo.mjs",
     "build:creators": "node scripts/build-creators.mjs",
     "build:search": "node scripts/build-search-index.mjs"
   },
