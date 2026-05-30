@@ -91,4 +91,38 @@ const concepts = defineCollection({
   }),
 });
 
-export const collections = { reviews, concepts };
+// Canonical Boss Fight pages — head-to-head matchups at /vs/[a]-vs-[b]/
+// (alphabetical). channelA/channelB and their scores are stored in
+// alphabetical order; `winner` says which took the fight. The dual scorecard
+// renders from the scores; the comparative prose is the markdown body.
+const fiveAxis = z.object({
+  contentQuality: score,
+  consistency: score,
+  replayValue: score,
+  community: score,
+  xFactor: score,
+  overall: score,
+});
+
+const bossFights = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/vs' }),
+  schema: z.object({
+    channelA: z.string(),
+    channelB: z.string(),
+    // Review slugs, when a canonical Player Profile exists (else omit — no 404s).
+    slugA: z.string().optional(),
+    slugB: z.string().optional(),
+    category: z.string(),
+    winner: z.enum(['A', 'B']),
+    scoresA: fiveAxis,
+    scoresB: fiveAxis,
+    description: z.string().max(155),
+    title: z.string().optional(),
+    originatingIssue: z.string().regex(/^#\d{3}$/),
+    related: z.array(z.string()).max(6).default([]),
+    updated: z.coerce.date(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { reviews, concepts, bossFights };

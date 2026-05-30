@@ -1,0 +1,168 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BossScorecard from '../../components/BossScorecard.astro';
+import { issues } from '../../data/issues.js';
+
+export async function getStaticPaths() {
+  const entries = (await getCollection('bossFights')).filter((e) => !e.data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry, all: entries },
+  }));
+}
+
+const { entry, all } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+
+const SITE = 'https://ctrl-watch.xyz';
+
+const nameBySlug = new Map(all.map((e) => [e.id, `${e.data.channelA} vs ${e.data.channelB}`]));
+const related = d.related
+  .filter((s) => nameBySlug.has(s) && s !== entry.id)
+  .map((s) => ({ slug: s, name: nameBySlug.get(s)! }));
+
+const publishedSlugs = new Set(issues.filter((i) => i.published).map((i) => i.slug));
+function issueUrl(tag: string): string | null {
+  const stripped = tag.replace(/^#/, '').replace(/[A-Za-z]+$/, '');
+  return publishedSlugs.has(stripped) ? `/issues/${stripped}/` : null;
+}
+const originUrl = issueUrl(d.originatingIssue);
+
+const winnerName = d.winner === 'A' ? d.channelA : d.channelB;
+const winnerSlug = d.winner === 'A' ? d.slugA : d.slugB;
+
+const fullTitle = `${d.channelA} vs ${d.channelB} — Boss Fight | CTRL+WATCH`;
+const title =
+  fullTitle.length <= 60 ? fullTitle : `${d.channelA} vs ${d.channelB} | CTRL+WATCH`;
+const description = d.description;
+const iso = d.updated.toISOString().slice(0, 10);
+
+// Article schema with `about` referencing both channels as CreativeWorks.
+const articleJson = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: `${d.channelA} vs ${d.channelB}: Boss Fight`,
+  description,
+  url: `${SITE}/vs/${entry.id}/`,
+  datePublished: iso,
+  dateModified: iso,
+  author: { '@type': 'Organization', name: 'CTRL+WATCH' },
+  publisher: { '@type': 'Organization', name: 'CTRL+WATCH' },
+  about: [
+    { '@type': 'CreativeWork', name: d.channelA },
+    { '@type': 'CreativeWork', name: d.channelB },
+  ],
+  mainEntityOfPage: `${SITE}/vs/${entry.id}/`,
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,600;1,400&family=Russo+One&family=VT323&display=swap"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(articleJson)} />
+  </Fragment>
+
+  <article class="vs-page">
+    <div class="container">
+      <nav class="vs-breadcrumb" aria-label="Breadcrumb">
+        <a href="/vs/">BOSS FIGHTS</a> <span>/</span> <span>{d.channelA} vs {d.channelB}</span>
+      </nav>
+
+      <header class="vs-header">
+        <p class="vs-kicker">⚔ BOSS FIGHT ⚔</p>
+        <h1 class="vs-title">
+          <span class="vs-a">{d.channelA}</span>
+          <span class="vs-mid">vs</span>
+          <span class="vs-b">{d.channelB}</span>
+        </h1>
+        <p class="vs-category">{d.category}</p>
+        <div class="vs-meta">
+          <span class="winner-chip">WINNER: {winnerName}</span>
+          {originUrl && <a class="issue-chip" href={originUrl}>FOUGHT IN {d.originatingIssue}</a>}
+        </div>
+      </header>
+
+      <div class="vs-body prose">
+        <Content />
+      </div>
+
+      <BossScorecard
+        channelA={d.channelA}
+        channelB={d.channelB}
+        scoresA={d.scoresA}
+        scoresB={d.scoresB}
+        winner={d.winner}
+      />
+
+      <div class="vs-winner-banner">
+        ▶ WINNER: <strong>{winnerName}</strong>
+        {winnerSlug && <a class="winner-review" href={`/reviews/${winnerSlug}/`}>Read the full Player Profile →</a>}
+      </div>
+
+      {related.length > 0 && (
+        <section class="vs-related">
+          <h2 class="related-title">MORE BOSS FIGHTS</h2>
+          <ul class="related-list">
+            {related.map((r) => (
+              <li><a href={`/vs/${r.slug}/`}>{r.name}</a></li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <p class="vs-foot">
+        <a href="/vs/">◀ All Boss Fights</a> · <a href="/top50/">The Top 50 →</a>
+      </p>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .vs-page { padding: var(--space-xl) 0; min-height: 60vh; }
+
+  .vs-breadcrumb { font-family: 'Press Start 2P', monospace; font-size: 8px; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: var(--space-lg); }
+  .vs-breadcrumb a { color: var(--yellow); text-decoration: none; }
+  .vs-breadcrumb span { margin: 0 6px; }
+
+  .vs-header { border-bottom: 1px solid var(--border); padding-bottom: var(--space-md); margin-bottom: var(--space-lg); text-align: center; }
+  .vs-kicker { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--yellow); letter-spacing: 0.2em; margin-bottom: var(--space-md); }
+  .vs-title { display: flex; flex-wrap: wrap; gap: var(--space-sm) var(--space-md); align-items: baseline; justify-content: center; font-size: var(--text-2xl); letter-spacing: 0.02em; margin-bottom: var(--space-sm); }
+  .vs-a { color: var(--cyan); }
+  .vs-b { color: var(--magenta); }
+  .vs-mid { font-family: 'Press Start 2P', monospace; font-size: 12px; color: var(--text-muted); }
+  .vs-category { font-family: 'Share Tech Mono', monospace; font-size: var(--text-sm); color: var(--text-secondary); letter-spacing: 0.1em; margin-bottom: var(--space-md); }
+  .vs-meta { display: flex; flex-wrap: wrap; gap: var(--space-sm); justify-content: center; }
+  .winner-chip, .issue-chip { font-family: 'Press Start 2P', monospace; font-size: 8px; letter-spacing: 0.1em; padding: 6px 8px; border: 1px solid currentColor; text-decoration: none; }
+  .winner-chip { color: var(--green); }
+  .issue-chip { color: var(--cyan); }
+
+  .vs-body { font-family: 'Exo 2', sans-serif; font-size: var(--text-md); line-height: 1.75; color: var(--text-secondary); max-width: 760px; margin: 0 auto; }
+  .vs-body :global(p) { margin: 0 0 1.2em; }
+  .vs-body :global(h3) { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--magenta); letter-spacing: 0.08em; margin: 2em 0 0.8em; }
+  .vs-body :global(strong) { color: var(--text-primary); }
+  .vs-body :global(em) { color: var(--text-primary); font-style: italic; }
+  .vs-body :global(a) { color: var(--cyan); }
+  .vs-body :global(blockquote) { font-family: 'Russo One', sans-serif; font-size: 1.35rem; line-height: 1.4; color: var(--cyan); border-left: 4px solid var(--magenta); padding: 18px 26px; margin: 2em 0; background: rgba(0,240,255,0.05); font-style: italic; }
+  .vs-body :global(blockquote p) { margin: 0; }
+  .vs-body :global(table) { width: 100%; border-collapse: collapse; margin: 1.5em 0; font-family: 'Share Tech Mono', monospace; font-size: var(--text-sm); }
+  .vs-body :global(th), .vs-body :global(td) { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  .vs-body :global(th) { color: var(--text-primary); }
+
+  .vs-winner-banner { text-align: center; font-family: 'Press Start 2P', monospace; font-size: 12px; color: var(--green); border: 2px solid var(--green); padding: 18px; margin: 24px 0; letter-spacing: 0.1em; }
+  .vs-winner-banner strong { color: var(--green); text-shadow: var(--glow-green); }
+  .winner-review { display: block; margin-top: 12px; font-size: 9px; color: var(--cyan); text-decoration: none; letter-spacing: 0.08em; }
+
+  .vs-related { margin: var(--space-xl) 0 var(--space-lg); border-top: 1px solid var(--border); padding-top: var(--space-md); }
+  .related-title { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 0.15em; margin-bottom: var(--space-md); }
+  .related-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+  .related-list a { font-family: 'Share Tech Mono', monospace; font-size: var(--text-sm); color: var(--yellow); border: 1px solid var(--yellow); padding: 8px 12px; text-decoration: none; }
+  .related-list a:hover { background: var(--yellow); color: var(--bg); }
+
+  .vs-foot { font-family: 'Share Tech Mono', monospace; font-size: var(--text-sm); color: var(--text-muted); margin-top: var(--space-lg); text-align: center; }
+  .vs-foot a { color: var(--cyan); text-decoration: none; }
+</style>

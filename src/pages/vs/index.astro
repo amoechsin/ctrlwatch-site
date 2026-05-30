@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const entries = (await getCollection('bossFights')).filter((e) => !e.data.draft);
+// Newest issue first.
+const sorted = [...entries].sort(
+  (a, b) =>
+    parseInt(b.data.originatingIssue.replace(/\D/g, ''), 10) -
+    parseInt(a.data.originatingIssue.replace(/\D/g, ''), 10),
+);
+
+const title = 'Boss Fights — Head-to-Head Channel Matchups | CTRL+WATCH';
+const description =
+  'CTRL+WATCH Boss Fights: two YouTube channels, same territory, one winner. The round-by-round case, scored across five axes.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="vs-index">
+    <div class="container">
+      <header class="vi-header">
+        <h1 class="vi-title">⚔ BOSS FIGHTS</h1>
+        <p class="vi-tagline">TWO CHANNELS · SAME TERRITORY · ONE WINNER · NO DRAWS</p>
+        <p class="vi-blurb">
+          Head-to-head matchups. We pick two channels doing recognisably similar things in different ways,
+          score five rounds, and declare a winner. The loser is always worth losing to.
+        </p>
+      </header>
+
+      <ul class="vi-list">
+        {sorted.map((e) => {
+          const w = e.data.winner === 'A' ? e.data.channelA : e.data.channelB;
+          return (
+            <li class="vi-row">
+              <a class="vi-link" href={`/vs/${e.id}/`}>
+                <span class="vi-match"><span class="vi-a">{e.data.channelA}</span> <span class="vi-vs">vs</span> <span class="vi-b">{e.data.channelB}</span></span>
+                <span class="vi-cat">{e.data.category}</span>
+                <span class="vi-winner">▶ {w}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .vs-index { padding: var(--space-xl) 0; min-height: 60vh; }
+  .vi-header { border-bottom: 1px solid var(--border); padding-bottom: var(--space-md); margin-bottom: var(--space-lg); }
+  .vi-title { font-size: var(--text-2xl); color: var(--text-primary); letter-spacing: 0.05em; margin-bottom: var(--space-sm); }
+  .vi-tagline { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--yellow); letter-spacing: 0.12em; margin-bottom: var(--space-md); }
+  .vi-blurb { font-family: 'Share Tech Mono', monospace; font-size: var(--text-md); color: var(--text-secondary); line-height: 1.6; max-width: 720px; }
+
+  .vi-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+  .vi-link { display: grid; grid-template-columns: 2fr 1.3fr 1fr; gap: var(--space-md); align-items: baseline; padding: var(--space-md) var(--space-xs); border-bottom: 1px solid var(--border); text-decoration: none; transition: background 0.12s ease; }
+  .vi-link:hover { background: rgba(255,230,0,0.04); }
+  .vi-match { font-family: 'Share Tech Mono', monospace; font-size: var(--text-md); }
+  .vi-a { color: var(--cyan); }
+  .vi-b { color: var(--magenta); }
+  .vi-vs { color: var(--text-muted); font-size: var(--text-sm); }
+  .vi-cat { font-family: 'Share Tech Mono', monospace; font-size: var(--text-xs); color: var(--text-muted); }
+  .vi-winner { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--green); text-align: right; }
+
+  @media (max-width: 768px) {
+    .vi-link { grid-template-columns: 1fr; gap: var(--space-xs); }
+    .vi-winner { text-align: left; }
+  }
+</style>

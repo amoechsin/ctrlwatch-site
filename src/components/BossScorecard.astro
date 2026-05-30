@@ -1,0 +1,68 @@
+---
+// Dual Boss Fight scorecard — CATEGORY | Channel A | Channel B, with the
+// winning channel's column highlighted. Driven by the bossFights collection
+// scores so the table always matches the validated frontmatter.
+interface Axes {
+  contentQuality: number;
+  consistency: number;
+  replayValue: number;
+  community: number;
+  xFactor: number;
+  overall: number;
+}
+interface Props {
+  channelA: string;
+  channelB: string;
+  scoresA: Axes;
+  scoresB: Axes;
+  winner: 'A' | 'B';
+}
+const { channelA, channelB, scoresA, scoresB, winner } = Astro.props;
+
+const ROWS: [string, keyof Axes][] = [
+  ['Content Quality', 'contentQuality'],
+  ['Consistency', 'consistency'],
+  ['Replay Value', 'replayValue'],
+  ['Community', 'community'],
+  ['X-Factor', 'xFactor'],
+];
+---
+
+<div class="bf-scorecard">
+  <table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th class={winner === 'A' ? 'win' : ''}>{channelA}</th>
+        <th class={winner === 'B' ? 'win' : ''}>{channelB}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {ROWS.map(([label, key]) => (
+        <tr>
+          <td class="cat">{label}</td>
+          <td class={scoresA[key] >= scoresB[key] ? 'lead' : ''}>{scoresA[key]}</td>
+          <td class={scoresB[key] >= scoresA[key] ? 'lead' : ''}>{scoresB[key]}</td>
+        </tr>
+      ))}
+      <tr class="total">
+        <td class="cat">Overall</td>
+        <td class={winner === 'A' ? 'win' : ''}>{scoresA.overall}</td>
+        <td class={winner === 'B' ? 'win' : ''}>{scoresB.overall}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .bf-scorecard { margin: 32px 0; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-family: 'Share Tech Mono', monospace; }
+  th, td { border: 1px solid var(--border); padding: 12px 14px; text-align: center; }
+  th { font-family: 'Press Start 2P', monospace; font-size: 9px; letter-spacing: 0.08em; color: var(--text-secondary); }
+  th.win { color: var(--green); text-shadow: var(--glow-green); border-color: var(--green); }
+  td { font-family: 'VT323', monospace; font-size: 24px; color: var(--text-secondary); }
+  td.cat { font-family: 'Share Tech Mono', monospace; font-size: var(--text-sm); color: var(--text-muted); text-align: left; }
+  td.lead { color: var(--cyan); }
+  tr.total td { font-size: 28px; color: var(--text-primary); border-top: 2px solid var(--border); }
+  tr.total td.win { color: var(--green); text-shadow: var(--glow-green); }
+</style>

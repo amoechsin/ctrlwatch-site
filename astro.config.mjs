@@ -22,6 +22,7 @@ async function pagesFrom(dir, base) {
 }
 const reviewPages = await pagesFrom('./src/content/reviews', '/reviews/');
 const conceptPages = await pagesFrom('./src/content/concepts', '/concepts/');
+const vsPages = await pagesFrom('./src/content/vs', '/vs/');
 
 const extraPages = [
   `${SITE}/creators/`,
@@ -29,8 +30,10 @@ const extraPages = [
   `${SITE}/top50/`,
   `${SITE}/reviews/`,
   `${SITE}/concepts/`,
+  `${SITE}/vs/`,
   ...reviewPages,
   ...conceptPages,
+  ...vsPages,
 ];
 
 /* Dev-server middleware. Astro's dev server returns 404 for
