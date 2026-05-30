@@ -34,8 +34,11 @@ const winnerName = d.winner === 'A' ? d.channelA : d.channelB;
 const winnerSlug = d.winner === 'A' ? d.slugA : d.slugB;
 
 const fullTitle = `${d.channelA} vs ${d.channelB} — Boss Fight | CTRL+WATCH`;
+// Honor an explicit frontmatter title override (used when even the short form
+// exceeds 60 chars, e.g. long channel names); else fall back to the — form or
+// the shorter "[A] vs [B]" form.
 const title =
-  fullTitle.length <= 60 ? fullTitle : `${d.channelA} vs ${d.channelB} | CTRL+WATCH`;
+  d.title ?? (fullTitle.length <= 60 ? fullTitle : `${d.channelA} vs ${d.channelB} | CTRL+WATCH`);
 const description = d.description;
 const iso = d.updated.toISOString().slice(0, 10);
 

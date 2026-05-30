@@ -20,7 +20,9 @@ import { issues } from '../src/data/issues.js';
 const VS_DIR = 'src/content/vs';
 const START_MARK = '<!-- ctrlwatch:vslink:start -->';
 const END_MARK = '<!-- ctrlwatch:vslink:end -->';
-const SECTION_RE = /<(?:section|div)[^>]*\bid="boss-fight"[^>]*>/i;
+// Boss Fight section anchor varies by template: id="boss-fight" (most),
+// id="bossfight" (#002), id="tab-bossfight" (#010, tab-panel layout).
+const SECTION_RE = /<(?:section|div)[^>]*\bid="(?:boss-fight|bossfight|tab-bossfight)"[^>]*>/i;
 
 function escapeHtml(s) {
   return String(s)
@@ -94,7 +96,7 @@ for (const issue of issues.filter((i) => i.published)) {
   } else {
     const m = html.match(SECTION_RE);
     if (!m) {
-      console.warn(`! ${file} — no id="boss-fight" section, skipping`);
+      console.warn(`! ${file} — no Boss Fight section anchor, skipping`);
       skipped++;
       continue;
     }
