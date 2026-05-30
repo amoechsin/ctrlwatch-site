@@ -16,6 +16,7 @@
     "inject:seo": "node scripts/inject-issue-seo.mjs",
     "inject:top50link": "node scripts/inject-issue-top50link.mjs",
     "inject:reviewlinks": "node scripts/inject-issue-reviewlinks.mjs",
+    "inject:vslinks": "node scripts/inject-issue-vslinks.mjs",
     "build:creators": "node scripts/build-creators.mjs",
     "build:search": "node scripts/build-search-index.mjs"
   },
