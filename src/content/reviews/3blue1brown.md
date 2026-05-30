@@ -1,7 +1,7 @@
 ---
 channel: 3Blue1Brown
 creator: Grant Sanderson
-dateline: "~6.8M subs · mathematics · animated (Manim engine) · infrequent"
+dateline: "~7.5M subs · mathematics · animated (Manim engine) · infrequent"
 genre: Mathematics / Education
 axes:
   contentQuality: 99
@@ -29,7 +29,7 @@ That discovery is the thesis of the channel. Grant Sanderson did not make mathem
 
 The vehicle is Manim, the Python animation engine Sanderson built specifically to produce 3Blue1Brown and subsequently open-sourced, spawning an entire community of mathematics communicators who use it. This is worth pausing on: the channel's influence is so structural that it changed the tools available to everyone else in the genre. Manim is now how the field makes videos. That is not a content creator leaving a mark. That is a content creator rewriting the production infrastructure of a medium.
 
-The animations themselves are not decorative. They are arguments. When Sanderson proves that e to the power of i-pi equals negative one in the *Essence of Calculus* series, he does not reach for the standard proof and illustrate it with pretty colours. He builds the geometric intuition from scratch — complex exponentiation as rotation, the unit circle as an output, Taylor series as the underlying mechanism — so that by the time the equation lands, it lands as an inevitability rather than a trick. You are not being shown the answer. You are being walked through the question until the answer becomes the only possible response.
+The animations themselves are not decorative. They are arguments. When Sanderson builds the case that e to the power of i-pi equals negative one, he does not reach for the standard proof and illustrate it with pretty colours. He builds the geometric intuition from scratch — complex exponentiation as rotation, the unit circle as an output, Taylor series as the underlying mechanism — so that by the time the equation lands, it lands as an inevitability rather than a trick. You are not being shown the answer. You are being walked through the question until the answer becomes the only possible response.
 
 The *Essence of Linear Algebra* series is the canonical example of what the channel can do at its most extended. Sixteen videos that transform linear algebra from a set of procedures (matrix multiplication as computation) into a coherent spatial language (matrix multiplication as composed transformations of space). Instructors have been pointing students at this series for years not as a supplement to their courses but as the conceptual prerequisite — the thing you watch before you do the problem sets so the problem sets have an interior. No textbook written before 2015 achieves what these sixteen videos achieve.
 

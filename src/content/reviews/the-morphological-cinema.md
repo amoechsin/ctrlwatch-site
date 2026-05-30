@@ -1,6 +1,6 @@
 ---
 channel: The Morphological Cinema
-dateline: "~3,200 subs · experimental film analysis · ~3 videos/year"
+dateline: "~1,247 subs · experimental film analysis · ~3 videos/year"
 genre: Underground / Experimental Film
 axes:
   contentQuality: 92
@@ -31,7 +31,7 @@ The Consistency score of 58 reflects the brutal reality of three videos per year
 
 The Boss Fight against [Forgotten Formats](/vs/forgotten-formats-vs-morphological-cinema/) clarified what makes this channel singular. Both channels traffic in the overlooked and the left-behind. Forgotten Formats wins on consistency — five years of twice-monthly output in a niche that most people don't know exists, and that is a genuine achievement. But The Morphological Cinema's ceiling is higher. The channel does not describe extinct technologies. It reanimates them — not through nostalgia, but through analytical rigour applied with cinematic seriousness. When it demonstrates a functioning projection system, it is not showing you a curiosity. It is asking you to reckon with what it cost, historically, to make moving images exist at all. That is a different operation entirely.
 
-Why does this channel have 3,200 subscribers instead of 3.2 million? Because it refuses to compromise. Because it respects its audience too much to simplify. Because it operates on a timescale the platform cannot comprehend. A video here is not designed to trend; it is designed to last. Watch the Tarkovsky analysis now or a decade from now — it will be equally relevant, because it is not criticism of the moment. It is criticism for the archive.
+Why does this channel have 1,247 subscribers instead of 1.2 million? Because it refuses to compromise. Because it respects its audience too much to simplify. Because it operates on a timescale the platform cannot comprehend. A video here is not designed to trend; it is designed to last. Watch the Tarkovsky analysis now or a decade from now — it will be equally relevant, because it is not criticism of the moment. It is criticism for the archive.
 
 The Morphological Cinema is playing an infinite game while everyone else sprints toward next week's metrics. We named it the #1 channel in [The Underground Issue (#005)](/issues/005/) — our special edition ranking the best channels operating below 10,000 subscribers — and the case was not close. It has since entered consideration for the [Top 50](/top50/) on the strength of its 84 overall. The X-Factor score of 95 is earned: no other channel in this space attempts what The Morphological Cinema does, and none could pull it off with this precision.
 
