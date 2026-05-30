@@ -1,0 +1,628 @@
+/* CTRL+WATCH issue shell — global cross-issue overrides loaded
+   by every public/issues/NNN/index.html via <link>.
+
+   Scope: (1) mobile readability + tap-target fixes that apply to all
+   issues, (2) Print Mode overrides activated by html.mode-print.
+
+   Do not put issue-specific design here. New issues get this file
+   automatically by running `npm run inject:shell`. */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap');
+
+/* Defensive — no horizontal scroll on small phones, even if an
+   issue's own styles leak width. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Media never overflows its container. */
+img,
+iframe,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Tap targets: tab bar and buttons reach the 44×44 threshold. */
+.tab-btn,
+button {
+  min-height: 44px;
+}
+
+/* Mid-phone (≤414px) and small-phone (≤375px) tuning.
+   Each issue ships its own ≤768px breakpoint; this layers on top
+   for the narrowest viewports. */
+@media (max-width: 414px) {
+  .wrap {
+    padding: 0 16px;
+  }
+
+  .score-card,
+  .bf-scorecard {
+    padding: 18px;
+  }
+
+  .prose p,
+  .tc-line {
+    font-size: 15px;
+  }
+
+  /* Top 50 table — compact pad + smaller score/rank cells. */
+  .top50-table th,
+  .top50-table td {
+    padding: 4px 2px;
+    font-size: 11px;
+  }
+  .top50-table td.rank,
+  .top50-table td.score {
+    font-size: 16px;
+    width: auto;
+  }
+
+  .tab-btn {
+    padding: 12px 14px;
+  }
+
+  .pull-quote {
+    padding: 16px 18px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .overall-score {
+    font-size: 42px;
+  }
+  .overall-score .denom {
+    font-size: 18px;
+  }
+}
+
+/* =============================================================
+   PRINT MODE OVERRIDES FOR STANDALONE ISSUE HTMLs
+   Activated by `html.mode-print` (set by BaseLayout's pre-paint
+   inline script, persisted via localStorage). Selectors use !important
+   because issue HTMLs ship with their own embedded styles.
+   ============================================================= */
+
+/* Shadow the per-issue CSS variables so any element using var(--bg-card)
+   etc. inherits paper colors automatically. Each issue defines these in
+   :root with its own dark palette; html.mode-print beats :root on
+   specificity for the same property names. */
+html.mode-print {
+  /* Surfaces — Convention A (used by #001, #002, #005, #006, #009,
+     #012, #013, #014) */
+  --bg-primary:    #F4F1E8 !important;
+  --bg-secondary:  #ECE7D8 !important;
+  --bg-card:       #FAF7EE !important;
+  --bg-deep:       #F4F1E8 !important;
+  --bg-panel:      #FAF7EE !important;
+  --bg-header:     #F4F1E8 !important;
+  --border-color:  #C8C2B0 !important;
+  --border-subtle: #C8C2B0 !important;
+  --text-primary:  #1A1A1A !important;
+  --text-secondary:#555555 !important;
+  --text-dim:      #888888 !important;
+
+  /* Surfaces — Convention B (used by #007, #008, #010, #011) */
+  --bg:            #F4F1E8 !important;
+  --bg2:           #ECE7D8 !important;
+  --bg3:           #FAF7EE !important;
+  --border:        #C8C2B0 !important;
+  --text:          #1A1A1A !important;
+  --text2:         #555555 !important;
+  --text3:         #888888 !important;
+
+  /* Convention C — #007's own colour-named vars */
+  --white:         #1A1A1A !important;
+  --grey:          #555555 !important;
+  --darkgrey:      #C8C2B0 !important;
+
+  /* Extra glow var sometimes present */
+  --glow-amber:    none !important;
+  --amber:         #B22222 !important;
+
+  /* 2-spot-color print palette: magazine red + deep blue.
+     Collapse all issue accent vars to this discipline. */
+  --cyan:          #1F4788 !important;
+  --magenta:       #B22222 !important;
+  --yellow:        #B22222 !important;
+  --green:         #1F4788 !important;
+  --orange:        #a05a00 !important;
+  --red:           #B22222 !important;
+
+  /* Glow tokens — gone in print */
+  --glow-cyan:     none !important;
+  --glow-magenta:  none !important;
+  --glow-yellow:   none !important;
+  --glow-green:    none !important;
+  --glow-red:      none !important;
+}
+
+html.mode-print,
+html.mode-print body {
+  background: #F4F1E8 !important;
+  color: #1A1A1A !important;
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-size: 17px !important;
+  line-height: 1.7 !important;
+}
+
+/* Container classes vary per issue (content-card / section-panel /
+   article / article-body / panel / main-content / magazine-header).
+   Force them all to paper. */
+html.mode-print .magazine-header,
+html.mode-print .magazine-header *,
+html.mode-print .content-card,
+html.mode-print .section-panel,
+html.mode-print .article,
+html.mode-print .article-body,
+html.mode-print .panel,
+html.mode-print .main-content,
+html.mode-print .story-block,
+html.mode-print .content-block,
+html.mode-print .wrap {
+  background: transparent !important;
+  background-image: none !important;
+}
+
+html.mode-print .content-card,
+html.mode-print .section-panel,
+html.mode-print .article-body,
+html.mode-print .panel {
+  background-color: #F4F1E8 !important;
+  color: #1A1A1A !important;
+  border-color: #C8C2B0 !important;
+}
+
+/* Magazine-header has gradients across several issues — flatten to paper */
+html.mode-print .magazine-header {
+  background-color: #F4F1E8 !important;
+  background-image: none !important;
+  border-bottom: 2px solid #1A1A1A !important;
+}
+
+/* Kill scanline + glows */
+html.mode-print body::before,
+html.mode-print body::after { display: none !important; }
+html.mode-print body * { text-shadow: none !important; }
+
+/* Generic — any element with the standard "dark prose container"
+   semantic gets paper. Targets free-floating prose containers
+   that don't match the known class list. */
+html.mode-print main,
+html.mode-print article,
+html.mode-print section {
+  background-color: transparent !important;
+}
+
+/* ----- Universal wordmark / masthead normalization -----
+   8+ class conventions across 14 issues (masthead-title, magazine-title,
+   mag-title, header-title, cover-title, issue-title, logo, logo-block,
+   etc.). Force them all to one consistent magazine treatment.
+
+   Selector list is comprehensive on purpose — every issue's wordmark
+   selector is captured here, so all 14 print MASTHEADs read as one
+   magazine. */
+html.mode-print .masthead h1,
+html.mode-print .magazine-header h1,
+html.mode-print .main-header h1,
+html.mode-print .masthead-title,
+html.mode-print .magazine-title,
+html.mode-print .mag-title,
+html.mode-print .header-title,
+html.mode-print .cover-title,
+html.mode-print .issue-title,
+html.mode-print .logo,
+html.mode-print .logo-block,
+html.mode-print [class*="wordmark"] {
+  color: #B22222 !important;
+  text-shadow: none !important;
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-weight: 700 !important;
+  font-size: clamp(36px, 6vw, 64px) !important;
+  letter-spacing: -0.015em !important;
+  line-height: 1.05 !important;
+  background: transparent !important;
+  -webkit-text-fill-color: #B22222 !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+}
+
+/* Masthead containers — flat paper, magazine red rule below */
+html.mode-print .masthead,
+html.mode-print .magazine-header,
+html.mode-print .main-header,
+html.mode-print body > header {
+  background: #F4F1E8 !important;
+  background-image: none !important;
+  border-bottom: 2px solid #1A1A1A !important;
+  box-shadow: none !important;
+}
+html.mode-print .masthead-top,
+html.mode-print .masthead-inner,
+html.mode-print .header-top {
+  color: #555555 !important;
+}
+
+/* Issue subtitle / tagline below the wordmark — paper-appropriate */
+html.mode-print .header-subtitle,
+html.mode-print .header-tagline,
+html.mode-print .header-meta,
+html.mode-print .header-issue-tag {
+  color: #555555 !important;
+  text-shadow: none !important;
+}
+html.mode-print .header-subtitle {
+  color: #1A1A1A !important;
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+}
+html.mode-print .header-issue-tag {
+  color: #B22222 !important;
+  font-style: normal !important;
+}
+
+/* ----- Interview / Q&A patterns (common in Time Capsule sections) ----- */
+html.mode-print .interview-q {
+  color: #1F4788 !important;
+  font-weight: 700 !important;
+}
+html.mode-print .interview-a {
+  color: #1A1A1A !important;
+}
+html.mode-print .interview-a em,
+html.mode-print .stage-direction,
+html.mode-print .tc-stage {
+  color: #777777 !important;
+  font-style: italic !important;
+}
+html.mode-print .interview-subject-header,
+html.mode-print .interview-subject {
+  color: #B22222 !important;
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-weight: 700 !important;
+}
+html.mode-print .interview-subject-meta {
+  color: #555555 !important;
+  font-style: italic !important;
+}
+
+/* SATIRICAL / FICTIONAL warning callouts — fix yellow-on-yellow */
+html.mode-print .interview-disclaimer,
+html.mode-print .fictional-disclaimer,
+html.mode-print .satirical-notice,
+html.mode-print [class*="disclaimer"] {
+  background: rgba(178, 34, 34, 0.06) !important;
+  border-color: rgba(178, 34, 34, 0.35) !important;
+  color: #B22222 !important;
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-style: italic !important;
+}
+
+/* ----- Universal typography normalization -----
+   Force all body prose to Source Serif 4. Press Start 2P is preserved
+   on labels, chips, and tab buttons (opt-out list below). */
+html.mode-print body *:not(.cw-mode-widget):not(.cw-mode-widget *) {
+  font-family: 'Source Serif 4', Georgia, serif;
+}
+
+/* Opt-outs — small label / chip / tab elements keep Press Start 2P
+   so the magazine still has its retro brand markers as spot type. */
+html.mode-print .tab-btn,
+html.mode-print .header-issue-tag,
+html.mode-print .header-meta,
+html.mode-print .header-tagline,
+html.mode-print .section-label,
+html.mode-print .masthead-top,
+html.mode-print .masthead-inner,
+html.mode-print [class*="-label"]:not([class*="title"]):not([class*="header"]),
+html.mode-print [class*="-tag"]:not([class*="title"]),
+html.mode-print [class*="-chip"],
+html.mode-print [class*="-badge"],
+html.mode-print [class*="pill"],
+html.mode-print [class*="eyebrow"],
+html.mode-print .verdict,
+html.mode-print [class*="verdict-"],
+html.mode-print .ad-tag,
+html.mode-print .game-over-tag,
+html.mode-print .new-entry,
+html.mode-print .nav-link {
+  font-family: 'Press Start 2P', monospace !important;
+}
+
+/* Headings — consistent magazine hierarchy */
+html.mode-print h2,
+html.mode-print .section-title,
+html.mode-print .section-headline,
+html.mode-print .article-title,
+html.mode-print [class*="section-title"] {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-weight: 700 !important;
+  color: #B22222 !important;
+  letter-spacing: -0.005em !important;
+  font-size: clamp(24px, 3.5vw, 36px) !important;
+  line-height: 1.2 !important;
+}
+html.mode-print h3 {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-weight: 700 !important;
+  color: #1A1A1A !important;
+  font-size: clamp(18px, 2.5vw, 24px) !important;
+}
+html.mode-print h4 {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  font-weight: 600 !important;
+  color: #1A1A1A !important;
+}
+
+/* Body paragraph normalization — 17px / 1.7 across every issue */
+html.mode-print body p,
+html.mode-print body li {
+  font-size: 17px !important;
+  line-height: 1.7 !important;
+  color: #1A1A1A !important;
+}
+
+/* Tab bar — paper with red active rule */
+html.mode-print .tabs,
+html.mode-print .tab-bar {
+  background: #F4F1E8 !important;
+  border-bottom: 1px solid #1A1A1A !important;
+}
+html.mode-print .tab-btn {
+  color: #555555 !important;
+  background: transparent !important;
+}
+html.mode-print .tab-btn:hover {
+  color: #1A1A1A !important;
+}
+html.mode-print .tab-btn.active {
+  color: #B22222 !important;
+  border-bottom-color: #B22222 !important;
+  background: transparent !important;
+}
+
+/* ----- Floating mode toggle widget (injected via the head script) -----
+   Sits bottom-right so it stays away from each issue's masthead/scanline
+   overlay. z-index above the body::before scanline (z:9999 on most issues). */
+.cw-mode-widget {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 10001;
+  display: inline-flex;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  border: 2px solid #00ff41;
+  background: rgba(8, 8, 8, 0.94);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 0 18px rgba(0, 255, 65, 0.45), 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+.cw-mode-widget button {
+  background: transparent;
+  border: none;
+  color: #00ff41;
+  padding: 0 14px;
+  cursor: pointer;
+  min-height: 44px;
+  min-width: 44px;
+  font: inherit;
+  letter-spacing: 0.1em;
+  transition: background 0.12s ease, color 0.12s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(0, 255, 65, 0.3);
+}
+.cw-mode-widget button:hover {
+  background: rgba(0, 255, 65, 0.15);
+}
+.cw-mode-widget button[aria-pressed="true"] {
+  background: #00ff41;
+  color: #000;
+}
+html.mode-print .cw-mode-widget {
+  background: rgba(244, 241, 232, 0.96);
+  border-color: #B22222;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+html.mode-print .cw-mode-widget button {
+  color: #B22222;
+}
+html.mode-print .cw-mode-widget button:hover {
+  background: rgba(178, 34, 34, 0.1);
+}
+html.mode-print .cw-mode-widget button[aria-pressed="true"] {
+  background: #B22222;
+  color: #F4F1E8;
+}
+@media print {
+  .cw-mode-widget { display: none !important; }
+}
+
+/* Masthead */
+html.mode-print .masthead {
+  background: #F4F1E8 !important;
+  border-bottom: 2px solid #1A1A1A !important;
+}
+html.mode-print .masthead-top,
+html.mode-print .masthead-sub {
+  color: #555555 !important;
+}
+html.mode-print .masthead-title h1 {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #B22222 !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+html.mode-print .pixel-bar { display: none !important; }
+
+/* Tabs */
+html.mode-print .tabs {
+  background: #F4F1E8 !important;
+  border-bottom: 1px solid #1A1A1A !important;
+}
+html.mode-print .tab-btn {
+  color: #555555 !important;
+}
+html.mode-print .tab-btn:hover {
+  color: #1A1A1A !important;
+}
+html.mode-print .tab-btn.active {
+  color: #B22222 !important;
+  border-bottom: 2px solid #B22222 !important;
+  background: transparent !important;
+}
+
+/* Sections */
+html.mode-print .section-label {
+  color: #555555 !important;
+  font-style: italic !important;
+}
+html.mode-print .section-title {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #B22222 !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* Prose */
+html.mode-print .prose p {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #1A1A1A !important;
+  font-size: 17px !important;
+  line-height: 1.75 !important;
+}
+html.mode-print .prose h3 {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #B22222 !important;
+  font-weight: 700 !important;
+}
+html.mode-print .prose h4 {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #555555 !important;
+  letter-spacing: 0 !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+}
+html.mode-print .prose strong {
+  color: #1A1A1A !important;
+  font-weight: 700 !important;
+}
+html.mode-print .prose em {
+  color: #1A1A1A !important;
+  font-style: italic !important;
+}
+
+/* Drop cap on first paragraph of active panel */
+html.mode-print .section-panel.active > .prose > p:first-of-type::first-letter,
+html.mode-print .section-panel.active > .wrap .prose > p:first-of-type::first-letter {
+  float: left;
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 0.85;
+  padding: 4px 10px 0 0;
+  color: #B22222;
+}
+
+/* Pull quote */
+html.mode-print .pull-quote {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #B22222 !important;
+  background: transparent !important;
+  border-left: 4px solid #B22222 !important;
+  font-style: italic !important;
+  font-size: 22px !important;
+  line-height: 1.4 !important;
+}
+
+/* Scorecards */
+html.mode-print .score-card,
+html.mode-print .bf-scorecard {
+  background: #FAF7EE !important;
+  border: 2px solid #1A1A1A !important;
+}
+html.mode-print .score-header { border-bottom-color: #1A1A1A !important; }
+html.mode-print .overall-score {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #B22222 !important;
+  font-weight: 700 !important;
+}
+html.mode-print .overall-score .denom {
+  color: #888888 !important;
+}
+html.mode-print .cat-score {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #1A1A1A !important;
+  font-weight: 700 !important;
+}
+
+/* Top 50 table */
+html.mode-print .top50-table th {
+  font-family: 'Press Start 2P', monospace !important;
+  background: #ECE7D8 !important;
+  color: #B22222 !important;
+  border-bottom-color: #1A1A1A !important;
+}
+html.mode-print .top50-table td {
+  font-family: 'Source Serif 4', Georgia, serif !important;
+  color: #1A1A1A !important;
+  border-bottom-color: #C8C2B0 !important;
+}
+html.mode-print .top50-table td.rank,
+html.mode-print .top50-table td.score {
+  color: #B22222 !important;
+  font-weight: 700 !important;
+}
+html.mode-print .top50-table tr.top3 td {
+  background: rgba(178, 34, 34, 0.06) !important;
+}
+html.mode-print .top50-table tr.new-entry td {
+  background: rgba(31, 71, 136, 0.04) !important;
+  border-left: 3px solid #1F4788 !important;
+}
+
+/* Time-capsule exchanges */
+html.mode-print .tc-line {
+  color: #1A1A1A !important;
+}
+html.mode-print .tc-speaker {
+  color: #B22222 !important;
+  font-weight: 700 !important;
+}
+html.mode-print .tc-stage {
+  color: #888888 !important;
+  font-style: italic !important;
+}
+
+/* Pixel dividers — soften to thin rules */
+html.mode-print .pixel-divider,
+html.mode-print .pixel-divider-light,
+html.mode-print .pixel-divider-magenta {
+  background: #1A1A1A !important;
+  height: 1px !important;
+}
+
+/* Tale-of-the-tape, news/ads grids — keep layout, paper palette */
+html.mode-print .tale-tape {
+  border-color: #1A1A1A !important;
+}
+
+/* @media print — Cmd+P from inside an issue in Print Mode = clean PDF */
+@media print {
+  html.mode-print .tabs,
+  html.mode-print .masthead-top {
+    display: none !important;
+  }
+  html.mode-print .section-panel {
+    display: block !important;       /* show all panels in PDF */
+    page-break-before: always;
+  }
+  html.mode-print .section-panel:first-of-type {
+    page-break-before: avoid;
+  }
+}
