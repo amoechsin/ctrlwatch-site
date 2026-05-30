@@ -67,4 +67,28 @@ const reviews = defineCollection({
     }),
 });
 
-export const collections = { reviews };
+// Canonical concept / framework pages — the AEO moat at /concepts/[slug]/.
+// One markdown file per framework; the zod schema enforces the fields the
+// DefinedTerm + Article JSON-LD needs. Filename = slug (kebab-case noun form).
+const concepts = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/concepts' }),
+  schema: z.object({
+    // Display name of the concept (H1 + DefinedTerm.name).
+    term: z.string(),
+    // One-sentence plain-language definition — feeds meta description and
+    // DefinedTerm.description. ≤155 so it works as a SERP snippet.
+    definition: z.string().max(155),
+    // Optional title-tag override; defaults to `${term} | CTRL+WATCH`.
+    title: z.string().optional(),
+    originatingIssue: z.string().regex(/^#\d{3}$/),
+    // "DepthCharge, Lagos" for his frameworks; "CTRL+WATCH editorial" otherwise.
+    attribution: z.string(),
+    related: z.array(z.string()).max(6).default([]),
+    updated: z.coerce.date(),
+    // Hub-page sort order (lower = higher).
+    order: z.number().default(100),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { reviews, concepts };

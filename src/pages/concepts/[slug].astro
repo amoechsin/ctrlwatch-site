@@ -1,0 +1,197 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { issues } from '../../data/issues.js';
+
+export async function getStaticPaths() {
+  const entries = (await getCollection('concepts')).filter((e) => !e.data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry, all: entries },
+  }));
+}
+
+const { entry, all } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+
+const SITE = 'https://ctrl-watch.xyz';
+
+const nameBySlug = new Map(all.map((e) => [e.id, e.data.term]));
+const related = d.related
+  .filter((s) => nameBySlug.has(s) && s !== entry.id)
+  .map((s) => ({ slug: s, name: nameBySlug.get(s)! }));
+
+const publishedSlugs = new Set(issues.filter((i) => i.published).map((i) => i.slug));
+function issueUrl(tag: string): string | null {
+  const stripped = tag.replace(/^#/, '').replace(/[A-Za-z]+$/, '');
+  return publishedSlugs.has(stripped) ? `/issues/${stripped}/` : null;
+}
+const originUrl = issueUrl(d.originatingIssue);
+
+const title = (d.title ?? `${d.term} | CTRL+WATCH`).slice(0, 60);
+const description = d.definition;
+const iso = d.updated.toISOString().slice(0, 10);
+
+// DefinedTerm + Article graph — the AEO citation payload.
+const conceptJson = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'DefinedTerm',
+      '@id': `${SITE}/concepts/${entry.id}/#term`,
+      name: d.term,
+      description: d.definition,
+      inDefinedTermSet: `${SITE}/concepts/`,
+      termCode: entry.id,
+    },
+    {
+      '@type': 'Article',
+      headline: d.term,
+      datePublished: iso,
+      dateModified: iso,
+      author: { '@type': 'Organization', name: 'CTRL+WATCH' },
+      publisher: { '@type': 'Organization', name: 'CTRL+WATCH' },
+      about: { '@id': `${SITE}/concepts/${entry.id}/#term` },
+      mainEntityOfPage: `${SITE}/concepts/${entry.id}/`,
+    },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,600;1,400&family=Russo+One&display=swap"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(conceptJson)} />
+  </Fragment>
+
+  <article class="concept-page">
+    <div class="container">
+      <nav class="concept-breadcrumb" aria-label="Breadcrumb">
+        <a href="/concepts/">CONCEPTS</a> <span>/</span> <span>{d.term}</span>
+      </nav>
+
+      <header class="concept-header">
+        <p class="concept-kicker">▌ CTRL+WATCH FRAMEWORK ▌</p>
+        <h1 class="concept-title">{d.term}</h1>
+        <div class="concept-meta">
+          {originUrl && <a class="origin-chip" href={originUrl}>COINED IN {d.originatingIssue}</a>}
+          <span class="attr-chip">{d.attribution}</span>
+        </div>
+      </header>
+
+      <div class="concept-body prose">
+        <Content />
+      </div>
+
+      {related.length > 0 && (
+        <section class="concept-related">
+          <h2 class="related-title">RELATED FRAMEWORKS</h2>
+          <ul class="related-list">
+            {related.map((r) => (
+              <li><a href={`/concepts/${r.slug}/`}>{r.name}</a></li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <p class="concept-foot">
+        <a href="/concepts/">◀ All frameworks</a> · <a href="/top50/">The Top 50 →</a>
+      </p>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .concept-page { padding: var(--space-xl) 0; min-height: 60vh; }
+
+  .concept-breadcrumb {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: var(--space-lg);
+  }
+  .concept-breadcrumb a { color: var(--magenta); text-decoration: none; }
+  .concept-breadcrumb span { margin: 0 6px; }
+
+  .concept-header { border-bottom: 1px solid var(--border); padding-bottom: var(--space-md); margin-bottom: var(--space-lg); }
+  .concept-kicker { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--magenta); letter-spacing: 0.15em; margin-bottom: var(--space-sm); }
+  .concept-title { font-size: var(--text-3xl); color: var(--text-primary); letter-spacing: 0.02em; margin-bottom: var(--space-md); }
+
+  .concept-meta { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; }
+  .origin-chip, .attr-chip {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    padding: 6px 8px;
+    border: 1px solid currentColor;
+    text-decoration: none;
+  }
+  .origin-chip { color: var(--cyan); }
+  .attr-chip { color: var(--text-muted); }
+
+  .concept-body {
+    font-family: 'Exo 2', sans-serif;
+    font-size: var(--text-md);
+    line-height: 1.75;
+    color: var(--text-secondary);
+    max-width: 720px;
+  }
+  .concept-body :global(p) { margin: 0 0 1.2em; }
+  .concept-body :global(p:first-child) {
+    font-size: var(--text-lg);
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+  .concept-body :global(h2) {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: var(--text-primary);
+    letter-spacing: 0.08em;
+    margin: 2.2em 0 1em;
+  }
+  .concept-body :global(h3) {
+    font-family: 'Orbitron', 'Press Start 2P', monospace;
+    font-size: 15px;
+    color: var(--cyan);
+    letter-spacing: 0.05em;
+    margin: 1.8em 0 0.6em;
+  }
+  .concept-body :global(strong) { color: var(--text-primary); }
+  .concept-body :global(em) { color: var(--text-primary); font-style: italic; }
+  .concept-body :global(a) { color: var(--cyan); text-decoration: underline; text-underline-offset: 2px; }
+  .concept-body :global(blockquote) {
+    font-family: 'Russo One', sans-serif;
+    font-size: 1.35rem;
+    line-height: 1.4;
+    color: var(--magenta);
+    border-left: 4px solid var(--cyan);
+    padding: 18px 26px;
+    margin: 2em 0;
+    background: rgba(255,0,170,0.05);
+    font-style: italic;
+  }
+  .concept-body :global(blockquote p) { margin: 0; color: var(--magenta); }
+  .concept-body :global(ol), .concept-body :global(ul) { margin: 0 0 1.2em 1.2em; }
+  .concept-body :global(li) { margin: 0 0 0.5em; }
+
+  .concept-related { margin: var(--space-xl) 0 var(--space-lg); border-top: 1px solid var(--border); padding-top: var(--space-md); }
+  .related-title { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 0.15em; margin-bottom: var(--space-md); }
+  .related-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+  .related-list a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+    color: var(--magenta);
+    border: 1px solid var(--magenta);
+    padding: 8px 12px;
+    text-decoration: none;
+  }
+  .related-list a:hover { background: var(--magenta); color: var(--bg); }
+
+  .concept-foot { font-family: 'Share Tech Mono', monospace; font-size: var(--text-sm); color: var(--text-muted); margin-top: var(--space-lg); }
+  .concept-foot a { color: var(--cyan); text-decoration: none; }
+</style>

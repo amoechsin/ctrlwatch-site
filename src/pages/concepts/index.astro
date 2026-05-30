@@ -1,0 +1,88 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const entries = (await getCollection('concepts')).filter((e) => !e.data.draft);
+const sorted = [...entries].sort((a, b) => a.data.order - b.data.order);
+
+const title = 'Concepts & Frameworks | CTRL+WATCH';
+const description =
+  'The original YouTube-criticism frameworks coined by CTRL+WATCH: Collision Channels (Type 7), the Wrapped Confession (Type 8), the Comedy Tax, and more.';
+
+const SITE = 'https://ctrl-watch.xyz';
+
+// DefinedTermSet so the hub itself is citable as the home of the taxonomy.
+const setJson = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  '@id': `${SITE}/concepts/`,
+  name: 'The CTRL+WATCH YouTube Taxonomy',
+  description,
+  hasDefinedTerm: sorted.map((e) => ({
+    '@type': 'DefinedTerm',
+    '@id': `${SITE}/concepts/${e.id}/#term`,
+    name: e.data.term,
+    url: `${SITE}/concepts/${e.id}/`,
+  })),
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(setJson)} />
+  </Fragment>
+
+  <section class="concepts-index">
+    <div class="container">
+      <header class="ci-header">
+        <h1 class="ci-title">▶ CONCEPTS & FRAMEWORKS</h1>
+        <p class="ci-tagline">THE ORIGINAL CTRL+WATCH TAXONOMY · CITE THE SOURCE</p>
+        <p class="ci-blurb">
+          The frameworks we coined for thinking about YouTube as a medium. Each has a permanent home here —
+          the canonical definition, its origin, and the channels that prove it.
+        </p>
+      </header>
+
+      <ul class="ci-list">
+        {sorted.map((e) => (
+          <li class="ci-row">
+            <a class="ci-link" href={`/concepts/${e.id}/`}>
+              <span class="ci-term">{e.data.term}</span>
+              <span class="ci-def">{e.data.definition}</span>
+              <span class="ci-origin">{e.data.originatingIssue}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .concepts-index { padding: var(--space-xl) 0; min-height: 60vh; }
+  .ci-header { border-bottom: 1px solid var(--border); padding-bottom: var(--space-md); margin-bottom: var(--space-lg); }
+  .ci-title { font-size: var(--text-2xl); color: var(--text-primary); letter-spacing: 0.05em; margin-bottom: var(--space-sm); }
+  .ci-tagline { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--magenta); letter-spacing: 0.12em; margin-bottom: var(--space-md); }
+  .ci-blurb { font-family: 'Share Tech Mono', monospace; font-size: var(--text-md); color: var(--text-secondary); line-height: 1.6; max-width: 720px; }
+
+  .ci-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+  .ci-link {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) 2fr 60px;
+    gap: var(--space-md);
+    align-items: baseline;
+    padding: var(--space-md) var(--space-xs);
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: background 0.12s ease;
+  }
+  .ci-link:hover { background: rgba(255,0,170,0.04); }
+  .ci-term { font-family: 'Share Tech Mono', monospace; font-size: var(--text-lg); color: var(--cyan); }
+  .ci-def { font-family: 'Share Tech Mono', monospace; font-size: var(--text-sm); color: var(--text-secondary); line-height: 1.5; }
+  .ci-origin { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--text-muted); text-align: right; }
+
+  @media (max-width: 768px) {
+    .ci-link { grid-template-columns: 1fr; gap: var(--space-xs); }
+    .ci-origin { text-align: left; }
+  }
+</style>

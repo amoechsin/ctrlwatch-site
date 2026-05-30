@@ -11,21 +11,26 @@ const issuePages = issues
 
 // Canonical Player Profile pages — one per markdown file in the reviews
 // collection. Read from disk so the sitemap tracks the content folder.
-let reviewPages = [];
-try {
-  reviewPages = (await readdir('./src/content/reviews'))
-    .filter((f) => f.endsWith('.md'))
-    .map((f) => `${SITE}/reviews/${f.replace(/\.md$/, '')}/`);
-} catch {
-  /* no reviews yet */
+async function pagesFrom(dir, base) {
+  try {
+    return (await readdir(dir))
+      .filter((f) => f.endsWith('.md'))
+      .map((f) => `${SITE}${base}${f.replace(/\.md$/, '')}/`);
+  } catch {
+    return [];
+  }
 }
+const reviewPages = await pagesFrom('./src/content/reviews', '/reviews/');
+const conceptPages = await pagesFrom('./src/content/concepts', '/concepts/');
 
 const extraPages = [
   `${SITE}/creators/`,
   `${SITE}/start/`,
   `${SITE}/top50/`,
   `${SITE}/reviews/`,
+  `${SITE}/concepts/`,
   ...reviewPages,
+  ...conceptPages,
 ];
 
 /* Dev-server middleware. Astro's dev server returns 404 for
