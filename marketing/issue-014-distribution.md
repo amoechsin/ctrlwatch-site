@@ -33,7 +33,9 @@ Generated: 2026-06-01
 ## 2. Hacker News
 
 **Title (50–80 chars):**
-> Show HN: A retro magazine issue on whether YouTube comedy survived the algorithm
+> Show HN: CTRL+WATCH - YouTube channel criticism in a 1990s games-mag format
+
+> _Note: link is the homepage (the whole magazine), so the title describes the project — not one issue. HN's "Show HN" is for things people can try out, not articles; a single-issue title risks being reclassified or flagged. Lead with the Comedy Issue angle in the first comment below._
 
 **First comment (optional, post immediately after submitting):**
 > CTRL+WATCH is a one-person static magazine reviewing YouTube channels in the visual and editorial style of 1990s gaming press. Issue #014 is a full critical treatment of YouTube comedy — where the algorithm broke it, where it survived anyway, and why. The two original frameworks in this issue are The Comedy Tax (four costs the platform extracts from comedy creators: the PG-13 ceiling, ironic-distance fatigue, the hour-long essay arms race, and the parasocial trap) and Type 8: The Wrapped Confession (comedy creators using the format as a therapy wrapper — the specific thing DepthCharge, a reader from Lagos, identified and named). Six channel reviews including Jenny Nicholson's first ESSENTIAL and an editorial split on Drew Gooden vs Danny Gonzalez that went 4–3. Astro site, GoatCounter, no ads. Feedback welcome — especially disagreement with the Boss Fight result.
@@ -41,7 +43,7 @@ Generated: 2026-06-01
 **Link:** https://ctrl-watch.xyz/?utm_source=hn
 
 **One-click submit (opens HN with URL + title pre-filled):**
-> https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fctrl-watch.xyz%2F%3Futm_source%3Dhn&t=Show%20HN%3A%20A%20retro%20magazine%20issue%20on%20whether%20YouTube%20comedy%20survived%20the%20algorithm
+> https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fctrl-watch.xyz%2F%3Futm_source%3Dhn&t=Show%20HN%3A%20CTRL%2BWATCH%20-%20YouTube%20channel%20criticism%20in%20a%201990s%20games-mag%20format
 
 **Timing:** Tuesday–Thursday, 08:00–11:00 Pacific. Submit once. Do not resubmit if it flops.
 
