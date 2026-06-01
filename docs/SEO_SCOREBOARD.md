@@ -63,7 +63,8 @@ and the fix is **external links**, not more content.
 |---|---|---|---|---|---|---|---|
 | 2026-05-27 | 19 | 1 | 16 | — | — | — | Google's pre-buildout snapshot (last sitemap read). 3 "page with redirect" also flagged. |
 | 2026-05-30 | 19 | 1 | 16 | — | — | — | Shipped ~124-URL site (82 reviews, 14 vs, 5 concepts). Live sitemap confirmed 124 `<loc>`. Re-submitted sitemap; Requested Indexing on Batch 1 (4 hubs + 5 concepts + home). Awaiting re-read. |
-| _next: ~2026-06-06_ | | | | | | | Check: did Discovered jump to ~124? |
+| 2026-06-01 | (sitemap n/c) | 4 | 14 | — | — | — | Re-crawl happened. Indexed 1→4. Pages report now tracks 28 URLs (was ~20): 4 indexed + 24 not (14 "Discovered–not indexed" ↓ from 16, **7 new "Crawled–currently not indexed"**, 3 "Page with redirect"). 7 moved Discovered→Crawled = forward progress but stuck at index decision. Did NOT capture Sitemaps-screen Discovered count. |
+| _next: ~2026-06-08_ | | | | | | | Check Sitemaps screen Discovered (target ~124); did Indexed climb toward 40–80? Inspect the 3 redirect URLs. |
 
 ---
 
