@@ -4,7 +4,7 @@ A weekly log of the few numbers that actually tell us whether the canonical
 asset layer (82 reviews + 14 boss fights + 5 concepts + hubs = ~124 URLs) is
 getting found, indexed, and surfaced. Companion to `SEARCH_CONSOLE_INDEXING.md`.
 
-**Property:** Google Search Console — `https://ctrl-watch.xyz/` (URL-prefix).
+**Property:** Google Search Console — Domain property `ctrl-watch.xyz` (added 2026-06-06; primary, covers all subdomains + http/https) + legacy URL-prefix `https://ctrl-watch.xyz/` (kept for history; sitemap was submitted here).
 **Analytics:** GoatCounter — https://ctrlwatch.goatcounter.com
 
 ---
@@ -64,7 +64,8 @@ and the fix is **external links**, not more content.
 | 2026-05-27 | 19 | 1 | 16 | — | — | — | Google's pre-buildout snapshot (last sitemap read). 3 "page with redirect" also flagged. |
 | 2026-05-30 | 19 | 1 | 16 | — | — | — | Shipped ~124-URL site (82 reviews, 14 vs, 5 concepts). Live sitemap confirmed 124 `<loc>`. Re-submitted sitemap; Requested Indexing on Batch 1 (4 hubs + 5 concepts + home). Awaiting re-read. |
 | 2026-06-01 | (sitemap n/c) | 4 | 14 | — | — | — | Re-crawl happened. Indexed 1→4. Pages report now tracks 28 URLs (was ~20): 4 indexed + 24 not (14 "Discovered–not indexed" ↓ from 16, **7 new "Crawled–currently not indexed"**, 3 "Page with redirect"). 7 moved Discovered→Crawled = forward progress but stuck at index decision. Did NOT capture Sitemaps-screen Discovered count. |
-| _next: ~2026-06-08_ | | | | | | | Check Sitemaps screen Discovered (target ~124); did Indexed climb toward 40–80? Inspect the 3 redirect URLs. |
+| 2026-06-06 | **124** | 4 | 14 | — | — | — | **Discovery confirmed complete — bottleneck is crawl-budget, NOT discovery.** Sitemaps screen: `sitemap-index.xml` = Success, **124 discovered** (finally captured). Full buildout known to Google since May 30 = only 7 days; 4/124 indexed is on-pace (target 40–80 @ 2–4wk). Flat since 06-01. **Bad sitemap submission flagged:** bare root `https://ctrl-watch.xyz/` submitted as a sitemap (Type Unknown, 0 pages, "1 error", re-read Jun 6) → remove via Sitemaps ⋮. Promo: Reddit r/MediaCriticism posted (114 views / 1 up / 0 comments — low traction, nofollow, no SEO lift). HN blocked (account `deimos459` 4d old, karma 1 → self-promo auto-killed). Added GSC Domain property. |
+| _next: ~2026-06-13_ | | | | | | | 2-week mark post-sitemap — expect Indexed to start climbing past single digits IF a followed link landed. Lever now = 1–2 quality external links (YouTube channel cross-link + a newsletter mention) + time. Don't grind Reddit/HN. Confirm bad `/` sitemap row was removed. |
 
 ---
 
