@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-05-30T11:53:29.097Z",
+  "generatedAt": "2026-06-06T14:14:45.156Z",
   "source": "docs/continuity/CTRLWATCH_Continuity_Tracker.md",
   "totals": {
-    "creators": 95,
+    "creators": 100,
     "inTop50": 50,
-    "dropped": 27,
-    "neverEntered": 18,
+    "dropped": 29,
+    "neverEntered": 21,
     "reEvaluated": 5,
-    "withApproxScore": 16
+    "withApproxScore": 17
   },
   "creators": [
     {
@@ -74,7 +74,7 @@
       "currentScore": 84,
       "verdict": "EXCELLENT",
       "genre": "Travel / Culture / Documentary",
-      "currentRank": 49,
+      "currentRank": 50,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -205,7 +205,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Cooking / Entertainment",
-      "currentRank": 36,
+      "currentRank": 37,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -340,6 +340,28 @@
           "score": 87,
           "verdict": "EXCELLENT",
           "notes": "\"Minimum production, maximum ideas\"",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Chinese Cooking Demystified",
+      "slug": "chinese-cooking-demystified",
+      "currentScore": 85,
+      "verdict": "EXCELLENT",
+      "genre": "Regional Chinese Cooking",
+      "currentRank": 41,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#015",
+          "score": 85,
+          "verdict": "EXCELLENT",
+          "notes": "Regional Chinese technique; 3,000-word written recipes; new #41",
           "approx": false
         }
       ],
@@ -489,7 +511,7 @@
       "currentScore": 84,
       "verdict": "EXCELLENT",
       "genre": "Manic Comedy Commentary",
-      "currentRank": 48,
+      "currentRank": 49,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -528,6 +550,28 @@
       "reEvaluations": []
     },
     {
+      "name": "De Mi Rancho a Tu Cocina 🇲🇽",
+      "slug": "de-mi-rancho-a-tu-cocina",
+      "currentScore": 80,
+      "verdict": "EXCELLENT",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#015",
+          "score": 80,
+          "verdict": "GOOD",
+          "notes": "Doña Ángela; Spanish-language; MANDATORY non-English Player Profile; does NOT enter (below 84); endangered-foodways archive",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
       "name": "Defunctland",
       "slug": "defunctland",
       "currentScore": null,
@@ -547,7 +591,7 @@
       "currentScore": 86,
       "verdict": "EXCELLENT",
       "genre": "Deadpan Comedy Commentary",
-      "currentRank": 35,
+      "currentRank": 36,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -746,6 +790,28 @@
       "reEvaluations": []
     },
     {
+      "name": "J. Kenji Lopez-Alt",
+      "slug": "j-kenji-lopez-alt",
+      "currentScore": 86,
+      "verdict": "EXCELLENT",
+      "genre": "Food Science / Cooking",
+      "currentRank": 34,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#015",
+          "score": 86,
+          "verdict": "EXCELLENT",
+          "notes": "Food science / first-person POV (\"anti-cooking show\"); new #34; first food-science creator on the list",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
       "name": "Jacob Geller",
       "slug": "jacob-geller",
       "currentScore": 91,
@@ -932,11 +998,11 @@
       "slug": "legal-eagle",
       "currentScore": 84,
       "verdict": "EXCELLENT",
-      "genre": "Law × Pop Culture × Comedy",
-      "currentRank": 47,
-      "status": "in-top-50",
-      "droppedAt": null,
-      "droppedReason": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#015",
+      "droppedReason": "Ceiling apparent — law-meets-pop-culture format plateaued after multi-issue slide; re-entry candidate",
       "reEvaluated": false,
       "reviews": [
         {
@@ -1034,7 +1100,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Geography / Comedy",
-      "currentRank": 41,
+      "currentRank": 43,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1274,7 +1340,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Political Philosophy / Theatre",
-      "currentRank": 38,
+      "currentRank": 39,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1398,7 +1464,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Engineering / Education",
-      "currentRank": 39,
+      "currentRank": 40,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1434,7 +1500,7 @@
       "currentScore": 84,
       "verdict": "EXCELLENT",
       "genre": "Sketch / Format Comedy",
-      "currentRank": 46,
+      "currentRank": 48,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1500,7 +1566,7 @@
       "currentScore": 86,
       "verdict": "EXCELLENT",
       "genre": "Retro Gaming / Comedy",
-      "currentRank": 34,
+      "currentRank": 35,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1544,12 +1610,34 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Science / Curiosity",
-      "currentRank": 42,
+      "currentRank": 44,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
       "reEvaluated": false,
       "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Sohla and Ham",
+      "slug": "sohla-and-ham",
+      "currentScore": 83,
+      "verdict": "EXCELLENT",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#015",
+          "score": 83,
+          "verdict": "EXCELLENT",
+          "notes": "Sohla El-Waylly; ~56K subs; sub-200K Player Profile (reader K. promise FULFILLED); does NOT enter — held one point below the 84 threshold on purpose",
+          "approx": false
+        }
+      ],
       "reEvaluations": []
     },
     {
@@ -1608,7 +1696,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Music Software / Comedy Essay",
-      "currentRank": 37,
+      "currentRank": 38,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1641,6 +1729,28 @@
           "score": 86,
           "verdict": "EXCELLENT",
           "notes": "History × Cooking; new #24",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Tasty",
+      "slug": "tasty",
+      "currentScore": 50,
+      "verdict": "MEDIOCRE",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#015",
+          "score": 50,
+          "verdict": "MEDIOCRE",
+          "notes": "MANDATORY negative review; cook-less \"hands and pans\" format; Byron Allen acquisition coda",
           "approx": false
         }
       ],
@@ -1688,7 +1798,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Animated Education / Global",
-      "currentRank": 43,
+      "currentRank": 45,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1754,7 +1864,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Science / Entertainment",
-      "currentRank": 40,
+      "currentRank": 42,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1870,7 +1980,7 @@
       "currentScore": 84,
       "verdict": "EXCELLENT",
       "genre": "Gaming / Commentary",
-      "currentRank": 44,
+      "currentRank": 46,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1925,13 +2035,13 @@
     {
       "name": "Wendover Productions",
       "slug": "wendover-productions",
-      "currentScore": 84,
-      "verdict": "EXCELLENT",
-      "genre": "Logistics / Explainer",
-      "currentRank": 50,
-      "status": "in-top-50",
-      "droppedAt": null,
-      "droppedReason": null,
+      "currentScore": null,
+      "verdict": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#015",
+      "droppedReason": "Displaced — continued drift, score unchanged but trajectory flat; re-entry candidate",
       "reEvaluated": false,
       "reviews": [],
       "reEvaluations": []
@@ -1942,7 +2052,7 @@
       "currentScore": 84,
       "verdict": "EXCELLENT",
       "genre": "Internet History / Archaeology",
-      "currentRank": 45,
+      "currentRank": 47,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,

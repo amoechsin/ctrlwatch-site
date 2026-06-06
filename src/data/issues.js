@@ -153,4 +153,15 @@ export const issues = [
     rating: null,
     published: true,
   },
+  {
+    slug: '015',
+    number: '#015',
+    date: 'June 2026',
+    title: 'THE FOOD ISSUE',
+    subtitle: 'What happened to cooking on camera when the algorithm got hungry — and who is still cooking anyway.',
+    coverColor: '#ff6b00',
+    tag: 'FOOD',
+    rating: null,
+    published: true,
+  },
 ];

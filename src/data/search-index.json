@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-05-30T19:12:27.645Z",
+  "generatedAt": "2026-06-06T14:14:52.397Z",
   "totals": {
-    "total": 231,
-    "issue": 14,
-    "review": 82,
+    "total": 244,
+    "issue": 15,
+    "review": 87,
     "channel": 13,
-    "time-capsule": 87,
-    "boss-fight": 15,
-    "special": 20
+    "time-capsule": 91,
+    "boss-fight": 16,
+    "special": 22
   },
   "entries": [
     {
@@ -107,6 +107,13 @@
       "subtitle": "Why YouTube comedy stopped being funny — and where it quietly got funny again.",
       "url": "/issues/014/",
       "issueTag": "#014"
+    },
+    {
+      "type": "issue",
+      "title": "THE FOOD ISSUE",
+      "subtitle": "What happened to cooking on camera when the algorithm got hungry — and who is still cooking anyway.",
+      "url": "/issues/015/",
+      "issueTag": "#015"
     },
     {
       "type": "review",
@@ -221,6 +228,13 @@
       "issueTag": "#004"
     },
     {
+      "type": "review",
+      "title": "Chinese Cooking Demystified",
+      "subtitle": "Regional Chinese Cooking · 85/100 · EXCELLENT",
+      "url": "/reviews/chinese-cooking-demystified/",
+      "issueTag": "#015"
+    },
+    {
       "type": "channel",
       "title": "Cleo Abram",
       "subtitle": "",
@@ -282,6 +296,13 @@
       "subtitle": "Bass / Comedy · 55/100 · MEDIOCRE",
       "url": "/reviews/davie504/",
       "issueTag": "#010"
+    },
+    {
+      "type": "review",
+      "title": "De Mi Rancho a Tu Cocina",
+      "subtitle": "Mexican Home Cooking · 80/100 · EXCELLENT",
+      "url": "/reviews/de-mi-rancho-a-tu-cocina/",
+      "issueTag": "#015"
     },
     {
       "type": "channel",
@@ -359,6 +380,13 @@
       "subtitle": "Internet Culture / Documentary · 87/100 · EXCELLENT",
       "url": "/reviews/internet-historian/",
       "issueTag": "#003"
+    },
+    {
+      "type": "review",
+      "title": "J. Kenji López-Alt",
+      "subtitle": "Food Science / Cooking · 86/100 · EXCELLENT",
+      "url": "/reviews/j-kenji-lopez-alt/",
+      "issueTag": "#015"
     },
     {
       "type": "review",
@@ -628,6 +656,13 @@
     },
     {
       "type": "review",
+      "title": "Sohla and Ham",
+      "subtitle": "Cooking / Technique · 83/100 · EXCELLENT",
+      "url": "/reviews/sohla-and-ham/",
+      "issueTag": "#015"
+    },
+    {
+      "type": "review",
       "title": "Some More News",
       "subtitle": "Political Comedy / News · 79/100 · GOOD",
       "url": "/reviews/some-more-news/",
@@ -660,6 +695,13 @@
       "subtitle": "History × Cooking · 86/100 · EXCELLENT",
       "url": "/reviews/tasting-history-with-max-miller/",
       "issueTag": "#012"
+    },
+    {
+      "type": "review",
+      "title": "Tasty",
+      "subtitle": "Recipe / Short-Form Cooking · 50/100 · MEDIOCRE",
+      "url": "/reviews/tasty/",
+      "issueTag": "#015"
     },
     {
       "type": "channel",
@@ -1383,6 +1425,34 @@
       "issueTag": "#014"
     },
     {
+      "type": "time-capsule",
+      "title": "James Beard",
+      "subtitle": "The founder of American food media watching food become content; the cook vs the format; \"I made cooking serious, but I never made the cook serious\" — FIRST CULINARY-CATEGORY FIGURE",
+      "url": "/issues/015/",
+      "issueTag": "#015"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Auguste Escoffier",
+      "subtitle": "The brigade-system codifier on the solo head-cam creator; hidden method vs invisible perfection; \"you have built a system for making no one responsible for anything\"",
+      "url": "/issues/015/",
+      "issueTag": "#015"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Marie-Antoine Carême",
+      "subtitle": "The inventor of spectacle food on the cheese pull and mukbang; pièces montées vs 60-second spectacle; \"you have made food into weather\"",
+      "url": "/issues/015/",
+      "issueTag": "#015"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Brillat-Savarin",
+      "subtitle": "The philosopher of taste on mukbang and AI recipe slop; the table as communion; \"a recipe is a promise between two human beings\" — NEW CATEGORY (gastronomy/letters)",
+      "url": "/issues/015/",
+      "issueTag": "#015"
+    },
+    {
       "type": "boss-fight",
       "title": "Dan Carlin vs Joe Rogan",
       "subtitle": "Winner: Dan Carlin",
@@ -1486,6 +1556,13 @@
       "subtitle": "Winner: Drew Gooden",
       "url": "/issues/014/",
       "issueTag": "#014"
+    },
+    {
+      "type": "boss-fight",
+      "title": "Townsends vs Tasting History with Max Miller",
+      "subtitle": "Winner: Townsends",
+      "url": "/issues/015/",
+      "issueTag": "#015"
     },
     {
       "type": "special",
@@ -1626,6 +1703,20 @@
       "subtitle": "The Comedy Tax — What YouTube comedy costs the creator in four currencies (PG-13 ceiling, ironic-distance fatigue, hour-long arms race, parasocial trap)",
       "url": "/issues/014/",
       "issueTag": "#014"
+    },
+    {
+      "type": "special",
+      "title": "What We Lost When Cooking Became Content",
+      "subtitle": "What We Lost When Cooking Became Content — Bourdain-spined essay on the instruction→spectacle drift",
+      "url": "/issues/015/",
+      "issueTag": "#015"
+    },
+    {
+      "type": "special",
+      "title": "four losses",
+      "subtitle": "four losses (the cook, the mistake, the why, the promise)",
+      "url": "/issues/015/",
+      "issueTag": "#015"
     }
   ]
 }

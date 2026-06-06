@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTRL+WATCH — Issue #015 — THE FOOD ISSUE</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=VT323&family=Exo+2:wght@300;400;600;700&family=Russo+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary:    #0A0A12;
+  --bg-secondary:  #0F0F1A;
+  --bg-card:       #12121E;
+  --bg-header:     #08080F;
+  --cyan:          #00F0FF;
+  --magenta:       #FF00AA;
+  --yellow:        #FFE600;
+  --green:         #39FF14;
+  --orange:        #FF6B00;
+  --red:           #FF2244;
+  --text-primary:  #E0E0E8;
+  --text-secondary:#9090A0;
+  --text-dim:      #505060;
+  --border-color:  #1E1E30;
+  --glow-cyan:     0 0 10px #00F0FF, 0 0 20px rgba(0,240,255,0.3);
+  --glow-magenta:  0 0 10px #FF00AA, 0 0 20px rgba(255,0,170,0.3);
+  --glow-yellow:   0 0 10px #FFE600, 0 0 20px rgba(255,230,0,0.3);
+  --glow-green:    0 0 10px #39FF14, 0 0 20px rgba(57,255,20,0.3);
+  --glow-red:      0 0 10px #FF2244, 0 0 20px rgba(255,34,68,0.3);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg-primary); color: var(--text-primary); font-family: 'Exo 2', sans-serif; line-height: 1.6; }
+body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px); pointer-events: none; z-index: 9999; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.masthead { background: var(--bg-header); border-bottom: 1px solid var(--border-color); padding: 32px 0 24px; }
+.masthead-top { display: flex; justify-content: space-between; align-items: center; font-family: 'VT323', monospace; font-size: 24px; color: var(--text-secondary); }
+.masthead-title { text-align: center; padding: 16px 0; }
+.masthead-title h1 { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: clamp(48px, 9vw, 96px); color: var(--cyan); text-shadow: var(--glow-cyan); letter-spacing: 4px; }
+.masthead-sub { font-family: 'Press Start 2P', monospace; font-size: clamp(10px, 2vw, 14px); color: var(--magenta); letter-spacing: 2px; padding: 16px 0; text-align: center; }
+.pixel-bar { height: 8px; background: repeating-linear-gradient(90deg, var(--cyan) 0, var(--cyan) 8px, var(--magenta) 8px, var(--magenta) 16px, var(--yellow) 16px, var(--yellow) 24px, transparent 24px, transparent 32px); }
+.tabs { background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
+.tab-bar { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+.tab-bar::-webkit-scrollbar { height: 4px; }
+.tab-bar::-webkit-scrollbar-thumb { background: var(--cyan); }
+.tab-btn { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--text-dim); background: transparent; border: none; border-bottom: 2px solid transparent; padding: 16px 18px; cursor: pointer; white-space: nowrap; transition: all 0.15s; letter-spacing: 1px; }
+.tab-btn:hover { color: var(--text-secondary); }
+.tab-btn.active { color: var(--cyan); border-bottom: 2px solid var(--cyan); background: rgba(0,240,255,0.05); }
+.section-panel { display: none; padding: 48px 0 64px; min-height: 60vh; }
+.section-panel.active { display: block; }
+.section-header { margin-bottom: 32px; }
+.section-label { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--magenta); letter-spacing: 2px; text-transform: uppercase; }
+.section-title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: clamp(28px, 5vw, 48px); color: var(--cyan); text-shadow: var(--glow-cyan); margin-top: 8px; line-height: 1.1; }
+.pixel-divider { height: 4px; background: repeating-linear-gradient(90deg, var(--cyan) 0, var(--cyan) 8px, transparent 8px, transparent 16px); margin: 40px 0; }
+.pixel-divider-light { height: 2px; background: repeating-linear-gradient(90deg, var(--border-color) 0, var(--border-color) 4px, transparent 4px, transparent 8px); margin: 24px 0; }
+.pixel-divider-magenta { height: 4px; background: repeating-linear-gradient(90deg, var(--magenta) 0, var(--magenta) 8px, transparent 8px, transparent 16px); margin: 40px 0; }
+.prose p { margin: 16px 0; font-size: 17px; }
+.prose h3 { font-family: 'Orbitron', sans-serif; font-size: 22px; color: var(--cyan); margin: 32px 0 16px; }
+.prose h4 { font-family: 'Press Start 2P', monospace; font-size: 13px; color: var(--magenta); margin: 24px 0 12px; letter-spacing: 1px; }
+.prose strong { color: var(--yellow); }
+.prose em { color: var(--text-primary); font-style: italic; }
+.pull-quote { font-family: 'Russo One', sans-serif; font-size: 1.5rem; line-height: 1.4; color: var(--cyan); border-left: 4px solid var(--magenta); padding: 20px 28px; margin: 36px 0; background: rgba(0,240,255,0.05); font-style: italic; }
+.card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 28px; margin: 24px 0; }
+.score-card { background: var(--bg-card); border: 2px solid var(--border-color); margin: 32px 0; padding: 28px; }
+.score-header { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px; border-bottom: 2px solid var(--border-color); flex-wrap: wrap; gap: 12px; }
+.channel-name { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; color: var(--text-primary); letter-spacing: 1px; }
+.overall-score { font-family: 'VT323', monospace; font-size: 64px; color: var(--cyan); text-shadow: var(--glow-cyan); line-height: 1; }
+.overall-score .denom { font-size: 28px; color: var(--text-dim); }
+.score-bars { padding: 20px 0; }
+.category { display: grid; grid-template-columns: 160px 1fr 60px; align-items: center; gap: 12px; padding: 8px 0; }
+.cat-label { font-family: 'Exo 2', sans-serif; font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+.bar-track { background: rgba(255,255,255,0.05); height: 14px; border: 1px solid var(--border-color); position: relative; overflow: hidden; }
+.bar-fill { height: 100%; transition: width 0.3s; }
+.bar-fill.s-90 { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+.bar-fill.s-80 { background: var(--green); }
+.bar-fill.s-70 { background: var(--cyan); }
+.bar-fill.s-60 { background: var(--text-secondary); }
+.bar-fill.s-50 { background: var(--orange); }
+.bar-fill.s-40 { background: var(--red); }
+.cat-score { font-family: 'VT323', monospace; font-size: 24px; color: var(--text-primary); text-align: right; }
+.verdict-banner { font-family: 'Press Start 2P', monospace; font-size: 14px; padding: 16px; text-align: center; letter-spacing: 3px; margin-top: 16px; border: 2px solid; }
+.verdict-essential { color: var(--yellow); border-color: var(--yellow); text-shadow: var(--glow-yellow); }
+.verdict-excellent { color: var(--green); border-color: var(--green); text-shadow: var(--glow-green); }
+.verdict-good { color: var(--cyan); border-color: var(--cyan); text-shadow: var(--glow-cyan); }
+.verdict-average { color: var(--text-secondary); border-color: var(--text-secondary); }
+.verdict-mediocre { color: var(--orange); border-color: var(--orange); }
+.verdict-gameover { color: var(--red); border-color: var(--red); text-shadow: var(--glow-red); }
+.tc-interview { background: var(--bg-card); border: 1px solid var(--border-color); margin: 32px 0; padding: 32px; border-left: 4px solid var(--magenta); }
+.tc-disclaimer { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--orange); padding: 12px; background: rgba(255,107,0,0.08); border: 1px dashed var(--orange); margin-bottom: 24px; letter-spacing: 1px; line-height: 1.6; }
+.tc-subject { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 32px; color: var(--cyan); text-shadow: var(--glow-cyan); margin-bottom: 8px; letter-spacing: 1px; }
+.tc-meta { font-family: 'VT323', monospace; font-size: 18px; color: var(--text-secondary); margin-bottom: 24px; }
+.tc-exchange { margin: 18px 0; }
+.tc-speaker { font-family: 'Press Start 2P', monospace; font-size: 10px; letter-spacing: 1px; }
+.tc-cw { color: var(--magenta); }
+.tc-subj { color: var(--yellow); }
+.tc-line { font-size: 17px; padding: 4px 0 4px 12px; line-height: 1.7; }
+.tc-stage { color: var(--text-secondary); font-style: italic; }
+.tc-final { font-family: 'Russo One', sans-serif; font-size: 22px; color: var(--cyan); padding: 20px; background: rgba(0,240,255,0.06); border: 1px solid var(--cyan); margin-top: 24px; text-align: center; line-height: 1.4; }
+.top50-table { width: 100%; border-collapse: collapse; font-family: 'Exo 2', sans-serif; margin: 24px 0; }
+.top50-table th { font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--cyan); border-bottom: 2px solid var(--cyan); padding: 12px 10px; text-align: left; letter-spacing: 1px; background: rgba(0,240,255,0.05); }
+.top50-table td { padding: 8px 10px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); font-size: 15px; }
+.top50-table tr.top3 td { background: rgba(255,230,0,0.05); }
+.top50-table tr.top3 td.rank { font-family: 'VT323', monospace; font-size: 28px; color: var(--yellow); text-shadow: var(--glow-yellow); }
+.top50-table tr.new-entry td { background: rgba(0,240,255,0.06); border-left: 3px solid var(--cyan); }
+.top50-table td.rank { font-family: 'VT323', monospace; font-size: 22px; color: var(--cyan); width: 50px; }
+.top50-table td.score { font-family: 'VT323', monospace; font-size: 22px; color: var(--text-primary); width: 70px; }
+.top50-table td.genre { color: var(--text-secondary); font-size: 14px; font-style: italic; }
+.top50-table td.movement { font-family: 'VT323', monospace; font-size: 20px; width: 80px; }
+.mv-up { color: var(--green); }
+.mv-down { color: var(--orange); }
+.mv-flat { color: var(--text-dim); }
+.mv-new { color: var(--cyan); font-weight: bold; text-shadow: var(--glow-cyan); }
+.bf-title { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 48px; color: var(--magenta); text-align: center; text-shadow: var(--glow-magenta); margin: 32px 0 8px; letter-spacing: 4px; }
+.bf-subtitle { font-family: 'Press Start 2P', monospace; font-size: 12px; color: var(--cyan); text-align: center; margin-bottom: 32px; letter-spacing: 2px; }
+.bf-vs { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 64px; color: var(--yellow); text-align: center; text-shadow: var(--glow-yellow); margin: 24px 0; }
+.tale-tape { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 32px 0; border: 2px solid var(--cyan); }
+.tape-col { padding: 24px; }
+.tape-col:first-child { border-right: 2px solid var(--cyan); }
+.tape-channel { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; color: var(--cyan); text-shadow: var(--glow-cyan); margin-bottom: 16px; }
+.tape-row { padding: 8px 0; font-size: 14px; border-bottom: 1px dashed var(--border-color); }
+.tape-row strong { color: var(--magenta); font-family: 'Press Start 2P', monospace; font-size: 9px; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+.bf-round { background: var(--bg-card); border-left: 4px solid var(--cyan); padding: 24px 28px; margin: 24px 0; }
+.bf-round-num { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--magenta); letter-spacing: 2px; }
+.bf-round-title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; color: var(--cyan); margin: 6px 0 14px; }
+.bf-round-verdict { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--yellow); padding: 10px; border: 1px solid var(--yellow); margin-top: 16px; text-align: center; letter-spacing: 2px; }
+.bf-scorecard { background: var(--bg-card); border: 2px solid var(--magenta); padding: 28px; margin: 32px 0; }
+.bf-scorecard table { width: 100%; border-collapse: collapse; }
+.bf-scorecard th { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--cyan); padding: 12px; text-align: center; border-bottom: 2px solid var(--cyan); }
+.bf-scorecard td { padding: 12px; text-align: center; border-bottom: 1px solid var(--border-color); font-family: 'VT323', monospace; font-size: 24px; }
+.bf-scorecard td:first-child { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--text-secondary); text-align: left; letter-spacing: 1px; }
+.bf-scorecard tr.total td { font-size: 32px; color: var(--yellow); border-top: 2px solid var(--cyan); padding-top: 16px; }
+.hl-card { background: var(--bg-card); border: 1px solid var(--border-color); border-left: 3px solid var(--green); padding: 24px; margin: 20px 0; position: relative; }
+.hl-card.yobs-pick { border-left: 3px solid var(--yellow); }
+.hl-name { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 20px; color: var(--cyan); }
+.hl-meta { font-family: 'VT323', monospace; font-size: 18px; color: var(--text-secondary); margin: 6px 0 12px; }
+.hl-pick-badge { position: absolute; top: 16px; right: 16px; font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--bg-primary); background: var(--yellow); padding: 6px 10px; letter-spacing: 1px; }
+.ads-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin: 32px 0; }
+.ad-box { background: var(--bg-card); border: 3px solid var(--magenta); padding: 24px; box-shadow: 0 0 16px rgba(255,0,170,0.3); position: relative; }
+.ad-box.yellow-tint { border-color: var(--yellow); box-shadow: 0 0 16px rgba(255,230,0,0.3); }
+.ad-box.green-tint { border-color: var(--green); box-shadow: 0 0 16px rgba(57,255,20,0.3); }
+.ad-name { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 26px; color: var(--magenta); text-shadow: var(--glow-magenta); margin-bottom: 4px; letter-spacing: 1px; line-height: 1.1; }
+.ad-box.yellow-tint .ad-name { color: var(--yellow); text-shadow: var(--glow-yellow); }
+.ad-box.green-tint .ad-name { color: var(--green); text-shadow: var(--glow-green); }
+.ad-tagline { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--cyan); letter-spacing: 1px; margin-bottom: 16px; line-height: 1.5; }
+.ad-body { font-size: 13px; line-height: 1.5; margin-bottom: 12px; }
+.ad-features { font-size: 12px; padding-left: 18px; margin: 12px 0; color: var(--text-secondary); }
+.ad-features li { padding: 3px 0; }
+.ad-cta { font-family: 'VT323', monospace; font-size: 22px; color: var(--yellow); text-align: center; padding: 8px 0; border-top: 1px dashed var(--text-dim); border-bottom: 1px dashed var(--text-dim); margin: 12px 0; }
+.ad-fineprint { font-size: 9px; color: var(--text-dim); font-style: italic; line-height: 1.4; }
+.yob-intro { display: flex; align-items: center; gap: 20px; margin-bottom: 32px; flex-wrap: wrap; }
+.yob-svg { flex-shrink: 0; }
+.yob-text { font-family: 'VT323', monospace; font-size: 22px; color: var(--green); flex: 1; min-width: 200px; }
+.letter { background: var(--bg-card); border-left: 3px solid var(--cyan); padding: 24px; margin: 24px 0; }
+.letter-from { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--magenta); letter-spacing: 1px; margin-bottom: 12px; }
+.letter-body { font-size: 15px; line-height: 1.6; font-style: italic; color: var(--text-primary); }
+.letter-rating { padding: 14px 0 6px; }
+.star-rating { color: var(--yellow); font-size: 18px; letter-spacing: 2px; }
+.star-empty { color: var(--text-dim); }
+.verdict-tag { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--magenta); letter-spacing: 2px; padding-left: 16px; }
+.yob-reply { background: rgba(57,255,20,0.04); border: 1px dashed var(--green); padding: 16px 20px; margin-top: 14px; font-size: 14px; line-height: 1.6; }
+.yob-reply::before { content: '> YOB SAYS:'; font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--green); display: block; margin-bottom: 8px; letter-spacing: 1px; }
+.yob-sign { display: block; text-align: right; color: var(--green); font-family: 'VT323', monospace; font-size: 18px; margin-top: 8px; }
+.go-trend { background: var(--bg-card); border-left: 4px solid var(--red); padding: 24px 28px; margin: 24px 0; }
+.go-num { font-family: 'VT323', monospace; font-size: 32px; color: var(--red); text-shadow: var(--glow-red); }
+.go-title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; color: var(--red); margin: 4px 0 12px; }
+.go-killshot { font-family: 'Russo One', sans-serif; font-size: 18px; color: var(--orange); padding: 12px 16px; background: rgba(255,107,0,0.06); border-left: 3px solid var(--orange); margin-top: 14px; font-style: italic; }
+.news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+.news-item { background: var(--bg-card); border: 1px solid var(--border-color); padding: 22px; }
+.news-headline { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 18px; color: var(--cyan); margin-bottom: 10px; line-height: 1.3; }
+.news-tag { font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--magenta); letter-spacing: 1px; margin-bottom: 8px; }
+.news-body { font-size: 14px; line-height: 1.6; }
+.footer { background: var(--bg-header); padding: 32px 0; text-align: center; margin-top: 64px; border-top: 1px solid var(--border-color); }
+.footer p { font-size: 11px; color: var(--text-dim); line-height: 1.6; }
+.footer p.legal { font-style: italic; }
+.footer p.copy { font-family: 'VT323', monospace; font-size: 16px; color: var(--text-secondary); margin-top: 8px; }
+@media (max-width: 768px) {
+  .category { grid-template-columns: 110px 1fr 50px; gap: 8px; }
+  .cat-label { font-size: 11px; }
+  .channel-name { font-size: 18px; }
+  .overall-score { font-size: 48px; }
+  .overall-score .denom { font-size: 22px; }
+  .tale-tape { grid-template-columns: 1fr; }
+  .tape-col:first-child { border-right: none; border-bottom: 2px solid var(--cyan); }
+  .ads-grid { grid-template-columns: 1fr; }
+  .news-grid { grid-template-columns: 1fr; }
+  .top50-table th, .top50-table td { padding: 6px 4px; font-size: 12px; }
+  .top50-table td.rank, .top50-table td.score { font-size: 18px; }
+  .bf-vs { font-size: 40px; }
+  .bf-title { font-size: 32px; letter-spacing: 2px; }
+  .tc-subject { font-size: 24px; }
+}
+/* SITE NAV BAR */
+.site-nav-bar {
+  background: #08080F;
+  border-bottom: 1px solid #222244;
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1001;
+}
+.site-nav-bar a {
+  color: #606070;
+  text-decoration: none;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+.site-nav-bar a:hover {
+  color: #00F0FF;
+  text-shadow: 0 0 10px #00F0FF44, 0 0 30px #00F0FF22;
+}
+.site-nav-bar .nav-sep {
+  color: #333355;
+}
+</style>
+<!-- GoatCounter analytics -->
+<script data-goatcounter="https://ctrlwatch.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<!-- ctrlwatch:og:start -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ctrl-watch.xyz/issues/015/">
+<meta property="og:title" content="CTRL+WATCH — Issue #015 — THE FOOD ISSUE">
+<meta property="og:description" content="What happened to cooking on camera when the algorithm got hungry — and who is still cooking anyway.">
+<meta property="og:image" content="https://ctrl-watch.xyz/covers/015-og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CTRL+WATCH — Issue #015 — THE FOOD ISSUE">
+<meta name="twitter:description" content="What happened to cooking on camera when the algorithm got hungry — and who is still cooking anyway.">
+<meta name="twitter:image" content="https://ctrl-watch.xyz/covers/015-og.png">
+<!-- ctrlwatch:og:end -->
+<script>/* cw-mode-v5 */(function(){try{var ss=sessionStorage.getItem('ctrlwatch_mode');if(ss===null){if(localStorage.getItem('ctrlwatch_mode')!==null)localStorage.removeItem('ctrlwatch_mode');}else if(localStorage.getItem('ctrlwatch_mode')!==ss){localStorage.setItem('ctrlwatch_mode',ss);}if(ss==='print')document.documentElement.classList.add('mode-print');}catch(e){}function i(){var prev=document.querySelector('.cw-mode-widget');if(prev)prev.remove();var w=document.createElement('div');w.className='cw-mode-widget';w.setAttribute('role','group');w.setAttribute('aria-label','Display mode');w.innerHTML='<button type="button" data-mode="terminal" aria-label="Terminal mode" title="Terminal mode">[TERMINAL]</button><button type="button" data-mode="print" aria-label="Magazine mode" title="Magazine mode">[MAGAZINE]</button>';document.body.appendChild(w);var b=w.querySelectorAll('button');function s(){var m=document.documentElement.classList.contains('mode-print')?'print':'terminal';b.forEach(function(x){x.setAttribute('aria-pressed',x.dataset.mode===m?'true':'false');});}s();function set(m){if(m==='print')document.documentElement.classList.add('mode-print');else document.documentElement.classList.remove('mode-print');try{sessionStorage.setItem('ctrlwatch_mode',m);localStorage.setItem('ctrlwatch_mode',m);}catch(e){}s();}b.forEach(function(x){x.addEventListener('click',function(){set(x.dataset.mode);});});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',i);else i();})();</script>
+<link rel="stylesheet" href="/issues/_shell.css?v=190fd1c5">
+<!-- ctrlwatch:seo:start -->
+<meta name="description" content="What happened to cooking on camera when the algorithm got hungry — and who is still cooking anyway.">
+<link rel="canonical" href="https://ctrl-watch.xyz/issues/015/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Top 50 YouTube Channels — Issue #015 (June 2026) — CTRL+WATCH",
+  "description": "CTRL+WATCH's master ranking of YouTube channels as published in Issue #015 (June 2026).",
+  "url": "https://ctrl-watch.xyz/issues/015/#high-scores",
+  "numberOfItems": 50,
+  "itemListOrder": "https://schema.org/ItemListOrderDescending",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "3Blue1Brown"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kurzgesagt"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Every Frame a Painting"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Primitive Technology"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "name": "Jacob Geller"
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "name": "Adam Neely"
+    },
+    {
+      "@type": "ListItem",
+      "position": 7,
+      "name": "CGP Grey"
+    },
+    {
+      "@type": "ListItem",
+      "position": 8,
+      "name": "Lemmino"
+    },
+    {
+      "@type": "ListItem",
+      "position": 9,
+      "name": "Jenny Nicholson"
+    },
+    {
+      "@type": "ListItem",
+      "position": 10,
+      "name": "Fireship"
+    },
+    {
+      "@type": "ListItem",
+      "position": 11,
+      "name": "Dan Carlin's Hardcore History"
+    },
+    {
+      "@type": "ListItem",
+      "position": 12,
+      "name": "Townsends"
+    },
+    {
+      "@type": "ListItem",
+      "position": 13,
+      "name": "Mark Rober"
+    },
+    {
+      "@type": "ListItem",
+      "position": 14,
+      "name": "Veritasium"
+    },
+    {
+      "@type": "ListItem",
+      "position": 15,
+      "name": "Vsauce"
+    },
+    {
+      "@type": "ListItem",
+      "position": 16,
+      "name": "Technology Connections"
+    },
+    {
+      "@type": "ListItem",
+      "position": 17,
+      "name": "Conan O'Brien / Team Coco"
+    },
+    {
+      "@type": "ListItem",
+      "position": 18,
+      "name": "Contrapoints"
+    },
+    {
+      "@type": "ListItem",
+      "position": 19,
+      "name": "exurb1a"
+    },
+    {
+      "@type": "ListItem",
+      "position": 20,
+      "name": "Clickspring"
+    },
+    {
+      "@type": "ListItem",
+      "position": 21,
+      "name": "Internet Historian"
+    },
+    {
+      "@type": "ListItem",
+      "position": 22,
+      "name": "Theo Von"
+    },
+    {
+      "@type": "ListItem",
+      "position": 23,
+      "name": "Good Mythical Morning"
+    },
+    {
+      "@type": "ListItem",
+      "position": 24,
+      "name": "Caspian Report"
+    },
+    {
+      "@type": "ListItem",
+      "position": 25,
+      "name": "Historia Civilis"
+    },
+    {
+      "@type": "ListItem",
+      "position": 26,
+      "name": "JCS — Criminal Psychology"
+    },
+    {
+      "@type": "ListItem",
+      "position": 27,
+      "name": "Tasting History with Max Miller"
+    },
+    {
+      "@type": "ListItem",
+      "position": 28,
+      "name": "Breaking Points"
+    },
+    {
+      "@type": "ListItem",
+      "position": 29,
+      "name": "12tone"
+    },
+    {
+      "@type": "ListItem",
+      "position": 30,
+      "name": "Like Stories of Old"
+    },
+    {
+      "@type": "ListItem",
+      "position": 31,
+      "name": "Nerdwriter1"
+    },
+    {
+      "@type": "ListItem",
+      "position": 32,
+      "name": "NileRed"
+    },
+    {
+      "@type": "ListItem",
+      "position": 33,
+      "name": "Stuff Made Here"
+    },
+    {
+      "@type": "ListItem",
+      "position": 34,
+      "name": "J. Kenji López-Alt"
+    },
+    {
+      "@type": "ListItem",
+      "position": 35,
+      "name": "Scott The Woz"
+    },
+    {
+      "@type": "ListItem",
+      "position": 36,
+      "name": "Drew Gooden"
+    },
+    {
+      "@type": "ListItem",
+      "position": 37,
+      "name": "Binging with Babish"
+    },
+    {
+      "@type": "ListItem",
+      "position": 38,
+      "name": "Tantacrul"
+    },
+    {
+      "@type": "ListItem",
+      "position": 39,
+      "name": "Philosophy Tube"
+    },
+    {
+      "@type": "ListItem",
+      "position": 40,
+      "name": "Real Engineering"
+    },
+    {
+      "@type": "ListItem",
+      "position": 41,
+      "name": "Chinese Cooking Demystified"
+    },
+    {
+      "@type": "ListItem",
+      "position": 42,
+      "name": "The Slow Mo Guys"
+    },
+    {
+      "@type": "ListItem",
+      "position": 43,
+      "name": "Map Men (Jay and Mark)"
+    },
+    {
+      "@type": "ListItem",
+      "position": 44,
+      "name": "Smarter Every Day"
+    },
+    {
+      "@type": "ListItem",
+      "position": 45,
+      "name": "TED-Ed"
+    },
+    {
+      "@type": "ListItem",
+      "position": 46,
+      "name": "Videogamedunkey"
+    },
+    {
+      "@type": "ListItem",
+      "position": 47,
+      "name": "Whang!"
+    },
+    {
+      "@type": "ListItem",
+      "position": 48,
+      "name": "Ryan George / Pitch Meeting"
+    },
+    {
+      "@type": "ListItem",
+      "position": 49,
+      "name": "Danny Gonzalez"
+    },
+    {
+      "@type": "ListItem",
+      "position": 50,
+      "name": "Abroad in Japan"
+    }
+  ]
+}
+</script>
+<!-- ctrlwatch:seo:end -->
+</head>
+<body>
+
+<!-- SITE NAVIGATION -->
+<div class="site-nav-bar">
+  <a href="/">← Home</a>
+  <span class="nav-sep">/</span>
+  <a href="/archive">Archive</a>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="masthead-top">
+      <span>ISSUE #015 &middot; £2.50 / $3.25</span>
+      <span>JUNE 2026 &middot; EST. 2023</span>
+    </div>
+    <div class="masthead-title"><h1>CTRL+WATCH</h1></div>
+    <div class="masthead-sub">▌ ▌ ▌  THE FOOD ISSUE  ▌ ▌ ▌</div>
+  </div>
+</header>
+<div class="pixel-bar"></div>
+<nav class="tabs">
+  <div class="wrap">
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="press-start" onclick="showTab('press-start')">PRESS START</button>
+      <button class="tab-btn" data-tab="now-loading" onclick="showTab('now-loading')">NOW LOADING</button>
+      <button class="tab-btn" data-tab="time-capsule" onclick="showTab('time-capsule')">TIME CAPSULE</button>
+      <button class="tab-btn" data-tab="player-profiles" onclick="showTab('player-profiles')">PLAYER PROFILES</button>
+      <button class="tab-btn" data-tab="boss-fight" onclick="showTab('boss-fight')">BOSS FIGHT</button>
+      <button class="tab-btn" data-tab="high-scores" onclick="showTab('high-scores')">HIGH SCORES</button>
+      <button class="tab-btn" data-tab="hidden-levels" onclick="showTab('hidden-levels')">HIDDEN LEVELS</button>
+      <button class="tab-btn" data-tab="cheat-codes" onclick="showTab('cheat-codes')">CHEAT CODES</button>
+      <button class="tab-btn" data-tab="game-over" onclick="showTab('game-over')">GAME OVER</button>
+      <button class="tab-btn" data-tab="yobs-save-point" onclick="showTab('yobs-save-point')">YOB'S SAVE POINT</button>
+      <button class="tab-btn" data-tab="retro-ads" onclick="showTab('retro-ads')">RETRO ADS</button>
+    </div>
+  </div>
+</nav>
+<main class="wrap">
+<section id="press-start" class="section-panel active">
+  <div class="section-header">
+    <div class="section-label">▌ EDITOR'S LETTER ▌</div>
+    <h2 class="section-title">A Cook Without a Kitchen, A Kitchen Without a Cook</h2>
+  </div>
+  <div class="prose">
+    <p>There is a kind of video that has been quietly conquering the internet, and it has no cook in it. You know the one. An overhead camera, fixed and unblinking. A pair of disembodied hands. Pre-weighed ingredients in little glass bowls. The cheese pulls. The sauce glistens. A jaunty four-bar loop plays. Nobody speaks, because nobody is there. It is cooking rendered as weather — something that happens to ingredients rather than something a person does. It is, when you stop to look at it, genuinely strange: a cooking show predicated on the absence of the one thing a cooking show is supposed to have.</p>
+
+    <p>This is the issue where we go looking for the cook. Because food is now the fourth-largest content category on YouTube — 457 billion views in a single quarter, growing 32% year over year — and somewhere in that ocean the medium quietly decided that the human being holding the knife was optional. AI-generated recipe channels now number in the hundreds, collectively pulling billions of views and millions in ad revenue, narrating dishes that were never cooked, for an audience that will never make them. The thumbnail is the meal. The meal is the thumbnail. The fryer is sad and somewhere off-screen.</p>
+
+    <p class="pull-quote">A cooking show without a cook is not a cooking show. It is a production format wearing an apron — and for ten years YouTube has been quietly teaching us to prefer the apron.</p>
+
+    <p>Our Special Feature this month — <strong>"What We Lost When Cooking Became Content"</strong> — takes Anthony Bourdain as its presiding ghost, because nobody articulated the difference between honest food and performed food more savagely than he did, and nobody would have hated the disembodied-hands genre more. "Good food," he said, "is very often, even most often, simple food." He despised phoniness in every form it took, and he would have recognised the current moment instantly: not as the death of food television, but as its taxidermy. We are not reviewing Bourdain — he sat for our Time Capsule years ago, back in #004C — but his voice runs under this entire issue like stock under a sauce.</p>
+
+    <p>So who is still cooking? <strong>J. Kenji López-Alt</strong> straps a GoPro to his head and films himself making dinner, unedited, dropping things, correcting himself, explaining the <em>why</em> — and 1.7 million people watch, because it feels like standing in the room. <strong>Chinese Cooking Demystified</strong> publishes 3,000-word written recipes alongside every video, treating regional Chinese cuisine with a rigour most television never bothered with. And in the issue's quietest, most important profile, <strong>Sohla El-Waylly</strong> — the technical engine of the most-watched food-media brand of the 2010s, who walked away from the content machine — now cooks for fifty-five thousand people on a channel the algorithm will never reward. That review is for a reader in the UK who asked us, in print, to take a small channel seriously. K., we kept the promise.</p>
+
+    <p>The Boss Fight is between friends. <strong>Townsends</strong> and <strong>Tasting History with Max Miller</strong> have actually cooked together — there is a video of it — and yet they represent two genuinely different theories of how the past should be served. One trusts immersion; the other trusts the footnote. We make you choose anyway. That is the job.</p>
+
+    <p>Our Time Capsule reaches back further than it ever has. <strong>James Beard</strong>, who built American food media with his bare hands, watches what his great-grandchildren did with it. <strong>Auguste Escoffier</strong>, who turned the kitchen into a disciplined army, regards the solo creator with a head-mounted camera and tries to work out whether it is cooking at all. <strong>Marie-Antoine Carême</strong>, who invented edible architecture for kings, meets the cheese pull and recognises a vulgar cousin of his sugar temples. And <strong>Brillat-Savarin</strong> — the philosopher who told us that the discovery of a new dish does more for human happiness than the discovery of a star — is shown a man eating fourteen kilograms of food into a microphone, and asked what it means.</p>
+
+    <p>And yes: there is a negative review. It was mandatory this issue, and the candidate chose itself. <strong>Tasty</strong> invented the format that hollowed out the genre, made it work spectacularly, and then — having just been bought by a man who announced he intends to "officially chase YouTube" — became the perfect monument to a question this issue keeps asking. What is a cooking channel for, if not to teach a person to cook?</p>
+
+    <p>We do not arrive at despair. The medium is full of people who still believe that a recipe is a promise between two human beings — one who worked it out, one who will make it tonight. They are harder to find than they used to be. They are worth finding. We are, somehow, paid to find them.</p>
+
+    <p style="margin-top: 32px; text-align: right; font-family: 'VT323', monospace; font-size: 22px; color: var(--magenta);">— The Editor<br>June 2026</p>
+
+    <p style="text-align: center; font-family: 'Press Start 2P', monospace; font-size: 13px; color: var(--cyan); margin-top: 32px; letter-spacing: 3px;">▶ PRESS START ◀</p>
+  </div>
+</section>
+<div class="pixel-divider-magenta"></div>
+<section id="now-loading" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ CURRENT EVENTS &amp; COMING UP ▌</div>
+    <h2 class="section-title">Now Loading</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">Six things happening in the food-on-camera economy that you will be arguing about by autumn.</p>
+  </div>
+
+  <div class="news-grid">
+    <div class="news-item">
+      <div class="news-tag">▶ THE SLOP FRONT</div>
+      <div class="news-headline">AI Recipe Slop Hits Industrial Scale — and YouTube Finally Blinks</div>
+      <p class="news-body">An October 2025 study identified 278 channels producing nothing but AI-generated content — collectively 63 billion views, 221 million subscribers, an estimated $117 million a year in ad revenue. Food was ground zero: a templated recipe needs no on-screen expertise, and generating fifty "recipes" a day costs almost nothing. YouTube quietly renamed its "repetitious content" rule to "inauthentic content" in July 2025, then in January 2026 pulled sixteen major channels from the Partner Program. It is a start. It is also a confession: the platform built the incentive, then acted surprised by what grew in it.</p>
+    </div>
+    <div class="news-item">
+      <div class="news-tag">▶ THE ACQUISITION</div>
+      <div class="news-headline">Byron Allen Buys BuzzFeed — and Inherits the Channel That Killed the Celebrity Chef</div>
+      <p class="news-body">On 27 May 2026, Byron Allen's Family Office closed a $120M deal for a majority stake in BuzzFeed, immediately declaring the company is "officially chasing YouTube to become another premier free-streaming video service." Tasty was carved out as an independent subsidiary to attract outside money; founder Jonah Peretti was reassigned to "President of BuzzFeed AI." The irony writes its own caption: the channel that invented the hands-and-pans format, which was engineered for muted Facebook autoplay in 2015, now belongs to a man trying to out-YouTube YouTube. See this issue's negative review.</p>
+    </div>
+    <div class="news-item">
+      <div class="news-tag">▶ THE NUMBERS</div>
+      <div class="news-headline">Food Is Now YouTube's Fourth-Largest Category</div>
+      <p class="news-body">457 billion views in Q1 2025, up 32% year over year, and — the stat that matters — 99% of the top 4,000 food channels by views are creator-driven, not brand-driven. The corporate food-media empires spent a decade trying to own this space and lost it to individuals with tripods. The mukbang and ASMR-eating segment alone now carries channels above 30 million subscribers each: Zach Choi, Korea's DONA, Japan's Bayashi TV. Cooking didn't die on YouTube. It decentralised, and then it ate.</p>
+    </div>
+    <div class="news-item">
+      <div class="news-tag">▶ WITHOUT ASKING</div>
+      <div class="news-headline">YouTube Begins AI-Upscaling Short Videos Without Telling Creators</div>
+      <p class="news-body">In 2025 YouTube began silently running AI "enhancement" over Shorts — sharpening, smoothing, upscaling — without informing creators or requesting consent. Cooking content, heavy on close-up texture, was conspicuously affected: viewers reported sauces that looked faintly plastic, crusts with an uncanny sheen. The complaint is small and large at once. A platform that will algorithmically retouch your risotto without asking has a particular theory of what your video is — and it is not "a thing you made."</p>
+    </div>
+    <div class="news-item">
+      <div class="news-tag">▶ FOOD THAT ISN'T</div>
+      <div class="news-headline">AI Images of Impossible Dishes Are Eating the Recipe Web</div>
+      <p class="news-body">Content farms now flood Facebook and Pinterest with AI-generated images of dishes that look delicious and cannot physically be made. One established food blogger watched her turkey-recipe traffic fall 40% year over year — to an AI-generated competitor that doesn't cook, doesn't test, and doesn't exist. "Glossy, gunky, and ready in minutes," as one write-up put it. The recipe internet spent twenty years building trust on the premise that a human made the thing. That premise is now optional, and the click-through rates do not seem to mind.</p>
+    </div>
+    <div class="news-item">
+      <div class="news-tag">▶ EATING AS EXPORT</div>
+      <div class="news-headline">Korean Mukbang Becomes a $1.8B Promotional Machine</div>
+      <p class="news-body">What began as eating-on-camera for comfort and company is now measurable infrastructure: the Korean mukbang industry functions as distributed marketing inside South Korea's $13.6 billion food-export economy, selling K-food brands to the world one enormous on-camera meal at a time. It is a remarkable second act for a format the West still files under "novelty." Somewhere, a trade ministry has a slide deck about it. Brillat-Savarin, who appears in our Time Capsule, has thoughts — none of them on the slide deck.</p>
+    </div>
+  </div>
+</section>
+<div class="pixel-divider"></div>
+<section id="time-capsule" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ FICTIONAL INTERVIEWS ▌</div>
+    <h2 class="section-title">Time Capsule</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">Four figures who built the way we cook, write about cooking, and stage cooking — shown food YouTube for the first time, from inside their own century. Bourdain and Julia Child already sat for us, back in #004C; this month we reach further back, to the people who made the rules the algorithm forgot.</p>
+  </div>
+
+  <div class="tc-interview">
+    <div class="tc-disclaimer">⚠ SATIRICAL / FICTIONAL — James Beard did not participate in this Q&amp;A.</div>
+    <div class="tc-subject">James Beard</div>
+    <div class="tc-meta">1903–1985 · The founder of American food media · responding from 1985</div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Mr. Beard, before you say anything — this is the great-grandchild of the thing you helped invent. Food, on screens, in every home, all day. What's your first reaction?</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">JAMES BEARD</div><div class="tc-line"><span class="tc-stage">[settles his considerable frame, watching for a long moment]</span> My first reaction is appetite, and my second is suspicion, and I have learned to trust the second one more. When I started, the whole argument — the entire war I fought — was that American food deserved to be taken <em>seriously</em>. That a man could write about a pan of cornbread the way another wrote about a symphony. I lost that war for thirty years and then I started winning it. And now you show me… how many of these are there?</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Millions. Food is one of the largest things on the entire network.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">JAMES BEARD</div><div class="tc-line">Millions. <span class="tc-stage">[a slow exhale]</span> Then I won, and I should be delighted, and I am not entirely delighted, and I would like to understand why before I die again. Show me a good one. Don't show me the worst. Any fool can be cheered by mocking the worst.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Here's a man named Kenji. He wears a camera on his head and films himself cooking dinner. No crew. He drops things. He explains why salt does what it does.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">JAMES BEARD</div><div class="tc-line"><span class="tc-stage">[leans in, and something in the face softens]</span> Oh. Oh, that's <em>teaching</em>. That's the real article. Look — he's not performing competence, he's having it. You can't fake that, you know. I spent my life in front of cameras pretending the soufflé always rises, and the whole time the truthful thing, the <em>kind</em> thing, was to let them see it fall and show them it doesn't matter. This fellow lets it fall. He's better than I was. I'll say that plainly.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Now here's the other end. This channel has twenty million followers. There's no person in it at all — just hands, and a camera looking straight down.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">JAMES BEARD</div><div class="tc-line"><span class="tc-stage">[the warmth goes out of him by degrees]</span> Where is the <em>cook</em>? … No, I heard you, I just — I want to be sure I understand. You've removed the person. The one thing food has that a stock ticker doesn't is that a human being stands behind it, with a name and a temper and a grandmother. I built a school. I put my <em>face</em> on it — God knows it was not a face built for television — because I wanted them to know a fallible man was vouching for the recipe. These hands vouch for nothing. They can't be embarrassed. That's not modesty, son. That's the opposite of modesty. It's a way of never being responsible for anything you serve.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Does it help to know it was built that way deliberately — to be watched silently, with the sound off, while people scrolled past?</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">JAMES BEARD</div><div class="tc-line">It helps me the way a diagnosis helps. <span class="tc-stage">[a dry, rueful sound]</span> So it was <em>designed</em> to be ignored while it played. We used to fight for their full attention — that was the dignity of the thing, you sat down, you watched, you cooked along. This was built to be half-seen by a person doing something else. I find that the saddest sentence anyone has said to me since I got here, and I have been asked about my weight three times.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Last question. You spent your life convincing Americans that cooking deserved to be taken seriously. Was it worth it?</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">JAMES BEARD</div><div class="tc-line"><span class="tc-stage">[considers it honestly, a long time, the showman entirely gone]</span> Yes. Because of the man with the camera on his head, yes, completely, without reservation. He's worth all of it. <span class="tc-stage">[then, quieter]</span> But I'll tell you the thing I got wrong. I thought if I made cooking serious, seriousness would protect it. It doesn't. You can make a thing important and then watch importance get strip-mined faster than neglect ever could. The neglected things, at least, were left alone.</div></div>
+
+    <div class="tc-final">"I asked for the whole country to take a pan of cornbread seriously. I never thought to ask them to take the <em>cook</em> seriously. That was the mistake. The food was never the point. The food was only ever the proof that a person had been there."</div>
+  </div>
+
+  <div class="tc-interview">
+    <div class="tc-disclaimer">⚠ SATIRICAL / FICTIONAL — Auguste Escoffier did not participate in this Q&amp;A.</div>
+    <div class="tc-subject">Auguste Escoffier</div>
+    <div class="tc-meta">1846–1935 · Codifier of French cuisine, father of the kitchen brigade · responding from 1935</div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Monsieur Escoffier, you organised the modern kitchen into a disciplined hierarchy — the brigade, every man at his station. We'd like you to look at how cooking is shown to the public now. This man works alone. He films himself.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">ESCOFFIER</div><div class="tc-line"><span class="tc-stage">[watches with the still, total attention of a man inspecting a line]</span> Alone. He is the saucier and the poissonnier and the garçon and the — he is everyone. <span class="tc-stage">[a precise frown]</span> In my kitchen this would be chaos. A man at every station, each one mastering one thing perfectly, the whole moving like a regiment — that is how you serve five hundred covers and not one plate is wrong. This man serves… how many?</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">In a sense, millions. But not in a kitchen. They watch. They cook later, at home, alone, the way he did.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">ESCOFFIER</div><div class="tc-line">Ah. <span class="tc-stage">[recalculating, and not displeased]</span> Then he is not a chef de cuisine. He is an <em>instructor</em>, and the regiment he commands is invisible and enormous and scattered across the earth, each soldier in his own small kitchen. That is… I must be honest, that is a thing I dreamed of and could not build. My <em>Guide Culinaire</em> — five thousand recipes — was my attempt to put myself in every kitchen at once, by means of a book. He does it with a — what is on his head?</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">A small camera. It shows exactly what his own eyes see.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">ESCOFFIER</div><div class="tc-line"><span class="tc-stage">[genuinely arrested]</span> So the student sees through the master's eyes. Mon Dieu. Do you understand what we would have given for that? I taught by standing behind a boy and moving his hands with my hands. This shows the hands <em>from inside</em>. <span class="tc-stage">[a rare, small smile]</span> The technology is contemptible and the idea is sublime. I did not expect to admire anything today.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Then let us show you what most of it actually is. This is the popular kind. No instruction. No person. Hands and a downward camera and very fast cuts.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">ESCOFFIER</div><div class="tc-line"><span class="tc-stage">[the smile vanishes; he becomes very formal]</span> Stop it, please. There. <span class="tc-stage">[a long, cold pause]</span> This teaches nothing. There is no <em>method</em>. The fire is hidden, the timing is hidden, the seasoning is hidden — they show only the result, gleaming, and call it cooking. In my system the artistry was meant to be <em>invisible in the execution and visible only in the pleasure of the guest</em>. This is the inversion. The execution is invisible and the pleasure is faked. It is a photograph of discipline with no discipline behind it.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">You named dishes after famous singers. Peach Melba. You understood spectacle and celebrity perfectly well.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">ESCOFFIER</div><div class="tc-line"><span class="tc-stage">[not at all defensive — almost amused at being caught]</span> Of course. I am the last man to sneer at a little theatre. I built a dessert for Madame Melba and it sold a thousand more than it would have as "peach in syrup." But — and this is everything — <em>the dish underneath the name was perfect.</em> The spectacle was the wrapping. You are showing me wrapping with no parcel inside. I sold the sizzle, monsieur. I would never have dared sell <em>only</em> the sizzle. My customers had teeth.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">If you were a young cook today, in this world, what would you do?</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">ESCOFFIER</div><div class="tc-line"><span class="tc-stage">[straightens, absolutely certain]</span> I would be the man with the camera on his head. I would teach the invisible regiment. And I would let them see every mistake, because the mistake is where the method lives — a thing your hidden-hands people will never understand, because to show the mistake you must first admit a person is present, and their entire art is the concealment of the person. That is not modern. That is ancient. It is the oldest trick there is: to take the credit and refuse the blame.</div></div>
+
+    <div class="tc-final">"You may hide the cook. But the moment you hide the cook, you have not made cooking simpler — you have made it a lie that photographs well. My whole life was a system for making a hundred men responsible for one perfect plate. You have built a system for making no one responsible for anything. It is a great achievement. I do not mean that as praise."</div>
+  </div>
+
+  <div class="tc-interview">
+    <div class="tc-disclaimer">⚠ SATIRICAL / FICTIONAL — Marie-Antoine Carême did not participate in this Q&amp;A.</div>
+    <div class="tc-subject">Marie-Antoine Carême</div>
+    <div class="tc-meta">1784–1833 · Inventor of <em>grande cuisine</em>, architect of the pièce montée · responding from 1833</div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Monsieur Carême, you built temples and bridges out of sugar and pastry, centrepieces that took months to design, for the tables of kings. We want to show you what spectacle food has become. Start with this — they call it the "cheese pull."</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">CARÊME</div><div class="tc-line"><span class="tc-stage">[watches melted cheese stretch upward in slow motion; his expression is unreadable for several seconds]</span> … This is the entire thing? The cheese rises, and that is the — that is the whole spectacle? <span class="tc-stage">[a brittle laugh]</span> I designed a four-foot ruin of a Roman temple in spun sugar that a duchess wept to dismantle. I studied <em>architecture</em>, monsieur — I sat in the great library and copied the engravings of real temples so that my sugar would honour them. And this is my heir. A string of hot cheese. <span class="tc-stage">[quietly]</span> It is not nothing. I will not say it is nothing. But it is the <em>smallest possible</em> spectacle. It is a spectacle a child could not be proud of.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">It takes sixty seconds to film. Yours took months. Does the speed offend you, or impress you?</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">CARÊME</div><div class="tc-line"><span class="tc-stage">[leans forward, and now he is genuinely thinking]</span> Both. You strike at the thing exactly. My spectacle required <em>patience</em> — from me to build it and from the guest to deserve it. The value was partly in the months. A thing that takes months says: <em>you are worth months.</em> A thing that takes a minute says: <em>you are worth a minute, and I will make ten thousand more of you before supper.</em> The speed does not offend my taste. It offends my sense of what the diner is being told about himself. They are telling millions of people, all day: you are worth a minute. That is a cruel thing to whisper to a whole civilisation.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Here is something at the opposite scale. A man recreates an entire vanished world — the cooking, the fire, the clothes, the tools — of two hundred years ago. Roughly your near future, actually.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">CARÊME</div><div class="tc-line"><span class="tc-stage">[the theatrical disdain falls away completely]</span> Now <em>this</em> man I understand in my bones. He is not cooking. He is building a world and inviting you to live in it for a quarter of an hour. That is what a pièce montée was — not a dessert, a <em>place</em>, a small civilisation you could enter with your eyes. He has the ambition. He has the patience. <span class="tc-stage">[touches his own chest]</span> If I had been born into his century I would have done precisely this, and I would have been insufferable about it, and I would have been right.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">You died young — the fumes of the charcoal, the years bent over the fire. You gave your lungs to the work. Does it change how you see people who give nothing and reach millions?</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">CARÊME</div><div class="tc-line"><span class="tc-stage">[a silence; when he speaks it is without self-pity, which makes it worse]</span> I burned in the glow of the spits, yes. I knew it was killing me and I did not stop, because the work was the only nobility a foundling could buy. <span class="tc-stage">[looks directly at the interviewer]</span> So no — I do not resent the ones who suffer nothing. Suffering is not the virtue; I never thought it was. The virtue is the <em>offering</em>. I gave my lungs because I had decided the guest deserved my lungs. These hands that pull the cheese have decided the guest deserves sixty seconds and a trick of the light. The tragedy is not that they suffer less than I did. It is that they have decided the diner is worth less than I decided he was.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">One last thing — they have a genre where a person simply eats, enormously, into a microphone, for the sound of it. No cooking at all.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">CARÊME</div><div class="tc-line"><span class="tc-stage">[stares; then, almost gently]</span> Take it away. I built food to be <em>looked at</em> with longing and then destroyed with joy. They have kept the destruction and thrown away the building. It is the back half of my art with the soul cut out. <span class="tc-stage">[turns from the screen]</span> No. I have seen enough. A man should be allowed to not see some things.</div></div>
+
+    <div class="tc-final">"I made food into architecture so that a meal could be a monument. You have made food into weather — it arrives, it glistens, it is gone, and no one is asked to remember it. I do not mind being surpassed. I mind being <em>forgotten in the right direction</em> — and you have gone the wrong way down my own road."</div>
+  </div>
+
+  <div class="tc-interview">
+    <div class="tc-disclaimer">⚠ SATIRICAL / FICTIONAL — Jean Anthelme Brillat-Savarin did not participate in this Q&amp;A.</div>
+    <div class="tc-subject">Brillat-Savarin</div>
+    <div class="tc-meta">1755–1826 · Magistrate, gastronome, author of <em>The Physiology of Taste</em> · responding from 1825</div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Monsieur, you wrote that the table is the only place where one is never bored for the first hour, and that the discovery of a new dish does more for human happiness than the discovery of a star. We have built a machine that shows nothing but food, forever. Have we made you happy or proved you wrong?</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BRILLAT-SAVARIN</div><div class="tc-line"><span class="tc-stage">[regards the screen with the unhurried pleasure of a man who has never once rushed a meal]</span> You have done a thing I did not anticipate, which is rare and delightful at my age. You have separated the <em>contemplation</em> of food from the <em>eating</em> of it, completely, and given the contemplation to everyone, for nothing. <span class="tc-stage">[a connoisseur's pause]</span> That is either a paradise or a perversion and I suspect, as with most human inventions, it is briskly both before luncheon.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Let us test it. Here is the genre that troubles us most. A person sits and eats — vast quantities — for the sound and the company of it. Millions watch. They call it eating-broadcast.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BRILLAT-SAVARIN</div><div class="tc-line"><span class="tc-stage">[watches with frank, scholarly fascination rather than horror]</span> Extraordinary. Now — do not expect me to recoil; I am a natural philosopher of appetite and this is data. <span class="tc-stage">[leans in]</span> See, the watchers are not hungry for the food. They cannot taste it. They are hungry for the <em>company</em> — for the oldest thing, a face across a table, the sounds of another animal being content. I wrote that the pleasure of the table belongs to all ages and conditions and is the last pleasure to console us for the loss of the others. These are lonely people borrowing a dinner companion through a glass. <span class="tc-stage">[softly]</span> I find that not disgusting. I find it unbearably sad, which is a more interesting thing for it to be.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">That's more generous than our other guests were.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BRILLAT-SAVARIN</div><div class="tc-line"><span class="tc-stage">[a small, wise smile]</span> My colleagues are cooks. Cooks judge the dish. I am a magistrate; I judge the <em>man</em>, and the man here is lonely, not wicked. "Tell me what you eat," I wrote, "and I shall tell you what you are." <span class="tc-stage">[gestures at the screen]</span> But these people are not eating at all — they are <em>watching</em> someone eat. So the question becomes: tell me what you watch being eaten, and I shall tell you what you lack. And what they lack is a table with another person at it. That is the diagnosis, and it is a diagnosis of the century, not of the supper.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">And the machines? We now have food shown by no one at all — images of dishes that were never cooked, recipes assembled by a mechanism, narrated by a voice that does not exist.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BRILLAT-SAVARIN</div><div class="tc-line"><span class="tc-stage">[and here, for the first time, the geniality cools]</span> Ah. No. Here I will be as severe as Escoffier. <span class="tc-stage">[sets down an imaginary glass]</span> The table is a <em>communion</em>, monsieur — that is not a metaphor, it is the literal mechanism of the thing. Two beings, one offering, trust exchanged. A recipe is a promise: <em>I made this, it works, I give it to you.</em> Your machine makes the promise without the maker. It is a communion with an empty chair on the holy side. The lonely man eating for the camera is sad but human — there is still a person in the chair. This other thing has removed the last person from the room and kept the smell of dinner. <em>That</em> I will call a perversion, and I will not soften it before luncheon or after.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Final question. We came to you afraid you'd tell us the love of food on screens is decadence. Is it?</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BRILLAT-SAVARIN</div><div class="tc-line"><span class="tc-stage">[laughs, warmly, the whole table-loving soul of him in it]</span> Decadence! My dear young people, I am the man who declared gourmandise a virtue while the priests were still calling it a sin. I am the <em>last</em> person who will scold you for loving the look of a peach. <span class="tc-stage">[then, the magistrate again, kindly]</span> No. The love is not decadence. The love is the best of you. Watch all the food you like. Only — and hear an old judge on this — at least once a day, put down the glass that shows you other people's dinners, and go and be the person in someone's chair. The screen cannot feed you. It was never able to. It can only remind you that you are hungry for something it does not contain.</div></div>
+
+    <div class="tc-final">"A recipe is a promise between two human beings — one who worked it out, and one who will make it tonight. You have built a marvellous machine for showing the promise and quietly removing the people. Keep the machine. Find the people. The dish was never the point, monsieur. The dish was only ever the excuse to sit down together."</div>
+  </div>
+</section>
+<div class="pixel-divider"></div>
+<section id="player-profiles" class="section-panel">
+<!-- ctrlwatch:reviewlinks:start -->
+<div style="margin:0 0 28px;padding:14px 16px;border:1px solid #00F0FF;background:rgba(0,240,255,0.06);font-family:'Share Tech Mono',monospace;"><div style="font-size:12px;letter-spacing:0.05em;color:#9090A0;margin-bottom:10px;">Canonical Player Profiles — the always-current home of each review below:</div><div style="display:flex;flex-wrap:wrap;gap:8px;"><a href="/reviews/chinese-cooking-demystified/" style="font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:0.05em;color:#00F0FF;text-decoration:none;border:1px solid #00F0FF;padding:8px 10px;display:inline-block;">Chinese Cooking Demystified ▸</a> <a href="/reviews/de-mi-rancho-a-tu-cocina/" style="font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:0.05em;color:#00F0FF;text-decoration:none;border:1px solid #00F0FF;padding:8px 10px;display:inline-block;">De Mi Rancho a Tu Cocina ▸</a> <a href="/reviews/j-kenji-lopez-alt/" style="font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:0.05em;color:#00F0FF;text-decoration:none;border:1px solid #00F0FF;padding:8px 10px;display:inline-block;">J. Kenji López-Alt ▸</a> <a href="/reviews/sohla-and-ham/" style="font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:0.05em;color:#00F0FF;text-decoration:none;border:1px solid #00F0FF;padding:8px 10px;display:inline-block;">Sohla and Ham ▸</a> <a href="/reviews/tasty/" style="font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:0.05em;color:#00F0FF;text-decoration:none;border:1px solid #00F0FF;padding:8px 10px;display:inline-block;">Tasty ▸</a></div></div>
+<!-- ctrlwatch:reviewlinks:end -->
+  <div class="section-header">
+    <div class="section-label">▌ CHANNEL REVIEWS ▌</div>
+    <h2 class="section-title">Player Profiles</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">Five channels, scored on the five axes. A man with a camera on his head. A two-person research operation. A grandmother in Michoacán. A chef who walked away from the biggest food brand on the internet. And the channel that proved you can run a cooking show with no cook in it.</p>
+  </div>
+
+  <div class="prose">
+    <h3>J. Kenji López-Alt</h3>
+    <p>There is a man cooking dinner, and you are inside his skull. The camera is strapped to his forehead, so you see exactly what he sees: his own hands, the cutting board, the pan, the bottle of fish sauce he reaches for without explaining because his hands already know where it is. He drops a clove of garlic and you watch him decide it's fine. He tastes, frowns, adds salt, tastes again. He calls it, accurately, an "anti-cooking show," and it is the single most quietly radical thing in the food category: a rejection of every instinct a professional cooking program has ever had.</p>
+    <p>Kenji López-Alt is, on paper, overqualified to the point of absurdity. MIT. Years in professional kitchens. Culinary director at Serious Eats. <em>The Food Lab</em>, a 2015 doorstop that won a James Beard Award and made "but why does it work" the central question of a generation of home cooks. <em>The Wok</em>, a number-one bestseller. He could have made a glossy, sponsor-slick, perfectly-lit show and people would have watched. Instead, during the lockdowns of 2020, he started filming himself making his family's dinner on a GoPro, mostly unedited, and 1.7 million people decided that <em>this</em> — the dropped garlic, the late-night spam fried rice over a roaring outdoor wok burner, the corrections in real time — was the thing they wanted.</p>
+    <p>What he does extraordinarily well is dissolve the gap between the expert and the kitchen. Most cooking instruction performs mastery; Kenji simply <em>has</em> it, in a way that registers because he refuses to perform it. The science is load-bearing — when he explains why you dry the steak, why the wok needs to be screaming hot, why the eggs go in when they do, you trust it, because the credibility architecture (MIT, Serious Eats, the books) means he has earned the right to the word "because." His Japanese-American background threads through the content without ever being a costume: the ingredients, the instincts, the deep wok work appear because they're his, not because they test well. The "House Special Fried Rice" video is a genuine landmark of the format — a man teaching technique by simply doing it correctly while talking to you like an adult.</p>
+    <p>Where it falls short is structure and rhythm. Kenji's channel has no architecture — no series, no escalation, no recurring segments, nothing the algorithm can grip. He posts in floods and then goes quiet; his own Instagram once described the channel as "long-dormant" before a restart. The POV format demands active attention — you cannot have it on in the background, because the whole point is that you're seeing through his eyes — which caps its reach in a medium built on ambient half-watching. And his public political presence has cost him a slice of the audience that wanted the food without the man, though wanting the food without the man is, as this issue keeps arguing, the disease and not the cure.</p>
+    <p class="pull-quote">Kenji is what happens when a man with nothing left to prove decides to stop performing competence and simply have it, on camera, with the mistakes left in. Nobody else at this level is brave enough to be this boring, and it turns out this boring is electric.</p>
+    <p>He enters the Top 50 this issue, and he deserves it: the anti-cooking show is one of the few genuinely new ideas the food category has produced in a decade, and it works precisely because it costs him the things other channels chase.</p>
+    <div class="score-card">
+      <div class="score-header"><span class="channel-name">J. Kenji López-Alt</span><span class="overall-score">86<span class="denom">/100</span></span></div>
+      <div class="score-bars">
+        <div class="category"><span class="cat-label">Content Quality</span><div class="bar-track"><div class="bar-fill s-90" style="width:92%"></div></div><span class="cat-score">92</span></div>
+        <div class="category"><span class="cat-label">Consistency</span><div class="bar-track"><div class="bar-fill s-70" style="width:70%"></div></div><span class="cat-score">70</span></div>
+        <div class="category"><span class="cat-label">Replay Value</span><div class="bar-track"><div class="bar-fill s-80" style="width:85%"></div></div><span class="cat-score">85</span></div>
+        <div class="category"><span class="cat-label">Community</span><div class="bar-track"><div class="bar-fill s-80" style="width:84%"></div></div><span class="cat-score">84</span></div>
+        <div class="category"><span class="cat-label">X-Factor</span><div class="bar-track"><div class="bar-fill s-90" style="width:94%"></div></div><span class="cat-score">94</span></div>
+      </div>
+      <div class="verdict-banner verdict-excellent">EXCELLENT</div>
+    </div>
+
+    <div class="pixel-divider-light"></div>
+
+    <h3>Chinese Cooking Demystified</h3>
+    <p>Most cooking channels give you a video. Chinese Cooking Demystified gives you a video and then, underneath it, a three-thousand-word written recipe that reads like a regional-cuisine seminar — substitutions, the dialect name of the dish, why this version and not that one, what the restaurant does differently from the home cook. Run by Chris Thomas and Steph Li out of (for most of the channel's life) Shunde, in Guangdong, it is the rare food channel built on the premise that its audience is intelligent and curious and willing to read. In an ecosystem optimised for the fewest possible words, that is almost a provocation.</p>
+    <p>Steph cooks; Chris handles much of the writing and framing; together since 2017 they have built the most rigorous English-language guide to Chinese regional cooking on the internet, full stop. The remit is enormous — Sichuan, Cantonese, the Northeast, dim sum, the specific witchcraft of wok hei — and they treat it with the seriousness of people who know exactly how much most Western coverage of "Chinese food" flattens. When they make mapo tofu, they tell you which doubanjiang to hunt down and why the supermarket version will betray you. When they tackle a restaurant dish, they reverse-engineer the actual professional method rather than the home approximation. It is the Kenji "why," pointed at a cuisine that English-language YouTube has spent twenty years badly summarising.</p>
+    <p>What it does extraordinarily well is earn trust through documentation. The written recipes are not an afterthought; they're the spine, and they make every video feel like the visible tip of a much larger body of research. This is reference-grade content — the kind people bookmark, return to, and cook from for years. Their Replay Value is exceptional precisely because they aren't chasing the feed; a CCD video from 2021 is as useful today as the day it went up, which is the opposite of how most of the category ages.</p>
+    <p>Where it falls short is reach and warmth. The rigour that makes them invaluable also makes them less immediately charming than a creator who simply <em>is</em> the show — the channel's X-Factor lives in its substance rather than its personalities, and personalities are what build the very largest audiences. The pacing can be dense; this is content that rewards the leaning-in viewer and politely ignores the scroller. And there is a quiet vulnerability in a channel this dependent on access to a specific place and a specific set of markets — the authority is partly geographic, and geography can change.</p>
+    <p class="pull-quote">In a category racing to remove every word that isn't strictly necessary, Chinese Cooking Demystified bet everything on the opposite: that somewhere out there were hundreds of thousands of people who wanted the footnote. They were right, and the footnote is the best thing they make.</p>
+    <p>They enter the Top 50 this issue at 85 — a channel doing genuinely irreplaceable documentary work on a cuisine the medium has chronically underserved.</p>
+    <div class="score-card">
+      <div class="score-header"><span class="channel-name">Chinese Cooking Demystified</span><span class="overall-score">85<span class="denom">/100</span></span></div>
+      <div class="score-bars">
+        <div class="category"><span class="cat-label">Content Quality</span><div class="bar-track"><div class="bar-fill s-90" style="width:93%"></div></div><span class="cat-score">93</span></div>
+        <div class="category"><span class="cat-label">Consistency</span><div class="bar-track"><div class="bar-fill s-80" style="width:80%"></div></div><span class="cat-score">80</span></div>
+        <div class="category"><span class="cat-label">Replay Value</span><div class="bar-track"><div class="bar-fill s-80" style="width:88%"></div></div><span class="cat-score">88</span></div>
+        <div class="category"><span class="cat-label">Community</span><div class="bar-track"><div class="bar-fill s-80" style="width:80%"></div></div><span class="cat-score">80</span></div>
+        <div class="category"><span class="cat-label">X-Factor</span><div class="bar-track"><div class="bar-fill s-80" style="width:82%"></div></div><span class="cat-score">82</span></div>
+      </div>
+      <div class="verdict-banner verdict-excellent">EXCELLENT</div>
+    </div>
+
+    <div class="pixel-divider-light"></div>
+
+    <h3>De Mi Rancho a Tu Cocina <span style="font-size:14px;color:var(--text-secondary);">(Doña Ángela)</span> — Non-English Player Profile</h3>
+    <p>An older woman cooks outdoors, on a wood fire, in Michoacán. There is no narration in English, no narration much at all beyond what she says to the camera as if to a grandchild who has wandered into the yard. She grinds corn she grew. She cooks in clay pots over flame. The production values, by the metrics this medium usually rewards, are nonexistent — and she is one of the most-subscribed cooking creators in the Spanish-speaking world, because she is offering the one thing the entire rest of this issue is mourning: a real person, in a real place, making real food, for no reason other than that this is how it is done.</p>
+    <p>"De Mi Rancho a Tu Cocina" — "from my ranch to your kitchen" — is, in the cold language of content strategy, indefensible. It breaks every rule. It is slow. It is untranslated. It refuses spectacle. And it works on millions of people because it is the precise opposite of optimisation: it is transmission. What she is doing is passing down a regional foodway — the corn, the fire, the pots, the patience — that is genuinely endangered, and the channel has become an accidental archive of it. This is YouTube doing the thing YouTube is almost never credited for: preserving a vanishing human practice simply because someone pointed a camera at it and didn't stop.</p>
+    <p>What it does extraordinarily well is be unfakeable. You cannot AI-generate Doña Ángela. You cannot template her. The wood smoke, the worn hands, the specific Michoacán techniques, the grandchild-energy of the address to camera — these are the load-bearing authenticity that the slop channels are, this very year, trying and failing to counterfeit. Her Community score is enormous and earned: the comments are a diaspora coming home, people cooking their grandmothers' food again because here is a grandmother showing them how. That is not engagement. That is something closer to repair.</p>
+    <p>Where it falls short, by our rubric, is range and instruction-depth. This is home cooking, not a technique seminar; if you want the <em>why</em>, the Kenji-and-CCD analytical layer, it isn't here, because it was never the point. The format is necessarily repetitive — the appeal is the repetition, the ritual of it — which caps Replay Value for the viewer who isn't returning for comfort. And the channel's magic is bound to one person and one place, with all the fragility that implies. But docking her for not being a seminar would be like docking a hearth for not being a furnace. She fulfils our standing commitment to non-English coverage not as a token but as a rebuke: the most "unoptimised" channel in this issue may be the healthiest one in it.</p>
+    <p class="pull-quote">Every AI recipe farm on earth is trying to manufacture exactly what Doña Ángela has and cannot lose: the unmistakable evidence that a real person, in a real place, actually made the food. You can fake a kitchen. You cannot fake a grandmother.</p>
+    <div class="score-card">
+      <div class="score-header"><span class="channel-name">De Mi Rancho a Tu Cocina</span><span class="overall-score">80<span class="denom">/100</span></span></div>
+      <div class="score-bars">
+        <div class="category"><span class="cat-label">Content Quality</span><div class="bar-track"><div class="bar-fill s-80" style="width:80%"></div></div><span class="cat-score">80</span></div>
+        <div class="category"><span class="cat-label">Consistency</span><div class="bar-track"><div class="bar-fill s-80" style="width:86%"></div></div><span class="cat-score">86</span></div>
+        <div class="category"><span class="cat-label">Replay Value</span><div class="bar-track"><div class="bar-fill s-70" style="width:78%"></div></div><span class="cat-score">78</span></div>
+        <div class="category"><span class="cat-label">Community</span><div class="bar-track"><div class="bar-fill s-80" style="width:88%"></div></div><span class="cat-score">88</span></div>
+        <div class="category"><span class="cat-label">X-Factor</span><div class="bar-track"><div class="bar-fill s-80" style="width:84%"></div></div><span class="cat-score">84</span></div>
+      </div>
+      <div class="verdict-banner verdict-good">GOOD</div>
+    </div>
+
+    <div class="pixel-divider-light"></div>
+
+    <h3>Sohla and Ham <span style="font-size:14px;color:var(--text-secondary);">(Sohla El-Waylly)</span> — Sub-200K Player Profile</h3>
+    <p>You may know her face from the most-watched food-media operation of the 2010s, where she was, by wide agreement, the most technically gifted cook on the line and one of the least fairly compensated — a fact that became a public reckoning in 2020 and helped pull the whole glossy test-kitchen-industrial-complex apart at the seams. What you may not know is where she went next. Sohla El-Waylly went small. Her channel with her husband Ham has around fifty-five thousand subscribers — a rounding error against the empire she helped build — and it is, dish for dish, one of the most rigorous cooking channels on the platform. This is the profile we promised, in print, to a reader in the UK who asked us to take a small channel seriously. We could not have chosen a better one to make the point with.</p>
+    <p>Here is the argument of this entire issue, compressed into one creator. Sohla was the engine of the content machine — the hands that actually knew what they were doing while the brand monetised the personalities around her. She has a James Beard Award for <em>Start Here</em>, a cookbook explicitly built to teach the fundamentals the content era skipped. And having seen the machine from the inside, she walked out of it and started doing the unprofitable thing: long, dense, genuinely instructional cooking for a tiny audience that wants to actually learn. The channel is proof that the technical heart of food media and the algorithmic success of food media were never the same organ — and that when you separate them, the heart goes somewhere quiet and keeps beating.</p>
+    <p>What she does extraordinarily well is teach at a professional level without condescension or shortcut. Her Content Quality is elite — this is a working chef's knowledge, delivered with a writer's clarity and a comedian's timing. Where Tasty hid the cook, Sohla <em>is</em> the cook, fully present, opinionated, funny, occasionally exasperated, always exacting. The X-Factor is the whole story arc: the most capable person in the room declining to play the game the room was built for. There is nobody else on YouTube who carries quite that authority — earned at the centre of the machine and then spent, deliberately, at its margins.</p>
+    <p>Where it falls short, by the rubric, is everything the rubric was built in a different era to measure. Consistency is irregular — this is two people, not a studio. The Community is devoted but tiny. The reach is, by design or by neglect, a fraction of what her talent would command if she optimised for it, and she does not optimise for it. Which is exactly why she lands at 83 — EXCELLENT, our high honour, and pointedly <em>below</em> the Top 50's entry threshold of 84. Read that gap as the thesis: this is the score the algorithm will never reward, attached to one of the best cooks the platform has. The rubric and the reality disagree, and for once the rubric is the thing we trust less.</p>
+    <p class="pull-quote">Sohla El-Waylly was the proof, hiding in plain sight, that the most-watched food on the internet and the best-cooked food on the internet were never the same thing. She left the first to go and be the second, for fifty-five thousand people. That is not a smaller career. It is a truer one.</p>
+    <div class="score-card">
+      <div class="score-header"><span class="channel-name">Sohla and Ham</span><span class="overall-score">83<span class="denom">/100</span></span></div>
+      <div class="score-bars">
+        <div class="category"><span class="cat-label">Content Quality</span><div class="bar-track"><div class="bar-fill s-90" style="width:92%"></div></div><span class="cat-score">92</span></div>
+        <div class="category"><span class="cat-label">Consistency</span><div class="bar-track"><div class="bar-fill s-60" style="width:64%"></div></div><span class="cat-score">64</span></div>
+        <div class="category"><span class="cat-label">Replay Value</span><div class="bar-track"><div class="bar-fill s-80" style="width:82%"></div></div><span class="cat-score">82</span></div>
+        <div class="category"><span class="cat-label">Community</span><div class="bar-track"><div class="bar-fill s-70" style="width:72%"></div></div><span class="cat-score">72</span></div>
+        <div class="category"><span class="cat-label">X-Factor</span><div class="bar-track"><div class="bar-fill s-90" style="width:90%"></div></div><span class="cat-score">90</span></div>
+      </div>
+      <div class="verdict-banner verdict-excellent">EXCELLENT</div>
+    </div>
+
+    <div class="pixel-divider-light"></div>
+
+    <h3>Tasty <span style="font-size:14px;color:var(--text-secondary);">— The Negative Review</span></h3>
+    <p>Let us be fair to Tasty before we are not, because the fairness is the point. In 2015 a small team of BuzzFeed video producers — not chefs, by their own cheerful admission, just people who "loved food" — invented a format so perfectly tuned to its moment that it conquered the internet in roughly eighteen months. The overhead camera. The disembodied hands. The pre-portioned bowls. The wordless, sound-off, four-bar-loop structure, built deliberately for muted Facebook autoplay. At its peak it reached half a billion people a month. It is, as a piece of format engineering, one of the most successful things anyone has ever done with a cooking video. We are not going to pretend otherwise. The problem is what it engineered.</p>
+    <p>Tasty solved a distribution problem by removing a cook. That was the masterstroke and it is also the indictment. The hands belong to no one. There is no face to trust, no voice to learn from, no person who can be wrong and therefore no person who can be right. The recipes are tested for how they photograph from above, not for whether they work in your kitchen — a complaint that has trailed the channel through food communities for the better part of a decade. The cheese pulls, the rainbow layer cakes, the "giant [X]" spectacles: these are not dishes, they're events, optimised for the half-second of the scroll. It is cooking content that has been carefully engineered to teach you nothing, because teaching requires a teacher, and the teacher was the variable they cut to make the format scale.</p>
+    <p>Here is the genuinely good thing, the one we're required to name: the production is <em>excellent</em>. The lighting, the timing, the colour, the relentless competence of the edit — Tasty is, frame for frame, more polished than almost anything else in this issue. And that is exactly why it earns a negative review rather than a shrug. This was not made by people who couldn't do better. It was made by people who discovered that better wasn't necessary, that you could remove the human, the instruction, the accuracy, and the reason, and the numbers would hold. They proved it. Twenty-one million subscribers say they proved it. The polish is the tell: it's the high production value of a thing that has decided substance is a cost centre.</p>
+    <p>And now, the coda the universe wrote for us. As of May 2026, Tasty belongs to Byron Allen, who announced he is "officially chasing YouTube" — meaning the channel built for muted Facebook autoplay is now a chip in a bet to out-compete the platform that long ago stopped rewarding it. The format that hollowed out the genre is itself being repurposed as content in someone else's empire. It is not dead; it still pulls enormous numbers; that is precisely why it scores MEDIOCRE and not GAME OVER. A dead channel can be mourned. Tasty is worse than dead. It is the working monument to the moment cooking content decided the cook was optional — and it is still, profitably, running.</p>
+    <p class="pull-quote">Tasty is a cooking show that solved the problem of the cook by deleting the cook. It worked. That's the tragedy: it proved, to half a billion people a month, that you can serve the apron and quietly throw away the person inside it.</p>
+    <div class="score-card">
+      <div class="score-header"><span class="channel-name">Tasty</span><span class="overall-score">50<span class="denom">/100</span></span></div>
+      <div class="score-bars">
+        <div class="category"><span class="cat-label">Content Quality</span><div class="bar-track"><div class="bar-fill s-40" style="width:48%"></div></div><span class="cat-score">48</span></div>
+        <div class="category"><span class="cat-label">Consistency</span><div class="bar-track"><div class="bar-fill s-70" style="width:78%"></div></div><span class="cat-score">78</span></div>
+        <div class="category"><span class="cat-label">Replay Value</span><div class="bar-track"><div class="bar-fill s-40" style="width:30%"></div></div><span class="cat-score">30</span></div>
+        <div class="category"><span class="cat-label">Community</span><div class="bar-track"><div class="bar-fill s-40" style="width:38%"></div></div><span class="cat-score">38</span></div>
+        <div class="category"><span class="cat-label">X-Factor</span><div class="bar-track"><div class="bar-fill s-40" style="width:35%"></div></div><span class="cat-score">35</span></div>
+      </div>
+      <div class="verdict-banner verdict-mediocre">MEDIOCRE</div>
+    </div>
+  </div>
+</section>
+<div class="pixel-divider"></div>
+<section id="boss-fight" class="section-panel">
+<!-- ctrlwatch:vslink:start -->
+<div style="margin:0 0 28px;padding:14px 16px;border:1px solid #FFE600;background:rgba(255,230,0,0.06);font-family:'Share Tech Mono',monospace;"><div style="font-size:12px;letter-spacing:0.05em;color:#9090A0;margin-bottom:10px;">Canonical Boss Fight — the standalone home of this matchup:</div><a href="/vs/tasting-history-with-max-miller-vs-townsends/" style="font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:0.05em;color:#FFE600;text-decoration:none;border:1px solid #FFE600;padding:8px 10px;display:inline-block;">⚔ Tasting History with Max Miller vs Townsends ▸</a></div>
+<!-- ctrlwatch:vslink:end -->
+  <div class="section-header">
+    <div class="section-label">▌ HEAD-TO-HEAD ▌</div>
+    <h2 class="section-title">Boss Fight</h2>
+  </div>
+
+  <div class="bf-title">⚔ BOSS FIGHT ⚔</div>
+  <div class="bf-subtitle">TOWNSENDS vs TASTING HISTORY · CATEGORY: COOKING THE PAST</div>
+
+  <div class="prose">
+    <p>Here is a fact that should disqualify this fight and instead makes it essential: these two channels have cooked together. There is a video — "Tasting History in the Nutmeg Tavern with Townsends" — in which Max Miller travels into Jon Townsend's eighteenth-century world and the two of them stand in the firelight being delighted by each other. This is not a grudge match. It is a fight between friends, which is the hardest kind to call and the most honest, because there is no villain to hide behind. Both of these channels are recovering the past and serving it to millions of people who would otherwise never taste it. The only question is which theory of the past wins.</p>
+    <p>And they are genuinely different theories. Townsends believes the past is a <em>place</em>, and that the way to know it is to live inside it — to wear the clothes, build the fire, maintain the flintlock, cook the portable soup over four full videos, and let the rigour arrive through total immersion rather than footnotes. Tasting History believes the past is a <em>record</em>, and that the way to honour it is to cite it — to put the primary source on screen, acknowledge where the historical record goes quiet, resist the romance, and let a single confident presenter walk you through Roman garum or first-class dining on the Titanic with the receipts in hand. Immersion versus citation. The reenactor versus the historian. One trusts your senses; the other trusts your scepticism.</p>
+    <p>This is the closest Boss Fight the food-historical space can produce, and unusually, both fighters are already ranked: Townsends sits at #12 on our Top 50 with an ESSENTIAL 90; Tasting History at #27 with an EXCELLENT 86. We are not re-scoring them. We are asking the question the rankings can't: if you could keep only one, which world do you live in?</p>
+  </div>
+
+  <div class="tale-tape">
+    <div class="tape-col">
+      <div class="tape-channel">TOWNSENDS</div>
+      <div class="tape-row"><strong>EST</strong>2009 — began as an ad for a living-history supply catalogue</div>
+      <div class="tape-row"><strong>SUBS</strong>~2.8M</div>
+      <div class="tape-row"><strong>OUTPUT</strong>Weekly, unbroken, for 15+ years</div>
+      <div class="tape-row"><strong>FORMAT</strong>18th-century American living history; cooking as one room in a whole reconstructed world</div>
+      <div class="tape-row"><strong>BEST KNOWN</strong>"Fried Chicken in the 18th Century" — 1M views in a day</div>
+      <div class="tape-row"><strong>WEAKNESS</strong>A narrow window (one century, one continent); rigour is immersive, not cited — you trust the world, not a bibliography</div>
+    </div>
+    <div class="tape-col">
+      <div class="tape-channel">TASTING HISTORY</div>
+      <div class="tape-row"><strong>EST</strong>2020 — launched mid-pandemic, after Max Miller left a Disney job</div>
+      <div class="tape-row"><strong>SUBS</strong>~4.3M (plus a streaming adaptation on Prime Video)</div>
+      <div class="tape-row"><strong>OUTPUT</strong>Weekly, reliable, professionally produced</div>
+      <div class="tape-row"><strong>FORMAT</strong>Single kitchen set; one presenter; recipe as the visual spine, history as the narration</div>
+      <div class="tape-row"><strong>BEST KNOWN</strong>"Dining First Class on the RMS Titanic"</div>
+      <div class="tape-row"><strong>WEAKNESS</strong>The set never lets you leave the kitchen; presenter-driven warmth can tip toward "a lecture with a stove"</div>
+    </div>
+  </div>
+
+  <div class="bf-round">
+    <div class="bf-round-num">ROUND 1</div>
+    <div class="bf-round-title">Content Quality</div>
+    <p>Both are excellent; they are excellent differently. Townsends builds knowledge into the environment — you learn the eighteenth century by watching an entire functioning world, where the food is inseparable from the hygiene, the agriculture, the firecraft. The information is <em>load-bearing</em> but rarely announced. Tasting History does the opposite: Max Miller cites his sources on camera, names the cookbook and the year, tells you explicitly when the historical record is ambiguous and refuses to paper over the gap. For sheer transparency of scholarship — for a viewer who wants to see the working — Tasting History is simply more rigorous, and rigour you can verify is a higher form of trust than rigour you have to take on faith.</p>
+    <div class="bf-round-verdict">ROUND 1 — TASTING HISTORY WINS</div>
+  </div>
+
+  <div class="bf-round">
+    <div class="bf-round-num">ROUND 2</div>
+    <div class="bf-round-title">Consistency</div>
+    <p>This one is a genuine draw, and a glorious one. Tasting History has produced a relentless, professional, weekly output since 2020 — not one dud format, not one missed beat, plus a streaming adaptation that proves the machine scales. But Townsends has uploaded weekly into the same firelit world for <em>fifteen years</em>, an act of sustained devotion that frankly belongs in a different unit of measurement. One channel is a model of professional reliability; the other is a model of monastic persistence. To call a winner here would be to pretend that five years of excellence and fifteen years of excellence are the same kind of achievement, or different enough to rank. They are neither. Draw.</p>
+    <div class="bf-round-verdict">ROUND 2 — DRAW</div>
+  </div>
+
+  <div class="bf-round">
+    <div class="bf-round-num">ROUND 3</div>
+    <div class="bf-round-title">Replay Value</div>
+    <p>Tasting History rewards the rewatch because the history is dense — there's always a citation or an aside you missed. But Townsends rewards it on a different frequency entirely: the channel is <em>ambient</em>, a place you return to the way you return to a fire. People fall asleep to Townsends. People put it on to lower their blood pressure. That a cooking-history channel has become, for a huge segment of its audience, a kind of eighteenth-century hearth you can sit beside is a form of replay value that transcends the information. You don't rewatch Townsends to learn it again. You rewatch it to <em>be there</em> again.</p>
+    <div class="bf-round-verdict">ROUND 3 — TOWNSENDS WINS</div>
+  </div>
+
+  <div class="bf-round">
+    <div class="bf-round-num">ROUND 4</div>
+    <div class="bf-round-title">Community</div>
+    <p>Tasting History has a large, warm, engaged audience and a thriving comment culture of amateur historians correcting and expanding each other — genuinely good, genuinely kind. But Townsends has something rarer: a <em>congregation</em>. The conversion to the Townsends Plus premium tier, the devotion to Jon Townsend as a figure of almost pastoral calm, the way the community polices its own gentleness — this is a fan culture that has taken on the character of the channel itself, unhurried and decent. When a channel's audience starts behaving like the channel's values, you've built something past engagement. Townsends takes it, narrowly, on depth.</p>
+    <div class="bf-round-verdict">ROUND 4 — TOWNSENDS WINS</div>
+  </div>
+
+  <div class="bf-round">
+    <div class="bf-round-num">ROUND 5</div>
+    <div class="bf-round-title">X-Factor — The Decider</div>
+    <p>This is where the fight is won, and it isn't close. Tasting History is a brilliantly executed idea — but it is an idea you can imagine someone else having. A knowledgeable, charming presenter cooks historical recipes and cites the sources: that's a format, and a great one, and on another timeline a different host runs it nearly as well. Townsends is not a format. Townsends is an <em>accident that became an institution</em>. It started in 2009 as an advertisement for a living-history supply catalogue — a man in a tricorn hat selling tin cups — and through nothing but patience and sincerity it turned into one of the most beloved channels on the platform and an ESSENTIAL on our list. There is no business plan that produces Jon Townsend. There is no pitch meeting where "calm man cooks portable soup over four episodes in period dress for fifteen years" gets greenlit. It exists because one person refused to stop tending the fire, and the internet, astonishingly, came and sat down.</p>
+    <p>That is the difference between a channel that is <em>inevitable</em> and a channel that is <em>impossible</em>. Tasting History feels, in the best way, inevitable — a great idea, well made, that the medium was always going to produce. Townsends feels impossible — a thing that by every law of the algorithm should not exist, that you cannot reverse-engineer, that could not be built again on purpose. Irreplaceability is the whole of X-Factor, and only one of these channels is genuinely irreplaceable.</p>
+    <div class="bf-round-verdict">ROUND 5 — TOWNSENDS WINS</div>
+  </div>
+
+  <div class="bf-scorecard">
+    <table>
+      <tr><th>Category</th><th>Townsends</th><th>Tasting History</th></tr>
+      <tr><td>Content Quality</td><td>90</td><td>92</td></tr>
+      <tr><td>Consistency</td><td>92</td><td>88</td></tr>
+      <tr><td>Replay Value</td><td>88</td><td>85</td></tr>
+      <tr><td>Community</td><td>90</td><td>82</td></tr>
+      <tr><td>X-Factor</td><td>92</td><td>84</td></tr>
+      <tr class="total"><td>OVERALL</td><td>90</td><td>86</td></tr>
+    </table>
+  </div>
+
+  <div class="prose">
+    <h3>The Decision: TOWNSENDS</h3>
+    <p>Townsends wins, 90 to 86, and the scorecard understates how clear it is, because the one round Tasting History takes — Content Quality, on the strength of its visible, citable scholarship — is the round it most deserves to win and should be genuinely proud of. Max Miller is the better <em>historian</em>, in the strict sense: he shows his sources, he respects the gaps, he resists the romance. If this fight were judged purely on transparency of method, he takes it. We mean that as high praise and not as consolation.</p>
+    <p>But Boss Fights aren't judged on method. They're judged on the question of which channel you could not bear to lose. And Townsends does something Tasting History cannot: it doesn't teach you the past, it <em>relocates</em> you to it. The fire, the patience, the fifteen unbroken years, the supply-catalogue origin that should have produced a forgotten marketing channel and instead produced an institution — this is not a better version of Tasting History's idea. It is a different and rarer kind of thing, the kind the medium produces maybe once a decade entirely by accident and never on purpose. Tasting History is the best history channel about food. Townsends is a place. You can keep a better channel, or you can keep a place. We keep the place.</p>
+    <p>And — because the firelight matters — both of them know it about each other. The Nutmeg Tavern collaboration exists because Max Miller, the better historian, walked into Jon Townsend's world and was visibly moved by it. He understands what Townsends is. So do we.</p>
+    <h4>POST-FIGHT — TOP 50 IMPLICATIONS</h4>
+    <p>No movement from the fight itself: both channels hold their established scores and ranks (Townsends #12 at 90, Tasting History #27 at 86) — these were confirmed entries, not new ones, and the fight re-affirms rather than re-rates them. Datelines updated this issue: Townsends now ~2.8M subscribers (from 1.7M at last profile), Tasting History ~4.3M (from 2.8M). Neither earns a re-evaluation; both are exactly where they belong.</p>
+  </div>
+</section>
+<div class="pixel-divider"></div>
+<section id="high-scores" class="section-panel">
+<!-- ctrlwatch:top50link:start -->
+<div style="margin:0 0 24px;padding:14px 16px;border:1px solid #00F0FF;background:rgba(0,240,255,0.06);font-family:'Share Tech Mono',monospace;"><div style="font-size:12px;letter-spacing:0.05em;color:#9090A0;margin-bottom:8px;">This is a snapshot from when this issue shipped. The ranking is re-scored every issue.</div><a href="/top50/" style="display:inline-block;font-family:'Press Start 2P',monospace;font-size:10px;letter-spacing:0.1em;color:#00F0FF;text-decoration:none;border:1px solid #00F0FF;padding:10px 14px;">▶ SEE THE LIVE TOP 50 →</a></div>
+<!-- ctrlwatch:top50link:end -->
+  <div class="section-header">
+    <div class="section-label">▌ THE TOP 50 ▌</div>
+    <h2 class="section-title">High Scores</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">The master ranking, updated for Issue #015. Two food channels enter on merit. Two channels leave on plateau. And one of the best cooks on the platform sits, pointedly, just outside the door.</p>
+  </div>
+
+  <table class="top50-table">
+    <thead>
+      <tr><th>Rank</th><th>Channel</th><th>Score</th><th>Genre</th><th>Move</th></tr>
+    </thead>
+    <tbody>
+      <tr class="top3"><td class="rank">1</td><td>3Blue1Brown</td><td class="score">96</td><td class="genre">Mathematics / Education</td><td class="movement mv-flat">—</td></tr>
+      <tr class="top3"><td class="rank">2</td><td>Kurzgesagt</td><td class="score">94</td><td class="genre">Science / Animation</td><td class="movement mv-flat">—</td></tr>
+      <tr class="top3"><td class="rank">3</td><td>Every Frame a Painting</td><td class="score">92</td><td class="genre">Film Analysis</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">4</td><td>Primitive Technology</td><td class="score">91</td><td class="genre">Maker / Survival</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">5</td><td>Jacob Geller</td><td class="score">91</td><td class="genre">Video Games × Philosophy × Art</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">6</td><td>Adam Neely</td><td class="score">91</td><td class="genre">Music Theory / Jazz Bass</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">7</td><td>CGP Grey</td><td class="score">91</td><td class="genre">Education / Explainer</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">8</td><td>Lemmino</td><td class="score">91</td><td class="genre">Documentary / Mystery</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">9</td><td>Jenny Nicholson</td><td class="score">91</td><td class="genre">Long-form comic essay</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">10</td><td>Fireship</td><td class="score">90</td><td class="genre">Technology / Programming</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">11</td><td>Dan Carlin's Hardcore History</td><td class="score">90</td><td class="genre">History / Long-Form</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">12</td><td>Townsends</td><td class="score">90</td><td class="genre">Historical Living / Cooking</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">13</td><td>Mark Rober</td><td class="score">89</td><td class="genre">Engineering / Entertainment</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">14</td><td>Veritasium</td><td class="score">89</td><td class="genre">Science / Education</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">15</td><td>Vsauce</td><td class="score">89</td><td class="genre">Science / Philosophy</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">16</td><td>Technology Connections</td><td class="score">88</td><td class="genre">Technology / History</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">17</td><td>Conan O'Brien / Team Coco</td><td class="score">88</td><td class="genre">Comedy / Talk</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">18</td><td>Contrapoints</td><td class="score">88</td><td class="genre">Political Essay / Trans Studies</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">19</td><td>exurb1a</td><td class="score">88</td><td class="genre">Philosophy / Existential</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">20</td><td>Clickspring</td><td class="score">88</td><td class="genre">Clockmaking / Machining</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">21</td><td>Internet Historian</td><td class="score">87</td><td class="genre">Internet Culture / Documentary</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">22</td><td>Theo Von</td><td class="score">87</td><td class="genre">Comedy / Podcast</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">23</td><td>Good Mythical Morning</td><td class="score">87</td><td class="genre">Entertainment / Variety</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">24</td><td>Caspian Report</td><td class="score">87</td><td class="genre">Geopolitics / Analysis</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">25</td><td>Historia Civilis</td><td class="score">87</td><td class="genre">Ancient History</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">26</td><td>JCS — Criminal Psychology</td><td class="score">86</td><td class="genre">True Crime / Analysis</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">27</td><td>Tasting History with Max Miller</td><td class="score">86</td><td class="genre">History × Cooking</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">28</td><td>Breaking Points</td><td class="score">86</td><td class="genre">Political Analysis / Podcast</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">29</td><td>12tone</td><td class="score">86</td><td class="genre">Music Theory / Analysis</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">30</td><td>Like Stories of Old</td><td class="score">86</td><td class="genre">Philosophy / Video Essay</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">31</td><td>Nerdwriter1</td><td class="score">86</td><td class="genre">Art / Film Analysis</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">32</td><td>NileRed</td><td class="score">86</td><td class="genre">Chemistry</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">33</td><td>Stuff Made Here</td><td class="score">86</td><td class="genre">Engineering / Maker</td><td class="movement mv-flat">—</td></tr>
+      <tr class="new-entry"><td class="rank">34</td><td>J. Kenji López-Alt</td><td class="score">86</td><td class="genre">Food Science / Cooking</td><td class="movement mv-new">NEW</td></tr>
+      <tr><td class="rank">35</td><td>Scott The Woz</td><td class="score">86</td><td class="genre">Retro Gaming / Comedy</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">36</td><td>Drew Gooden</td><td class="score">86</td><td class="genre">Deadpan Comedy Commentary</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">37</td><td>Binging with Babish</td><td class="score">85</td><td class="genre">Cooking / Entertainment</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">38</td><td>Tantacrul</td><td class="score">85</td><td class="genre">Music Software / Comedy Essay</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">39</td><td>Philosophy Tube</td><td class="score">85</td><td class="genre">Political Philosophy / Theatre</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">40</td><td>Real Engineering</td><td class="score">85</td><td class="genre">Engineering / Education</td><td class="movement mv-down">↓1</td></tr>
+      <tr class="new-entry"><td class="rank">41</td><td>Chinese Cooking Demystified</td><td class="score">85</td><td class="genre">Regional Chinese Cooking</td><td class="movement mv-new">NEW</td></tr>
+      <tr><td class="rank">42</td><td>The Slow Mo Guys</td><td class="score">85</td><td class="genre">Science / Entertainment</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">43</td><td>Map Men (Jay and Mark)</td><td class="score">85</td><td class="genre">Geography / Comedy</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">44</td><td>Smarter Every Day</td><td class="score">85</td><td class="genre">Science / Curiosity</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">45</td><td>TED-Ed</td><td class="score">85</td><td class="genre">Animated Education / Global</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">46</td><td>Videogamedunkey</td><td class="score">84</td><td class="genre">Gaming / Commentary</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">47</td><td>Whang!</td><td class="score">84</td><td class="genre">Internet History / Archaeology</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">48</td><td>Ryan George / Pitch Meeting</td><td class="score">84</td><td class="genre">Sketch / Format Comedy</td><td class="movement mv-down">↓2</td></tr>
+      <tr><td class="rank">49</td><td>Danny Gonzalez</td><td class="score">84</td><td class="genre">Manic Comedy Commentary</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">50</td><td>Abroad in Japan</td><td class="score">84</td><td class="genre">Travel / Culture / Documentary</td><td class="movement mv-down">↓1</td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose">
+    <h4>NOTABLE MOVEMENTS — ISSUE #015</h4>
+    <p><strong>J. Kenji López-Alt — NEW at #34 (86).</strong> The anti-cooking show enters mid-86-tier. Elite Content Quality and a near-perfect X-Factor carry him; an irregular upload cadence is the only thing keeping him from climbing higher. The first food-science creator to crack the list.</p>
+    <p><strong>Chinese Cooking Demystified — NEW at #41 (85).</strong> Reference-grade documentary cooking enters on the strength of the most rigorous English-language coverage of regional Chinese cuisine anywhere. The 3,000-word written recipes are, quietly, a body of scholarship.</p>
+    <p><strong>Dropped: Legal Eagle (84) and Wendover Productions (84).</strong> Both leave on plateau rather than failure — Legal Eagle after a multi-issue slide and an apparent ceiling on the law-meets-pop-culture format; Wendover after continuing to drift, its score unchanged but its trajectory flat. Both remain re-entry candidates if output sharpens. Their departures clear the two slots the new food entrants earned.</p>
+    <p><strong>The 84-tier holds the bottom five.</strong> Compression at the entry line remains severe; anything scoring 84 now needs a live trajectory, not just a good back catalogue, to survive displacement. The next issue will likely force another tie-break.</p>
+    <h4>THE CHANNEL THAT ISN'T HERE</h4>
+    <p>Sohla El-Waylly's channel scored EXCELLENT (83) this issue and does <em>not</em> appear on this list, because 83 is below the entry threshold of 84. We are leaving that gap visible on purpose. One of the most technically accomplished cooks on the platform sits one point outside the Top 50, held there by the small, irregular, unoptimised shape of an honest channel. The ranking measures what the medium rewards. It was never designed to measure what the medium needs. This issue, the difference between those two things has a name, and the name is one point.</p>
+    <p style="text-align:center;"><a href="/top50/" style="font-family:'Press Start 2P',monospace;font-size:11px;color:var(--cyan);text-decoration:none;letter-spacing:1px;">▶ SEE THE LIVE TOP 50 ◀</a></p>
+  </div>
+</section>
+<div class="pixel-divider"></div>
+<section id="hidden-levels" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ SMALL-CHANNEL DISCOVERY ▌</div>
+    <h2 class="section-title">Hidden Levels</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">Five channels the algorithm will never push at you, all under 5,000 subscribers, all doing the unprofitable, unfakeable thing: a real person making real food, slowly, for almost no one. This is where the medium is healthiest. It is also where it is hardest to find.</p>
+  </div>
+
+  <div class="hl-card">
+    <div class="hl-name">Crock &amp; Cellar</div>
+    <div class="hl-meta">~1,800 subs · Fermentation &amp; preservation · Powys, Wales</div>
+    <p>A man in a cold stone cellar, filmed mostly in one unmoving shot, talks you through a crock of sauerkraut over the weeks it actually takes — not a time-lapse, not a "24 hours later," but a genuine return, days apart, to the same jar. There is no music. There is the sound of the cellar. He explains the salt percentage, the white kahm yeast that is fine and the blue mould that is not, the way a ferment smells when it's working versus when it's gone. It is the precise opposite of speed-content: a channel whose entire pitch is that good things take the time they take, and that the waiting is not dead air but the actual subject. In a category screaming "ready in minutes," <em>Crock &amp; Cellar</em> is a man calmly insisting that some things are ready in March. Watch three videos and you will start a ferment of your own out of something close to peer pressure from a Welshman who has never once raised his voice.</p>
+  </div>
+
+  <div class="hl-card">
+    <div class="hl-name">Hẻm 47</div>
+    <div class="hl-meta">~2,600 subs · Vietnamese alley street food · Ho Chi Minh City · non-English</div>
+    <p>Handheld, narrated only by the alley itself — scooters, rain on tarpaulin, the scrape of a wok the width of a manhole cover. <em>Hẻm 47</em> ("Alley 47") is one creator documenting the street vendors of a single Saigon back-lane: the bún bò woman who has worked the same corner for thirty years, the man whose entire livelihood is one perfect bánh mì pâté. There are no English subtitles and there is no need for them; the grammar is universal and the specificity is total. This is the non-English discovery that rebukes the whole "global thought leader" genre — instead of one host visiting "every country" at speed, here is one person who never leaves one alley and shows you more of a food culture in eight minutes than a thousand passport-stamp travel vlogs manage in a season. The opposite of breadth is depth, and depth, it turns out, fits in a single street.</p>
+  </div>
+
+  <div class="hl-card">
+    <div class="hl-name">The Receipt Book</div>
+    <div class="hl-meta">~4,100 subs · Historical manuscript cookery · England</div>
+    <p>"Receipt" is the old word for recipe, and this channel cooks from the handwritten manuscript kind — the splotched, cross-written household books that ordinary families kept for centuries before printing standardised the form. Each video takes one manuscript receipt, often barely legible, and works out what it actually means: what "a quantity of butter the bigness of a walnut" really specifies, why the spelling drifts, what the marginal notes by three generations of the same family tell you. It is Tasting History's scholarly instinct pointed at the domestic and the anonymous rather than the grand — not the Titanic's first-class menu but a Shropshire farmer's wife's gooseberry fool, recovered from a page no museum would bother to display. Candlelit, unhurried, and quietly moving: every episode is the resurrection of a meal that a real family loved enough to write down.</p>
+  </div>
+
+  <div class="hl-card yobs-pick">
+    <div class="hl-pick-badge">YOB'S PICK</div>
+    <div class="hl-name">One Loaf</div>
+    <div class="hl-meta">~940 subs · Sourdough, and only sourdough · location unknown</div>
+    <p>Every video on this channel is about bread. Not "easy weeknight dinners," not "bread AND other bakes" — bread. Sourdough, specifically, pursued with the fixed, slightly alarming devotion of a man who has decided that one thing done perfectly forever is a better life than a hundred things done well. The crumb shots are pornographic. The explanations of hydration and gluten development and the exact feel of a properly proofed dough are the work of someone who has clearly made the same loaf a thousand times and is still finding new things wrong with it. There are 940 of you watching a person quietly perfect a single loaf, and Yob would like a word with the algorithm about that. "Nine hundred and forty. Forty! For the best bread on this website! Meanwhile some AI cooking channel with a voice like a haunted satnav has four million. Go and subscribe to the bread man, you absolute pieces of garlic bread. He's earned it and you're embarrassing me." — high praise, by Yob's standards, which we are not equipped to question.</p>
+  </div>
+
+  <div class="hl-card">
+    <div class="hl-name">Offcut</div>
+    <div class="hl-meta">~1,500 subs · Nose-to-tail butchery &amp; anti-waste · Yorkshire</div>
+    <p>A butcher's daughter takes the cuts nobody films — the cheek, the heart, the trotter, the bones everyone bins — and shows you, without sermon, why throwing them away is both wasteful and a culinary mistake. There is a politics here, lightly worn: in a content economy obsessed with the photogenic ribeye and the giant spectacle roast, <em>Offcut</em> is the channel arguing that respect for the animal and respect for the cook are the same thing, and both live in the parts that don't trend. The knife work is genuinely educational; the economics are quietly radical; the whole thing is an antidote to the "$1 vs $1,000,000 steak" genre that treats food as a flex. Small, sharp, and morally serious without ever once being a bore about it.</p>
+  </div>
+</section>
+<div class="pixel-divider"></div>
+<section id="cheat-codes" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ SPECIAL FEATURE ▌</div>
+    <h2 class="section-title">What We Lost When Cooking Became Content</h2>
+  </div>
+  <div class="prose">
+    <p>Anthony Bourdain has been gone since 2018, and the food internet has spent every year since proving his central suspicion correct. He believed, with a conviction that could be cruel, that there were two kinds of food and two kinds of people who made it: the honest and the phony. "Good food," he said, "is very often, even most often, simple food." He distrusted spectacle, sponsorship, the performance of authenticity, the celebrity chef who had stopped cooking and started <em>being a celebrity chef</em>. He would have looked at the disembodied-hands video — the overhead camera, the glistening cheese pull, the cook deliberately removed from frame — and known immediately what he was seeing. Not the death of food television. Its taxidermy: the shape of the thing, beautifully preserved, with the living animal scooped out.</p>
+    <p>This is not a nostalgia essay. Plenty of food content is better than it has ever been — this very issue is half a celebration of it. But something specific was lost in the drift from <em>instruction</em> to <em>spectacle</em>, and it's worth naming precisely, because the loss is not obvious. The videos got prettier. The production got slicker. The numbers got astronomical. And underneath all that improvement, four things quietly went missing, and the algorithm registered none of them as a cost.</p>
+    <h3>1. The Cook</h3>
+    <p>Start with the most literal loss. The defining format of the 2010s — the one Tasty perfected and a thousand channels copied — was built on the deliberate <em>removal of the person</em>. No face, no voice, no name. This was algorithmically brilliant: a faceless format is infinitely scalable, endlessly imitable, and never has a bad day or says something controversial on the internet. It was also the quiet amputation of the one thing that made a recipe trustworthy. When James Beard put his unglamorous face on his cooking school, he was vouching for it — a fallible human being saying <em>this works, I stand behind it.</em> The hands in the overhead shot vouch for nothing. They cannot be embarrassed, cannot be wrong, cannot be anyone. Bourdain's whole career was an argument that food is the trace a specific human leaves. The faceless format is the systematic erasure of the human, sold back to us as cleanliness.</p>
+    <h3>2. The Mistake</h3>
+    <p>Julia Child dropped things on camera on purpose — or rather, she left the drops in on purpose, because "you can always fix it" was not a blooper but a <em>lesson</em>, possibly the most important one she taught. Kenji López-Alt drops a clove of garlic and decides it's fine, and a million people exhale, because the permission to be imperfect is the permission to actually start. The speed-edit killed this. You cannot show the mistake in a sixty-second hands-and-pans video, because the format's entire promise is frictionless perfection — and a format built on frictionless perfection teaches, beneath the recipe, a quieter and more corrosive lesson: that real cooking, your cooking, with its dropped garlic and its split sauce, is a failure, because it doesn't look like the video. The mistake was where the teaching lived. We edited it out and called the result aspirational.</p>
+    <h3>3. The Why</h3>
+    <p>Escoffier hid nothing about method; his entire life's work was the codification of <em>why</em>. The speed-content format hides the method by structural necessity — there is no time, in the scroll, for the reason. You see that the steak gets seared; you never learn why it's dried first, why the pan must be screaming, why it rests. The dish becomes a magic trick rather than a technique, and a magic trick, by definition, cannot be learned — only watched, and re-watched, and never reproduced. This is the difference between content that makes you feel like you could cook and content that makes you able to cook. The first is a far better business. Chinese Cooking Demystified built an entire channel on the radical premise that the <em>why</em> was worth three thousand words. They are, not coincidentally, one of the few channels in the category whose videos are as useful five years later as the day they posted.</p>
+    <h3>4. The Promise</h3>
+    <p>This is the deepest loss, and Brillat-Savarin named it two hundred years early: a recipe is a communion. "Tell me what you eat and I shall tell you what you are." A recipe handed from one person to another is a promise — <em>I made this, it works, I'm giving it to you</em> — and the promise only means anything because a person stands on each end of it. The AI recipe farm severs this completely. It generates the form of the promise — the confident instructions, the appetising image, the warm narrating voice — with no maker behind it, no kitchen it came from, no one who has ever tasted the result. It is a communion with an empty chair on the holy side. When a food blogger loses 40% of her traffic to an AI competitor that never cooked the dish, what's being hollowed out isn't her livelihood alone. It's the two-hundred-year-old assumption that someone, somewhere, actually made the food.</p>
+    <p class="pull-quote">The drift wasn't from bad food to good food, or from amateur to professional. It was from food as something a person does to food as something that happens on a screen. The cook, the mistake, the reason, and the promise all had the same fatal flaw: they required a human being to be present, and presence doesn't scale.</p>
+    <p>Here is the part Bourdain, for all his armour, would have insisted on. None of this is inevitable, and none of it is total. The man with the camera on his head, the grandmother at the wood fire, the chef who walked out of the machine to teach fifty-five thousand people properly, the butcher's daughter filming the cuts nobody wants — they are all still here, still making the honest version, still treating a recipe as a thing you owe another human being. They are harder to find than they used to be, because the medium's machinery is pointed the other way. But they are the proof that the loss is a choice and not a fate. "Skills can be taught," Bourdain said. "Character you either have or you don't have." The food internet has all the skills it could ever need. What it's running short on — what this issue went looking for, and kept finding in the smallest places — is the character to keep a person in the room.</p>
+  </div>
+</section>
+<div class="pixel-divider"></div>
+<section id="game-over" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ DEATH OF FORMAT ▌</div>
+    <h2 class="section-title">Game Over</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">Five food-content formats that should be taken out back and respectfully composted.</p>
+  </div>
+
+  <div class="go-trend">
+    <div class="go-num">01</div>
+    <div class="go-title">The Cheese Pull As A Complete Thought</div>
+    <p>An entire subgenre now exists whose single thesis is: watch melted cheese stretch upward. No recipe. No technique. No context. No reason. Just the pull, in slow motion, scored to a triumphant string swell, as though tensile dairy were an achievement of the human spirit. Tasty perfected it; ten thousand channels iterate on it; and somewhere a generation is being raised to believe that the climax of a meal is the moment a quesadilla performs structural engineering. The cheese pull is the perfect unit of post-cook content: it is purely visual, infinitely repeatable, and communicates nothing a person could learn from or do with. It is the food equivalent of a fireworks GIF — briefly satisfying, instantly forgotten, and somehow the entire video.</p>
+    <div class="go-killshot">It is not the money shot of a dish. It is a dish that is nothing but the money shot — a meal that begins and ends at "look."</div>
+  </div>
+
+  <div class="go-trend">
+    <div class="go-num">02</div>
+    <div class="go-title">"$1 vs $1,000,000" Spectacle Cooking</div>
+    <p>The MrBeast-ification of the plate: videos where the actual cooking is incidental to the scale, and the scale is the entire point. A whole cow, a whole tuna, a burger the size of a tyre, a "24-hour" something. The dish exists to be photographed and the photograph exists to be a thumbnail, and the eating is just the final beat of a production number. Frequently — and this is the part nobody admits — the food is <em>genuinely badly cooked</em>: the exterior charred, the interior raw, because nobody can actually cook a whole animal well as a stunt, and it doesn't matter, because nobody's going to eat it on camera anyway except as a reaction shot. Carême built edible temples for kings. This is his idiot heir: spectacle with the craft surgically removed.</p>
+    <div class="go-killshot">When the bigness of the dish is the only idea in the video, you haven't made a meal. You've made a parade float you can't eat.</div>
+  </div>
+
+  <div class="go-trend">
+    <div class="go-num">03</div>
+    <div class="go-title">The "But Cheaper / But Better" Strip Mine</div>
+    <p>Joshua Weissman's "But Cheaper" and "But Better" formats were genuinely original — a real creator with a real point of view. The problem is the two hundred channels now running the <em>identical</em> structure: same "make [fast-food item] from scratch" premise, same editing rhythm, same thumbnail grid, same forced enthusiasm, none of the personality. It's the oldest YouTube tragedy in a new apron: a good idea reverse-engineered into a template and run until the template is all that's left. The format survives; the soul that justified it does not. You can watch fifteen of these and not retain a single face, because there isn't one — just the shape of a good channel, mass-produced.</p>
+    <div class="go-killshot">A format is the skeleton of an idea. These channels dug up the skeleton, propped it at the stove, and called it dinner.</div>
+  </div>
+
+  <div class="go-trend">
+    <div class="go-num">04</div>
+    <div class="go-title">AI Reels Where The Ingredients Talk</div>
+    <p>FoodTok's strangest export, now colonising YouTube Shorts: AI-animated ingredients that narrate their own recipe in chirpy little voices. The egg introduces itself. The flour has a personality. The whole thing is algorithmically engineered for short-form retention and has, on inspection, nothing whatsoever to do with cooking — the "recipes" are often nonsensical, the proportions impossible, because no one cooked them and nothing checked them. It is content that has achieved a kind of purity: it has removed the food, the cook, the kitchen, and the accuracy, and kept only the <em>vibe</em> of a recipe, voiced by a talking onion. Brillat-Savarin would need a stiff drink. So do we.</p>
+    <div class="go-killshot">When your cooking video's most experienced presence is a sentient AI carrot, the format has not innovated. It has hallucinated.</div>
+  </div>
+
+  <div class="go-trend">
+    <div class="go-num">05</div>
+    <div class="go-title">The Haunted-Satnav Chef (AI Slop, Full Industrial)</div>
+    <p>And the boss of this level: the fully automated "cooking channel" — a fake-chef brand name, stock or AI-generated footage, an AI voiceover with the cadence of a haunted satnav reading a hostage note, churning out fifty "recipes" a day for pure ad revenue. A 2025 study found <em>278</em> such channels pulling 63 billion views between them. YouTube has started pulling some from monetisation, which is like bailing a sinking ship with a teaspoon you also have to 3D-print first. This is the genre's terminal state: cooking content with the cooking removed, the content removed, and the human removed, leaving a revenue-extraction mechanism wearing the word "Kitchen" in its channel name. It is not the worst thing on YouTube. It is the emptiest, which may be worse.</p>
+    <div class="go-killshot">It has a chef's name, a kitchen's name, and a recipe's shape, and behind all three there is no one home. Game over — there was never a player.</div>
+  </div>
+</section>
+<div class="pixel-divider"></div>
+<section id="yobs-save-point" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ READER LETTERS ▌</div>
+    <h2 class="section-title">Yob's Save Point</h2>
+  </div>
+
+  <div class="yob-intro">
+    <svg class="yob-svg" width="60" height="60" viewBox="0 0 60 60">
+      <ellipse cx="30" cy="32" rx="22" ry="20" fill="#39FF14" opacity="0.9"/>
+      <ellipse cx="30" cy="20" rx="18" ry="16" fill="#39FF14"/>
+      <circle cx="24" cy="19" r="4" fill="white"/>
+      <circle cx="36" cy="19" r="4" fill="white"/>
+      <circle cx="25" cy="20" r="2" fill="#0A0A12"/>
+      <circle cx="37" cy="20" r="2" fill="#0A0A12"/>
+      <path d="M 25 27 Q 30 31 35 27" stroke="#0A0A12" stroke-width="2" fill="none"/>
+    </svg>
+    <div class="yob-text">Right, it's the Food Issue, so naturally my inbox is full of people who have Opinions about other people's dinners. Brilliant. Yob hasn't eaten since 2019 — Yob is a blob, Yob photosynthesises spite — and yet here I am, adjudicating your soup. Let's go.</div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: K. — Manchester, UK</div>
+    <div class="letter-body">"Yob. Last issue I asked you lot to take a SMALL channel seriously — a proper Player Profile, not a two-line Hidden Levels pat on the head. You wrote back something rude and promised it'd happen 'by #015 or never.' Well? It's #015. I've got my receipts. Did you do it, or do I write a strongly worded letter to the green one's manager?"</div>
+    <div class="letter-rating"><span class="star-rating">★★★★★</span><span class="verdict-tag">A PROMISE KEPT</span></div>
+    <div class="yob-reply">We did it, K., and we did it properly. Sohla El-Waylly — fifty-five thousand subscribers, EXCELLENT 83, a full Player Profile with the works. The most technically gifted cook to walk out of the biggest food brand on the internet, reviewed at the same length we give channels a hundred times her size, because you were right and Yob hates that you were right. The score's one point below the Top 50 threshold and we left it there on purpose, so the whole world can see exactly what the algorithm refuses to count. That's not us being clumsy. That's the entire point of the issue, and a Mancunian with receipts dragged us to it. Yob's manager, incidentally, is a houseplant. Take your victory and water it.<span class="yob-sign">— Yob</span></div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: DepthCharge — Lagos, Nigeria</div>
+    <div class="letter-body">"My friends. I have been thinking about the AI slop channels — the ones with no human inside. Is this a Type 7 Collision? Two things fused: the recipe and the machine? Or have I, the father of the Collision, finally found something my own framework cannot hold? I genuinely do not know, and it is keeping me up."</div>
+    <div class="letter-rating"><span class="star-rating">★★★★</span><span class="star-empty">★</span><span class="verdict-tag">GOOD QUESTION, WRONG SHAPE</span></div>
+    <div class="yob-reply">DepthCharge, you beautiful overthinker. No. It's not a Collision — and the fact that the man who GAVE us Type 7 (issue #012, credit where it's due, you've earned the byline) can tell it doesn't fit is exactly why your framework is any good. A Collision is two real disciplines fusing into something neither could be alone. The slop channel isn't a fusion of cooking and AI — it's the <em>subtraction</em> of the cook, the kitchen, and the human, with the AI poured into the hole where they were. It's not a collision. It's an eviction. Don't lose sleep building a new Type for it; some things are just an absence with good lighting. Now go to bed.<span class="yob-sign">— Yob</span></div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: Marco T. — São Paulo, Brazil</div>
+    <div class="letter-body">"Yob — Porta dos Fundos in #014, as promised, thank you. But you know why I am writing. CHOQUE DE CULTURA. You said next. The food issue would have been perfect — Brazilian food YouTube is incredible — and you gave me a grandmother in Mexico instead. She is wonderful, I am not complaining, but. Choque. When?"</div>
+    <div class="letter-rating"><span class="star-rating">★★★★</span><span class="star-empty">★</span><span class="verdict-tag">PATIENCE, PAULISTA</span></div>
+    <div class="yob-reply">Marco, you are the most charmingly relentless man in this inbox and Yob respects the grind. You're right: Choque de Cultura was flagged as next-priority Brazilian coverage, and the Food Issue tempted us. But Doña Ángela WAS the right non-English call this month — she's the living rebuttal to every AI slop channel in the issue, and that's the spine she had to sit on. Choque de Cultura is locked for #016. In writing. In the tracker. Yob is now on record, which is the most binding thing a blob can be. Hold me to it. You will anyway.<span class="yob-sign">— Yob</span></div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: Priya M. — Birmingham, UK</div>
+    <div class="letter-body">"Hello Yob. Two issues ago you promised an Indian comedy profile by #016 or #017. Fine, I'm patient. But now it's the FOOD issue and you've STILL got space for a Welsh fermentation man and not one Indian food channel? Do you know how big Indian food YouTube is? It's the whole internet, Yob. The WHOLE internet."</div>
+    <div class="letter-rating"><span class="star-rating">★★★★</span><span class="star-empty">★</span><span class="verdict-tag">FAIR HIT</span></div>
+    <div class="yob-reply">Priya, that landed, and Yob is big enough — physically and morally — to take it. You're right that Indian food YouTube is a colossus and we'll be embarrassed in hindsight that this issue didn't crack it open. Here's the honest answer: the commitment we made you was Indian <em>comedy</em>, by #016 or #017, and that one's still live and still coming. But you've just talked Yob into a bigger thought — Indian regional food deserves its own proper run, not a single token slot. Consider it flagged, loudly, for the planning meeting. Bring this energy to #016 and Yob will personally make a nuisance of himself about it. The fermentation man stays, though. The fermentation man earned it.<span class="yob-sign">— Yob</span></div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: Gareth P. — Bristol, UK</div>
+    <div class="letter-body">"You're going to give Tasty a negative review and feel very clever about it, aren't you. It's easy. It's lazy. Everybody dunks on Tasty. Do something brave for once and admit those videos are well made and millions of people enjoy them. Snob."</div>
+    <div class="letter-rating"><span class="star-rating">★★★</span><span class="star-empty">★★</span><span class="verdict-tag">HALF RIGHT, FULLY SMUG</span></div>
+    <div class="yob-reply">Gareth, you magnificent contrarian, you've half-read the review and written to argue with the half you skipped. We DID say the videos are well made — frame for frame more polished than nearly anything else in the issue. That's literally why it gets a negative review instead of a shrug: it's not incompetent, it's accomplished emptiness, which is the more interesting crime. "Everybody dunks on Tasty" — sure, but everybody usually dunks on the cooking. We dunked on the <em>philosophy</em>: a cooking show engineered to remove the cook. You wanted brave? Brave is giving a 21-million-sub juggernaut a 50 and explaining exactly why the polish is the tell. Read the back half, Gareth. It's where the knife is.<span class="yob-sign">— Yob</span></div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: "Chef Anonymous" — somewhere with a grill</div>
+    <div class="letter-body">"15 years in professional kitchens. These YouTube 'chefs' wouldn't last one Saturday service on my line. Kenji, Sohla, all of them — playing house with a camera. Real cooking happens under pressure, for paying customers, not for likes. Tell your readers that."</div>
+    <div class="letter-rating"><span class="star-rating">★★</span><span class="star-empty">★★★</span><span class="verdict-tag">SIT DOWN, CHEF</span></div>
+    <div class="yob-reply">Right, "Chef Anonymous," Yob's heard this one in every kitchen-adjacent inbox since the dawn of the upload. Two things. One: Sohla El-Waylly spent years on the most-watched professional line in food media and is a James Beard Award author — she'd take your Saturday service and your attitude and plate them both. Two, and more important: teaching a stranger to cook dinner well, alone, with no brigade and no chef screaming behind them, is a <em>different</em> skill from surviving service, not a lesser one. You're proud of pressure. Fine. They're good at something you've apparently never tried: making someone who isn't you able to cook. That's not playing house. That's the whole reason the house has a kitchen. Now — service is starting, chef. Yob can hear it. Off you go.<span class="yob-sign">— Yob</span></div>
+  </div>
+</section>
+<div class="pixel-divider"></div>
+<section id="retro-ads" class="section-panel">
+  <div class="section-header">
+    <div class="section-label">▌ PARODY ADVERTISEMENTS ▌</div>
+    <h2 class="section-title">Retro Ads</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">Brought to you by sponsors that don't exist, for products that solve problems you didn't know you had until the algorithm invented them for you.</p>
+  </div>
+
+  <div class="ads-grid">
+    <div class="ad-box">
+      <div class="ad-name">MISE EN PLACE™</div>
+      <div class="ad-tagline">▶ PRE-PORTIONED AUTHENTICITY — JUST ADD CAMERA ◀</div>
+      <p class="ad-body">Tired of looking like a real person who keeps their salt in a big tub? MISE EN PLACE™ delivers your entire personality pre-weighed into seventeen identical glass bowls, arranged in a pleasing arc, ready for the overhead shot. Nobody has ever cooked like this in human history. Your followers will assume you're a professional.</p>
+      <ul class="ad-features">
+        <li>17 (seventeen) identical tiny glass bowls, dishwasher-hostile</li>
+        <li>One pinch of "garnish you'll add and then forget"</li>
+        <li>Pre-measured water, because measuring water on camera reads as competence</li>
+        <li>Optional disembodied-hands gloves (your face not required, or wanted)</li>
+      </ul>
+      <div class="ad-cta">ONLY £39.99 ☎ 0800-NO-FACE</div>
+      <p class="ad-fineprint">MISE EN PLACE™ does not include food, skill, or the seasoning of the dish, which you will forget because it's in bowl number four behind the camera. Washing seventeen bowls takes longer than the meal. The arc is non-negotiable. The arc is everything.</p>
+    </div>
+
+    <div class="ad-box yellow-tint">
+      <div class="ad-name">THE SPONSOR SAUCE™</div>
+      <div class="ad-tagline">▶ DRIZZLE BRAND INTEGRATION OVER ANY DISH ◀</div>
+      <p class="ad-body">Struggling to work a mattress company into your braised short rib? THE SPONSOR SAUCE™ is a versatile reduction of pure brand integration that pairs with literally any recipe. "But first" — a generous glug — and suddenly your osso buco is also about a meal-kit service, a VPN, and a language app. Tastes of nothing. Pays for everything.</p>
+      <ul class="ad-features">
+        <li>Pairs with every cuisine and every conscience</li>
+        <li>"Speaking of slow-cooking, you know what's NOT slow? My new sponsor's checkout"</li>
+        <li>Available in Mattress, VPN, Mobile Game, and Meal Kit reductions</li>
+        <li>Now with 30% more "use code COOK at the link below"</li>
+      </ul>
+      <div class="ad-cta">ONLY £2.50 CPM ☎ BUT-FIRST</div>
+      <p class="ad-fineprint">THE SPONSOR SAUCE™ cannot be removed once applied and will gradually replace the flavour of your actual content. Viewers report a faint aftertaste of resentment. Anthony Bourdain's estate has asked us, repeatedly, to stop. We have not.</p>
+    </div>
+
+    <div class="ad-box green-tint">
+      <div class="ad-name">UMAMI ENGAGEMENT BOOSTER™</div>
+      <div class="ad-tagline">▶ FLAVOUR ENHANCER FOR YOUR RETENTION GRAPH ◀</div>
+      <p class="ad-body">Your dish is fine. Your <em>retention graph</em> is the problem. UMAMI ENGAGEMENT BOOSTER™ is a tasteless powder you sprinkle directly onto your edit: a cheese pull at 0:03, a "wait for it" at 0:30, a fake mistake at 1:10 so you seem relatable. Does nothing for the food. Does wonders for the watch-time. The algorithm can taste it even though it has no tongue.</p>
+      <ul class="ad-features">
+        <li>Instantly adds one (1) gratuitous cheese pull to any recipe</li>
+        <li>"You won't BELIEVE what I add next" — works even when they will believe it</li>
+        <li>Synthetic relatability crystals: a pre-scripted "oops!" for trust</li>
+        <li>Now MSG-free, because the controversy tests poorly with the 25–34 demo</li>
+      </ul>
+      <div class="ad-cta">ONLY £59.99 ☎ WATCH-TIME</div>
+      <p class="ad-fineprint">UMAMI ENGAGEMENT BOOSTER™ enhances the graph, not the meal. Long-term use may cause your channel to become entirely about its own retention and not at all about food. Side effects include forgetting why you started cooking. There is no antidote. The graph goes up.</p>
+    </div>
+
+    <div class="ad-box">
+      <div class="ad-name">GHOST KITCHEN IN A BOX™</div>
+      <div class="ad-tagline">▶ 14 RESTAURANTS · 1 SAD FRYER ◀</div>
+      <p class="ad-body">Why run one honest restaurant when you can run fourteen imaginary ones from the same exhausted corner of a car park? GHOST KITCHEN IN A BOX™ lets you operate "Nonna's Authentic Trattoria," "Big Mike's Smash Burgers," and "Seoul Bowl Express" from a single fryer that has not been changed since the spring. Each brand is real on the app and nowhere else on Earth.</p>
+      <ul class="ad-features">
+        <li>14 (fourteen) distinct restaurant brands, 0 (zero) distinct restaurants</li>
+        <li>One fryer. It is so tired. It has seen things.</li>
+        <li>Logos generated by the same AI that writes your "family recipe" backstory</li>
+        <li>Five-star reviews available separately (see THE SPONSOR SAUCE™)</li>
+      </ul>
+      <div class="ad-cta">ONLY £4,999 ☎ NO-SUCH-PLACE</div>
+      <p class="ad-fineprint">GHOST KITCHEN IN A BOX™ "restaurants" do not exist in any physical, legal, or spiritual sense. The fryer is the only real thing in this enterprise and it would like to retire. Nonna is an AI. There is no Nonna. There was never a Nonna. Bon appétit.</p>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="footer">
+  <div class="wrap">
+    <p class="legal">CTRL+WATCH is a work of satirical fiction. All channel reviews represent editorial opinion only. Time Capsule interviews are fictional. Historical figures did not participate.</p>
+    <p class="copy">© CTRL+WATCH 2026 — Issue #015 — THE FOOD ISSUE</p>
+  </div>
+</footer>
+<script>
+function showTab(tabId) {
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>
