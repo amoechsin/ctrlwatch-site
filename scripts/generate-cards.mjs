@@ -129,7 +129,7 @@ async function main() {
     console.warn(`\n⚠ ${unmatched.size} review(s) fell back to the default emblem — extend CATEGORY_MAP:`);
     for (const u of unmatched) console.warn(`  - ${u}`);
   }
-  console.log(`\nDone. ${total} cards.`);
+  console.log(`\nDone. ${total} card${total === 1 ? '' : 's'}${unmatched.size ? ` (${unmatched.size} with fallback emblem)` : ''}.`);
 }
 
-main();
+main().catch((e) => { console.error(e); process.exit(1); });
