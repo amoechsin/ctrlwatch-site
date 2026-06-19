@@ -203,7 +203,7 @@ Everything below is the build-and-ship runbook. Do not let it bleed into editori
 # BUILD & CONTENT PIPELINE
 
 **Adding a new issue (run in order):**
-`issues.js` update → `npm run covers` → `npm run inject:og` → `npm run inject:seo` → `npm run inject:top50link` → `npm run inject:reviewlinks` → `npm run inject:vslinks` → `npm run inject:shell` → update tracker → `npm run build:creators` → `npm run build:search` → commit.
+`issues.js` update → `npm run covers` → `npm run cards` → `npm run inject:og` → `npm run inject:seo` → `npm run inject:top50link` → `npm run inject:reviewlinks` → `npm run inject:vslinks` → `npm run inject:shell` → update tracker → `npm run build:creators` → `npm run build:search` → commit.
 
 **Source of truth split:** `src/data/issues.js` is the **platform** source of truth; the continuity tracker is the **editorial** source of truth (read-only from platform code).
 
@@ -227,6 +227,7 @@ Everything below is the build-and-ship runbook. Do not let it bleed into editori
 - `/top50/` auto-upgrades: any channel with a review page gets a `/reviews/` link + `item.url` in the ItemList (others stay name-only — never link to a 404). Sitemap reads slugs from `src/content/reviews/` at config time.
 - Coverage is incremental (scope: `docs/REVIEWS_SCOPE.md`). Seeded #012–#014 (14 profiles). **Going forward, every new Player Profile should also land a `src/content/reviews/*.md`** so coverage grows per issue. Display fonts (VT323/Russo One/Exo 2) are loaded per-page via the head slot, not in `BaseLayout`.
 - `npm run inject:reviewlinks` (`scripts/inject-issue-reviewlinks.mjs`) injects a fenced `<!-- ctrlwatch:reviewlinks:start -->` block at the top of each issue's `id="player-profiles"` section: inline-styled links to the `/reviews/[slug]/` canonical page of each channel reviewed in that issue (grouped from review frontmatter `originatingIssue`). Closes the canonical loop (issues link OUT to canonical assets). Idempotent; only touches issues that have ≥1 review file. Re-run after adding new review `.md` files.
+- `npm run cards` (`scripts/generate-cards.mjs`) generates a collectible **Player Card** PNG per review — `public/cards/[slug].png` (744×1040) + `[slug]-og.png` (1200×630) — from review frontmatter via `src/lib/card-data.mjs` (the single source of truth shared with the on-page `PlayerCard.astro` and the `/cards/` gallery). Pixel category emblem + five-axis bars + verdict-tier rarity. Committed PNGs; never built on Netlify (same rule as covers). Re-run after adding/re-scoring a review (rank numbers shift). The review page's OG image points at `[slug]-og.png`.
 
 **Concept / framework pages (`/concepts/[slug]/`) — the AEO moat:**
 - Astro content collection (`concepts` in `src/content.config.ts` → `src/content/concepts/[slug].md`). Route `src/pages/concepts/[slug].astro`; hub `src/pages/concepts/index.astro` (emits a `DefinedTermSet` for the whole taxonomy). Each page emits `DefinedTerm` + `Article` JSON-LD via the `BaseLayout` head slot (per `ctrlwatch-concept-page` skill). Schema enforces `definition` ≤155 (feeds meta + DefinedTerm) and `originatingIssue` format.
