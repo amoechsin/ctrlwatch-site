@@ -373,7 +373,7 @@ export const CATEGORY_MAP = {
   'art restoration': 'engineering', // baumgartner-restoration: Art Restoration
   'clockmaking': 'engineering',     // clickspring: Clockmaking / Machining
   'maker': 'engineering',           // primitive-technology: Maker / Survival
-  'stunt': 'engineering',           // mrbeast: Stunt / Entertainment
+  'stunt': 'comedy',                // mrbeast: Stunt / Comedy / Entertainment
 
   // history-adjacent
   'ancient history': 'history',     // historia-civilis: Ancient History
@@ -404,7 +404,7 @@ export const CATEGORY_MAP = {
   'animated education': 'education', // ted-ed: Animated Education / Global
   'logistics': 'education',         // wendover-productions: Logistics / Explainer
   'kids': 'education',              // ryan-s-world: Kids / Toy
-  'content mill': 'education',      // bright-side: Content Mill / Infotainment
+  // 'content mill' intentionally omitted — falls back to generic emblem (bright-side)
 
   // truecrime-adjacent
   'internet mystery': 'truecrime',  // nexpo: Internet Mystery / Analysis
