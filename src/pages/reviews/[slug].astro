@@ -2,6 +2,8 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ReviewCard from '../../components/ReviewCard.astro';
+import PlayerCard from '../../components/PlayerCard.astro';
+import { rankCards } from '../../lib/card-data.mjs';
 import { issues } from '../../data/issues.js';
 import creatorsData from '../../data/creators.json';
 
@@ -18,6 +20,11 @@ const d = entry.data;
 const { Content } = await render(entry);
 
 const SITE = 'https://ctrl-watch.xyz';
+
+const cardRanks = rankCards(all.map((e) => ({ slug: e.id, overall: e.data.overall })));
+const cardRank = cardRanks.get(entry.id)!;
+const cardTotal = all.length;
+const ogImage = `${SITE}/cards/${entry.id}-og.png`;
 
 // Slug → display name for related links (only review pages that actually exist
 // — never link to a /reviews/ 404).
@@ -77,7 +84,7 @@ const reviewJson = {
 };
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} ogImage={ogImage}>
   <Fragment slot="head">
     <link
       rel="stylesheet"
@@ -102,6 +109,12 @@ const reviewJson = {
           {originUrl && <a class="issue-chip" href={originUrl}>FIRST REVIEWED IN {d.originatingIssue}</a>}
         </div>
       </header>
+
+      <PlayerCard
+        review={{ slug: entry.id, channel: d.channel, genre: d.genre, axes: d.axes, overall: d.overall, verdict: d.verdict, originatingIssue: d.originatingIssue }}
+        rank={cardRank}
+        total={cardTotal}
+      />
 
       <div class="review-body prose">
         <Content />

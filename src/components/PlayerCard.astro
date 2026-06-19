@@ -1,0 +1,83 @@
+---
+// Live, crisp on-page Player Card. Inline-SVG emblem + CSS rarity treatment.
+// Data via card-data.mjs so it always matches the generated PNG.
+import { resolveCard, emblemCells } from '../lib/card-data.mjs';
+
+interface Review {
+  slug: string; channel: string; genre: string;
+  axes: { contentQuality: number; consistency: number; replayValue: number; community: number; xFactor: number };
+  overall: number; verdict: string; originatingIssue: string;
+}
+interface Props { review: Review; rank: number; total: number; }
+const { review, rank, total } = Astro.props;
+const c = resolveCard(review);
+const cells = emblemCells(c.motif);
+const pad3 = (n: number) => String(n).padStart(3, '0');
+const AXES: [string, keyof Review['axes']][] = [
+  ['CONTENT', 'contentQuality'], ['CONSIST', 'consistency'], ['REPLAY', 'replayValue'],
+  ['COMMUN', 'community'], ['X-FACTOR', 'xFactor'],
+];
+---
+<figure class={`pcard pcard--${c.material}`} aria-label={`${c.channel} Player Card — ${c.verdict}, ${c.overall} out of 100`}>
+  <div class="pcard-inner">
+    <div class="pcard-meta"><span>Nº {pad3(rank)} / {pad3(total)}</span><span style={`color:${c.accent}`}>{c.categoryLabel}</span></div>
+    <div class="pcard-name">{c.channel}</div>
+    <div class="pcard-emblem">
+      <svg viewBox="0 0 12 12" shape-rendering="crispEdges" role="img" aria-label={`${c.category} emblem`}>
+        {cells.map((cell) => <rect x={cell.x} y={cell.y} width="1" height="1" fill={cell.fill} />)}
+      </svg>
+    </div>
+    <div class="pcard-ribbon">{c.verdict}</div>
+    <div class="pcard-stats">
+      {AXES.map(([label, key]) => (
+        <div class="pcard-srow">
+          <span class="pcard-slabel">{label}</span>
+          <span class="pcard-track"><span class="pcard-fill" style={`width:${c.axes[key]}%;background:${c.accent}`}></span></span>
+          <span class="pcard-sval">{c.axes[key]}</span>
+        </div>
+      ))}
+    </div>
+    <div class="pcard-overall"><span class="pcard-num">{c.overall}</span><span class="pcard-olabel">OVERALL</span></div>
+    <div class="pcard-foot">CTRL+WATCH · FIRST REVIEWED {c.originatingIssue}</div>
+  </div>
+</figure>
+
+<style>
+  .pcard { width: 300px; max-width: 100%; margin: 0 auto var(--space-lg); padding: 4px; }
+  .pcard-inner { background: #0c0c16; padding: 20px; }
+  .pcard-meta { display: flex; justify-content: space-between; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.08em; }
+  .pcard-name { font-family: 'Share Tech Mono', monospace; font-size: 20px; color: #fff; margin: 6px 0 12px; }
+  .pcard-emblem { background: #05050b; border: 2px solid #2a2a3a; padding: 16px; margin-bottom: 14px; }
+  .pcard-emblem svg { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+  .pcard-ribbon { font-family: 'Press Start 2P', monospace; font-size: 12px; text-align: center; padding: 10px; letter-spacing: 0.14em; margin-bottom: 14px; }
+  .pcard-srow { display: grid; grid-template-columns: 70px 1fr 28px; align-items: center; gap: 8px; margin: 5px 0; }
+  .pcard-slabel { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-muted); }
+  .pcard-track { height: 10px; background: #1a1a26; position: relative; }
+  .pcard-fill { position: absolute; left: 0; top: 0; bottom: 0; }
+  .pcard-sval { font-family: 'VT323', monospace; font-size: 18px; color: var(--text-primary); text-align: right; }
+  .pcard-overall { display: flex; align-items: baseline; justify-content: center; gap: 8px; margin-top: 14px; }
+  .pcard-num { font-family: 'VT323', monospace; font-size: 56px; line-height: 1; }
+  .pcard-olabel { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text-muted); }
+  .pcard-foot { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: #606070; text-align: center; margin-top: 12px; padding-top: 10px; border-top: 1px solid #1a1a26; letter-spacing: 0.08em; }
+
+  /* rarity materials */
+  .pcard--holo { background: linear-gradient(135deg,#00F0FF,#FF00AA,#FFE600,#39FF14); box-shadow: 0 0 18px rgba(0,240,255,.4); }
+  .pcard--holo .pcard-ribbon { background: linear-gradient(90deg,#00F0FF,#39FF14); color: #0A0A12; }
+  .pcard--holo .pcard-num { color: var(--green); text-shadow: var(--glow-green); }
+  .pcard--gold { background: linear-gradient(135deg,#FFE600,#FF9E00,#FFD24A); box-shadow: 0 0 12px rgba(255,158,0,.3); }
+  .pcard--gold .pcard-ribbon { background: linear-gradient(90deg,#FFD24A,#FF9E00); color: #0A0A12; }
+  .pcard--gold .pcard-num { color: #FF9E00; }
+  .pcard--silver { background: linear-gradient(135deg,#EEF0F6,#9AA0B0,#CFD4E0); }
+  .pcard--silver .pcard-ribbon { background: linear-gradient(90deg,#EEF0F6,#9AA0B0); color: #0A0A12; }
+  .pcard--silver .pcard-num { color: #CDD2DE; }
+  .pcard--bronze { background: linear-gradient(135deg,#E8B878,#A86A32,#D89A5A); }
+  .pcard--bronze .pcard-ribbon { background: linear-gradient(90deg,#E8B878,#A86A32); color: #0A0A12; }
+  .pcard--bronze .pcard-num { color: #D89A5A; }
+  .pcard--matte { background: #34343f; }
+  .pcard--matte .pcard-ribbon { background: #2a2a34; color: #9090A0; }
+  .pcard--matte .pcard-num { color: #8a8a98; }
+  .pcard--cracked { background: #5a1a1a; box-shadow: 0 0 10px rgba(255,34,68,.25); }
+  .pcard--cracked .pcard-ribbon { background: #3a0f16; color: #ff5a72; border: 1px solid #ff2244; }
+  .pcard--cracked .pcard-num { color: #ff2244; }
+  .pcard--cracked .pcard-emblem svg { filter: grayscale(.5) brightness(.85); }
+</style>
