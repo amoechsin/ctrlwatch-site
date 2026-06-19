@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { resolveCard, rankCards } from '../../lib/card-data.mjs';
+
+const SITE = 'https://ctrl-watch.xyz';
+const entries = (await getCollection('reviews')).filter((e) => !e.data.draft);
+const ranks = rankCards(entries.map((e) => ({ slug: e.id, overall: e.data.overall })));
+const total = entries.length;
+
+const cards = entries
+  .map((e) => {
+    const c = resolveCard({ slug: e.id, channel: e.data.channel, genre: e.data.genre, axes: e.data.axes, overall: e.data.overall, verdict: e.data.verdict, originatingIssue: e.data.originatingIssue });
+    return { ...c, rank: ranks.get(e.id)! };
+  })
+  .sort((a, b) => a.rank - b.rank);
+
+const tiers = ['ESSENTIAL', 'EXCELLENT', 'GOOD', 'AVERAGE', 'MEDIOCRE', 'GAME OVER'];
+const categories = [...new Set(cards.map((c) => c.categoryLabel))].sort();
+
+const title = 'The Card Binder — Every Channel as a Player Card | CTRL+WATCH';
+const description = `Collect all ${total} CTRL+WATCH Player Cards: every reviewed channel as a retro stat card, ranked and rarity-graded. Filter by tier or category.`;
+
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'The Card Binder',
+  url: `${SITE}/cards/`,
+  description,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: total,
+    itemListElement: cards.map((c) => ({ '@type': 'ListItem', position: c.rank, name: c.channel, url: `${SITE}/reviews/${c.slug}/` })),
+  },
+};
+---
+<BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(itemList)} />
+  </Fragment>
+
+  <section class="binder">
+    <div class="container">
+      <header class="binder-head">
+        <h1 class="binder-title">▶ THE CARD BINDER</h1>
+        <p class="binder-tagline">{total} CARDS · RANKED · RARITY-GRADED · GOTTA REVIEW 'EM ALL</p>
+      </header>
+
+      <div class="binder-filters" role="group" aria-label="Filter cards">
+        <button class="bf-btn is-on" data-filter="all">ALL</button>
+        {tiers.map((t) => <button class="bf-btn" data-filter={`tier:${t}`}>{t}</button>)}
+        {categories.map((cat) => <button class="bf-btn" data-filter={`cat:${cat}`}>{cat}</button>)}
+      </div>
+
+      <ul class="binder-grid" role="list">
+        {cards.map((c) => (
+          <li class="binder-cell" data-tier={c.verdict} data-cat={c.categoryLabel}>
+            <a href={`/reviews/${c.slug}/`}>
+              <img src={`/cards/${c.slug}.png`} width="372" height="520" loading="lazy" alt={`${c.channel} Player Card — ${c.verdict}, ${c.overall}/100`} />
+            </a>
+            <a class="binder-dl" href={`/cards/${c.slug}.png`} download>↓ SAVE CARD</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .binder { padding: var(--space-xl) 0; min-height: 60vh; }
+  .binder-head { border-bottom: 1px solid var(--border); padding-bottom: var(--space-md); margin-bottom: var(--space-lg); }
+  .binder-title { font-size: var(--text-2xl); color: var(--text-primary); letter-spacing: 0.05em; margin-bottom: var(--space-sm); }
+  .binder-tagline { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--green); letter-spacing: 0.12em; text-shadow: var(--glow-green); }
+  .binder-filters { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-lg); }
+  .bf-btn { font-family: 'Share Tech Mono', monospace; font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); background: transparent; border: 1px solid var(--border); padding: 6px 10px; cursor: pointer; }
+  .bf-btn.is-on, .bf-btn:hover { color: var(--yellow); border-color: var(--yellow); }
+  .binder-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--space-lg); }
+  .binder-cell { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .binder-cell img { width: 100%; height: auto; display: block; }
+  .binder-cell.is-hidden { display: none; }
+  .binder-dl { font-family: 'Share Tech Mono', monospace; font-size: var(--text-xs); color: var(--cyan); text-decoration: none; }
+  .binder-dl:hover { text-shadow: var(--glow-cyan); }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.bf-btn');
+  const cells = document.querySelectorAll<HTMLLIElement>('.binder-cell');
+  buttons.forEach((btn) => btn.addEventListener('click', () => {
+    buttons.forEach((b) => b.classList.toggle('is-on', b === btn));
+    const f = btn.dataset.filter!;
+    cells.forEach((cell) => {
+      const show = f === 'all'
+        || (f.startsWith('tier:') && cell.dataset.tier === f.slice(5))
+        || (f.startsWith('cat:') && cell.dataset.cat === f.slice(4));
+      cell.classList.toggle('is-hidden', !show);
+    });
+  }));
+</script>
