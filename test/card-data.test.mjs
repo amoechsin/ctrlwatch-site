@@ -37,3 +37,28 @@ test('every RARITY band has a material', () => {
     assert.ok(RARITY[v]?.material, `missing rarity for ${v}`);
   }
 });
+
+import { EMBLEMS, emblemGrid, emblemCells } from '../src/lib/card-data.mjs';
+
+test('every category motif has a valid 12×12 emblem', () => {
+  for (const [key, cat] of Object.entries(CATEGORIES)) {
+    const grid = EMBLEMS[cat.motif];
+    assert.ok(grid, `missing emblem for category "${key}" → motif "${cat.motif}"`);
+    assert.equal(grid.length, 12, `${cat.motif}: must be 12 rows`);
+    for (const row of grid) {
+      assert.equal(row.length, 12, `${cat.motif}: each row must be 12 chars`);
+      for (const ch of row) {
+        assert.ok(ch === '.' || PALETTE[ch], `${cat.motif}: bad char "${ch}"`);
+      }
+    }
+  }
+});
+
+test('emblemGrid returns 12×12 of hex-or-null; emblemCells skips empties', () => {
+  const grid = emblemGrid('atom');
+  assert.equal(grid.length, 12);
+  assert.equal(grid[0].length, 12);
+  const cells = emblemCells('atom');
+  assert.ok(cells.length > 0);
+  assert.ok(cells.every((c) => typeof c.x === 'number' && typeof c.y === 'number' && c.fill.startsWith('#')));
+});
