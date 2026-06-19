@@ -28,6 +28,7 @@ const extraPages = [
   `${SITE}/creators/`,
   `${SITE}/start/`,
   `${SITE}/top50/`,
+  `${SITE}/cards/`,
   `${SITE}/reviews/`,
   `${SITE}/concepts/`,
   `${SITE}/vs/`,
