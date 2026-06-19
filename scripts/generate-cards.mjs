@@ -93,6 +93,48 @@ function cardNode(c, rank, total) {
   };
 }
 
+// 1200×630 social card: emblem + overall on the left, name + bars on the right.
+function ogNode(c, rank, total) {
+  const f = FRAME[c.material];
+  return {
+    type: 'div',
+    props: {
+      style: { width: '1200px', height: '630px', display: 'flex', background: f.grad, padding: '12px', boxSizing: 'border-box', fontFamily: 'Share Tech Mono' },
+      children: [{
+        type: 'div',
+        props: {
+          style: { display: 'flex', width: '100%', height: '100%', background: '#0C0C16', padding: '48px', boxSizing: 'border-box' },
+          children: [
+            // left column: emblem + overall
+            row([
+              emblemNode(c.motif),
+              txt(c.overall, { fontSize: '120px', color: f.overall, lineHeight: 1, marginTop: '24px' }),
+              txt(c.verdict, { fontFamily: 'Press Start 2P', fontSize: '16px', color: c.accent, marginTop: '12px' }),
+            ], { flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '340px' }),
+            // right column: brand + name + bars
+            {
+              type: 'div',
+              props: {
+                style: { display: 'flex', flexDirection: 'column', flex: 1, paddingLeft: '48px', justifyContent: 'center' },
+                children: [
+                  txt('CTRL+WATCH · PLAYER PROFILE', { fontSize: '18px', color: '#39FF14', letterSpacing: '0.12em', marginBottom: '16px' }),
+                  txt(c.channel, { fontSize: '52px', color: '#FFFFFF', marginBottom: '8px' }),
+                  txt(`No ${pad3(rank)} / ${pad3(total)} · ${c.categoryLabel}`, { fontSize: '20px', color: '#9090A0', marginBottom: '28px' }),
+                  ...AXES.map(([label, key]) => row([
+                    txt(label, { width: '150px', fontSize: '18px', color: '#9090A0' }),
+                    row([{ type: 'div', props: { style: { display: 'flex', width: `${c.axes[key]}%`, height: '100%', background: c.accent } } }],
+                      { flex: 1, height: '16px', background: '#1A1A26', marginLeft: '12px' }),
+                  ], { alignItems: 'center', marginBottom: '10px' })),
+                ],
+              },
+            },
+          ],
+        },
+      }],
+    },
+  };
+}
+
 async function main() {
   await mkdir(OUT_DIR, { recursive: true });
   const [pressStart2P, shareTechMono] = await Promise.all([
@@ -123,6 +165,9 @@ async function main() {
     const png = await sharp(Buffer.from(svg)).png().toBuffer();
     await writeFile(join(OUT_DIR, `${r.slug}.png`), png);
     console.log(`+ ${r.slug}.png`);
+    const ogSvg = await satori(ogNode(c, ranks.get(r.slug), total), { width: 1200, height: 630, fonts });
+    const ogPng = await sharp(Buffer.from(ogSvg)).png().toBuffer();
+    await writeFile(join(OUT_DIR, `${r.slug}-og.png`), ogPng);
   }
 
   if (unmatched.size) {
