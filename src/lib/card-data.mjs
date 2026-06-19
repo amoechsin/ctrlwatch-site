@@ -362,6 +362,61 @@ export const CATEGORY_MAP = {
   'underground': 'underground',
   'engineering': 'engineering', 'restoration': 'engineering',
   'reaction': 'reaction',
+
+  // --- extended mappings (Task 6) ---
+  // science-adjacent
+  'mathematics': 'science',       // 3blue1brown: Mathematics / Education
+  'chemistry': 'science',         // nilered: Chemistry
+  'food science': 'science',      // j-kenji-lopez-alt: Food Science / Cooking
+
+  // engineering/craft
+  'art restoration': 'engineering', // baumgartner-restoration: Art Restoration
+  'clockmaking': 'engineering',     // clickspring: Clockmaking / Machining
+  'maker': 'engineering',           // primitive-technology: Maker / Survival
+  'stunt': 'engineering',           // mrbeast: Stunt / Entertainment
+
+  // history-adjacent
+  'ancient history': 'history',     // historia-civilis: Ancient History
+  'internet culture': 'history',    // internet-historian: Internet Culture / Documentary
+  'history comedy': 'history',      // oversimplified + sam-o-nella-academy: History Comedy
+  'historical living': 'history',   // townsends: Historical Living / Cooking
+  'internet history': 'history',    // whang: Internet History / Archaeology
+
+  // comedy-adjacent
+  'manic comedy commentary': 'comedy',  // danny-gonzalez
+  'deadpan comedy commentary': 'comedy', // drew-gooden
+  'bass': 'music',                       // davie504: Bass / Comedy
+
+  // politics / journalism
+  'geopolitics': 'politics',        // caspian-report: Geopolitics / Analysis
+  'journalism': 'news',             // johnny-harris: Journalism / Explainer
+
+  // film / essay
+  'film analysis': 'film',          // every-frame-a-painting: Film Analysis
+  'film music': 'music',            // sideways: Film Music / Analysis
+  'documentary': 'film',            // lemmino: Documentary / Mystery
+  'art': 'videoessay',              // nerdwriter1: Art / Film Analysis
+  'commentary': 'videoessay',       // penguinz0: Commentary / Gaming
+
+  // education-adjacent
+  'law': 'education',               // legal-eagle: Law × Pop Culture × Comedy
+  'geography': 'education',         // map-men: Geography / Comedy
+  'animated education': 'education', // ted-ed: Animated Education / Global
+  'logistics': 'education',         // wendover-productions: Logistics / Explainer
+  'kids': 'education',              // ryan-s-world: Kids / Toy
+  'content mill': 'education',      // bright-side: Content Mill / Infotainment
+
+  // truecrime-adjacent
+  'internet mystery': 'truecrime',  // nexpo: Internet Mystery / Analysis
+
+  // cooking-adjacent
+  'mexican home cooking': 'cooking', // de-mi-rancho-a-tu-cocina
+
+  // entertainment/variety — genuinely no single bucket; left on fallback
+  // 'entertainment': 'fallback',   // good-mythical-morning: Entertainment / Variety
+  // 'list': 'fallback',            // watchmojo: List / Aggregation
+  'entertainment': 'comedy',        // good-mythical-morning: closest existing bucket is comedy (variety/entertainment show)
+  'list': 'education',              // watchmojo: informational list content → education is closest
 };
 
 /** verdict → { key, material }. Materials drive frame/overall styling. */
