@@ -20,6 +20,7 @@ import sharp from 'sharp';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { issues } from '../src/data/issues.js';
+import { composeCover, TARGETS } from './lib/cover-compositor.mjs';
 
 const OUT_DIR = 'public/covers';
 const FONT_DIR = 'scripts/fonts';
@@ -316,12 +317,26 @@ async function render(node, width, height, outPath) {
 }
 
 const published = issues.filter((i) => i.published);
+let splashCount = 0;
 
 for (const issue of published) {
-  await render(squareTemplate(issue), 1080, 1080, join(OUT_DIR, `${issue.slug}-square.png`));
-  await render(ogTemplate(issue), 1200, 630, join(OUT_DIR, `${issue.slug}-og.png`));
+  if (issue.hero) {
+    // Painted splash treatment: one hero drives splash + square + og.
+    const heroPath = join(OUT_DIR, issue.hero);
+    for (const [name, { w, h }] of Object.entries(TARGETS)) {
+      const png = await composeCover(issue, { width: w, height: h, heroPath });
+      const out = join(OUT_DIR, `${issue.slug}-${name}.png`);
+      await writeFile(out, png);
+      console.log(`+ ${out} (splash)`);
+    }
+    splashCount++;
+  } else {
+    // Legacy satori treatment (unchanged): square + og only.
+    await render(squareTemplate(issue), 1080, 1080, join(OUT_DIR, `${issue.slug}-square.png`));
+    await render(ogTemplate(issue), 1200, 630, join(OUT_DIR, `${issue.slug}-og.png`));
+  }
 }
 
 await render(defaultOgTemplate(), 1200, 630, 'public/og-default.png');
 
-console.log(`\nDone. ${published.length} issues × 2 covers + 1 default OG.`);
+console.log(`\nDone. ${published.length} issues (${splashCount} splash) + 1 default OG.`);
