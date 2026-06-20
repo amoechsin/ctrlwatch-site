@@ -14,6 +14,7 @@
     "covers": "node scripts/generate-covers.mjs",
     "placeholder:hero": "node scripts/generate-placeholder-hero.mjs",
     "covers:sample": "node scripts/render-cover-sample.mjs",
+    "covers:016": "node scripts/render-cover-016.mjs",
     "inject:og": "node scripts/inject-issue-og.mjs",
     "inject:seo": "node scripts/inject-issue-seo.mjs",
     "inject:top50link": "node scripts/inject-issue-top50link.mjs",
