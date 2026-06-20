@@ -44,8 +44,23 @@ export function renderSvg(svg, width, fonts) {
   return Buffer.from(r.render().asPng());
 }
 
+/**
+ * Cover-fit a hero into width×height, biasing the vertical crop by `focusY`
+ * (0 = anchor top, 0.5 = centre, 1 = anchor bottom). Lets the wide og crop
+ * favour a band that keeps the subject below the composited title.
+ */
+async function resizeHeroCover(heroPath, width, height, focusY) {
+  const meta = await sharp(heroPath).metadata();
+  const scale = Math.max(width / meta.width, height / meta.height);
+  const sw = Math.round(meta.width * scale);
+  const sh = Math.round(meta.height * scale);
+  const left = Math.round(Math.max((sw - width) / 2, 0));
+  const top = Math.round(Math.min(Math.max(focusY * sh - height / 2, 0), sh - height));
+  return sharp(heroPath).resize(sw, sh).extract({ left, top, width, height }).toBuffer();
+}
+
 /** Compose a finished cover PNG Buffer for one issue at one target size. */
-export async function composeCover(issue, { width, height, heroPath }) {
+export async function composeCover(issue, { width, height, heroPath, focusY }) {
   const fonts = await loadCoverFonts();
   const coverColor = issue.coverColor;
 
@@ -55,9 +70,13 @@ export async function composeCover(issue, { width, height, heroPath }) {
   const hero = heroPath && existsSync(heroPath) ? heroPath
     : existsSync(PLACEHOLDER_HERO) ? PLACEHOLDER_HERO : null;
   if (hero) {
-    const heroBuf = await sharp(hero)
-      .resize(width, height, { fit: 'cover', position: 'centre' })
-      .toBuffer();
+    // Wide (og) crops of a tall lower-center hero bias higher so the subject's
+    // face clears the title; splash/square stay centred (byte-identical path).
+    const wide = width / height > 1.4;
+    const fy = focusY ?? (wide ? 0.47 : 0.5);
+    const heroBuf = fy === 0.5
+      ? await sharp(hero).resize(width, height, { fit: 'cover', position: 'centre' }).toBuffer()
+      : await resizeHeroCover(hero, width, height, fy);
     layers.push({ input: heroBuf });
   }
 
