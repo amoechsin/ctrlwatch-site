@@ -1,7 +1,7 @@
 # CTRL+WATCH Issue Splash Covers (Concept D) — Design Spec
 
 **Date:** 2026-06-19
-**Status:** Approved design, pre-implementation
+**Status:** Implemented (machine + placeholder hero, 2026-06-20); awaiting first real AI hero for #016. Rasteriser is `@resvg/resvg-js` (not librsvg — eliminates the §10 font risk; outline-paths fallback unneeded). See `docs/superpowers/plans/2026-06-20-painted-covers.md`.
 **Scope:** Concept **D** only (painted/airbrushed issue covers in a ZZAP!64 / C+VG idiom). Concept **A** (Player Cards) is a separate spec. The pixel house style stays the language everywhere *except* covers — this is the deliberate hybrid.
 **Visual reference (working):** `.superpowers/brainstorm/99041-1781896684/content/cover-b-v2.html` (the locked v2 mockup).
 
