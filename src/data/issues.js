@@ -1,3 +1,27 @@
+/*
+ * PLATFORM source of truth for issues. Each entry needs:
+ *   slug, number, date, title, subtitle, coverColor, tag, rating, published.
+ *
+ * OPTIONAL painted splash-cover furniture (all fields optional; Concept D).
+ * Presence of `hero` switches an issue to the SVG-composited splash treatment
+ * (splash + square + og); absence keeps the legacy satori cover. Forward-only
+ * — see scripts/lib/cover-art-recipe.md and CLAUDE.md › Painted splash covers.
+ *
+ *   hero:      'heroes/016-hero.png',   // path under public/covers/ → omit for legacy cover
+ *   coverStar: 'yob',                   // 'yob' (default) | 'symbolic'
+ *   price:     '£4.99',
+ *   coverLines: [                       // ▶-bulleted teasers (≤3 portrait/square, 1 og)
+ *     '▶ BOSS FIGHT: A vs B',
+ *     '▶ HIDDEN LEVELS: 5 TINY CHANNELS',
+ *   ],
+ *   flashes: [                          // edge callouts, ≤6 (extras dropped + warned)
+ *     { kind: 'tab',       text: 'EXCLUSIVE!',           color: '#FF2244' },
+ *     { kind: 'starburst', text: '6 NEW|TOP 50!',        color: '#FFE600' }, // | splits 2 lines
+ *     { kind: 'sizzler',   text: '96%|ESSENTIAL',        color: '#00F0FF' }, // ZZAP score burst
+ *     { kind: 'banner',    text: 'PLAYER CARDS INSIDE!', color: '#FF00AA' },
+ *     { kind: 'flash',     text: '+ TIME CAPSULE',       color: '#39FF14' },
+ *   ],
+ */
 export const issues = [
   {
     slug: '001',
