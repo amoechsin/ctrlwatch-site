@@ -43,7 +43,7 @@ export function frame(width, height) {
     width,
     height,
     logoSize: (aspect === 'wide' ? 0.072 : 0.122) * width,
-    titleBandY: (aspect === 'wide' ? 0.66 : 0.80) * height,
+    titleBandY: (aspect === 'wide' ? 0.60 : aspect === 'square' ? 0.76 : 0.72) * height,
     border: Math.round(6 * u),
   };
 }
@@ -222,7 +222,7 @@ export function buildFurnitureSvg(issue, { width, height }) {
   const strapY = logoY + fr.logoSize * 0.82;
   const strap = text(esc(`ISSUE ${issue.number} · ${String(issue.date).toUpperCase()} · THE YOUTUBE REVIEW MAGAZINE`), {
     x: width / 2, y: strapY.toFixed(1), 'text-anchor': 'middle', 'font-family': MONO_FONT,
-    'font-size': (width * 0.0205).toFixed(1), fill: NEON.cyan, 'letter-spacing': (2 * u).toFixed(1),
+    'font-size': (width * 0.0185).toFixed(1), fill: NEON.cyan, 'letter-spacing': (1.2 * u).toFixed(1),
   });
 
   /* flashes (cap at MAX_FLASHES) */
@@ -237,7 +237,7 @@ export function buildFurnitureSvg(issue, { width, height }) {
   /* cover title: yellow fill + dark stroke + magenta offset shadow, italic */
   const maxChars = aspect === 'wide' ? 16 : 11;
   const lines = wrapWords(issue.title, maxChars);
-  const tSize = (lines.length >= 3 ? 0.066 : lines.length === 2 ? 0.086 : 0.102) * width;
+  const tSize = (lines.length >= 3 ? 0.066 : lines.length === 2 ? 0.086 : 0.094) * width;
   const off = 6 * u;
   const titleTop = fr.titleBandY;
   const titleSvg = lines
