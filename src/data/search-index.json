@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-06-06T14:14:52.397Z",
+  "generatedAt": "2026-06-21T18:15:14.264Z",
   "totals": {
-    "total": 244,
-    "issue": 15,
-    "review": 87,
+    "total": 256,
+    "issue": 16,
+    "review": 91,
     "channel": 13,
-    "time-capsule": 91,
-    "boss-fight": 16,
-    "special": 22
+    "time-capsule": 96,
+    "boss-fight": 17,
+    "special": 23
   },
   "entries": [
     {
@@ -114,6 +114,13 @@
       "subtitle": "What happened to cooking on camera when the algorithm got hungry — and who is still cooking anyway.",
       "url": "/issues/015/",
       "issueTag": "#015"
+    },
+    {
+      "type": "issue",
+      "title": "THE GAMING ISSUE",
+      "subtitle": "Gaming is the biggest category on YouTube and the least criticised. We sent in the critics — and asked who really owns a Let's Play.",
+      "url": "/issues/016/",
+      "issueTag": "#016"
     },
     {
       "type": "review",
@@ -235,6 +242,13 @@
       "issueTag": "#015"
     },
     {
+      "type": "review",
+      "title": "Choque de Cultura",
+      "subtitle": "Absurdist Satire / Comedy · 82/100 · EXCELLENT",
+      "url": "/reviews/choque-de-cultura/",
+      "issueTag": "#016"
+    },
+    {
       "type": "channel",
       "title": "Cleo Abram",
       "subtitle": "",
@@ -352,6 +366,13 @@
       "subtitle": "Underground / Media Archaeology · 81/100 · EXCELLENT",
       "url": "/reviews/forgotten-formats/",
       "issueTag": "#005"
+    },
+    {
+      "type": "review",
+      "title": "Game Maker's Toolkit",
+      "subtitle": "Game Design Criticism · 88/100 · EXCELLENT",
+      "url": "/reviews/game-maker-s-toolkit/",
+      "issueTag": "#016"
     },
     {
       "type": "review",
@@ -527,6 +548,13 @@
       "subtitle": "Chemistry · 86/100 · EXCELLENT",
       "url": "/reviews/nilered/",
       "issueTag": "#001"
+    },
+    {
+      "type": "review",
+      "title": "Noclip",
+      "subtitle": "Games Documentary · 86/100 · EXCELLENT",
+      "url": "/reviews/noclip/",
+      "issueTag": "#016"
     },
     {
       "type": "channel",
@@ -765,6 +793,13 @@
       "subtitle": "",
       "url": "/creators/#creator-tom-scott",
       "issueTag": null
+    },
+    {
+      "type": "review",
+      "title": "Total Gaming",
+      "subtitle": "Mobile Gaming / Let's Play · 74/100 · GOOD",
+      "url": "/reviews/total-gaming/",
+      "issueTag": "#016"
     },
     {
       "type": "review",
@@ -1453,6 +1488,41 @@
       "issueTag": "#015"
     },
     {
+      "type": "time-capsule",
+      "title": "Satoru Iwata",
+      "subtitle": "The Nintendo president-programmer on the creator economy and Nintendo's own DMCA war against Let's Players (dramatic irony: his company became YouTube's chief antagonist) — FIRST GAMING-PIONEER FIGURE",
+      "url": "/issues/016/",
+      "issueTag": "#016"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Gunpei Yokoi",
+      "subtitle": "The father of \"lateral thinking with withered technology\" on lo-fi retro YouTube and the cult of obsolete hardware",
+      "url": "/issues/016/",
+      "issueTag": "#016"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Dani Bunten Berry",
+      "subtitle": "The multiplayer-game pioneer on togetherness vs. the lonely solo stream; \"no one on their deathbed wished they'd played more single-player\"",
+      "url": "/issues/016/",
+      "issueTag": "#016"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Jerry Lawson",
+      "subtitle": "The erased inventor of the game cartridge on who gets credited in YouTube histories; attribution and the documentary record",
+      "url": "/issues/016/",
+      "issueTag": "#016"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Ralph Baer",
+      "subtitle": "The \"Father of Video Games\" on ownership, patents, and the creator economy built on top of the Brown Box",
+      "url": "/issues/016/",
+      "issueTag": "#016"
+    },
+    {
       "type": "boss-fight",
       "title": "Dan Carlin vs Joe Rogan",
       "subtitle": "Winner: Dan Carlin",
@@ -1563,6 +1633,13 @@
       "subtitle": "Winner: Townsends",
       "url": "/issues/015/",
       "issueTag": "#015"
+    },
+    {
+      "type": "boss-fight",
+      "title": "Videogamedunkey vs Girlfriend Reviews",
+      "subtitle": "Winner: Videogamedunkey",
+      "url": "/issues/016/",
+      "issueTag": "#016"
     },
     {
       "type": "special",
@@ -1717,6 +1794,13 @@
       "subtitle": "four losses (the cook, the mistake, the why, the promise)",
       "url": "/issues/015/",
       "issueTag": "#015"
+    },
+    {
+      "type": "special",
+      "title": "The Nintendo War",
+      "subtitle": "The Nintendo War — how gaming's most beloved company became YouTube's chief antagonist (Content ID, the Creators Program, DMCA strike waves, and who actually owns a Let's Play)",
+      "url": "/issues/016/",
+      "issueTag": "#016"
     }
   ]
 }
