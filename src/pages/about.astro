@@ -32,7 +32,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <p>CTRL+WATCH exists because we think YouTube deserves what gaming
           had in the 80s and 90s: a magazine that is loud, opinionated,
           and unafraid to put a number on things. A magazine that will tell
-          you Dan Carlin's Hardcore History is a 96/100 and explain exactly why.
+          you Dan Carlin's Hardcore History is a 90/100 and explain exactly why.
           A magazine that will find the channel with 3,000 subscribers that's
           making better content than creators with 30 million.</p>
 
@@ -47,9 +47,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <hr class="divider" />
 
       <!-- HOW WE SCORE -->
-      <section class="scoring-section">
+      <section class="scoring-section" id="how-we-score">
         <h2 class="section-title">HOW WE SCORE</h2>
-        <p class="scoring-intro">Every channel reviewed in CTRL+WATCH receives a score from 0 to 100. Here's what the numbers mean:</p>
+        <p class="scoring-intro">Every channel is scored 0–100 across five axes — Content Quality, Consistency, Replay Value, Community, X-Factor — and the overall is a weighted aggregate, not an average: Content Quality and X-Factor count for more. Here's what the numbers mean:</p>
 
         <div class="score-table-wrapper">
           <table class="score-table" role="table" aria-label="Scoring system">
@@ -62,40 +62,74 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </thead>
             <tbody>
               <tr>
-                <td><span class="score-range score-legendary">90–100</span></td>
-                <td class="score-verdict">LEGENDARY</td>
-                <td>Essential viewing. Drop everything.</td>
+                <td><span class="score-range verdict-essential">90–100</span></td>
+                <td class="score-verdict">ESSENTIAL</td>
+                <td>The magazine's highest honour. Drop everything.</td>
               </tr>
               <tr>
-                <td><span class="score-range score-excellent">75–89</span></td>
+                <td><span class="score-range verdict-excellent">80–89</span></td>
                 <td class="score-verdict">EXCELLENT</td>
                 <td>A must-subscribe. Serious craft on display.</td>
               </tr>
               <tr>
-                <td><span class="score-range score-good">60–74</span></td>
+                <td><span class="score-range verdict-good">70–79</span></td>
                 <td class="score-verdict">GOOD</td>
                 <td>Worth your time. Real signal in the noise.</td>
               </tr>
               <tr>
-                <td><span class="score-range score-average">45–59</span></td>
+                <td><span class="score-range verdict-average">60–69</span></td>
                 <td class="score-verdict">AVERAGE</td>
                 <td>Has moments. Algorithm food with flashes of quality.</td>
               </tr>
               <tr>
-                <td><span class="score-range score-weak">25–44</span></td>
-                <td class="score-verdict">WEAK</td>
+                <td><span class="score-range verdict-mediocre">50–59</span></td>
+                <td class="score-verdict">MEDIOCRE</td>
                 <td>Something's off. Watch at your own risk.</td>
               </tr>
               <tr>
-                <td><span class="score-range score-skip">0–24</span></td>
-                <td class="score-verdict">SKIP</td>
+                <td><span class="score-range verdict-gameover">0–49</span></td>
+                <td class="score-verdict">GAME OVER</td>
                 <td>We watched it so you don't have to. You're welcome.</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <p class="scoring-note">Scores are final. We don't re-score based on channel complaints. We may re-score based on genuine growth or decline.</p>
+        <p class="scoring-note">Scores are final. We don't re-score based on channel complaints. We do re-score on genuine growth or decline — see the Johnny Harris re-evaluation (79 → 64) for what that looks like in practice.</p>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- HOW THIS IS MADE -->
+      <section class="made-section" id="how-this-is-made">
+        <h2 class="section-title">HOW THIS IS MADE</h2>
+        <div class="made-text">
+          <p>CTRL+WATCH is one human and a rack of machines.</p>
+
+          <p>The magazine has a single human operator-editor. Production —
+          drafting, layout, the painted covers, a lot of the research legwork —
+          is AI-assisted, the way a 1989 magazine was typesetter-assisted and a
+          2005 blog was spellchecker-assisted. Every score, every verdict, and
+          every editorial position is set by the human editor, and every page
+          ships human-edited. Nothing is published unread.</p>
+
+          <p>The reviews are real. Real channels, really watched, scored against
+          the five-axis rubric above and argued over before anything gets a
+          number. When we get something wrong, we re-score in print and show
+          the working.</p>
+
+          <p>The fiction is fenced. Time Capsule interviews are fiction. The
+          letters page is dramatized. Now Loading and the Retro Ads are satire.
+          Yob is a green blob. Every page carries the legend in the footer that
+          says exactly which is which, and the fiction never crosses into the
+          scores.</p>
+
+          <p>Why say all this out loud? Because a magazine about trust on
+          YouTube doesn't get to be cagey about its own pipeline. We'd rather
+          be the honest machine-assisted magazine with named standards than a
+          coy one you have to debunk. If that bothers you, write in — Yob
+          answers everything, rudely.</p>
+        </div>
       </section>
 
       <hr class="divider" />
@@ -118,7 +152,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <p>Yob was born inside a dead pixel on a phosphor monitor sometime in 1987. Nobody knows exactly when — the monitor's clock had been wrong since 1984.</p>
             <p>He spent his early years watching test patterns and crash screens, developing a deep appreciation for content that didn't waste his time. He migrated to CRT televisions in the early 90s, absorbing every issue of every gaming magazine he could find.</p>
             <p>When YouTube launched in 2005, Yob watched the entire platform in three days. His conclusion: most of it was noise. A small fraction was signal. Nobody was writing about the difference.</p>
-            <p>So he founded CTRL+WATCH. He is the magazine's only full-time employee, mascot, and chief opinion officer. He does not take sponsorships. He does not have an algorithm. He has opinions.</p>
+            <p>So when CTRL+WATCH fired up, Yob moved in. He is the magazine's mascot, letters editor, and chief opinion officer — the founding is The Editor's fault; Yob merely refuses to leave. He does not take sponsorships. He does not have an algorithm. He has opinions.</p>
             <p class="yob-catchphrase">His catchphrase: "I've seen better pixels."</p>
           </div>
         </div>
@@ -128,7 +162,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       <!-- CTA -->
       <section class="about-cta">
-        <a href="/issues/001/" class="btn">READ ISSUE #001 ▶</a>
+        <a href="/start" class="btn">NEW HERE? START HERE ▶</a>
       </section>
 
     </div>
@@ -192,6 +226,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   /* ===== SCORING ===== */
   .scoring-section {
     padding: var(--space-xl) 0;
+    /* Sticky nav is ~70px; keep #how-we-score deep links clear of it */
+    scroll-margin-top: 90px;
+  }
+
+  /* ===== HOW THIS IS MADE ===== */
+  .made-section {
+    padding: var(--space-xl) 0;
+    scroll-margin-top: 90px;
+  }
+
+  .made-text {
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .made-text p {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-md);
+    color: var(--text-primary);
+    line-height: 1.9;
+    letter-spacing: 0.02em;
   }
 
   .section-title {
@@ -261,12 +318,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     display: inline-block;
   }
 
-  .score-legendary { color: var(--yellow); }
-  .score-excellent { color: var(--green); }
-  .score-good      { color: var(--cyan); }
-  .score-average   { color: var(--text-secondary); }
-  .score-weak      { color: var(--orange); }
-  .score-skip      { color: var(--red); }
+  /* Range-chip tier colors come from components.css (.verdict-*, canonical) */
 
   .score-verdict {
     font-family: 'Press Start 2P', monospace;
