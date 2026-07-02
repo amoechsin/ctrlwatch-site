@@ -60,6 +60,28 @@ Every piece should follow magazine conventions:
   ```
 - Keep paragraphs tight — 3-4 sentences max. This is a magazine, not an essay.
 
+## FACT-PASS (MANDATORY)
+
+The factual sections — Player Profiles, Boss Fights, Top 50, Cheat Codes, concept
+pages, and Hidden Levels from #017 onward — cover REAL channels for real readers.
+Before any draft is final, verify every:
+
+- **Named video, series, or upload** — must exist; no invented titles
+- **Direct quote** — must be real, or clearly framed as paraphrase
+- **Number or statistic** — sub counts, dates, runtimes, percentages: verifiable
+  or cut. Never invent a precise figure to decorate an argument
+- **Named event or controversy** — must have actually happened
+
+If a claim can't be verified (via `ctrlwatch-research`/WebSearch), cut it or
+soften it to an explicitly qualitative claim. A vivid invented specific is a
+trust breach, not color — see docs/fable_assessment_recommendation.md §2.2 (the
+"5.7→23.1 minutes" and "JonBenét trilogy" incidents, both since purged).
+
+Invention is allowed ONLY inside the fenced fiction sections per the site trust
+legend: Time Capsule, Yob's Save Point letters, Retro Ads, Now Loading satire.
+Hidden Levels entries from #017 onward must be real <200K-sub channels (tracker
+standing decision, 2026-07-03).
+
 ## Before Writing
 
 1. Check existing issues and articles with `Glob` to understand the voice and format already established
@@ -76,3 +98,4 @@ Before submitting any draft:
 - [ ] Tone is consistent with CTRL+WATCH voice
 - [ ] Markdown frontmatter is complete and valid
 - [ ] No anachronisms (don't reference things that didn't exist in the game's era unless explicitly doing a modern retrospective)
+- [ ] Fact-pass complete: every named video, quote, number, and event verified or cut

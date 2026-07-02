@@ -574,6 +574,16 @@ NONE — POOL FULLY EXHAUSTED
 
 ## HIDDEN LEVELS CHANNELS COVERED
 
+> **⚠️ STANDING DECISION (2026-07-03): Hidden Levels goes REAL from #017.**
+> Every Hidden Levels entry from Issue #017 onward must be a real, verifiable
+> YouTube channel under 200K subscribers — researched via `ctrlwatch-research`
+> before writing, sub counts checked at press time. All entries #001–#016 below
+> are fictional and are labeled as such in the site-wide trust legend; they stay
+> in this roster for continuity only and must NEVER be cited as real coverage.
+> Rationale: Hidden Levels is pitched as actionable discovery — it is the one
+> section where fiction destroys rather than decorates value
+> (docs/fable_assessment_recommendation.md R2).
+
 ### Issue #013 — The Global Issue
 1. Al-Mizan / الميزان (~2,100 subs) — Arabic philosophy, Jordan
 2. Shokunin Kobo 匠人工房 (~810 subs) — Japanese woodworking, no narration — **Yob's Pick**
@@ -719,6 +729,7 @@ Options: treat as #004A/#004B, merge, or declare one canonical. Affects continui
 ## NOTES & FLAGS FOR FUTURE ISSUES
 
 ### Outstanding Editorial Commitments (Made in Print)
+- **Hidden Levels — REAL CHANNELS ONLY, MANDATORY FROM #017**: Standing decision 2026-07-03 (see banner atop HIDDEN LEVELS CHANNELS COVERED). Real, verifiable <200K-sub channels, researched before writing. No exceptions, no fictional entries ever again.
 - **Non-English Player Profile — MANDATORY EVERY ISSUE**: Binding commitment made in #013, honoured #014 (Porta dos Fundos), #015 (Doña Ángela / De Mi Rancho a Tu Cocina, GOOD 80), and ✅ **FULFILLED #016 (Choque de Cultura, EXCELLENT 82).** Must continue every issue. No skips. Next: #017.
 - **Mandatory Negative Review by #015**: ✓ **FULFILLED #015 (Tasty, MEDIOCRE 50).** No negative review in #016 (counter at 1 issue since last). Next due by ~#017.
 - **Player Profile of channel under 200K subscribers — by #015**: ✓ **FULFILLED #015 — Sohla and Ham (Sohla El-Waylly, ~56K subs, EXCELLENT 83), full Player Profile not Hidden Levels.** Reader K.'s in-print promise CLOSED; the 83 was held one point below the Top 50 threshold on purpose.
