@@ -10,6 +10,7 @@ const picks = [
     title: 'Drew Gooden vs Danny Gonzalez',
     issueTag: '#014',
     issueSlug: '014',
+    href: '/vs/danny-gonzalez-vs-drew-gooden/',
     teaser:
       "Two post-Vine comedy commentators enter. Drew's deadpan beats Danny's mania, 86 to 84.",
     color: 'var(--orange)',
@@ -28,6 +29,7 @@ const picks = [
     title: 'Type 7: The Collision',
     issueTag: '#012',
     issueSlug: '012',
+    href: '/concepts/collision-channels/',
     teaser:
       "DepthCharge's framework for creators who survive at the borders of disciplines. Four sub-types, four failure modes, one five-question diagnostic.",
     color: 'var(--cyan)',
@@ -37,6 +39,7 @@ const picks = [
     title: 'Adam Neely',
     issueTag: '#010',
     issueSlug: '010',
+    href: '/reviews/adam-neely/',
     teaser:
       "We reviewed him at 84. In #010 we re-reviewed him at 91. That's the largest single-issue score revision in magazine history — and the issue explains exactly why.",
     color: 'var(--green)',
@@ -65,12 +68,12 @@ const cast = [
   {
     name: 'PRIYA M.',
     role: 'Reader, Mumbai',
-    bio: "Save Point letter writer. Yob's standing promise: a Hindi-language Player Profile by #016.",
+    bio: "Save Point letter writer. Promise paid in #016: Total Gaming, the magazine's first Hindi-language Player Profile. Still owed: a proper Indian regional food run.",
   },
   {
     name: 'MARCO T.',
     role: 'Reader, São Paulo',
-    bio: "Save Point letter writer. Closed the magazine's Portuguese-coverage promise with Porta dos Fundos in #014. Next pick: Choque de Cultura.",
+    bio: "Save Point letter writer. Extracted Porta dos Fundos (#014) and Choque de Cultura (#016) out of the magazine across two issues. A one-man Brazilian-content lobby, and it keeps working.",
   },
 ];
 
@@ -81,7 +84,7 @@ const taxonomy = [
     intro: '#012 — Collisions Issue',
     body:
       'Creators who live at the intersection of disciplines. Four sub-types, four ways the collision can fail, and a five-question diagnostic for spotting one. DepthCharge framework. Jacob Geller (Video Games × Philosophy × Art) is the exemplar.',
-    href: '/issues/012/',
+    href: '/concepts/collision-channels/',
   },
   {
     type: 'TYPE 8',
@@ -89,7 +92,7 @@ const taxonomy = [
     intro: '#014 — Comedy Issue',
     body:
       "Adopted from DepthCharge's framework in Yob's Save Point, #014. The magazine's category for long-form essays that wrap a personal admission inside the run-time. A 2025-26 phenomenon the taxonomy now accounts for.",
-    href: '/issues/014/',
+    href: '/concepts/type-8-wrapped-confession/',
   },
 ];
 ---
@@ -132,7 +135,7 @@ const taxonomy = [
 
         <div class="picks">
           {picks.map((p, i) => (
-            <a class="pick" href={`/issues/${p.issueSlug}/`} style={`--pick-color: ${p.color};`}>
+            <a class="pick" href={p.href ?? `/issues/${p.issueSlug}/`} style={`--pick-color: ${p.color};`}>
               <div class="pick-meta">
                 <span class="pick-kind">{p.kind}</span>
                 <span class="pick-num">{String(i + 1).padStart(2, '0')}</span>

@@ -88,7 +88,12 @@ function verdictClass(v: string | null): string {
   return 'verdict-' + v.toLowerCase().replace(/\s+/g, '-');
 }
 
-const RANKING_DATE = 'May 2026';
+// The ranking is only as fresh as the latest shipped issue — derive the
+// display date from it rather than hand-updating a constant each cycle.
+const RANKING_DATE = issues
+  .filter((i) => i.published)
+  .sort((a, b) => Number(a.number) - Number(b.number))
+  .at(-1)!.date;
 
 const title = `Top 50 YouTube Channels — ${RANKING_DATE} | CTRL+WATCH`;
 const description =
@@ -255,13 +260,7 @@ const itemListJson = {
     font-size: 14px;
     letter-spacing: 0.05em;
   }
-  .score-essential { color: var(--green); text-shadow: var(--glow-green); }
-  .score-excellent { color: var(--cyan); }
-  .score-good { color: var(--text-primary); }
-  .score-average { color: var(--yellow); }
-  .score-mediocre { color: var(--orange); }
-  .score-game-over { color: var(--red); }
-  .score-unknown { color: var(--text-muted); }
+  /* Tier colors (.score-, .verdict-) come from components.css (canonical) */
 
   .verdict {
     font-family: 'Press Start 2P', monospace;
@@ -271,13 +270,6 @@ const itemListJson = {
     letter-spacing: 0.1em;
     white-space: nowrap;
   }
-  .verdict-essential { color: var(--green); }
-  .verdict-excellent { color: var(--cyan); }
-  .verdict-good { color: var(--text-primary); }
-  .verdict-average { color: var(--yellow); }
-  .verdict-mediocre { color: var(--orange); }
-  .verdict-game-over { color: var(--red); }
-
   .cell-genre { color: var(--text-secondary); font-size: var(--text-sm); }
 
   .issue-link {

@@ -66,12 +66,7 @@ const verdictClass = 'verdict-' + verdict.toLowerCase().replace(/\s+/g, '');
   .bar-fill.s-40 { background: var(--red); }
   .cat-score { font-family: 'VT323', monospace; font-size: 24px; color: var(--text-primary); text-align: right; }
   .verdict-banner { font-family: 'Press Start 2P', monospace; font-size: 14px; padding: 16px; text-align: center; letter-spacing: 3px; margin-top: 16px; border: 2px solid; }
-  .verdict-essential { color: var(--yellow); border-color: var(--yellow); text-shadow: var(--glow-yellow); }
-  .verdict-excellent { color: var(--green); border-color: var(--green); text-shadow: var(--glow-green); }
-  .verdict-good { color: var(--cyan); border-color: var(--cyan); text-shadow: var(--glow-cyan); }
-  .verdict-average { color: var(--text-secondary); border-color: var(--text-secondary); }
-  .verdict-mediocre { color: var(--orange); border-color: var(--orange); }
-  .verdict-gameover { color: var(--red); border-color: var(--red); }
+  /* Tier colors (.verdict-) come from components.css (canonical) */
 
   @media (max-width: 768px) {
     .category { grid-template-columns: 110px 1fr 44px; gap: 8px; }

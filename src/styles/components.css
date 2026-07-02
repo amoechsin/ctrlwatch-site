@@ -207,3 +207,29 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== VERDICT TIER COLORS (canonical, single source) =====
+   ESSENTIAL yellow · EXCELLENT green · GOOD cyan · AVERAGE grey ·
+   MEDIOCRE orange · GAME OVER red — matches ReviewCard scorecards and the
+   Player Card PNGs. Page styles must not redefine these; a reader who learns
+   the color code on one surface must not be mistaught on another.
+   `.verdict-gameover` / `.verdict-game-over` are the same tier (class name
+   differs by which generator produced it). */
+.verdict-essential { color: var(--yellow); border-color: var(--yellow); text-shadow: var(--glow-yellow); }
+.verdict-excellent { color: var(--green); border-color: var(--green); text-shadow: var(--glow-green); }
+.verdict-good { color: var(--cyan); border-color: var(--cyan); text-shadow: var(--glow-cyan); }
+.verdict-average { color: var(--text-secondary); border-color: var(--text-secondary); }
+.verdict-mediocre { color: var(--orange); border-color: var(--orange); }
+.verdict-gameover,
+.verdict-game-over { color: var(--red); border-color: var(--red); }
+.verdict-unknown { color: var(--text-muted); border-color: var(--text-muted); }
+
+/* Score-number coloring, same tier mapping (used by /top50/ and /creators/). */
+.score-essential { color: var(--yellow); text-shadow: var(--glow-yellow); }
+.score-excellent { color: var(--green); }
+.score-good { color: var(--cyan); }
+.score-average { color: var(--text-secondary); }
+.score-mediocre { color: var(--orange); }
+.score-gameover,
+.score-game-over { color: var(--red); }
+.score-unknown { color: var(--text-muted); }

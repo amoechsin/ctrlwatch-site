@@ -370,11 +370,13 @@ html.mode-print .score-excellent { color: var(--accent-print-blue); }
 html.mode-print .score-good      { color: var(--text-print-primary); }
 html.mode-print .score-average   { color: #8a6b00; }
 html.mode-print .score-mediocre  { color: #a05a00; }
-html.mode-print .score-game-over { color: #7a1a1a; }
+html.mode-print .score-game-over,
+html.mode-print .score-gameover  { color: #7a1a1a; }
 
 html.mode-print .verdict-essential { color: var(--accent-print); }
 html.mode-print .verdict-excellent { color: var(--accent-print-blue); }
-html.mode-print .verdict-game-over { color: #7a1a1a; }
+html.mode-print .verdict-game-over,
+html.mode-print .verdict-gameover  { color: #7a1a1a; }
 
 html.mode-print .badge-reeval {
   color: var(--accent-print);
