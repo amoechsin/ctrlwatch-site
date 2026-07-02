@@ -20,6 +20,8 @@
     "inject:top50link": "node scripts/inject-issue-top50link.mjs",
     "inject:reviewlinks": "node scripts/inject-issue-reviewlinks.mjs",
     "inject:vslinks": "node scripts/inject-issue-vslinks.mjs",
+    "inject:subscribe": "node scripts/inject-issue-subscribe.mjs",
+    "inject:trust": "node scripts/inject-issue-trust.mjs",
     "build:creators": "node scripts/build-creators.mjs",
     "build:search": "node scripts/build-search-index.mjs",
     "cards": "node scripts/generate-cards.mjs",

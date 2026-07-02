@@ -1,7 +1,39 @@
 ---
+// Buttondown account slug — the form 404s until the account exists at
+// https://buttondown.com/ctrlwatch (update if registered under another name).
+const BUTTONDOWN_USERNAME = 'ctrlwatch';
 ---
 
 <footer class="footer">
+  <div class="container">
+    <div class="footer-subscribe" id="subscribe">
+      <div class="subscribe-copy">
+        <p class="subscribe-title">INSERT COIN ▶ GET THE NEXT ISSUE</p>
+        <p class="subscribe-sub">
+          One email per issue — the new reviews, the Top 50 shakeup, and whatever
+          Yob is angry about. No algorithm decides whether you see it.
+        </p>
+      </div>
+      <form
+        class="subscribe-form"
+        action={`https://buttondown.com/api/emails/embed-subscribe/${BUTTONDOWN_USERNAME}`}
+        method="post"
+      >
+        <label class="visually-hidden" for="subscribe-email">Email address</label>
+        <input
+          class="subscribe-input"
+          type="email"
+          name="email"
+          id="subscribe-email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        />
+        <button class="subscribe-btn" type="submit">SUBSCRIBE ▶</button>
+      </form>
+    </div>
+  </div>
+
   <div class="footer-container container">
     <div class="footer-brand">
       <pre class="yob-art" aria-label="Yob mascot pixel art">
@@ -26,6 +58,18 @@
       <p class="footer-domain">ctrl-watch.xyz</p>
     </div>
   </div>
+
+  <div class="footer-trust container">
+    <p class="trust-title">WHAT'S REAL HERE</p>
+    <ul class="trust-legend" role="list">
+      <li><span class="trust-tag trust-real">REVIEWS · TOP 50 · BOSS FIGHTS</span> Real channels. Real scores. Real opinions.</li>
+      <li><span class="trust-tag trust-fiction">TIME CAPSULE</span> Fiction. The dead did not sit for interviews.</li>
+      <li><span class="trust-tag trust-fiction">LETTERS &amp; STAFF</span> Dramatized. Yob is a green blob.</li>
+      <li><span class="trust-tag trust-fiction">NOW LOADING · RETRO ADS</span> Satire.</li>
+      <li><span class="trust-tag trust-fiction">HIDDEN LEVELS (#001–#016)</span> Fictional channels. Real small-channel picks from #017 onward.</li>
+    </ul>
+    <p class="trust-more"><a href="/about#how-this-is-made">How this magazine is made →</a></p>
+  </div>
 </footer>
 
 <style>
@@ -34,6 +78,142 @@
     background: var(--bg-secondary);
     padding: var(--space-xl) 0;
     margin-top: auto;
+  }
+
+  .footer-subscribe {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+    border: 1px solid var(--green);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-xl);
+    /* Sticky nav is ~70px; keep the #subscribe anchor jump clear of it */
+    scroll-margin-top: 90px;
+  }
+
+  .subscribe-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: var(--text-sm);
+    color: var(--green);
+    text-shadow: var(--glow-green);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-sm);
+  }
+
+  .subscribe-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    max-width: 48ch;
+  }
+
+  .subscribe-form {
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
+
+  .subscribe-input {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+    color: var(--text-primary, #e0e0e8);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    min-height: 44px;
+    min-width: 220px;
+  }
+
+  .subscribe-input:focus-visible {
+    border-color: var(--green);
+    outline: none;
+  }
+
+  .subscribe-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--bg);
+    background: var(--green);
+    border: 1px solid var(--green);
+    padding: 10px 16px;
+    min-height: 44px;
+    cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease;
+  }
+
+  .subscribe-btn:hover,
+  .subscribe-btn:focus-visible {
+    background: transparent;
+    color: var(--green);
+    outline: none;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .footer-trust {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px dashed var(--border);
+  }
+
+  .trust-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-sm);
+  }
+
+  .trust-legend {
+    list-style: none;
+    margin: 0 0 var(--space-sm);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .trust-legend li {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    letter-spacing: 0.02em;
+  }
+
+  .trust-tag {
+    display: inline-block;
+    border: 1px solid currentColor;
+    padding: 2px 6px;
+    margin-right: 8px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+
+  .trust-real { color: var(--green); }
+  .trust-fiction { color: var(--cyan); }
+
+  .trust-more a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    text-decoration: underline;
+  }
+
+  .trust-more a:hover {
+    color: var(--cyan);
   }
 
   .footer-container {
