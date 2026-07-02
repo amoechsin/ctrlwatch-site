@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build output — Netlify builds from source (netlify.toml: npm run build → dist)
+dist/
+
+# Astro generated
+.astro/
+
+# Local-only Claude settings
+.claude/settings.local.json
+
+# Secrets / local env
+.env
+.env.*
+
+# Local exports & bundles
+*.zip
+ctrl-watch-bundle/
+
+# OS
+.DS_Store
