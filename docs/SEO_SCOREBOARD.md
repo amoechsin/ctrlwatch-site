@@ -1,8 +1,10 @@
 # SEO Scoreboard — ctrl-watch.xyz
 
 A weekly log of the few numbers that actually tell us whether the canonical
-asset layer (82 reviews + 14 boss fights + 5 concepts + hubs = ~124 URLs) is
-getting found, indexed, and surfaced. Companion to `SEARCH_CONSOLE_INDEXING.md`.
+asset layer (91 reviews + 16 boss fights + 5 concepts + hubs, as of 2026-07-03)
+is getting found, indexed, and surfaced. Companion to `SEARCH_CONSOLE_INDEXING.md`.
+Note: the newest ~9 reviews and 2 boss fights postdate the indexing batch list
+in that doc — add them to the request queue.
 
 **Property:** Google Search Console — Domain property `ctrl-watch.xyz` (added 2026-06-06; primary, covers all subdomains + http/https) + legacy URL-prefix `https://ctrl-watch.xyz/` (kept for history; sitemap was submitted here).
 **Analytics:** GoatCounter — https://ctrlwatch.goatcounter.com
@@ -65,9 +67,26 @@ and the fix is **external links**, not more content.
 | 2026-05-30 | 19 | 1 | 16 | — | — | — | Shipped ~124-URL site (82 reviews, 14 vs, 5 concepts). Live sitemap confirmed 124 `<loc>`. Re-submitted sitemap; Requested Indexing on Batch 1 (4 hubs + 5 concepts + home). Awaiting re-read. |
 | 2026-06-01 | (sitemap n/c) | 4 | 14 | — | — | — | Re-crawl happened. Indexed 1→4. Pages report now tracks 28 URLs (was ~20): 4 indexed + 24 not (14 "Discovered–not indexed" ↓ from 16, **7 new "Crawled–currently not indexed"**, 3 "Page with redirect"). 7 moved Discovered→Crawled = forward progress but stuck at index decision. Did NOT capture Sitemaps-screen Discovered count. |
 | 2026-06-06 | **124** | 4 | 14 | — | — | — | **Discovery confirmed complete — bottleneck is crawl-budget, NOT discovery.** Sitemaps screen: `sitemap-index.xml` = Success, **124 discovered** (finally captured). Full buildout known to Google since May 30 = only 7 days; 4/124 indexed is on-pace (target 40–80 @ 2–4wk). Flat since 06-01. **Bad sitemap submission flagged:** bare root `https://ctrl-watch.xyz/` submitted as a sitemap (Type Unknown, 0 pages, "1 error", re-read Jun 6) → remove via Sitemaps ⋮. Promo: Reddit r/MediaCriticism posted (114 views / 1 up / 0 comments — low traction, nofollow, no SEO lift). HN blocked (account `deimos459` 4d old, karma 1 → self-promo auto-killed). Added GSC Domain property. |
-| _next: ~2026-06-13_ | | | | | | | 2-week mark post-sitemap — expect Indexed to start climbing past single digits IF a followed link landed. Lever now = 1–2 quality external links (YouTube channel cross-link + a newsletter mention) + time. Don't grind Reddit/HN. Confirm bad `/` sitemap row was removed. |
+| 2026-06-13 | — | — | — | — | — | — | **MISSED — ritual lapsed.** No reading taken. |
+| 2026-06-20 | — | — | — | — | — | — | **MISSED — ritual lapsed** (spanned the #016 launch, 2026-06-21). |
+| 2026-06-27 | — | — | — | — | — | — | **MISSED — ritual lapsed.** |
+| _2026-07-03 (due)_ | | | | | | | **Ritual restarted.** Fill from GSC: Sitemaps Discovered, Pages indexed/DNI, Performance 28d. Confirm the bad `/` sitemap row was removed (flagged 06-06). Check whether Indexed ever moved past 4 — if still single digits, the external-links lever is confirmed as the only move. Run `promote:status` (needs `GOATCOUNTER_TOKEN`). |
 
 ---
+
+## The weekly 30-minute ritual (every Friday)
+
+The instruments only work if they're read. Thirty minutes, same order, every week:
+
+1. **GSC row (10 min):** open Search Console → copy Discovered / Indexed / DNI /
+   Impressions / Clicks / Avg position into a new Log row above. One line of notes.
+2. **Campaign stats (5 min):** `GOATCOUNTER_TOKEN=… npm run promote:status -- <latest-issue>`
+   — rewrites the tracking table in `marketing/issue-NNN-distribution.md`.
+3. **One outreach action (15 min):** exactly one — a design-gallery submission,
+   a newsletter pitch (Garbage Day / Web Curios / Embedded), or one Player Card
+   posted to the reviewed channel's subreddit. Log it in the Notes column.
+
+A missed week gets a **MISSED** row, not silence — the gap is data too.
 
 ## Notes
 
