@@ -43,7 +43,7 @@ const CREATORS = 'src/data/creators.json';
 const REVIEWS_DIR = 'src/content/reviews';
 // Env override exists for the consistency gate (scripts/verify-pipeline.mjs),
 // which regenerates to a temp path and diffs against the committed file.
-const OUT = process.env.SEARCH_OUT || 'src/data/search-index.json';
+const OUT = process.env.SEARCH_OUT || 'public/search-index.json';
 
 const warnings = [];
 function warn(m) { warnings.push(m); }

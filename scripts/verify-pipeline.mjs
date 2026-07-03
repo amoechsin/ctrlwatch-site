@@ -46,7 +46,7 @@ const tmp = mkdtempSync(join(tmpdir(), 'cw-verify-'));
 
 const regen = [
   ['build:creators', 'src/data/creators.json', { CREATORS_OUT: join(tmp, 'creators.json') }, join(tmp, 'creators.json')],
-  ['build:search', 'src/data/search-index.json', { SEARCH_OUT: join(tmp, 'search.json') }, join(tmp, 'search.json')],
+  ['build:search', 'public/search-index.json', { SEARCH_OUT: join(tmp, 'search.json') }, join(tmp, 'search.json')],
 ];
 
 for (const [script, committed, env, out] of regen) {
