@@ -1,7 +1,7 @@
 # CTRL+WATCH — Master Continuity Tracker (VERIFIED)
 
 **Verified From:** Actual HTML files for Issues #001-006; Issues #007-014 from generation records  
-**Last Updated:** July 2026 (Post-Issue #016)  
+**Last Updated:** August 2026 (Post-Issue #017)  
 **Purpose:** Track all content to prevent repetition and maintain narrative continuity.
 
 ---
@@ -47,6 +47,7 @@ These duplicates should be noted in editorial continuity. Going forward, maintai
 | #014 | The Comedy Issue | CTRLWATCH_Issue014_TheComedyIssue.html |
 | #015 | The Food Issue | CTRLWATCH_Issue015_TheFoodIssue.html |
 | #016 | The Gaming Issue | CTRLWATCH_Issue016_TheGamingIssue.html |
+| #017 | The Machine Issue | public/issues/017/index.html |
 
 **Note:** Two versions of Issue #004 exist (Spectacle and Craft). Decide which is canonical or treat as #004A and #004B.
 
@@ -188,6 +189,14 @@ These duplicates should be noted in editorial continuity. Going forward, maintai
 
 *(Note: 5-figure slate. Opens a brand-new GAMING-PIONEERS category — the legacy pool (Woolf, Turing, 4 music reserve) remains untouched, mirroring #015's culinary move. Iwata's segment leans hard on dramatic irony: Nintendo's own copyright war on creators.)*
 
+### Issue #017 — The Machine Issue
+1. Alan Turing — The imitation game meets AI slop; "can I tell?" made a way of life; whether the machines passed the test or we simply stopped grading — LAST LEGACY SCIENCE/PHILOSOPHY FIGURE (pool now ZERO)
+2. Claude Shannon — Information theory; signal vs noise as literal mathematics; manufactured noise sold as signal; the playful engineer (juggling, unicycles, mechanical mice) — FIRST COMPUTING-PIONEER FIGURE
+3. Grace Hopper — Compilers; "the most dangerous phrase is 'we've always done it that way'"; the nanosecond wire; a tool that does your tedium vs a tool that does your thinking
+4. Norbert Wiener — Cybernetics; *The Human Use of Human Beings*; automation's human costs — the moral-panic slot, except he was right
+
+*(Note: 4-figure slate. Turing is the FIRST legacy-pool draw since #013 and the LAST Science/Philosophy figure — that pool is now ZERO. Opens a brand-new COMPUTING-PIONEERS category (Shannon, Hopper, Wiener) — the third consecutive new-category open after culinary (#015) and gaming (#016). Legacy pool now: Virginia Woolf + 4 music reserve ONLY.)*
+
 ---
 
 ## TIME CAPSULE — SAFE TO USE (Never Interviewed)
@@ -208,11 +217,11 @@ NONE — POOL FULLY EXHAUSTED
 *(~~Lucille Ball~~ used #014, ~~Akira Kurosawa~~ used #013, ~~Federico Fellini~~ used #013, ~~Ingmar Bergman~~ used #013, ~~Charlie Chaplin~~ used #011, ~~Alfred Hitchcock~~ used #007, ~~Rod Serling~~ used #006, ~~Gene Siskel~~ used #008, ~~Buster Keaton~~ used #009, ~~Orson Welles~~ used #004S, ~~Stanley Kubrick~~ used #004C)*
 
 **Science/Philosophy:**
-Alan Turing
+NONE — POOL FULLY EXHAUSTED
 
-*(~~Albert Einstein~~ used #013, ~~Marie Curie~~ used #013, ~~Hannah Arendt~~ used #011, ~~Michel Foucault~~ used #011, ~~Richard Feynman~~ used #009, ~~Isaac Asimov~~ used #006, ~~Marshall McLuhan~~ used #007, ~~Nikola Tesla~~ used #004S, ~~Ada Lovelace~~ used #012, ~~Oliver Sacks~~ used #012)*
+*(~~Alan Turing~~ used #017, ~~Albert Einstein~~ used #013, ~~Marie Curie~~ used #013, ~~Hannah Arendt~~ used #011, ~~Michel Foucault~~ used #011, ~~Richard Feynman~~ used #009, ~~Isaac Asimov~~ used #006, ~~Marshall McLuhan~~ used #007, ~~Nikola Tesla~~ used #004S, ~~Ada Lovelace~~ used #012, ~~Oliver Sacks~~ used #012)*
 
-**Science/Philosophy remaining:** Alan Turing only. Pool critically exhausted.
+**Science/Philosophy remaining:** NONE — pool fully exhausted #017 (Alan Turing was the last).
 
 **Comedy:**
 NONE — POOL FULLY EXHAUSTED
@@ -243,6 +252,8 @@ NONE — POOL FULLY EXHAUSTED
 
 **POST-#016 UPDATE:** #016 repeated the #015 move — it opened a brand-new **gaming-pioneers** category and ran a 5-figure slate (Iwata, Yokoi, Bunten Berry, Lawson, Baer). The legacy pool remains untouched (Woolf, Turing, 4 music reserve still on reserve). Gaming-pioneer figures still available for future games-adjacent issues: e.g. Shigeru Miyamoto (living — handle with care), Hideo Kojima (living), Roberta Williams, Carol Shaw, Yu Suzuki, Jordan Mechner. The structural lesson is now twice-proven: expand into a fresh themed category per issue rather than draining the legacy pool.
 
+**POST-#017 UPDATE:** #017 made the move a third consecutive time — it opened a brand-new **computing-pioneers** category (Shannon, Hopper, Wiener) around a single legacy draw: **Alan Turing, the LAST Science/Philosophy figure — that pool is now ZERO.** Computing-pioneer figures still available for future machine-adjacent issues: e.g. John von Neumann, Marvin Minsky, Douglas Engelbart, J.C.R. Licklider, Seymour Cray (avoid living figures without deliberate care). **Legacy pool now: Virginia Woolf + the 4-figure music reserve ONLY.**
+
 **This is now a structural problem. Issue #015 onward must either: (a) draw heavily from the music reserve only if music-adjacent; (b) identify entirely new figure categories — visual artists (Picasso, Frida Kahlo, Basquiat), architects (Frank Lloyd Wright, Zaha Hadid), athletes (Pelé, Maradona, Babe Ruth), non-Western historical figures (Confucius, Rumi, Frida Kahlo, Lin Yutang), inventors/engineers (Turing remaining; otherwise Edison, Tim Berners-Lee, Hopper); or (c) accept fewer Time Capsule subjects per issue (4 or 5 instead of 6). The proposal-first workflow must surface this constraint at theme-feasibility stage for every future issue.**
 
 ---
@@ -268,6 +279,7 @@ NONE — POOL FULLY EXHAUSTED
 | #014 | Drew Gooden vs Danny Gonzalez | Drew Gooden | 86 vs 84 | Post-Vine Comedy Commentary |
 | #015 | Townsends vs Tasting History with Max Miller | Townsends | 90 vs 86 | Cooking the Past |
 | #016 | Videogamedunkey vs Girlfriend Reviews | Videogamedunkey | 84 vs 80 | Gaming Commentary |
+| #017 | AI Explained vs Two Minute Papers | AI Explained | 84 vs 71 | AI Explainers |
 
 ### Boss Fight Matchups — SAFE TO USE
 - Adam Savage vs Colin Furze
@@ -292,6 +304,7 @@ NONE — POOL FULLY EXHAUSTED
 - ~~Drew Gooden vs Danny Gonzalez~~ ✓ #014
 - ~~Townsends vs Tasting History~~ ✓ #015
 - ~~Videogamedunkey vs Girlfriend Reviews~~ ✓ #016
+- ~~AI Explained vs Two Minute Papers~~ ✓ #017
 
 ---
 
@@ -449,9 +462,19 @@ NONE — POOL FULLY EXHAUSTED
 | Choque de Cultura 🇧🇷 | 82 | EXCELLENT | Brazilian Portuguese satire; MANDATORY non-English Player Profile; LOCKED #016 (Marco T. promise CLOSED); does NOT enter (below 84) |
 | Total Gaming 🇮🇳 | 74 | GOOD | Hindi Free Fire gameplay (Ajju Bhai); fulfils Priya M. Hindi-profile promise ON-THEME; does NOT enter |
 
+### Issue #017 — The Machine Issue
+| Channel | Score | Verdict | Notes |
+|---------|-------|---------|-------|
+| Coffeezilla | 84 | EXCELLENT | Investigative / tech fraud (Stephen Findeisen); NEW #49; Consistency 55 drag named honestly (8 videos in all of 2025) |
+| Dot CSV 🇪🇸 | 81 | EXCELLENT | Spanish-language AI education (Carlos Santana Vega); MANDATORY non-English Player Profile; does NOT enter (below 84) |
+| Computerphile | 76 | GOOD | Deliberate on-merit GOOD — compression resistance; genius ceiling, whiteboard floor; does NOT enter |
+| Ridddle | 38 | GAME OVER | Negative — proto-slop translation factory; documented misinformation (Harvard seismologist on record); mandatory negative FULFILLED |
+| AI Explained | 84 | EXCELLENT | Boss Fight winner; SimpleBench original contribution; NEW #50 |
+| Two Minute Papers | 71 | GOOD | Boss Fight loser; the enthusiasm became the product; does NOT enter |
+
 ---
 
-## TOP 50 — CURRENT STATE (Post-Issue #016)
+## TOP 50 — CURRENT STATE (Post-Issue #017)
 
 | # | Channel | Score | Genre | Last Movement |
 |---|---------|-------|-------|---------------|
@@ -475,38 +498,38 @@ NONE — POOL FULLY EXHAUSTED
 | 18 | Contrapoints | 88 | Political Essay / Trans Studies | — |
 | 19 | exurb1a | 88 | Philosophy / Existential | — |
 | 20 | Clickspring | 88 | Clockmaking / Machining | — |
-| 21 | Game Maker's Toolkit | 88 | Game Design Criticism | NEW |
-| 22 | Internet Historian | 87 | Internet Culture / Documentary | ↓1 |
-| 23 | Theo Von | 87 | Comedy / Podcast | ↓1 |
-| 24 | Good Mythical Morning | 87 | Entertainment / Variety | ↓1 |
-| 25 | Caspian Report | 87 | Geopolitics / Analysis | ↓1 |
-| 26 | Historia Civilis | 87 | Ancient History | ↓1 |
-| 27 | JCS — Criminal Psychology | 86 | True Crime / Analysis | ↓1 |
-| 28 | Tasting History with Max Miller | 86 | History × Cooking | ↓1 |
-| 29 | Breaking Points | 86 | Political Analysis / Podcast | ↓1 |
-| 30 | 12tone | 86 | Music Theory / Analysis | ↓1 |
-| 31 | Like Stories of Old | 86 | Philosophy / Video Essay | ↓1 |
-| 32 | Nerdwriter1 | 86 | Art / Film Analysis | ↓1 |
-| 33 | NileRed | 86 | Chemistry | ↓1 |
-| 34 | Stuff Made Here | 86 | Engineering / Maker | ↓1 |
-| 35 | J. Kenji Lopez-Alt | 86 | Food Science / Cooking | ↓1 |
-| 36 | Scott The Woz | 86 | Retro Gaming / Comedy | ↓1 |
-| 37 | Drew Gooden | 86 | Deadpan Comedy Commentary | ↓1 |
-| 38 | Noclip | 86 | Games Documentary | NEW |
-| 39 | Binging with Babish | 85 | Cooking / Entertainment | ↓2 |
-| 40 | Tantacrul | 85 | Music Software / Comedy Essay | ↓2 |
-| 41 | Philosophy Tube | 85 | Political Philosophy / Theatre | ↓2 |
-| 42 | Real Engineering | 85 | Engineering / Education | ↓2 |
-| 43 | Chinese Cooking Demystified | 85 | Regional Chinese Cooking | ↓2 |
-| 44 | The Slow Mo Guys | 85 | Science / Entertainment | ↓2 |
-| 45 | Map Men (Jay and Mark) | 85 | Geography / Comedy | ↓2 |
-| 46 | Smarter Every Day | 85 | Science / Curiosity | ↓2 |
-| 47 | TED-Ed | 85 | Animated Education / Global | ↓2 |
-| 48 | Videogamedunkey | 84 | Gaming / Commentary | ↓2 |
-| 49 | Whang! | 84 | Internet History / Archaeology | ↓2 |
-| 50 | Ryan George / Pitch Meeting | 84 | Sketch / Format Comedy | ↓2 |
+| 21 | Game Maker's Toolkit | 88 | Game Design Criticism | — |
+| 22 | Internet Historian | 87 | Internet Culture / Documentary | — |
+| 23 | Theo Von | 87 | Comedy / Podcast | — |
+| 24 | Good Mythical Morning | 87 | Entertainment / Variety | — |
+| 25 | Caspian Report | 87 | Geopolitics / Analysis | — |
+| 26 | Historia Civilis | 87 | Ancient History | — |
+| 27 | JCS — Criminal Psychology | 86 | True Crime / Analysis | — |
+| 28 | Tasting History with Max Miller | 86 | History × Cooking | — |
+| 29 | Breaking Points | 86 | Political Analysis / Podcast | — |
+| 30 | 12tone | 86 | Music Theory / Analysis | — |
+| 31 | Like Stories of Old | 86 | Philosophy / Video Essay | — |
+| 32 | Nerdwriter1 | 86 | Art / Film Analysis | — |
+| 33 | NileRed | 86 | Chemistry | — |
+| 34 | Stuff Made Here | 86 | Engineering / Maker | — |
+| 35 | J. Kenji Lopez-Alt | 86 | Food Science / Cooking | — |
+| 36 | Scott The Woz | 86 | Retro Gaming / Comedy | — |
+| 37 | Drew Gooden | 86 | Deadpan Comedy Commentary | — |
+| 38 | Noclip | 86 | Games Documentary | — |
+| 39 | Binging with Babish | 85 | Cooking / Entertainment | — |
+| 40 | Tantacrul | 85 | Music Software / Comedy Essay | — |
+| 41 | Philosophy Tube | 85 | Political Philosophy / Theatre | — |
+| 42 | Real Engineering | 85 | Engineering / Education | — |
+| 43 | Chinese Cooking Demystified | 85 | Regional Chinese Cooking | — |
+| 44 | The Slow Mo Guys | 85 | Science / Entertainment | — |
+| 45 | Map Men (Jay and Mark) | 85 | Geography / Comedy | — |
+| 46 | Smarter Every Day | 85 | Science / Curiosity | — |
+| 47 | TED-Ed | 85 | Animated Education / Global | — |
+| 48 | Videogamedunkey | 84 | Gaming / Commentary | — |
+| 49 | Coffeezilla | 84 | Investigative / Tech Fraud | NEW |
+| 50 | AI Explained | 84 | AI Analysis / Benchmarks | NEW |
 
-**Entry threshold post-#016: 84 (the 84-tier holds the bottom 3 spots).**
+**Entry threshold post-#017: 84 (the 84-tier holds the bottom 3 spots — ranks 1–48 unchanged; both Machine Issue entrants land at the vacated bottom of the tier).**
 
 ### Notable Movements — Issue #014
 - **Jenny Nicholson**: NEW at #9 (91) — first comedy essayist to hold the 91 ESSENTIAL tier; lowest Consistency in the tier (65)
@@ -561,6 +584,8 @@ NONE — POOL FULLY EXHAUSTED
 | Wendover Productions | #015 | 84 | Displaced — continued drift, score unchanged but trajectory flat; re-entry candidate |
 | Abroad in Japan | #016 | 84 | Displaced by merit — bottom of a brutally compressed 84-tier; re-entry candidate |
 | Danny Gonzalez | #016 | 84 | Displaced by merit — Boss Fight loser tier; re-entry candidate |
+| Whang! | #017 | 84 | Displaced at threshold by Machine Issue entrants — tier crowding |
+| Ryan George / Pitch Meeting | #017 | 84 | Displaced at threshold by Machine Issue entrants — tier crowding |
 
 ### All-Time Re-Evaluation Records
 | Channel | Issue | Score Change | Rank Change | Notes |
@@ -612,6 +637,15 @@ NONE — POOL FULLY EXHAUSTED
 4. Lost Builds (~3,500 subs) — beta/prototype game archaeology; cut content and unreleased ROMs
 5. One More Seed (~970 subs) — single-game speed-farming obsessive (one roguelike, forever); the anti-variety channel
 
+### Issue #017 — The Machine Issue — ✅ FIRST REAL RUN
+> **🚨 FROM THIS ISSUE ONWARD, THESE ROWS ARE REAL CHANNELS.** The standing decision (2026-07-03, banner above) was HONORED in #017: all five entries below are real, verified YouTube channels under 200K subscribers, researched via `ctrlwatch-research` with sub counts checked at press time. Unlike #001–#016, these may be cited as real coverage.
+
+1. AI Coffee Break with Letitia (~63K subs) — one-paper-per-video explainers from a working AI researcher (Letiția Pârcălăbescu); bite-size without hollowing out
+2. Umar Jamil (~50K subs) — from-scratch PyTorch architecture builds, derivations included; ~8-month upload gap (day job) named honestly — **Yob's Pick**
+3. Robert Miles AI Safety (~170K subs — borderline, flagged) — AI alignment education; made reward hacking comprehensible pre-AGI-news; slow cadence named honestly ("the back catalog is the point"); Computerphile origin cross-referenced
+4. Normalized Nerd (~100K+ subs) — RIT PhD student (Sujan Dutta); "Markov Chains Clearly Explained" at 1.2M views on a 100K channel — the ratio is the signal
+5. Sam Witteveen (~109K subs) — builder-side LLM/agents tutorials; the person who shows you how to BUILD with the things the others explain
+
 ---
 
 ## SPECIAL FEATURES USED
@@ -635,6 +669,7 @@ NONE — POOL FULLY EXHAUSTED
 | #014 | The Comedy Tax — What YouTube comedy costs the creator in four currencies (PG-13 ceiling, ironic-distance fatigue, hour-long arms race, parasocial trap) |
 | #015 | What We Lost When Cooking Became Content — Bourdain-spined essay on the instruction→spectacle drift; four losses (the cook, the mistake, the why, the promise) |
 | #016 | The Nintendo War — how gaming's most beloved company became YouTube's chief antagonist (Content ID, the Creators Program, DMCA strike waves, and who actually owns a Let's Play) |
+| #017 | How a Slop Farm Actually Works — pipeline anatomy of synthetic content (trend-scrape → script → synthetic voice → b-roll → thumbnail A/B → volume); documented mechanics only (The Outline's Ridddle translation-line, Dec 2025 Screen Culture/KH Studio terminations) |
 
 ---
 
@@ -655,6 +690,7 @@ NONE — POOL FULLY EXHAUSTED
 | #014 | The Comedy Tax Return™, Pitch Meeting™ In A Box, The Ironic Distance™ Deluxe Edition |
 | #015 | Mise En Place™ (pre-portioned authenticity), The Sponsor Sauce™ (drizzle brand integration), Umami Engagement Booster™ (retention-graph enhancer), Ghost Kitchen In A Box™ (14 restaurants, 1 sad fryer) |
 | #016 | The Day-One Patch™, Wishlist Now™, Battle Pass Anxiety™, Founder's Pack Deluxe™ |
+| #017 | SLOPMATIC 9000™ ("why make one video when you can make nine hundred?"), VeriVoice AUTHENTIC™ ("the synthetic voice that sounds like it has a soul"), THE HUMAN-IN-THE-LOOP™ ("one (1) actual person. While supplies last.") |
 
 ---
 
@@ -671,6 +707,7 @@ NONE — POOL FULLY EXHAUSTED
 | #014 | YouTubers laughing at TikToks (laugh track has its own laugh track); the hour-long video about a 5-minute joke; "I rewatched [Thing] so you don't have to"; comedy podcast became four men explaining things; the "Are You Gay?" thumbnail |
 | #015 | The cheese pull as a complete thought; "$1 vs $1,000,000" spectacle cooking; the "But Cheaper / But Better" strip-mine clones; AI reels where the ingredients talk; the haunted-satnav AI-slop "chef" channel |
 | #016 | The "[Game] is DYING" apocalypse-thumbnail complex; the 3-hour AI-voiced "complete lore" wiki-read; "first time reacting" Let's Plays visibly on take 40; the mobile-game sponsor read calling a slot machine "actually deep"; the gaming drama channel that reacts only to other drama channels |
+| #017 | The faceless "facts" channel — killed by AI perfecting it (Ridddle cross-reference) |
 
 ---
 
@@ -693,8 +730,9 @@ NONE — POOL FULLY EXHAUSTED
 | #014 | (none) | — | No negative review this issue — counter advances to 2 |
 | #015 | Tasty | 50 | MEDIOCRE — cook-less "hands and pans" format; accomplished emptiness; mandatory negative FULFILLED |
 | #016 | (none) | — | No negative review this issue — last was #015 (Tasty, 50); next due ~#017 |
+| #017 | Ridddle | 38 | GAME OVER — proto-slop translation factory; documented misinformation (Harvard seismologist on record); mandatory negative FULFILLED |
 
-**Last negative review:** #015 (Tasty, 50). Counter: 1 issue since last negative. Next negative review due by ~#017 on the every-2–3-issues cadence.
+**Last negative review:** #017 (Ridddle, 38). Counter: RESET (0 issues since last negative). Next negative review due by ~#019/#020 on the every-2–3-issues cadence.
 
 ---
 
@@ -729,9 +767,11 @@ Options: treat as #004A/#004B, merge, or declare one canonical. Affects continui
 ## NOTES & FLAGS FOR FUTURE ISSUES
 
 ### Outstanding Editorial Commitments (Made in Print)
-- **Hidden Levels — REAL CHANNELS ONLY, MANDATORY FROM #017**: Standing decision 2026-07-03 (see banner atop HIDDEN LEVELS CHANNELS COVERED). Real, verifiable <200K-sub channels, researched before writing. No exceptions, no fictional entries ever again.
-- **Non-English Player Profile — MANDATORY EVERY ISSUE**: Binding commitment made in #013, honoured #014 (Porta dos Fundos), #015 (Doña Ángela / De Mi Rancho a Tu Cocina, GOOD 80), and ✅ **FULFILLED #016 (Choque de Cultura, EXCELLENT 82).** Must continue every issue. No skips. Next: #017.
-- **Mandatory Negative Review by #015**: ✓ **FULFILLED #015 (Tasty, MEDIOCRE 50).** No negative review in #016 (counter at 1 issue since last). Next due by ~#017.
+- **Hidden Levels — REAL CHANNELS ONLY, MANDATORY FROM #017**: Standing decision 2026-07-03 (see banner atop HIDDEN LEVELS CHANNELS COVERED). Real, verifiable <200K-sub channels, researched before writing. No exceptions, no fictional entries ever again. ✅ **HONORED #017 — FIRST REAL RUN (five verified channels).** Standing rule continues every issue.
+- **Non-English Player Profile — MANDATORY EVERY ISSUE**: Binding commitment made in #013, honoured #014 (Porta dos Fundos), #015 (Doña Ángela / De Mi Rancho a Tu Cocina, GOOD 80), #016 (Choque de Cultura, EXCELLENT 82), and ✅ **FULFILLED #017 (Dot CSV, Spanish, EXCELLENT 81).** Must continue every issue. No skips. Next: #018.
+- **Mandatory Negative Review**: ✓ FULFILLED #015 (Tasty, MEDIOCRE 50); ✅ **FULFILLED #017 (Ridddle, GAME OVER 38).** Counter reset to 0. Next due by ~#019/#020.
+- **Indian-language AI/education channels — "a proper look, not a token" (NEW, #017 — soft)**: Made in print in Yob's reply to Priya M. in the #017 Save Point — the next time the magazine covers non-English education, Indian-language AI/education channels get a proper look. No hard date. **Distinct from (and additional to) her still-outstanding Indian regional food run promise.**
+- **REAL LETTERS INBOX — FIRST REAL READER LETTER DUE #018 (NEW, #017 — BINDING)**: yob@ctrl-watch.xyz announced in print in the #017 Save Point; Yob acknowledged in print that all letters to date have been dramatized (per the trust legend). **The first genuine reader letter prints in #018 — binding, announced in print.**
 - **Player Profile of channel under 200K subscribers — by #015**: ✓ **FULFILLED #015 — Sohla and Ham (Sohla El-Waylly, ~56K subs, EXCELLENT 83), full Player Profile not Hidden Levels.** Reader K.'s in-print promise CLOSED; the 83 was held one point below the Top 50 threshold on purpose.
 - **Type 8: The Wrapped Confession (DepthCharge framework)**: Adopted in print in #014 Yob's Save Point. Magazine taxonomy now has Type 7 (Collision, #012) and Type 8 (Wrapped Confession, #014). Future issues may build editorial scaffolding around Type 8. **#016 note:** DepthCharge mused on a "gaming collision" Type in the #016 Save Point; Yob deferred to the concepts desk — NO new Type minted. Type 7/8 numbering integrity holds.
 - **Indian comedy / Hindi-language Player Profile by #016 or #017**: ✅ **FULFILLED #016 ON-THEME — Total Gaming / Ajju Bhai (Hindi Free Fire gameplay, GOOD 74).** Priya M.'s Hindi-profile promise CLOSED (delivered through a gaming creator on the Gaming Issue).
@@ -740,7 +780,8 @@ Options: treat as #004A/#004B, merge, or declare one canonical. Affects continui
 - **Competitive / esports coverage owed (NEW, #016)**: Reader Devraj S. raised esports in the #016 Save Point; Yob acknowledged the gap. Flag for a future competition/esports-adjacent issue.
 
 ### Time Capsule Pool — CRITICAL Planning Notes
-- **Total remaining figures: ~6.** (Virginia Woolf in Arts; Alan Turing in Science; Lennon, Joplin, Hendrix, Mitchell in Music — RESERVED for music-adjacent issue.)
+- **Total remaining figures: ~5.** (Virginia Woolf in Arts; Lennon, Joplin, Hendrix, Mitchell in Music — RESERVED for music-adjacent issue.)
+- **Science/Philosophy pool: FULLY EXHAUSTED.** (Alan Turing used #017 — was the last.)
 - **Comedy pool: FULLY EXHAUSTED.** (Radner, Farley, Kinison all used in #014.)
 - **Film/TV pool: FULLY EXHAUSTED.** (Lucille Ball used in #014; was the last.)
 - **Sport/Activism/Polymaths: FULLY EXHAUSTED.**
@@ -771,7 +812,7 @@ Options: treat as #004A/#004B, merge, or declare one canonical. Affects continui
 - **#015 candidates** (must accommodate mandatory negative review + non-English profile + sub-200K profile + Time Capsule pool):
   - The Production Issue (filmmaking / editing / cinematography craft) — pool: needs new categories
   - The Live Issue (concerts, streams, performance) — Music pool ⚠️ tightly held
-  - The Science Issue — Alan Turing remains; needs supplementation
+  - The Science Issue — ~~Alan Turing remains~~ ⚠️ Turing used #017; needs new categories entirely
   - The Competition Issue (rankings, sport, esports) — pool: needs athletes/new categories
   - The Geopolitics Issue — pool: needs non-Western figures
 - **#016+ candidates**:
@@ -1198,3 +1239,125 @@ Options: treat as #004A/#004B, merge, or declare one canonical. Affects continui
 ---
 
 *Updated post-Issue #016. Sixteen issues complete. Maintain strict no-repeat policy going forward.*
+
+---
+
+## CONTINUITY UPDATE — ISSUE #017: THE MACHINE ISSUE
+
+### Time Capsule Subjects Added
+| Person | Topics Covered |
+|--------|----------------|
+| Alan Turing | The imitation game meets AI slop; "can I tell?" made a way of life; whether the machines passed the test or we simply stopped grading — LAST LEGACY SCIENCE/PHILOSOPHY FIGURE |
+| Claude Shannon | Information theory; signal vs noise as literal mathematics; manufactured noise sold as signal; the playful engineer (juggling, unicycles, mechanical mice) — FIRST COMPUTING-PIONEER FIGURE |
+| Grace Hopper | Compilers; "we've always done it that way" as the most dangerous phrase; the nanosecond wire; a tool that does your tedium vs a tool that does your thinking |
+| Norbert Wiener | Cybernetics; *The Human Use of Human Beings*; automation's human costs — the moral-panic slot, except he was right |
+
+*(4-figure slate. Turing is the FIRST legacy-pool draw since #013 and the LAST Science/Philosophy figure — that pool is now ZERO. Opens a brand-new COMPUTING-PIONEERS category — the THIRD consecutive new-category open after culinary (#015) and gaming (#016). Legacy pool now: Virginia Woolf + 4 music reserve ONLY.)*
+
+### Boss Fight Added
+| Matchup | Winner | Score | Category |
+|---------|--------|-------|----------|
+| AI Explained vs Two Minute Papers | AI Explained | 84 vs 71 | AI Explainers |
+
+*(The Enthusiast vs The Auditor — cheerleading vs verification; which posture the AI moment actually needs. AI Explained wins on original contribution (SimpleBench, his own PhD-vetted benchmark), trust economics, and the documented drift evidence against TMP; TMP holds access, consistency, reach — and having taught a generation the papers mattered.)*
+
+### Channel Reviews Added
+| Channel | Score | Verdict | Top 50 | Notes |
+|---------|-------|---------|--------|-------|
+| Coffeezilla | 84 | EXCELLENT | NEW #49 | Investigative / tech fraud (Stephen Findeisen); Consistency 55 drag named honestly (8 videos in all of 2025); the immune system the platform grew |
+| Dot CSV 🇪🇸 | 81 | EXCELLENT | N/A (below 84) | Spanish AI education (Carlos Santana Vega); MANDATORY non-English profile; 500M+ Spanish speakers' AI desert |
+| Computerphile | 76 | GOOD | N/A | Deliberate on-merit GOOD — compression resistance; genius ceiling, whiteboard floor; respect with a straight face, not a takedown |
+| Ridddle | 38 | GAME OVER | N/A | Mandatory negative FULFILLED; proto-slop translation factory; documented misinformation (Harvard seismologist on record) |
+| AI Explained | 84 | EXCELLENT | NEW #50 | Boss Fight winner; SimpleBench original contribution |
+| Two Minute Papers | 71 | GOOD | N/A | Boss Fight loser; the enthusiasm became the product |
+
+### Boss Fight Channels (scores for Top 50)
+| Channel | Score | Verdict | Top 50 |
+|---------|-------|---------|--------|
+| AI Explained | 84 | EXCELLENT | NEW #50 |
+| Two Minute Papers | 71 | GOOD | N/A (below 84 threshold) |
+
+### Top 50 — Full Change Log
+**Entries:**
+- Coffeezilla: NEW at #49 (84) — investigative/tech-fraud gets its first seat; enters exactly at the threshold
+- AI Explained: NEW at #50 (84) — Boss Fight winner; SimpleBench as original contribution, not commentary
+
+**Movements:**
+- None — ranks 1–48 unchanged from Post-#016; both entrants land at the vacated bottom of the 84-tier
+
+**Drops:**
+- Whang! (84): DROPPED — displaced at equal score by Machine Issue entrants; tier crowding — internet-history lane held higher by Internet Historian/Lemmino; re-entry candidate
+- Ryan George / Pitch Meeting (84): DROPPED — displaced at equal score by Machine Issue entrants; tier crowding — sketch comedy well-represented; re-entry candidate
+
+**Held outside on purpose:**
+- Dot CSV (81) — EXCELLENT but three points below the 84 threshold
+- Computerphile (76) — the deliberate on-merit GOOD
+- Two Minute Papers (71) — Boss Fight loser
+
+### Hidden Levels Added — ✅ FIRST REAL RUN
+| Channel | Approx Subs | Yob's Pick? |
+|---------|-------------|-------------|
+| AI Coffee Break with Letitia (one-paper-per-video researcher) | ~63K | N |
+| Umar Jamil (from-scratch PyTorch architecture builds) | ~50K | Y |
+| Robert Miles AI Safety (AI alignment education; borderline, flagged) | ~170K | N |
+| Normalized Nerd (RIT PhD student; Markov chains explainer 1.2M views) | ~100K+ | N |
+| Sam Witteveen (builder-side LLM/agents tutorials) | ~109K | N |
+
+*(🚨 All five are REAL, verified <200K channels — the standing decision (2026-07-03) HONORED on its first mandatory issue. Unlike #001–#016, these rows may be cited as real coverage. Robert Miles's slow English-longform cadence named honestly in print; his Computerphile origin cross-referenced against the Computerphile Player Profile.)*
+
+### Special Feature
+- **Title:** How a Slop Farm Actually Works
+- **Summary:** Pipeline anatomy of synthetic content — trend-scrape → script → synthetic voice → b-roll → thumbnail A/B → volume. Documented mechanics only: The Outline's Ridddle translation-line reporting and YouTube's Dec 2025 terminations of Screen Culture and KH Studio. No invented statistics.
+
+### Retro Ads Used
+| Ad Name | Core Concept |
+|---------|-------------|
+| SLOPMATIC 9000™ | All-in-one content foundry — "why make one video when you can make nine hundred?"; scrapes, writes, narrates, uploads; Fact Module sold separately, rarely purchased |
+| VeriVoice AUTHENTIC™ | The synthetic voice that sounds like it has a soul — Authenticity Slider™, Meaningful Pause, Parasocial Bonding Mode; soul not included |
+| THE HUMAN-IN-THE-LOOP™ | One (1) actual person, while supplies last — Actually Reads It™, signs their name, says "I don't know"; comes with a blob (Yob included) |
+
+### Game Over Trends Roasted
+1. The faceless "facts" channel — the format AI killed by perfecting it; when a mechanism can produce anonymous, translated, volume-over-truth content better than the humans who pioneered it, the human version has no reason to exist (Ridddle cross-reference)
+
+### Negative Review Tracker Update
+- **Last negative review:** Issue #017 (Ridddle, 38)
+- **Counter:** RESET (0 issues since last negative). Next due by ~#019/#020.
+
+### Yob's Save Point — Letter Writers (#017)
+| Writer | Location | Subject | Rating | Outcome |
+|--------|----------|---------|--------|---------|
+| DepthCharge | Lagos, Nigeria | Proposed "Type 9: The Synthetic" — the fully AI-generated channel, a creator-shaped thing with no creator | ★★★★☆ (4) | REFUSED — taxonomy scarcity defended; SECOND consecutive refusal (after the #016 gaming-type deferral); the observation ruled "dead right", the number withheld; concepts-desk path left open |
+| Halvorsen | Tromsø, Norway | NEW WRITER — dared the magazine to prove it isn't "a fancier faceless facts channel" (Coffeezilla 84 vs Ridddle 38) | ★★☆☆☆ (2) | "FAIR DARE, WRONG TARGET" — Yob's accountability defence: named humans, trust legend, advertised human-in-the-loop vs hidden absence of one |
+| Priya M. | Mumbai, India | Food debt acknowledged, NOT invoiced; thanks for the Dot CSV profile; asked when Indian-language AI teachers get the same look | ★★★★★ (5) | "THE LETTER THAT LANDED" — NEW soft commitment: Indian-language AI/education channels get "a proper look, not a token" |
+
+*(Plus the structural event: **the inbox went REAL** — yob@ctrl-watch.xyz announced in print, letters-to-date acknowledged as dramatized, first genuine reader letter BINDING for #018.)*
+
+### Editorial Commitments — Status Update
+| Commitment | Status |
+|------------|--------|
+| Non-English Player Profile every issue | ✅ FULFILLED #017 (Dot CSV, Spanish, EXCELLENT 81) — standing, continues #018 |
+| Mandatory negative review | ✅ FULFILLED #017 (Ridddle, GAME OVER 38) — counter reset; next due ~#019/#020 |
+| Hidden Levels — REAL channels only (standing, from #017) | ✅ HONORED #017 — first real run, five verified <200K channels; standing rule continues every issue |
+| Indian-language AI/education "proper look, not a token" | 🆕 NEW (soft) — made in print to Priya M. in #017 Save Point; lands at the next non-English education coverage; no hard date; ADDITIONAL to the food run |
+| REAL letters inbox / first genuine reader letter | 🆕 NEW (BINDING) — yob@ctrl-watch.xyz announced in print; first real letter MUST print in #018 |
+| Indian regional FOOD run (aspirational) | OUTSTANDING — acknowledged (not invoiced) by Priya M. in #017 Save Point; still owed a food-adjacent issue |
+| Competitive / esports coverage (Devraj S., #016) | OUTSTANDING — flag for a competition-adjacent issue |
+| Type 9 "The Synthetic" (DepthCharge proposal) | REFUSED #017 — second consecutive refusal; question ruled real, number withheld; concepts-desk interrogation is the open path |
+
+### Notes & Flags for Future Issues
+- **Computing-pioneers Time Capsule category opened** — the THIRD consecutive new-category open (culinary #015, gaming #016, computing #017). Remaining computing-pioneer candidates for future machine-adjacent issues: John von Neumann, Marvin Minsky, Douglas Engelbart, J.C.R. Licklider, Seymour Cray (avoid living figures without deliberate care).
+- **Legacy Time Capsule pool now: Virginia Woolf + 4 music reserve ONLY** — Science/Philosophy EXHAUSTED with Turing (#017). Every future issue must open or extend a themed category, or draw the music reserve on a music-adjacent theme.
+- **FIRST REAL READER LETTER DUE #018 — BINDING.** Announced in print; the inbox (yob@ctrl-watch.xyz) is live. Build the #018 Save Point around it.
+- **DepthCharge arc: two consecutive refusals** (#016 gaming-type deferral, #017 Type 9 refusal). If "The Synthetic" comes to the concepts desk and survives interrogation, it mints with his name on it — watch #018+.
+- **Watch-list / re-entry candidates:** Whang! (84) and Ryan George / Pitch Meeting (84) just dropped at threshold — both re-entry candidates; prior list continues (Abroad in Japan 84, Danny Gonzalez 84, Eddy Burback 83, Porta dos Fundos 82, Girlfriend Reviews 80, Legal Eagle & Wendover re-entry, Tom Scott auto-return, Total Gaming 74 on radar).
+- **84-tier still holds the bottom 3** (Videogamedunkey, Coffeezilla, AI Explained); entry threshold holds at 84; ranks 1–48 fully static this issue — the calmest table since #013.
+- **Ridddle framing discipline held:** AI production NOT asserted (community speculation only); reviewed as the PROTOTYPE the slop farms industrialized. Keep that line in any future citation.
+- **Canonical assets to ship:** /reviews/ pages for Coffeezilla, Dot CSV, Computerphile, Ridddle, AI Explained, Two Minute Papers; /vs/ai-explained-vs-two-minute-papers/.
+
+---
+
+**Issue #017 complete. Seventeen issues published.**
+
+---
+
+*Updated post-Issue #017. Seventeen issues complete. Maintain strict no-repeat policy going forward.*

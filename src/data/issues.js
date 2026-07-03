@@ -214,4 +214,15 @@ export const issues = [
       { kind: 'flash',     text: '+ HIDDEN LEVELS x5',      color: '#39FF14' },
     ],
   },
+  {
+    slug: '017',
+    number: '#017',
+    date: 'August 2026',
+    title: 'THE MACHINE ISSUE',
+    subtitle: 'The machines are uploading. Who checks their work — and what does an AI-assisted magazine owe you when it reviews the slop wave?',
+    coverColor: '#39FF14',
+    tag: 'AI',
+    rating: null,
+    published: true,
+  },
 ];

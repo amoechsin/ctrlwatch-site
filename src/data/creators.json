@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-06-21T18:15:05.340Z",
+  "generatedAt": "2026-07-03T06:09:17.373Z",
   "source": "docs/continuity/CTRLWATCH_Continuity_Tracker.md",
   "totals": {
-    "creators": 104,
+    "creators": 110,
     "inTop50": 50,
-    "dropped": 31,
-    "neverEntered": 23,
+    "dropped": 33,
+    "neverEntered": 27,
     "reEvaluated": 5,
     "withApproxScore": 17
   },
@@ -118,6 +118,28 @@
           "notes": "↑33 — ALL-TIME RECORD"
         }
       ]
+    },
+    {
+      "name": "AI Explained",
+      "slug": "ai-explained",
+      "currentScore": 84,
+      "verdict": "EXCELLENT",
+      "genre": "AI Analysis / Benchmarks",
+      "currentRank": 50,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#017",
+          "score": 84,
+          "verdict": "EXCELLENT",
+          "notes": "Boss Fight winner; SimpleBench original contribution; NEW #50",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
     },
     {
       "name": "Ali Abdaal",
@@ -426,6 +448,28 @@
       "reEvaluations": []
     },
     {
+      "name": "Coffeezilla",
+      "slug": "coffeezilla",
+      "currentScore": 84,
+      "verdict": "EXCELLENT",
+      "genre": "Investigative / Tech Fraud",
+      "currentRank": 49,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#017",
+          "score": 84,
+          "verdict": "EXCELLENT",
+          "notes": "Investigative / tech fraud (Stephen Findeisen); NEW #49; Consistency 55 drag named honestly (8 videos in all of 2025)",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
       "name": "Company Man",
       "slug": "company-man",
       "currentScore": null,
@@ -437,6 +481,28 @@
       "droppedReason": "Ceiling apparent",
       "reEvaluated": false,
       "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Computerphile",
+      "slug": "computerphile",
+      "currentScore": 76,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#017",
+          "score": 76,
+          "verdict": "GOOD",
+          "notes": "Deliberate on-merit GOOD — compression resistance; genius ceiling, whiteboard floor; does NOT enter",
+          "approx": false
+        }
+      ],
       "reEvaluations": []
     },
     {
@@ -605,6 +671,28 @@
       "droppedReason": "Stalled trajectory",
       "reEvaluated": false,
       "reviews": [],
+      "reEvaluations": []
+    },
+    {
+      "name": "Dot CSV 🇪🇸",
+      "slug": "dot-csv",
+      "currentScore": 81,
+      "verdict": "EXCELLENT",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#017",
+          "score": 81,
+          "verdict": "EXCELLENT",
+          "notes": "Spanish-language AI education (Carlos Santana Vega); MANDATORY non-English Player Profile; does NOT enter (below 84)",
+          "approx": false
+        }
+      ],
       "reEvaluations": []
     },
     {
@@ -1561,15 +1649,37 @@
       "reEvaluations": []
     },
     {
+      "name": "Ridddle",
+      "slug": "ridddle",
+      "currentScore": 38,
+      "verdict": "GAME OVER",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#017",
+          "score": 38,
+          "verdict": "GAME OVER",
+          "notes": "Negative — proto-slop translation factory; documented misinformation (Harvard seismologist on record); mandatory negative FULFILLED",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
       "name": "Ryan George / Pitch Meeting",
       "slug": "ryan-george-pitch-meeting",
       "currentScore": 84,
       "verdict": "EXCELLENT",
-      "genre": "Sketch / Format Comedy",
-      "currentRank": 50,
-      "status": "in-top-50",
-      "droppedAt": null,
-      "droppedReason": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#017",
+      "droppedReason": "Displaced at threshold by Machine Issue entrants — tier crowding",
       "reEvaluated": false,
       "reviews": [
         {
@@ -2049,6 +2159,28 @@
       "reEvaluations": []
     },
     {
+      "name": "Two Minute Papers",
+      "slug": "two-minute-papers",
+      "currentScore": 71,
+      "verdict": "GOOD",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#017",
+          "score": 71,
+          "verdict": "GOOD",
+          "notes": "Boss Fight loser; the enthusiasm became the product; does NOT enter",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
       "name": "Veritasium",
       "slug": "veritasium",
       "currentScore": 89,
@@ -2139,11 +2271,11 @@
       "slug": "whang",
       "currentScore": 84,
       "verdict": "EXCELLENT",
-      "genre": "Internet History / Archaeology",
-      "currentRank": 49,
-      "status": "in-top-50",
-      "droppedAt": null,
-      "droppedReason": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#017",
+      "droppedReason": "Displaced at threshold by Machine Issue entrants — tier crowding",
       "reEvaluated": false,
       "reviews": [
         {

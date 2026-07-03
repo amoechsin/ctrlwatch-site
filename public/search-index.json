@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-06-21T18:15:14.264Z",
+  "generatedAt": "2026-07-03T06:09:17.569Z",
   "totals": {
-    "total": 256,
-    "issue": 16,
-    "review": 91,
-    "channel": 13,
-    "time-capsule": 96,
-    "boss-fight": 17,
-    "special": 23
+    "total": 270,
+    "issue": 17,
+    "review": 95,
+    "channel": 15,
+    "time-capsule": 100,
+    "boss-fight": 18,
+    "special": 25
   },
   "entries": [
     {
@@ -123,6 +123,13 @@
       "issueTag": "#016"
     },
     {
+      "type": "issue",
+      "title": "THE MACHINE ISSUE",
+      "subtitle": "The machines are uploading. Who checks their work — and what does an AI-assisted magazine owe you when it reviews the slop wave?",
+      "url": "/issues/017/",
+      "issueTag": "#017"
+    },
+    {
       "type": "review",
       "title": "12tone",
       "subtitle": "Music Theory / Analysis · 86/100 · EXCELLENT",
@@ -156,6 +163,13 @@
       "subtitle": "Music Theory / Jazz Bass · 91/100 · ESSENTIAL",
       "url": "/reviews/adam-neely/",
       "issueTag": "#010"
+    },
+    {
+      "type": "channel",
+      "title": "AI Explained",
+      "subtitle": "AI Analysis / Benchmarks",
+      "url": "/creators/#creator-ai-explained",
+      "issueTag": "#017"
     },
     {
       "type": "channel",
@@ -263,11 +277,25 @@
       "issueTag": "#009"
     },
     {
+      "type": "review",
+      "title": "Coffeezilla",
+      "subtitle": "Investigation / Documentary · 84/100 · EXCELLENT",
+      "url": "/reviews/coffeezilla/",
+      "issueTag": "#017"
+    },
+    {
       "type": "channel",
       "title": "Company Man",
       "subtitle": "",
       "url": "/creators/#creator-company-man",
       "issueTag": null
+    },
+    {
+      "type": "review",
+      "title": "Computerphile",
+      "subtitle": "Education / Computer Science · 76/100 · GOOD",
+      "url": "/reviews/computerphile/",
+      "issueTag": "#017"
     },
     {
       "type": "review",
@@ -324,6 +352,13 @@
       "subtitle": "",
       "url": "/creators/#creator-defunctland",
       "issueTag": null
+    },
+    {
+      "type": "review",
+      "title": "Dot CSV",
+      "subtitle": "Education / Machine Learning · 81/100 · EXCELLENT",
+      "url": "/reviews/dot-csv/",
+      "issueTag": "#017"
     },
     {
       "type": "review",
@@ -642,6 +677,13 @@
     },
     {
       "type": "review",
+      "title": "Ridddle",
+      "subtitle": "Facts / Edutainment · 38/100 · GAME OVER",
+      "url": "/reviews/ridddle/",
+      "issueTag": "#017"
+    },
+    {
+      "type": "review",
       "title": "Ryan George / Pitch Meeting",
       "subtitle": "Comedy / Structural · 84/100 · EXCELLENT",
       "url": "/reviews/ryan-george-pitch-meeting/",
@@ -807,6 +849,13 @@
       "subtitle": "Historical Living / Cooking · 90/100 · ESSENTIAL",
       "url": "/reviews/townsends/",
       "issueTag": "#009"
+    },
+    {
+      "type": "channel",
+      "title": "Two Minute Papers",
+      "subtitle": "GOOD",
+      "url": "/creators/#creator-two-minute-papers",
+      "issueTag": "#017"
     },
     {
       "type": "review",
@@ -1523,6 +1572,34 @@
       "issueTag": "#016"
     },
     {
+      "type": "time-capsule",
+      "title": "Alan Turing",
+      "subtitle": "The imitation game meets AI slop; \"can I tell?\" made a way of life; whether the machines passed the test or we simply stopped grading — LAST LEGACY SCIENCE/PHILOSOPHY FIGURE (pool now ZERO)",
+      "url": "/issues/017/",
+      "issueTag": "#017"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Claude Shannon",
+      "subtitle": "Information theory; signal vs noise as literal mathematics; manufactured noise sold as signal; the playful engineer (juggling, unicycles, mechanical mice) — FIRST COMPUTING-PIONEER FIGURE",
+      "url": "/issues/017/",
+      "issueTag": "#017"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Grace Hopper",
+      "subtitle": "Compilers; \"the most dangerous phrase is 'we've always done it that way'\"; the nanosecond wire; a tool that does your tedium vs a tool that does your thinking",
+      "url": "/issues/017/",
+      "issueTag": "#017"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Norbert Wiener",
+      "subtitle": "Cybernetics; *The Human Use of Human Beings*; automation's human costs — the moral-panic slot, except he was right",
+      "url": "/issues/017/",
+      "issueTag": "#017"
+    },
+    {
       "type": "boss-fight",
       "title": "Dan Carlin vs Joe Rogan",
       "subtitle": "Winner: Dan Carlin",
@@ -1640,6 +1717,13 @@
       "subtitle": "Winner: Videogamedunkey",
       "url": "/issues/016/",
       "issueTag": "#016"
+    },
+    {
+      "type": "boss-fight",
+      "title": "AI Explained vs Two Minute Papers",
+      "subtitle": "Winner: AI Explained",
+      "url": "/issues/017/",
+      "issueTag": "#017"
     },
     {
       "type": "special",
@@ -1801,6 +1885,20 @@
       "subtitle": "The Nintendo War — how gaming's most beloved company became YouTube's chief antagonist (Content ID, the Creators Program, DMCA strike waves, and who actually owns a Let's Play)",
       "url": "/issues/016/",
       "issueTag": "#016"
+    },
+    {
+      "type": "special",
+      "title": "How a Slop Farm Actually Works",
+      "subtitle": "How a Slop Farm Actually Works — pipeline anatomy of synthetic content (trend-scrape → script → synthetic voice → b-roll → thumbnail A/B → volume)",
+      "url": "/issues/017/",
+      "issueTag": "#017"
+    },
+    {
+      "type": "special",
+      "title": "documented mechanics only",
+      "subtitle": "documented mechanics only (The Outline's Ridddle translation-line, Dec 2025 Screen Culture/KH Studio terminations)",
+      "url": "/issues/017/",
+      "issueTag": "#017"
     }
   ]
 }
