@@ -3,7 +3,8 @@
 //   Usage: node scripts/promote-status.mjs <issue-number>  (e.g. 001)
 //   Or:    npm run promote:status -- 001
 //
-// Requires: GOATCOUNTER_TOKEN env var (create at https://ctrlwatch.goatcounter.com/user/api)
+// Requires: GOATCOUNTER_TOKEN — env var, or a line in the repo's gitignored
+// .env file (GOATCOUNTER_TOKEN=...). Create at https://ctrlwatch.goatcounter.com/user/api
 //
 // Reads marketing/issue-NNN-distribution.md, fetches /api/v0/stats/campaigns from
 // GoatCounter, maps each table row's Source to its visit count, and rewrites the
@@ -11,6 +12,15 @@
 
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
+
+// Minimal .env fallback (no dependency): only used when the var isn't already set.
+if (!process.env.GOATCOUNTER_TOKEN) {
+  try {
+    const env = await readFile(new URL("../.env", import.meta.url), "utf8");
+    const m = env.match(/^GOATCOUNTER_TOKEN=(.+)$/m);
+    if (m) process.env.GOATCOUNTER_TOKEN = m[1].trim().replace(/^["']|["']$/g, "");
+  } catch {}
+}
 
 const GC_BASE = "https://ctrlwatch.goatcounter.com";
 const HISTORY_START = "2025-01-01T00:00:00Z";
