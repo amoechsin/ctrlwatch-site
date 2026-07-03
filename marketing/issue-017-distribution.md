@@ -200,15 +200,15 @@ Generated: 2026-07-03
 
 | Source | Visits at 48h | Notes |
 |---|---|---|
-| reddit_mediacriticism | | |
-| hn | | |
-| ytdm_coffeezilla | | |
-| ytdm_computerphile | | |
-| ytdm_dotcsv | | |
-| ytdm_aiexplained-official | | |
-| ytdm_twominutepapers | | |
-| ytdm_aicoffeebreak | | |
-| ytdm_umarjamilai | | |
-| ytdm_robertmilesai | | |
-| ytdm_normalizednerd | | |
-| ytdm_samwitteveenai | | |
+| reddit_mediacriticism | — |  |
+| hn | — |  |
+| ytdm_coffeezilla | — |  |
+| ytdm_computerphile | — |  |
+| ytdm_dotcsv | — |  |
+| ytdm_aiexplained-official | — |  |
+| ytdm_twominutepapers | — |  |
+| ytdm_aicoffeebreak | — |  |
+| ytdm_umarjamilai | — |  |
+| ytdm_robertmilesai | — |  |
+| ytdm_normalizednerd | — |  |
+| ytdm_samwitteveenai | — |  |
