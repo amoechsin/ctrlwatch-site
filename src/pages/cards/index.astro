@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { resolveCard, rankCards } from '../../lib/card-data.mjs';
+import { safeJsonLd } from '../../lib/jsonld.mjs';
 
 const SITE = 'https://ctrl-watch.xyz';
 const entries = (await getCollection('reviews')).filter((e) => !e.data.draft);
@@ -36,7 +37,7 @@ const itemList = {
 ---
 <BaseLayout title={title} description={description}>
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(itemList)} />
+    <script type="application/ld+json" set:html={safeJsonLd(itemList)} />
   </Fragment>
 
   <section class="binder">

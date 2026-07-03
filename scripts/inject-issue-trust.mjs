@@ -13,8 +13,7 @@
  * Idempotent: re-running replaces the fenced block. `npm run inject:trust`.
  */
 
-import { readFile, writeFile } from 'node:fs/promises';
-import { issues } from '../src/data/issues.js';
+import { runIssueInjector } from './lib/fenced-inject.mjs';
 
 const START_MARK = '<!-- ctrlwatch:trust:start -->';
 const END_MARK = '<!-- ctrlwatch:trust:end -->';
@@ -48,49 +47,27 @@ function buildBlock() {
   ].join('\n');
 }
 
-let inserted = 0;
-let updated = 0;
-let skipped = 0;
-
-for (const issue of issues.filter((i) => i.published)) {
-  const file = `public/issues/${issue.slug}/index.html`;
-  let html;
-  try {
-    html = await readFile(file, 'utf8');
-  } catch {
-    console.warn(`! ${file} — missing, skipping`);
-    continue;
+function place(html, block, issue) {
+  if (LEGAL_RE.test(html)) {
+    return html.replace(LEGAL_RE, block);
   }
-
-  const block = buildBlock();
-  const startIdx = html.indexOf(START_MARK);
-  const endIdx = html.indexOf(END_MARK);
-
-  if (startIdx !== -1 && endIdx !== -1) {
-    // Fence stays where it is; refresh its content, and strip any legacy
-    // disclaimer a previous run's anchor miss left behind elsewhere.
-    html = html.slice(0, startIdx) + block + html.slice(endIdx + END_MARK.length);
-    html = html.replace(LEGAL_RE, '').replace(FOOTER_TEXT_RE, '');
-    updated++;
-  } else if (LEGAL_RE.test(html)) {
-    html = html.replace(LEGAL_RE, block);
-    inserted++;
-  } else if (FOOTER_TEXT_RE.test(html)) {
-    html = html.replace(FOOTER_TEXT_RE, block + '\n');
-    inserted++;
-  } else {
-    const at = html.indexOf('</footer>') !== -1 ? html.indexOf('</footer>') : html.lastIndexOf('</body>');
-    if (at === -1) {
-      console.warn(`! ${file} — no legal line, footer-text, <footer>, or </body> anchor, skipping`);
-      skipped++;
-      continue;
-    }
-    html = html.slice(0, at) + block + '\n' + html.slice(at);
-    inserted++;
+  if (FOOTER_TEXT_RE.test(html)) {
+    return html.replace(FOOTER_TEXT_RE, block + '\n');
   }
-
-  await writeFile(file, html);
-  console.log(`+ ${file}`);
+  const at = html.indexOf('</footer>') !== -1 ? html.indexOf('</footer>') : html.lastIndexOf('</body>');
+  if (at === -1) {
+    console.warn(
+      `! public/issues/${issue.slug}/index.html — no legal line, footer-text, <footer>, or </body> anchor, skipping`,
+    );
+    return null;
+  }
+  return html.slice(0, at) + block + '\n' + html.slice(at);
 }
 
-console.log(`\nDone. Inserted: ${inserted}. Updated: ${updated}. Skipped: ${skipped}.`);
+// Fence stays where it is on refresh; strip any legacy disclaimer a previous
+// run's anchor miss left behind elsewhere.
+function onRefresh(html) {
+  return html.replace(LEGAL_RE, '').replace(FOOTER_TEXT_RE, '');
+}
+
+await runIssueInjector({ startMark: START_MARK, endMark: END_MARK, buildBlock, place, onRefresh });

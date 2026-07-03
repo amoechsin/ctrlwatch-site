@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { issues } from '../data/issues.js';
+import { issueUrl } from '../lib/issue-url.mjs';
 import creatorsData from '../data/creators.json';
 
 interface CreatorReview {
@@ -36,23 +36,8 @@ interface Creator {
 const creators = creatorsData.creators as Creator[];
 const totals = creatorsData.totals;
 
-// Build issue-tag → URL map. Tracker uses #004S (Spectacle) and #004C
-// (Craft) but only Spectacle was published as the canonical #004.
-// Explicit aliases for ambiguous tracker tags; everything else strips
-// trailing letters and falls back to direct slug match.
-const publishedSlugs = new Set(issues.filter((i) => i.published).map((i) => i.slug));
-const TRACKER_ALIASES: Record<string, string | null> = {
-  '#004S': '004',
-  '#004C': null,
-};
-function issueUrl(tag: string): string | null {
-  if (tag in TRACKER_ALIASES) {
-    const aliased = TRACKER_ALIASES[tag];
-    return aliased && publishedSlugs.has(aliased) ? `/issues/${aliased}/` : null;
-  }
-  const stripped = tag.replace(/^#/, '').replace(/[A-Za-z]+$/, '');
-  return publishedSlugs.has(stripped) ? `/issues/${stripped}/` : null;
-}
+// Issue-tag → URL mapping (incl. the #004S/#004C tracker aliases) lives in
+// src/lib/issue-url.mjs, shared with top50.astro and the search index.
 
 const VERDICTS = ['ESSENTIAL', 'EXCELLENT', 'GOOD', 'AVERAGE', 'MEDIOCRE', 'GAME OVER'];
 

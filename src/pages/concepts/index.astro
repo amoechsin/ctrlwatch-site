@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { safeJsonLd } from '../../lib/jsonld.mjs';
 
 const entries = (await getCollection('concepts')).filter((e) => !e.data.draft);
 const sorted = [...entries].sort((a, b) => a.data.order - b.data.order);
@@ -29,7 +30,7 @@ const setJson = {
 
 <BaseLayout title={title} description={description}>
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(setJson)} />
+    <script type="application/ld+json" set:html={safeJsonLd(setJson)} />
   </Fragment>
 
   <section class="concepts-index">

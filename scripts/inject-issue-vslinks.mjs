@@ -14,8 +14,10 @@
  * styles so it never depends on issue CSS. Run: `npm run inject:vslinks`.
  */
 
-import { readFile, writeFile, readdir } from 'node:fs/promises';
-import { issues } from '../src/data/issues.js';
+import { readFile, readdir } from 'node:fs/promises';
+import matter from 'gray-matter';
+import { runIssueInjector } from './lib/fenced-inject.mjs';
+import { escapeHtml } from './lib/escape.mjs';
 
 const VS_DIR = 'src/content/vs';
 const START_MARK = '<!-- ctrlwatch:vslink:start -->';
@@ -24,37 +26,22 @@ const END_MARK = '<!-- ctrlwatch:vslink:end -->';
 // id="bossfight" (#002), id="tab-bossfight" (#010, tab-panel layout).
 const SECTION_RE = /<(?:section|div)[^>]*\bid="(?:boss-fight|bossfight|tab-bossfight)"[^>]*>/i;
 
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
-function field(fm, key) {
-  const m = fm.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
-  return m ? m[1].trim().replace(/^["']|["']$/g, '') : null;
-}
-
 // issue-slug → { slug, label }
 const byIssue = new Map();
 for (const file of (await readdir(VS_DIR)).filter((f) => f.endsWith('.md'))) {
-  const raw = await readFile(`${VS_DIR}/${file}`, 'utf8');
-  const fm = raw.match(/^---\n([\s\S]*?)\n---/);
-  if (!fm) continue;
-  if (field(fm[1], 'draft') === 'true') continue;
-  const a = field(fm[1], 'channelA');
-  const b = field(fm[1], 'channelB');
-  const issueTag = field(fm[1], 'originatingIssue');
-  if (!a || !b || !issueTag) continue;
-  byIssue.set(issueTag.replace(/[^0-9]/g, ''), {
+  const { data } = matter(await readFile(`${VS_DIR}/${file}`, 'utf8'));
+  if (data.draft === true) continue;
+  if (!data.channelA || !data.channelB || !data.originatingIssue) continue;
+  byIssue.set(String(data.originatingIssue).replace(/[^0-9]/g, ''), {
     slug: file.replace(/\.md$/, ''),
-    label: `${a} vs ${b}`,
+    label: `${data.channelA} vs ${data.channelB}`,
   });
 }
 
-function buildBlock(entry) {
+function buildBlock(issue) {
+  const entry = byIssue.get(issue.slug);
+  if (!entry) return null;
+
   return [
     START_MARK,
     '<div style="margin:0 0 28px;padding:14px 16px;border:1px solid #FFE600;' +
@@ -69,44 +56,14 @@ function buildBlock(entry) {
   ].join('\n');
 }
 
-let inserted = 0;
-let updated = 0;
-let skipped = 0;
-
-for (const issue of issues.filter((i) => i.published)) {
-  const entry = byIssue.get(issue.slug);
-  if (!entry) continue;
-
-  const file = `public/issues/${issue.slug}/index.html`;
-  let html;
-  try {
-    html = await readFile(file, 'utf8');
-  } catch {
-    console.warn(`! ${file} — missing, skipping`);
-    continue;
+function place(html, block, issue) {
+  const m = html.match(SECTION_RE);
+  if (!m) {
+    console.warn(`! public/issues/${issue.slug}/index.html — no Boss Fight section anchor, skipping`);
+    return null;
   }
-
-  const block = buildBlock(entry);
-  const startIdx = html.indexOf(START_MARK);
-  const endIdx = html.indexOf(END_MARK);
-
-  if (startIdx !== -1 && endIdx !== -1) {
-    html = html.slice(0, startIdx) + block + html.slice(endIdx + END_MARK.length);
-    updated++;
-  } else {
-    const m = html.match(SECTION_RE);
-    if (!m) {
-      console.warn(`! ${file} — no Boss Fight section anchor, skipping`);
-      skipped++;
-      continue;
-    }
-    const at = m.index + m[0].length;
-    html = html.slice(0, at) + '\n' + block + html.slice(at);
-    inserted++;
-  }
-
-  await writeFile(file, html);
-  console.log(`+ ${file} (${entry.label})`);
+  const at = m.index + m[0].length;
+  return html.slice(0, at) + '\n' + block + html.slice(at);
 }
 
-console.log(`\nDone. Inserted: ${inserted}. Updated: ${updated}. Skipped: ${skipped}.`);
+await runIssueInjector({ startMark: START_MARK, endMark: END_MARK, buildBlock, place });

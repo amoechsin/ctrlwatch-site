@@ -34,28 +34,14 @@
  */
 
 import { readFile, writeFile, readdir } from 'node:fs/promises';
+import matter from 'gray-matter';
 import { issues } from '../src/data/issues.js';
+import { issueUrl } from '../src/lib/issue-url.mjs';
 
 const TRACKER = 'docs/continuity/CTRLWATCH_Continuity_Tracker.md';
 const CREATORS = 'src/data/creators.json';
 const REVIEWS_DIR = 'src/content/reviews';
 const OUT = 'src/data/search-index.json';
-
-const TRACKER_ALIASES = {
-  '#004S': '004',
-  '#004C': null,
-};
-
-const publishedSlugs = new Set(issues.filter((i) => i.published).map((i) => i.slug));
-
-function issueUrl(tag) {
-  if (tag in TRACKER_ALIASES) {
-    const aliased = TRACKER_ALIASES[tag];
-    return aliased && publishedSlugs.has(aliased) ? `/issues/${aliased}/` : null;
-  }
-  const stripped = tag.replace(/^#/, '').replace(/[A-Za-z]+$/, '');
-  return publishedSlugs.has(stripped) ? `/issues/${stripped}/` : null;
-}
 
 const warnings = [];
 function warn(m) { warnings.push(m); }
@@ -70,23 +56,18 @@ const lines = src.split('\n');
 const creatorsRaw = JSON.parse(await readFile(CREATORS, 'utf8'));
 
 /* ---- Canonical reviews (frontmatter map, slug → fields) ---- */
-function fmField(fm, key) {
-  const m = fm.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
-  return m ? m[1].trim().replace(/^["']|["']$/g, '') : null;
-}
 const reviewBySlug = new Map();
 for (const f of (await readdir(REVIEWS_DIR)).filter((x) => x.endsWith('.md'))) {
   const raw = await readFile(`${REVIEWS_DIR}/${f}`, 'utf8');
-  const m = raw.match(/^---\n([\s\S]*?)\n---/);
-  if (!m) { warn(`review ${f} — no frontmatter, skipped`); continue; }
-  const fm = m[1];
-  if (fmField(fm, 'draft') === 'true') continue;
+  if (!/^---\n/.test(raw)) { warn(`review ${f} — no frontmatter, skipped`); continue; }
+  const { data } = matter(raw);
+  if (data.draft === true) continue;
   reviewBySlug.set(f.replace(/\.md$/, ''), {
-    channel: fmField(fm, 'channel'),
-    genre: fmField(fm, 'genre') || '',
-    overall: fmField(fm, 'overall') || '',
-    verdict: fmField(fm, 'verdict') || '',
-    issue: fmField(fm, 'originatingIssue'),
+    channel: data.channel != null ? String(data.channel) : null,
+    genre: data.genre != null ? String(data.genre) : '',
+    overall: data.overall != null ? String(data.overall) : '',
+    verdict: data.verdict != null ? String(data.verdict) : '',
+    issue: data.originatingIssue != null ? String(data.originatingIssue) : null,
   });
 }
 

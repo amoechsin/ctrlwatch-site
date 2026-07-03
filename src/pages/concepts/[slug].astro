@@ -1,7 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { issues } from '../../data/issues.js';
+import { issueUrl } from '../../lib/issue-url.mjs';
+import { safeJsonLd } from '../../lib/jsonld.mjs';
 
 export async function getStaticPaths() {
   const entries = (await getCollection('concepts')).filter((e) => !e.data.draft);
@@ -22,11 +23,7 @@ const related = d.related
   .filter((s) => nameBySlug.has(s) && s !== entry.id)
   .map((s) => ({ slug: s, name: nameBySlug.get(s)! }));
 
-const publishedSlugs = new Set(issues.filter((i) => i.published).map((i) => i.slug));
-function issueUrl(tag: string): string | null {
-  const stripped = tag.replace(/^#/, '').replace(/[A-Za-z]+$/, '');
-  return publishedSlugs.has(stripped) ? `/issues/${stripped}/` : null;
-}
+// Originating-issue link — shared mapping (incl. #004S/#004C tracker aliases).
 const originUrl = issueUrl(d.originatingIssue);
 
 const title = (d.title ?? `${d.term} | CTRL+WATCH`).slice(0, 60);
@@ -65,7 +62,7 @@ const conceptJson = {
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,600;1,400&family=Russo+One&display=swap"
     />
-    <script type="application/ld+json" set:html={JSON.stringify(conceptJson)} />
+    <script type="application/ld+json" set:html={safeJsonLd(conceptJson)} />
   </Fragment>
 
   <article class="concept-page">

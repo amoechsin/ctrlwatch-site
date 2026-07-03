@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { VERDICTS as CANONICAL_VERDICTS, verdictFor } from './lib/verdict-bands.mjs';
 
 // Canonical Player Profile reviews. One markdown file per channel; the
 // filename (kebab-case) is the slug and MUST match the channel's slug in
@@ -7,6 +8,9 @@ import { glob } from 'astro/loaders';
 // links resolve. The zod schema encodes the ctrlwatch-player-profile rubric so
 // a malformed review fails the build rather than shipping bad structured data.
 
+// Typed tuple for z.enum; the band logic itself lives in
+// src/lib/verdict-bands.mjs (shared with build-creators.mjs). The assertion
+// makes any drift between the two lists fail the build immediately.
 const VERDICTS = [
   'ESSENTIAL',
   'EXCELLENT',
@@ -15,15 +19,15 @@ const VERDICTS = [
   'MEDIOCRE',
   'GAME OVER',
 ] as const;
+if (VERDICTS.join('|') !== CANONICAL_VERDICTS.join('|')) {
+  throw new Error(
+    'content.config.ts VERDICTS is out of sync with src/lib/verdict-bands.mjs',
+  );
+}
 
 // Verdict band per the rubric (CLAUDE.md / ctrlwatch-player-profile).
 function verdictForScore(score: number): (typeof VERDICTS)[number] {
-  if (score >= 90) return 'ESSENTIAL';
-  if (score >= 80) return 'EXCELLENT';
-  if (score >= 70) return 'GOOD';
-  if (score >= 60) return 'AVERAGE';
-  if (score >= 50) return 'MEDIOCRE';
-  return 'GAME OVER';
+  return verdictFor(score) as (typeof VERDICTS)[number];
 }
 
 const score = z.number().int().min(0).max(100);

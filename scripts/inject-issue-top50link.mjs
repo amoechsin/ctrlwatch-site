@@ -19,8 +19,7 @@
  * exists; re-run is harmless. `npm run inject:top50link`.
  */
 
-import { readFile, writeFile } from 'node:fs/promises';
-import { issues } from '../src/data/issues.js';
+import { runIssueInjector } from './lib/fenced-inject.mjs';
 
 const START_MARK = '<!-- ctrlwatch:top50link:start -->';
 const END_MARK = '<!-- ctrlwatch:top50link:end -->';
@@ -46,41 +45,16 @@ function buildBlock() {
   ].join('\n');
 }
 
-let inserted = 0;
-let updated = 0;
-let skipped = 0;
-
-for (const issue of issues.filter((i) => i.published)) {
-  const file = `public/issues/${issue.slug}/index.html`;
-  let html;
-  try {
-    html = await readFile(file, 'utf8');
-  } catch {
-    console.warn(`! ${file} — missing, skipping`);
-    continue;
+function place(html, block, issue) {
+  const m = html.match(SECTION_RE);
+  if (!m) {
+    console.warn(
+      `! public/issues/${issue.slug}/index.html — no High Scores section anchor, skipping (nav link only)`,
+    );
+    return null;
   }
-
-  const block = buildBlock();
-  const startIdx = html.indexOf(START_MARK);
-  const endIdx = html.indexOf(END_MARK);
-
-  if (startIdx !== -1 && endIdx !== -1) {
-    html = html.slice(0, startIdx) + block + html.slice(endIdx + END_MARK.length);
-    updated++;
-  } else {
-    const m = html.match(SECTION_RE);
-    if (!m) {
-      console.warn(`! ${file} — no High Scores section anchor, skipping (nav link only)`);
-      skipped++;
-      continue;
-    }
-    const at = m.index + m[0].length;
-    html = html.slice(0, at) + '\n' + block + html.slice(at);
-    inserted++;
-  }
-
-  await writeFile(file, html);
-  console.log(`+ ${file}`);
+  const at = m.index + m[0].length;
+  return html.slice(0, at) + '\n' + block + html.slice(at);
 }
 
-console.log(`\nDone. Inserted: ${inserted}. Updated: ${updated}. Skipped: ${skipped}.`);
+await runIssueInjector({ startMark: START_MARK, endMark: END_MARK, buildBlock, place });

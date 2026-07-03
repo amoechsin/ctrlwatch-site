@@ -4,7 +4,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ReviewCard from '../../components/ReviewCard.astro';
 import PlayerCard from '../../components/PlayerCard.astro';
 import { rankCards } from '../../lib/card-data.mjs';
-import { issues } from '../../data/issues.js';
+import { issueUrl } from '../../lib/issue-url.mjs';
+import { safeJsonLd } from '../../lib/jsonld.mjs';
 import creatorsData from '../../data/creators.json';
 
 export async function getStaticPaths() {
@@ -38,12 +39,7 @@ const creator = creatorsData.creators.find((c) => c.slug === entry.id);
 const currentRank =
   creator && creator.status === 'in-top-50' ? creator.currentRank : null;
 
-// Originating-issue link (mirrors creators.astro / top50.astro).
-const publishedSlugs = new Set(issues.filter((i) => i.published).map((i) => i.slug));
-function issueUrl(tag: string): string | null {
-  const stripped = tag.replace(/^#/, '').replace(/[A-Za-z]+$/, '');
-  return publishedSlugs.has(stripped) ? `/issues/${stripped}/` : null;
-}
+// Originating-issue link — shared mapping (incl. #004S/#004C tracker aliases).
 const originUrl = issueUrl(d.originatingIssue);
 
 // Title: skill format, but fall back to a shorter form when the channel name
@@ -90,7 +86,7 @@ const reviewJson = {
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,600;1,400&family=Russo+One&family=VT323&display=swap"
     />
-    <script type="application/ld+json" set:html={JSON.stringify(reviewJson)} />
+    <script type="application/ld+json" set:html={safeJsonLd(reviewJson)} />
   </Fragment>
 
   <article class="review-page">

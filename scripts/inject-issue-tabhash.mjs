@@ -21,8 +21,7 @@
  * ctrlwatch-html-generation skill's Layout & Readability Contract.
  */
 
-import { readFile, writeFile } from 'node:fs/promises';
-import { issues } from '../src/data/issues.js';
+import { runIssueInjector } from './lib/fenced-inject.mjs';
 
 const START_MARK = '<!-- ctrlwatch:tabhash:start -->';
 const END_MARK = '<!-- ctrlwatch:tabhash:end -->';
@@ -51,40 +50,13 @@ function buildBlock() {
   return [START_MARK, SCRIPT, END_MARK].join('\n');
 }
 
-let inserted = 0;
-let updated = 0;
-let skipped = 0;
-
-for (const issue of issues.filter((i) => i.published)) {
-  const file = `public/issues/${issue.slug}/index.html`;
-  let html;
-  try {
-    html = await readFile(file, 'utf8');
-  } catch {
-    console.warn(`! ${file} — missing, skipping`);
-    continue;
+function place(html, block, issue) {
+  const at = html.lastIndexOf('</body>');
+  if (at === -1) {
+    console.warn(`! public/issues/${issue.slug}/index.html — no </body> anchor, skipping`);
+    return null;
   }
-
-  const block = buildBlock();
-  const startIdx = html.indexOf(START_MARK);
-  const endIdx = html.indexOf(END_MARK);
-
-  if (startIdx !== -1 && endIdx !== -1) {
-    html = html.slice(0, startIdx) + block + html.slice(endIdx + END_MARK.length);
-    updated++;
-  } else {
-    const at = html.lastIndexOf('</body>');
-    if (at === -1) {
-      console.warn(`! ${file} — no </body> anchor, skipping`);
-      skipped++;
-      continue;
-    }
-    html = html.slice(0, at) + block + '\n' + html.slice(at);
-    inserted++;
-  }
-
-  await writeFile(file, html);
-  console.log(`+ ${file}`);
+  return html.slice(0, at) + block + '\n' + html.slice(at);
 }
 
-console.log(`\nDone. Inserted: ${inserted}. Updated: ${updated}. Skipped: ${skipped}.`);
+await runIssueInjector({ startMark: START_MARK, endMark: END_MARK, buildBlock, place });

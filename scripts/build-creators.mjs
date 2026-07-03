@@ -21,32 +21,18 @@
  */
 
 import { readFile, writeFile } from 'node:fs/promises';
+// Verdict bands live in src/lib/verdict-bands.mjs (shared with
+// content.config.ts, which asserts agreement at build time).
+import { verdictFor } from '../src/lib/verdict-bands.mjs';
 
 const TRACKER = 'docs/continuity/CTRLWATCH_Continuity_Tracker.md';
 const OUT = 'src/data/creators.json';
-
-// Canonical verdict bands (CLAUDE.md / ctrlwatch-player-profile):
-// 90–100 ESSENTIAL · 80–89 EXCELLENT · 70–79 GOOD · 60–69 AVERAGE ·
-// 50–59 MEDIOCRE · <50 GAME OVER.
-const VERDICT_THRESHOLDS = [
-  { min: 90, verdict: 'ESSENTIAL' },
-  { min: 80, verdict: 'EXCELLENT' },
-  { min: 70, verdict: 'GOOD' },
-  { min: 60, verdict: 'AVERAGE' },
-  { min: 50, verdict: 'MEDIOCRE' },
-  { min: 0,  verdict: 'GAME OVER' },
-];
 
 const warnings = [];
 const errors = [];
 
 function warn(msg) { warnings.push(msg); }
 function fail(msg) { errors.push(msg); }
-
-function verdictFor(score) {
-  if (score == null) return null;
-  return VERDICT_THRESHOLDS.find((t) => score >= t.min).verdict;
-}
 
 function normaliseKey(s) {
   return String(s)

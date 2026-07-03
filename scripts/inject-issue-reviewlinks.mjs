@@ -17,8 +17,10 @@
  * Run: `npm run inject:reviewlinks`.
  */
 
-import { readFile, writeFile, readdir } from 'node:fs/promises';
-import { issues } from '../src/data/issues.js';
+import { readFile, readdir } from 'node:fs/promises';
+import matter from 'gray-matter';
+import { runIssueInjector } from './lib/fenced-inject.mjs';
+import { escapeHtml } from './lib/escape.mjs';
 
 const REVIEWS_DIR = 'src/content/reviews';
 const START_MARK = '<!-- ctrlwatch:reviewlinks:start -->';
@@ -28,38 +30,22 @@ const END_MARK = '<!-- ctrlwatch:reviewlinks:end -->';
 // #005 has no review-section anchor (only high-scores) → skipped, nav link only.
 const SECTION_RE = /<(?:section|div)[^>]*\bid="(?:player-profiles|player-profile|reviews|tab-profiles)"[^>]*>/i;
 
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
-// Minimal frontmatter read — just the two scalar fields we need (quoted or
-// not). Avoids a YAML dependency; the schema validation lives in the build.
-function field(fm, key) {
-  const m = fm.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'));
-  if (!m) return null;
-  return m[1].trim().replace(/^["']|["']$/g, '');
-}
-
 // Build issue-slug → [{slug, channel}] from the reviews collection.
 const byIssue = new Map();
 for (const file of (await readdir(REVIEWS_DIR)).filter((f) => f.endsWith('.md'))) {
-  const raw = await readFile(`${REVIEWS_DIR}/${file}`, 'utf8');
-  const fm = raw.match(/^---\n([\s\S]*?)\n---/);
-  if (!fm) continue;
-  if (field(fm[1], 'draft') === 'true') continue;
-  const channel = field(fm[1], 'channel');
-  const issueTag = field(fm[1], 'originatingIssue'); // e.g. "#012"
-  if (!channel || !issueTag) continue;
-  const issueSlug = issueTag.replace(/[^0-9]/g, ''); // "#012" -> "012"
+  const { data } = matter(await readFile(`${REVIEWS_DIR}/${file}`, 'utf8'));
+  if (data.draft === true) continue;
+  if (!data.channel || !data.originatingIssue) continue;
+  const channel = String(data.channel);
+  const issueSlug = String(data.originatingIssue).replace(/[^0-9]/g, ''); // "#012" -> "012"
   if (!byIssue.has(issueSlug)) byIssue.set(issueSlug, []);
   byIssue.get(issueSlug).push({ slug: file.replace(/\.md$/, ''), channel });
 }
 
-function buildBlock(entries) {
+function buildBlock(issue) {
+  const entries = byIssue.get(issue.slug);
+  if (!entries || !entries.length) return null;
+
   // Alpha by channel for stable output.
   const links = entries
     .slice()
@@ -83,44 +69,14 @@ function buildBlock(entries) {
   ].join('\n');
 }
 
-let inserted = 0;
-let updated = 0;
-let skipped = 0;
-
-for (const issue of issues.filter((i) => i.published)) {
-  const entries = byIssue.get(issue.slug);
-  if (!entries || !entries.length) continue;
-
-  const file = `public/issues/${issue.slug}/index.html`;
-  let html;
-  try {
-    html = await readFile(file, 'utf8');
-  } catch {
-    console.warn(`! ${file} — missing, skipping`);
-    continue;
+function place(html, block, issue) {
+  const m = html.match(SECTION_RE);
+  if (!m) {
+    console.warn(`! public/issues/${issue.slug}/index.html — no player-profile section anchor, skipping`);
+    return null;
   }
-
-  const block = buildBlock(entries);
-  const startIdx = html.indexOf(START_MARK);
-  const endIdx = html.indexOf(END_MARK);
-
-  if (startIdx !== -1 && endIdx !== -1) {
-    html = html.slice(0, startIdx) + block + html.slice(endIdx + END_MARK.length);
-    updated++;
-  } else {
-    const m = html.match(SECTION_RE);
-    if (!m) {
-      console.warn(`! ${file} — no player-profile section anchor, skipping`);
-      skipped++;
-      continue;
-    }
-    const at = m.index + m[0].length;
-    html = html.slice(0, at) + '\n' + block + html.slice(at);
-    inserted++;
-  }
-
-  await writeFile(file, html);
-  console.log(`+ ${file} (${entries.length} profiles)`);
+  const at = m.index + m[0].length;
+  return html.slice(0, at) + '\n' + block + html.slice(at);
 }
 
-console.log(`\nDone. Inserted: ${inserted}. Updated: ${updated}. Skipped: ${skipped}.`);
+await runIssueInjector({ startMark: START_MARK, endMark: END_MARK, buildBlock, place });

@@ -11,26 +11,18 @@
  * regenerating covers if the filenames change.
  */
 
-import { readFile, writeFile } from 'node:fs/promises';
-import { issues } from '../src/data/issues.js';
+import { runIssueInjector } from './lib/fenced-inject.mjs';
+import { escapeHtml } from './lib/escape.mjs';
 
 const SITE = 'https://ctrl-watch.xyz';
 const START_MARK = '<!-- ctrlwatch:og:start -->';
 const END_MARK = '<!-- ctrlwatch:og:end -->';
 
-function escape(s) {
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
-
-function block(issue) {
+function buildBlock(issue) {
   const url = `${SITE}/issues/${issue.slug}/`;
   const img = `${SITE}/covers/${issue.slug}-og.png`;
-  const title = escape(`CTRL+WATCH — Issue ${issue.number} — ${issue.title}`);
-  const desc = escape(issue.subtitle);
+  const title = escapeHtml(`CTRL+WATCH — Issue ${issue.number} — ${issue.title}`);
+  const desc = escapeHtml(issue.subtitle);
   return [
     START_MARK,
     `<meta property="og:type" content="article">`,
@@ -46,40 +38,13 @@ function block(issue) {
   ].join('\n');
 }
 
-let touched = 0;
-let updated = 0;
-
-for (const issue of issues.filter((i) => i.published)) {
-  const file = `public/issues/${issue.slug}/index.html`;
-  let html;
-  try {
-    html = await readFile(file, 'utf8');
-  } catch {
-    console.warn(`! ${file} — missing, skipping`);
-    continue;
+function place(html, block, issue) {
+  const headClose = html.lastIndexOf('</head>');
+  if (headClose === -1) {
+    console.warn(`! public/issues/${issue.slug}/index.html — no </head>, skipping`);
+    return null;
   }
-
-  const startIdx = html.indexOf(START_MARK);
-  const endIdx = html.indexOf(END_MARK);
-  const newBlock = block(issue);
-
-  if (startIdx !== -1 && endIdx !== -1) {
-    const before = html.slice(0, startIdx);
-    const after = html.slice(endIdx + END_MARK.length);
-    html = before + newBlock + after;
-    updated++;
-  } else {
-    const headClose = html.lastIndexOf('</head>');
-    if (headClose === -1) {
-      console.warn(`! ${file} — no </head>, skipping`);
-      continue;
-    }
-    html = html.slice(0, headClose) + newBlock + '\n' + html.slice(headClose);
-    touched++;
-  }
-
-  await writeFile(file, html);
-  console.log(`+ ${file}`);
+  return html.slice(0, headClose) + block + '\n' + html.slice(headClose);
 }
 
-console.log(`\nDone. Inserted: ${touched}. Updated existing: ${updated}.`);
+await runIssueInjector({ startMark: START_MARK, endMark: END_MARK, buildBlock, place });

@@ -19,20 +19,12 @@
  * as inject-issue-og.mjs. Run: `npm run inject:seo` (after inject:og).
  */
 
-import { readFile, writeFile } from 'node:fs/promises';
-import { issues } from '../src/data/issues.js';
+import { runIssueInjector } from './lib/fenced-inject.mjs';
+import { escapeHtml } from './lib/escape.mjs';
 
 const SITE = 'https://ctrl-watch.xyz';
 const START_MARK = '<!-- ctrlwatch:seo:start -->';
 const END_MARK = '<!-- ctrlwatch:seo:end -->';
-
-function escapeAttr(s) {
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/"/g, '&quot;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
 
 function decodeEntities(s) {
   return String(s)
@@ -105,11 +97,19 @@ function parseTop50(html) {
   return items;
 }
 
-function buildBlock(issue, items) {
+function buildBlock(issue, html) {
+  const file = `public/issues/${issue.slug}/index.html`;
+  const items = parseTop50(html);
+  if (!items.length) {
+    console.warn(`! ${file} — no top50-table rows parsed (ItemList omitted)`);
+  } else if (items.length !== 50) {
+    console.warn(`! ${file} — parsed ${items.length} rows (expected 50) — verify`);
+  }
+
   const url = `${SITE}/issues/${issue.slug}/`;
   const parts = [
     START_MARK,
-    `<meta name="description" content="${escapeAttr(issue.subtitle)}">`,
+    `<meta name="description" content="${escapeHtml(issue.subtitle)}">`,
     `<link rel="canonical" href="${url}">`,
   ];
 
@@ -137,45 +137,13 @@ function buildBlock(issue, items) {
   return parts.join('\n');
 }
 
-let inserted = 0;
-let updated = 0;
-
-for (const issue of issues.filter((i) => i.published)) {
-  const file = `public/issues/${issue.slug}/index.html`;
-  let html;
-  try {
-    html = await readFile(file, 'utf8');
-  } catch {
-    console.warn(`! ${file} — missing, skipping`);
-    continue;
+function place(html, block, issue) {
+  const headClose = html.lastIndexOf('</head>');
+  if (headClose === -1) {
+    console.warn(`! public/issues/${issue.slug}/index.html — no </head>, skipping`);
+    return null;
   }
-
-  const items = parseTop50(html);
-  if (!items.length) {
-    console.warn(`! ${file} — no top50-table rows parsed (ItemList omitted)`);
-  } else if (items.length !== 50) {
-    console.warn(`! ${file} — parsed ${items.length} rows (expected 50) — verify`);
-  }
-
-  const newBlock = buildBlock(issue, items);
-  const startIdx = html.indexOf(START_MARK);
-  const endIdx = html.indexOf(END_MARK);
-
-  if (startIdx !== -1 && endIdx !== -1) {
-    html = html.slice(0, startIdx) + newBlock + html.slice(endIdx + END_MARK.length);
-    updated++;
-  } else {
-    const headClose = html.lastIndexOf('</head>');
-    if (headClose === -1) {
-      console.warn(`! ${file} — no </head>, skipping`);
-      continue;
-    }
-    html = html.slice(0, headClose) + newBlock + '\n' + html.slice(headClose);
-    inserted++;
-  }
-
-  await writeFile(file, html);
-  console.log(`+ ${file} (${items.length} ranked)`);
+  return html.slice(0, headClose) + block + '\n' + html.slice(headClose);
 }
 
-console.log(`\nDone. Inserted: ${inserted}. Updated existing: ${updated}.`);
+await runIssueInjector({ startMark: START_MARK, endMark: END_MARK, buildBlock, place });

@@ -16,9 +16,5 @@ export const NEON = {
   dark: '#0A0A12',
 };
 
-const XML = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' };
-
 /** Escape the five XML entities so dynamic text is safe inside SVG. */
-export function escapeXml(s) {
-  return String(s).replace(/[&<>"']/g, (c) => XML[c]);
-}
+export { escapeXml } from './escape.mjs';
