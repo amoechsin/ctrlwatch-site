@@ -13,6 +13,8 @@
     "inject:shell": "node scripts/inject-issue-shell.mjs",
     "covers": "node scripts/generate-covers.mjs",
     "placeholder:hero": "node scripts/generate-placeholder-hero.mjs",
+    "hero:gen": "node scripts/generate-hero.mjs",
+    "hero:pick": "node scripts/generate-hero.mjs",
     "covers:sample": "node scripts/render-cover-sample.mjs",
     "inject:og": "node scripts/inject-issue-og.mjs",
     "inject:seo": "node scripts/inject-issue-seo.mjs",

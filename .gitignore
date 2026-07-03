@@ -20,3 +20,6 @@ ctrl-watch-bundle/
 
 # OS
 .DS_Store
+
+# Hero-art candidates (hero:gen output — only the picked NNN-hero.png is committed)
+public/covers/heroes/candidates/

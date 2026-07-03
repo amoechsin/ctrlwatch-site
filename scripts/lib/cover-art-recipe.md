@@ -42,8 +42,17 @@ always picks the hero.
 - No watermark, no signature, no UI/frames.
 
 ### Tooling
-- **fal.ai** (the sister channel already runs an AI-media stack; see the
-  `ecc:fal-ai-media` skill). Generate 3–6 candidates per issue; operator selects.
+- **`npm run hero:gen -- NNN "<subject clause>"`** (`scripts/generate-hero.mjs`)
+  calls the fal.ai API directly: wraps the clause in the locked prompt template,
+  uses the newest committed `NNN-hero.png` as the image-to-image reference
+  (keeps Yob on-model), and writes candidates to
+  `public/covers/heroes/candidates/` (gitignored). Requires `FAL_KEY` in the
+  gitignored `.env` (create at https://fal.ai/dashboard/keys); model defaults
+  to `fal-ai/nano-banana/edit`, override via `HERO_MODEL`.
+- **`npm run hero:pick -- NNN <i>`** promotes the chosen candidate to
+  `heroes/NNN-hero.png` and prints the remaining pipeline steps. The operator
+  ALWAYS picks — generation is automated, selection never is.
+- Manual fal.ai web UI remains a valid fallback with the same prompt template.
 
 ---
 
