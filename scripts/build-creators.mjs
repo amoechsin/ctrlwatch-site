@@ -25,8 +25,10 @@ import { readFile, writeFile } from 'node:fs/promises';
 // content.config.ts, which asserts agreement at build time).
 import { verdictFor } from '../src/lib/verdict-bands.mjs';
 
-const TRACKER = 'docs/continuity/CTRLWATCH_Continuity_Tracker.md';
-const OUT = 'src/data/creators.json';
+// Env overrides exist for the fixture tests (test/build-creators.test.mjs),
+// which run this script against a miniature tracker.
+const TRACKER = process.env.CREATORS_TRACKER || 'docs/continuity/CTRLWATCH_Continuity_Tracker.md';
+const OUT = process.env.CREATORS_OUT || 'src/data/creators.json';
 
 const warnings = [];
 const errors = [];
