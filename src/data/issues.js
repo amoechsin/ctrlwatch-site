@@ -224,5 +224,20 @@ export const issues = [
     tag: 'AI',
     rating: null,
     published: true,
+    hero: 'heroes/017-hero.png',
+    coverStar: 'yob',
+    price: '£4.99',
+    coverLines: [
+      '▶ BOSS FIGHT: AI EXPLAINED vs TWO MINUTE PAPERS',
+      '▶ RIDDDLE: THE SLOP FACTORY SCORES 38',
+      '▶ HIDDEN LEVELS GOES REAL: 5 HUMAN CHANNELS',
+    ],
+    flashes: [
+      { kind: 'tab',       text: 'MACHINE SPECIAL!',          color: '#FF2244' },
+      { kind: 'starburst', text: 'TURING|SPEAKS',             color: '#FFE600' },
+      { kind: 'sizzler',   text: '100%|HUMAN-EDITED',         color: '#00F0FF' },
+      { kind: 'banner',    text: 'AI-ASSISTED · SAYS SO',     color: '#FF00AA' },
+      { kind: 'flash',     text: '+ 5 REAL HIDDEN LEVELS',    color: '#39FF14' },
+    ],
   },
 ];
