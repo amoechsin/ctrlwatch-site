@@ -22,6 +22,7 @@
     "inject:vslinks": "node scripts/inject-issue-vslinks.mjs",
     "inject:subscribe": "node scripts/inject-issue-subscribe.mjs",
     "inject:trust": "node scripts/inject-issue-trust.mjs",
+    "inject:tabhash": "node scripts/inject-issue-tabhash.mjs",
     "build:creators": "node scripts/build-creators.mjs",
     "build:search": "node scripts/build-search-index.mjs",
     "cards": "node scripts/generate-cards.mjs",

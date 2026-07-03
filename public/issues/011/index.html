@@ -1123,8 +1123,6 @@
 <meta name="twitter:description" content="When creators step into the arena and the algorithm picks sides.">
 <meta name="twitter:image" content="https://ctrl-watch.xyz/covers/011-og.png">
 <!-- ctrlwatch:og:end -->
-<script>/* cw-mode-v5 */(function(){try{var ss=sessionStorage.getItem('ctrlwatch_mode');if(ss===null){if(localStorage.getItem('ctrlwatch_mode')!==null)localStorage.removeItem('ctrlwatch_mode');}else if(localStorage.getItem('ctrlwatch_mode')!==ss){localStorage.setItem('ctrlwatch_mode',ss);}if(ss==='print')document.documentElement.classList.add('mode-print');}catch(e){}function i(){var prev=document.querySelector('.cw-mode-widget');if(prev)prev.remove();var w=document.createElement('div');w.className='cw-mode-widget';w.setAttribute('role','group');w.setAttribute('aria-label','Display mode');w.innerHTML='<button type="button" data-mode="terminal" aria-label="Terminal mode" title="Terminal mode">[TERMINAL]</button><button type="button" data-mode="print" aria-label="Magazine mode" title="Magazine mode">[MAGAZINE]</button>';document.body.appendChild(w);var b=w.querySelectorAll('button');function s(){var m=document.documentElement.classList.contains('mode-print')?'print':'terminal';b.forEach(function(x){x.setAttribute('aria-pressed',x.dataset.mode===m?'true':'false');});}s();function set(m){if(m==='print')document.documentElement.classList.add('mode-print');else document.documentElement.classList.remove('mode-print');try{sessionStorage.setItem('ctrlwatch_mode',m);localStorage.setItem('ctrlwatch_mode',m);}catch(e){}s();}b.forEach(function(x){x.addEventListener('click',function(){set(x.dataset.mode);});});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',i);else i();})();</script>
-<link rel="stylesheet" href="/issues/_shell.css?v=190fd1c5">
 <!-- ctrlwatch:seo:start -->
 <meta name="description" content="When creators step into the arena and the algorithm picks sides.">
 <link rel="canonical" href="https://ctrl-watch.xyz/issues/011/">
@@ -1392,6 +1390,8 @@
 }
 </script>
 <!-- ctrlwatch:seo:end -->
+<link rel="stylesheet" href="/issues/_shell.css?v=848c7b56">
+<script>/* cw-mode-v6 */(function(){try{var m=localStorage.getItem('ctrlwatch_mode');if(m===null){m=sessionStorage.getItem('ctrlwatch_mode');if(m!==null)localStorage.setItem('ctrlwatch_mode',m);}if(m==='print')document.documentElement.classList.add('mode-print');}catch(e){}function i(){var prev=document.querySelector('.cw-mode-widget');if(prev)prev.remove();var w=document.createElement('div');w.className='cw-mode-widget';w.setAttribute('role','group');w.setAttribute('aria-label','Display mode');w.innerHTML='<button type="button" data-mode="terminal" aria-label="Terminal mode" title="Terminal mode">[TERMINAL]</button><button type="button" data-mode="print" aria-label="Magazine mode" title="Magazine mode">[MAGAZINE]</button>';document.body.appendChild(w);var b=w.querySelectorAll('button');function s(){var m=document.documentElement.classList.contains('mode-print')?'print':'terminal';b.forEach(function(x){x.setAttribute('aria-pressed',x.dataset.mode===m?'true':'false');});}s();function set(m){if(m==='print')document.documentElement.classList.add('mode-print');else document.documentElement.classList.remove('mode-print');try{sessionStorage.setItem('ctrlwatch_mode',m);localStorage.setItem('ctrlwatch_mode',m);}catch(e){}s();}b.forEach(function(x){x.addEventListener('click',function(){set(x.dataset.mode);});});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',i);else i();})();</script>
 </head>
 <body>
 
@@ -2763,5 +2763,8 @@ function showTab(id, el) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
+<!-- ctrlwatch:tabhash:start -->
+<script>/* cw-tabhash-v1 */(function(){function idFor(el){if(el.dataset&&el.dataset.tab)return el.dataset.tab;var oc=el.getAttribute&&el.getAttribute('onclick');if(oc){var m=oc.match(/(?:showTab|switchTab|showSection|openTab)\(\s*(?:event\s*,\s*)?'([^']+)'/);if(m)return m[1];}return null;}function activate(id){if(!id)return;try{var btn=document.querySelector('[data-tab="'+id+'"], [onclick*="\''+id+'\'"]');if(btn&&!btn.classList.contains('active'))btn.click();}catch(e){}}document.addEventListener('click',function(e){var el=e.target&&e.target.closest?e.target.closest('[data-tab],[onclick]'):null;if(!el)return;var id=idFor(el);if(!id)return;if(location.hash!=='#'+id){try{history.pushState(null,'','#'+id);}catch(err){}}});window.addEventListener('popstate',function(){activate(decodeURIComponent(location.hash.slice(1)));});function init(){if(location.hash.length>1)activate(decodeURIComponent(location.hash.slice(1)));}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();</script>
+<!-- ctrlwatch:tabhash:end -->
 </body>
 </html>
