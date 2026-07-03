@@ -7,6 +7,17 @@ function isActive(path: string): boolean {
   if (path === '/') return currentPath === '/';
   return currentPath.startsWith(path);
 }
+
+// Grouped under the SECTIONS ▾ dropdown — the flat 9-link row clipped the
+// search button and CTA off-screen at every common desktop width.
+const sections = [
+  { href: '/creators', label: 'CREATORS' },
+  { href: '/concepts', label: 'CONCEPTS' },
+  { href: '/vs', label: 'BOSS FIGHTS' },
+  { href: '/cards', label: 'CARDS' },
+  { href: '/about', label: 'ABOUT' },
+];
+const sectionsActive = sections.some((s) => isActive(s.href));
 ---
 
 <nav class="nav" aria-label="Main navigation">
@@ -26,22 +37,25 @@ function isActive(path: string): boolean {
         <a href="/archive" class:list={['nav-link', { active: isActive('/archive') }]}>ARCHIVE</a>
       </li>
       <li>
-        <a href="/creators" class:list={['nav-link', { active: isActive('/creators') }]}>CREATORS</a>
-      </li>
-      <li>
         <a href="/top50" class:list={['nav-link', { active: isActive('/top50') }]}>TOP 50</a>
       </li>
-      <li>
-        <a href="/concepts" class:list={['nav-link', { active: isActive('/concepts') }]}>CONCEPTS</a>
-      </li>
-      <li>
-        <a href="/vs" class:list={['nav-link', { active: isActive('/vs') }]}>BOSS FIGHTS</a>
-      </li>
-      <li>
-        <a href="/cards" class:list={['nav-link', { active: isActive('/cards') }]}>CARDS</a>
-      </li>
-      <li>
-        <a href="/about" class:list={['nav-link', { active: isActive('/about') }]}>ABOUT</a>
+      <li class="nav-dropdown">
+        <button
+          type="button"
+          class:list={['nav-link nav-dropdown-btn', { active: sectionsActive }]}
+          id="nav-sections-btn"
+          aria-expanded="false"
+          aria-controls="nav-sections-menu"
+        >
+          SECTIONS ▾
+        </button>
+        <ul class="nav-dropdown-menu" id="nav-sections-menu" role="list">
+          {sections.map((s) => (
+            <li>
+              <a href={s.href} class:list={['nav-dropdown-link', { active: isActive(s.href) }]}>{s.label}</a>
+            </li>
+          ))}
+        </ul>
       </li>
     </ul>
 
@@ -139,7 +153,7 @@ function isActive(path: string): boolean {
   .nav-container {
     display: flex;
     align-items: center;
-    gap: var(--space-lg);
+    gap: var(--space-md);
     padding-top: var(--space-md);
     padding-bottom: var(--space-md);
   }
@@ -164,11 +178,64 @@ function isActive(path: string): boolean {
 
   .nav-links {
     display: flex;
-    gap: var(--space-lg);
+    gap: var(--space-md);
     list-style: none;
     margin: 0;
     padding: 0;
     margin-left: auto;
+  }
+
+  .nav-dropdown {
+    position: relative;
+  }
+
+  .nav-dropdown-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .nav-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 180px;
+    background: rgba(8, 8, 8, 0.98);
+    border: 1px solid var(--green);
+    box-shadow: 0 0 18px rgba(0, 255, 65, 0.25), 0 8px 20px rgba(0, 0, 0, 0.6);
+    list-style: none;
+    margin: 0;
+    padding: var(--space-xs) 0;
+    display: none;
+    z-index: 1100;
+  }
+
+  .nav-dropdown.open .nav-dropdown-menu {
+    display: block;
+  }
+
+  .nav-dropdown-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 var(--space-md);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  .nav-dropdown-link:hover,
+  .nav-dropdown-link:focus-visible,
+  .nav-dropdown-link.active {
+    color: var(--yellow);
+    text-shadow: var(--glow-yellow);
+    background: rgba(0, 255, 65, 0.06);
+    outline: none;
   }
 
   .nav-link {
@@ -350,7 +417,10 @@ function isActive(path: string): boolean {
     text-shadow: var(--glow-yellow);
   }
 
-  @media (max-width: 768px) {
+  /* The full desktop row (links + toggle + search + CTA) needs ~1050px;
+     below that the mobile overlay takes over — it already carries every
+     link, the mode buttons, search, and the subscribe CTA. */
+  @media (max-width: 1100px) {
     .nav-links {
       display: none;
     }
@@ -384,6 +454,30 @@ function isActive(path: string): boolean {
   const mobileNav = document.getElementById('mobile-nav');
   const closeBtn = document.getElementById('mobile-nav-close');
 
+  // SECTIONS ▾ dropdown — click-toggled, closes on Esc / outside click /
+  // link click. aria-expanded mirrors the open state.
+  const sectionsBtn = document.getElementById('nav-sections-btn');
+  const sectionsDropdown = sectionsBtn?.closest('.nav-dropdown');
+
+  function setSectionsOpen(open: boolean) {
+    sectionsDropdown?.classList.toggle('open', open);
+    sectionsBtn?.setAttribute('aria-expanded', String(open));
+  }
+
+  sectionsBtn?.addEventListener('click', () => {
+    setSectionsOpen(!sectionsDropdown?.classList.contains('open'));
+  });
+
+  document.addEventListener('click', (e) => {
+    if (sectionsDropdown?.classList.contains('open') && !sectionsDropdown.contains(e.target as Node)) {
+      setSectionsOpen(false);
+    }
+  });
+
+  sectionsDropdown?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setSectionsOpen(false));
+  });
+
   function openNav() {
     mobileNav?.classList.add('open');
     hamburger?.setAttribute('aria-expanded', 'true');
@@ -409,7 +503,13 @@ function isActive(path: string): boolean {
 
   // Close on Escape key
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeNav();
+    if (e.key === 'Escape') {
+      closeNav();
+      if (sectionsDropdown?.classList.contains('open')) {
+        setSectionsOpen(false);
+        sectionsBtn?.focus();
+      }
+    }
   });
 
   // Close nav when a link is clicked

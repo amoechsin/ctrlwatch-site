@@ -38,12 +38,31 @@ const publishedCount = publishedIssues.length;
         </div>
 
         <div class="hero-cover-wrapper">
-          <div class="hero-cover" style={`border-color: ${featuredIssue.coverColor}; box-shadow: 0 0 20px ${featuredIssue.coverColor}60, 0 0 60px ${featuredIssue.coverColor}20;`}>
-            <span class="hero-cover-number" style={`color: ${featuredIssue.coverColor};`}>
-              {featuredIssue.number}
-            </span>
-            <span class="hero-cover-sub">CTRL+WATCH</span>
-          </div>
+          {featuredIssue.hero ? (
+            <a
+              href={`/issues/${featuredIssue.slug}/`}
+              class="hero-splash-link"
+              aria-label={`Read Issue ${featuredIssue.number} — ${featuredIssue.title}`}
+              style={`border-color: ${featuredIssue.coverColor}; box-shadow: 0 0 20px ${featuredIssue.coverColor}60, 0 0 60px ${featuredIssue.coverColor}20;`}
+            >
+              <img
+                class="hero-splash"
+                src={`/covers/${featuredIssue.slug}-splash.png`}
+                alt={`Issue ${featuredIssue.number} painted cover — ${featuredIssue.title}`}
+                width="1080"
+                height="1440"
+                loading="eager"
+                fetchpriority="high"
+              />
+            </a>
+          ) : (
+            <div class="hero-cover" style={`border-color: ${featuredIssue.coverColor}; box-shadow: 0 0 20px ${featuredIssue.coverColor}60, 0 0 60px ${featuredIssue.coverColor}20;`}>
+              <span class="hero-cover-number" style={`color: ${featuredIssue.coverColor};`}>
+                {featuredIssue.number}
+              </span>
+              <span class="hero-cover-sub">CTRL+WATCH</span>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -199,6 +218,22 @@ const publishedCount = publishedIssues.length;
   .hero-cover-wrapper {
     display: flex;
     justify-content: center;
+  }
+
+  /* Painted splash (issues with `hero` in issues.js) — same footprint as
+     the number-box fallback below. */
+  .hero-splash-link {
+    display: block;
+    width: 100%;
+    max-width: 380px;
+    border: 3px solid;
+    line-height: 0;
+  }
+
+  .hero-splash {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   .hero-cover {

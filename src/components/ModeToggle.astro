@@ -38,9 +38,9 @@
     text-shadow: none !important;
   }
 
-  @media (max-width: 768px) {
-    /* Hidden in main nav row on mobile; mobile overlay has its own
-       toggle entry to keep the header un-cluttered. */
+  @media (max-width: 1100px) {
+    /* Hidden whenever the nav row collapses (breakpoint matches Nav.astro);
+       the mobile overlay has its own toggle entry. */
     .mode-toggle { display: none; }
   }
 </style>
