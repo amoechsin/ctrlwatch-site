@@ -48,7 +48,19 @@ Examples: `CTRLWATCH_Issue013_TheGlobalIssue.html`
 </html>
 ```
 
-**Critical:** Single self-contained file. No external CSS. No external JS. Google Fonts CDN is the only external dependency permitted.
+**Critical:** Single self-contained file. No external CSS. No external JS. Google Fonts CDN is the only external dependency permitted. (`inject:shell` adds the cross-issue `_shell.css` link after the fact; the fenced `inject:*` blocks add the trust legend, subscribe banner, and SEO/OG metadata — do NOT hand-write those, and do NOT include a blanket "work of satirical fiction" legal line.)
+
+---
+
+## Layout & Readability Contract (#017+, mandatory)
+
+These fixes are retrofitted into #001–#016 via `_shell.css`/injectors; new issues bake them into the template directly:
+
+1. **Prose measure:** long-form text columns cap at `max-width: 75ch; margin-inline: auto;` (≈720px). Never let paragraphs run the full ~1152px wrap — 140+ chars/line is the single worst readability defect the old templates shipped.
+2. **Hash-based tab routing:** `showTab()` MUST read `location.hash` on load and write it on switch (`history.replaceState` on load, `pushState` or hash assignment on click), so `/issues/NNN/#high-scores` lands on the right tab, sections are shareable, and back-button restores state. Panel `id`s stay `high-scores`, `player-profiles`, `boss-fight`, etc. — the injectors and SEO ItemList parser depend on them.
+3. **Accessible tabs:** tab bar gets `role="tablist"`, buttons `role="tab"` + `aria-selected` + `aria-controls`, panels `role="tabpanel"`; arrow-key navigation between tabs.
+4. **Tab-label contrast:** inactive tab labels at ≥4.5:1 against the tab-bar background (use `--text-secondary` `#9090A0`, not `--text-dim` `#505060`, for 9px Press Start 2P labels).
+5. **Reduced motion:** wrap marquee/flicker/boot animations in `@media (prefers-reduced-motion: no-preference)`, or provide a `prefers-reduced-motion: reduce` block disabling them.
 
 ---
 

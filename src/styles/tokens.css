@@ -16,7 +16,7 @@
   /* Typography */
   --text-primary:   #e8e8e8;
   --text-secondary: #888888;
-  --text-muted:     #444444;
+  --text-muted:     #7a7a86; /* 4.7:1 on --bg — WCAG AA floor for functional text (was #444, 2.1:1) */
 
   /* Glow effects */
   --glow-green:   0 0 8px rgba(0,255,65,0.6),  0 0 20px rgba(0,255,65,0.2);

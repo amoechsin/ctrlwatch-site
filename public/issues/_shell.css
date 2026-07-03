@@ -31,6 +31,29 @@ button {
   min-height: 44px;
 }
 
+/* Reading measure — issue columns are unconstrained (~1152px), which runs
+   long-form prose at 140–160 chars/line on desktop. Cap the text blocks
+   themselves at 75ch (≈ the 720px column the /reviews/ pages use): prose
+   container classes vary by template generation (.prose #014+,
+   .article-body #008, bare markup elsewhere), so element-level is the one
+   rule that repairs all 16 issues. Auto margins keep the column centered;
+   blocks inside cards/grid cells are already narrower and unaffected. */
+@media (min-width: 769px) {
+  p,
+  li,
+  blockquote,
+  .pull-quote,
+  .tc-line,
+  .interview-q,
+  .interview-a,
+  .yob-reply,
+  .yob-letter {
+    max-width: 75ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 /* Mid-phone (≤414px) and small-phone (≤375px) tuning.
    Each issue ships its own ≤768px breakpoint; this layers on top
    for the narrowest viewports. */
@@ -77,6 +100,54 @@ button {
   }
   .overall-score .denom {
     font-size: 18px;
+  }
+}
+
+/* Motion floor — issues ship their own flicker/marquee/typewriter
+   keyframes; kill them all for users who ask for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Contrast floor — inactive tab labels ship at --text-dim (#505060,
+   ≈2.4:1) at 9px Press Start 2P; the primary in-issue navigation must
+   clear WCAG AA. Active-tab colors are set per issue with higher
+   specificity (.tab-btn.active) and are unaffected. */
+.tab-btn:not(.active) {
+  color: #9090A0 !important;
+}
+.tab-btn:not(.active):hover {
+  color: #E0E0E8 !important;
+}
+/* (Print mode re-overrides both with higher specificity below.) */
+
+/* Masthead clamp — issue wordmarks (clamp floors of 48px + wide
+   letter-spacing) clip "CTRL+WATCH" to "CTRL+WATC" at 390px. Selector
+   list mirrors the print-mode wordmark normalization below. */
+@media (max-width: 414px) {
+  .masthead h1,
+  .magazine-header h1,
+  .main-header h1,
+  .masthead-title,
+  .magazine-title,
+  .mag-title,
+  .header-title,
+  .cover-title,
+  .issue-title,
+  .logo,
+  .logo-block,
+  [class*="wordmark"] {
+    font-size: clamp(28px, 10vw, 44px) !important;
+    letter-spacing: 0.5px !important;
   }
 }
 
@@ -441,6 +512,27 @@ html.mode-print .cw-mode-widget button[aria-pressed="true"] {
 }
 @media print {
   .cw-mode-widget { display: none !important; }
+}
+
+/* Phones: the widget floats over body prose (~2 lines). Shrink its
+   footprint and let it fade back until it's being used — tap targets
+   stay ≥44px. */
+@media (max-width: 768px) {
+  .cw-mode-widget {
+    font-size: 8px;
+    bottom: 10px;
+    right: 10px;
+    opacity: 0.55;
+    transition: opacity 0.15s ease;
+  }
+  .cw-mode-widget:hover,
+  .cw-mode-widget:focus-within,
+  .cw-mode-widget:active {
+    opacity: 1;
+  }
+  .cw-mode-widget button {
+    padding: 0 9px;
+  }
 }
 
 /* Masthead */
