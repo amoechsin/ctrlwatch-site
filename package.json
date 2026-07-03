@@ -25,6 +25,8 @@
     "inject:tabhash": "node scripts/inject-issue-tabhash.mjs",
     "build:creators": "node scripts/build-creators.mjs",
     "build:search": "node scripts/build-search-index.mjs",
+    "verify": "node scripts/verify-pipeline.mjs",
+    "ship:issue": "node scripts/ship-issue.mjs",
     "cards": "node scripts/generate-cards.mjs",
     "test": "node --test"
   },

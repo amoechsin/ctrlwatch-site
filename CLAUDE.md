@@ -202,8 +202,10 @@ Everything below is the build-and-ship runbook. Do not let it bleed into editori
 
 # BUILD & CONTENT PIPELINE
 
-**Adding a new issue (run in order):**
-`issues.js` update → `npm run covers` → `npm run cards` → `npm run inject:og` → `npm run inject:seo` → `npm run inject:top50link` → `npm run inject:reviewlinks` → `npm run inject:vslinks` → `npm run inject:subscribe` → `npm run inject:trust` → `npm run inject:tabhash` → `npm run inject:shell` → update tracker → `npm run build:creators` → `npm run build:search` → commit.
+**Adding a new issue:** update `issues.js` + write the issue HTML + update the tracker, then run **`npm run ship:issue`** — the orchestrator (`scripts/ship-issue.mjs`) runs every pipeline step in order with stop-on-failure and prints the completion checklist. `npm run ship:issue -- --dry` prints the plan. The steps it runs, in order (never run these by hand for a new issue unless debugging one step):
+`covers → cards → inject:og → inject:seo → inject:top50link → inject:reviewlinks → inject:vslinks → inject:subscribe → inject:trust → inject:tabhash → inject:shell → build:creators → build:search → verify`.
+
+**Consistency gate:** `npm run verify` (`scripts/verify-pipeline.mjs`) fails if committed `creators.json`/`search-index.json` are stale vs their sources of truth (regenerates to temp and diffs, timestamps excluded), if any published issue is missing a fenced block (known legacy skips pinned: #003/#010 top50link, #005 reviewlinks — a NEW skip fails), if cover PNGs are missing, or if a #014+ issue violates the template contract (required section ids + parseable ranking table). It is **step 1 of the Netlify build** — a stale commit fails the deploy instead of shipping silently.
 
 **Source of truth split:** `src/data/issues.js` is the **platform** source of truth; the continuity tracker is the **editorial** source of truth (read-only from platform code).
 
@@ -338,7 +340,7 @@ All six content-producing skills emit a required SEO/AEO output block (see above
 2. Propose lineup → wait for approval → generate.
 3. Skills called in order: theme-feasibility → continuity-checker → html-generation + content skills → tracker-update + top50-updater.
 4. Every output file gets the SEO/AEO block.
-5. After the issue: update the tracker, run the build pipeline (covers → inject:og → inject:seo → inject:subscribe → inject:trust → inject:shell → build:creators → build:search), commit, push.
+5. After the issue: update the tracker, run `npm run ship:issue` (full pipeline + consistency gate), work the printed completion checklist, commit, push.
 
 ---
 

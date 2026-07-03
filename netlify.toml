@@ -1,5 +1,8 @@
 [build]
-  command = "npm run build"
+  # verify-pipeline is the consistency gate (scripts/verify-pipeline.mjs):
+  # a deploy fails if committed generated JSON is stale vs its source of
+  # truth, an issue is missing fenced blocks, or cover assets are absent.
+  command = "npm run verify && npm run build"
   publish = "dist"
 
 [build.environment]

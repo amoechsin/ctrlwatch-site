@@ -41,7 +41,9 @@ import { issueUrl } from '../src/lib/issue-url.mjs';
 const TRACKER = 'docs/continuity/CTRLWATCH_Continuity_Tracker.md';
 const CREATORS = 'src/data/creators.json';
 const REVIEWS_DIR = 'src/content/reviews';
-const OUT = 'src/data/search-index.json';
+// Env override exists for the consistency gate (scripts/verify-pipeline.mjs),
+// which regenerates to a temp path and diffs against the committed file.
+const OUT = process.env.SEARCH_OUT || 'src/data/search-index.json';
 
 const warnings = [];
 function warn(m) { warnings.push(m); }
