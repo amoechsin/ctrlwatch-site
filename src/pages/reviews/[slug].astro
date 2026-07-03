@@ -118,6 +118,15 @@ const reviewJson = {
 
       <ReviewCard channel={d.channel} overall={d.overall} verdict={d.verdict} axes={d.axes} />
 
+      <aside class="write-to-yob">
+        <p class="wty-line">Disagree with the {d.overall}? Scores get argued about in print.</p>
+        <a
+          class="wty-btn"
+          href={`mailto:yob@ctrl-watch.xyz?subject=${encodeURIComponent(`RE: ${d.channel} — you got it wrong`)}`}
+        >✉ WRITE TO YOB ▶</a>
+        <p class="wty-fine">Letters may be printed in Yob's Save Point. Yob replies rudely. This is a feature.</p>
+      </aside>
+
       {related.length > 0 && (
         <section class="review-related">
           <h2 class="related-title">RELATED PROFILES</h2>
@@ -138,6 +147,42 @@ const reviewJson = {
 
 <style>
   .review-page { padding: var(--space-xl) 0; min-height: 60vh; }
+
+  .write-to-yob {
+    margin: var(--space-lg) 0;
+    padding: var(--space-md) var(--space-lg);
+    border: 1px dashed var(--green);
+    text-align: center;
+  }
+  .wty-line {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+  }
+  .wty-btn {
+    display: inline-block;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--green);
+    border: 1px solid var(--green);
+    padding: 12px 16px;
+    text-decoration: none;
+    transition: background 0.12s ease, color 0.12s ease;
+  }
+  .wty-btn:hover,
+  .wty-btn:focus-visible {
+    background: var(--green);
+    color: var(--bg);
+    outline: none;
+  }
+  .wty-fine {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin-top: var(--space-sm);
+  }
 
   .review-breadcrumb {
     font-family: 'Press Start 2P', monospace;
