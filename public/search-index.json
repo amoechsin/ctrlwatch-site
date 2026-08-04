@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-07-03T06:09:17.569Z",
+  "generatedAt": "2026-08-04T14:00:57.398Z",
   "totals": {
-    "total": 270,
-    "issue": 17,
-    "review": 95,
-    "channel": 15,
-    "time-capsule": 100,
-    "boss-fight": 18,
-    "special": 25
+    "total": 284,
+    "issue": 18,
+    "review": 98,
+    "channel": 16,
+    "time-capsule": 105,
+    "boss-fight": 19,
+    "special": 28
   },
   "entries": [
     {
@@ -128,6 +128,13 @@
       "subtitle": "The machines are uploading. Who checks their work — and what does an AI-assisted magazine owe you when it reviews the slop wave?",
       "url": "/issues/017/",
       "issueTag": "#017"
+    },
+    {
+      "type": "issue",
+      "title": "THE HISTORY ISSUE",
+      "subtitle": "YouTube quietly became the biggest history classroom ever built — and nobody checks the syllabus. We sent in the graders.",
+      "url": "/issues/018/",
+      "issueTag": "#018"
     },
     {
       "type": "review",
@@ -390,6 +397,13 @@
     },
     {
       "type": "review",
+      "title": "Fall of Civilizations",
+      "subtitle": "History / Narrative Documentary · 89/100 · EXCELLENT",
+      "url": "/reviews/fall-of-civilizations/",
+      "issueTag": "#018"
+    },
+    {
+      "type": "review",
       "title": "Fireship",
       "subtitle": "Technology / Programming · 90/100 · ESSENTIAL",
       "url": "/reviews/fireship/",
@@ -485,6 +499,13 @@
       "subtitle": "Cooking / Entertainment · 81/100 · EXCELLENT",
       "url": "/reviews/joshua-weissman/",
       "issueTag": "#009"
+    },
+    {
+      "type": "review",
+      "title": "Kings and Generals",
+      "subtitle": "History / Military · 75/100 · GOOD",
+      "url": "/reviews/kings-and-generals/",
+      "issueTag": "#018"
     },
     {
       "type": "review",
@@ -592,6 +613,13 @@
       "issueTag": "#016"
     },
     {
+      "type": "review",
+      "title": "Nota Bene",
+      "subtitle": "History / Education · 82/100 · EXCELLENT",
+      "url": "/reviews/nota-bene/",
+      "issueTag": "#018"
+    },
+    {
       "type": "channel",
       "title": "Numberphile",
       "subtitle": "",
@@ -601,7 +629,7 @@
     {
       "type": "review",
       "title": "OverSimplified",
-      "subtitle": "History Comedy / Animation · 79/100 · GOOD",
+      "subtitle": "History Comedy / Animation · 80/100 · EXCELLENT",
       "url": "/reviews/oversimplified/",
       "issueTag": "#012"
     },
@@ -870,6 +898,13 @@
       "subtitle": "Gaming / Commentary · 84/100 · EXCELLENT",
       "url": "/reviews/videogamedunkey/",
       "issueTag": "#007"
+    },
+    {
+      "type": "channel",
+      "title": "Vox",
+      "subtitle": "GOOD",
+      "url": "/creators/#creator-vox",
+      "issueTag": "#018"
     },
     {
       "type": "review",
@@ -1600,6 +1635,41 @@
       "issueTag": "#017"
     },
     {
+      "type": "time-capsule",
+      "title": "Herodotus",
+      "subtitle": "c.484–425 BC; the Father of History (and the Father of Lies); the inventor of the digression and of \"the unbelievable story you cannot stop listening to\"; \"I am obliged to report what is said, I am not obliged to believe it\" — the little door out; his tricks handed to men performing in an empty court (no doubters left to argue back) — FIRST HISTORIANS-AND-CHRONICLERS FIGURE",
+      "url": "/issues/018/",
+      "issueTag": "#018"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Edward Gibbon",
+      "subtitle": "1737–1794; six volumes on Rome's decline; \"The Fall of Rome in 18 Minutes\" as the residue of history boiled dry; the essentials they cut are the irony; length as an argument; concedes the ten-million-reach point partially",
+      "url": "/issues/018/",
+      "issueTag": "#018"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Barbara Tuchman",
+      "subtitle": "1912–1989; two-time Pulitzer; narrative history as craft; the telling detail (the notary who ran out of parchment); suspense over events that have already occurred; concedes she might mistake speed for shallowness",
+      "url": "/issues/018/",
+      "issueTag": "#018"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Ibn Khaldun",
+      "subtitle": "1332–1406; father of sociology/historiography; the *Muqaddimah* applied to channel rise-and-fall; *asabiyyah* (group feeling) builds the empire, *taraf* (luxury) dissolves it; the tent vs the palace; \"you have merely built a faster desert\"",
+      "url": "/issues/018/",
+      "issueTag": "#018"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Sima Qian",
+      "subtitle": "c.145–86 BC; Grand Historian of the Han; completed the *Shiji* after choosing castration over an honourable death so the book could be finished; \"a man's death may be heavier than Mount Tai or lighter than a goose feather\"; the cost is not the virtue, only proof of what the writer would lose to protect it",
+      "url": "/issues/018/",
+      "issueTag": "#018"
+    },
+    {
       "type": "boss-fight",
       "title": "Dan Carlin vs Joe Rogan",
       "subtitle": "Winner: Dan Carlin",
@@ -1724,6 +1794,13 @@
       "subtitle": "Winner: AI Explained",
       "url": "/issues/017/",
       "issueTag": "#017"
+    },
+    {
+      "type": "boss-fight",
+      "title": "Johnny Harris vs Vox",
+      "subtitle": "Winner: Vox",
+      "url": "/issues/018/",
+      "issueTag": "#018"
     },
     {
       "type": "special",
@@ -1899,6 +1976,27 @@
       "subtitle": "documented mechanics only (The Outline's Ridddle translation-line, Dec 2025 Screen Culture/KH Studio terminations)",
       "url": "/issues/017/",
       "issueTag": "#017"
+    },
+    {
+      "type": "special",
+      "title": "Who Owns the Past?",
+      "subtitle": "Who Owns the Past? — four models of the history-explainer economy (Narrators / Factories / Readers / Animators) + the Pipeline Problem (Wikipedia→script→stock maps→synthetic voice, no citations norm on YouTube)",
+      "url": "/issues/018/",
+      "issueTag": "#018"
+    },
+    {
+      "type": "special",
+      "title": "the hbomberguy \"Plagiarism and You",
+      "subtitle": "the hbomberguy \"Plagiarism and You(Tube)\" reckoning kept in proportion (Internet Historian \"Man in Cave\")",
+      "url": "/issues/018/",
+      "issueTag": "#018"
+    },
+    {
+      "type": "special",
+      "title": "the one ask",
+      "subtitle": "the one ask — sources in the description",
+      "url": "/issues/018/",
+      "issueTag": "#018"
     }
   ]
 }
