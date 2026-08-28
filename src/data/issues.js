@@ -266,4 +266,15 @@ export const issues = [
       { kind: 'flash',     text: '+ OVERSIMPLIFIED RE-EVAL',  color: '#39FF14' },
     ],
   },
+  {
+    slug: '019',
+    number: '#019',
+    date: 'October 2026',
+    title: 'THE COMPETITION ISSUE',
+    subtitle: 'The esports leagues froze. The couch, the chessboard, and a streamer\'s boxing ring did not. Who actually owns competition on YouTube?',
+    coverColor: '#FF00AA',
+    tag: 'COMPETITION',
+    rating: null,
+    published: true,
+  },
 ];

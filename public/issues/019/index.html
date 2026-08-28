@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTRL+WATCH — Issue #019 — THE COMPETITION ISSUE</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=VT323&family=Exo+2:wght@300;400;600;700&family=Russo+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary:    #0A0A12;
+  --bg-secondary:  #0F0F1A;
+  --bg-card:       #12121E;
+  --bg-header:     #08080F;
+  --cyan:          #00F0FF;
+  --magenta:       #FF00AA;
+  --yellow:        #FFE600;
+  --green:         #39FF14;
+  --orange:        #FF6B00;
+  --red:           #FF2244;
+  --text-primary:  #E0E0E8;
+  --text-secondary:#9090A0;
+  --text-dim:      #505060;
+  --border-color:  #1E1E30;
+  --glow-cyan:     0 0 10px #00F0FF, 0 0 20px rgba(0,240,255,0.3);
+  --glow-magenta:  0 0 10px #FF00AA, 0 0 20px rgba(255,0,170,0.3);
+  --glow-yellow:   0 0 10px #FFE600, 0 0 20px rgba(255,230,0,0.3);
+  --glow-green:    0 0 10px #39FF14, 0 0 20px rgba(57,255,20,0.3);
+  --glow-red:      0 0 10px #FF2244, 0 0 20px rgba(255,34,68,0.3);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg-primary); color: var(--text-primary); font-family: 'Exo 2', sans-serif; line-height: 1.6; }
+body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px); pointer-events: none; z-index: 9999; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.masthead { background: var(--bg-header); border-bottom: 1px solid var(--border-color); padding: 32px 0 24px; }
+.masthead-top { display: flex; justify-content: space-between; align-items: center; font-family: 'VT323', monospace; font-size: 24px; color: var(--text-secondary); }
+.masthead-title { text-align: center; padding: 16px 0; }
+.masthead-title h1 { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: clamp(48px, 9vw, 96px); color: var(--green); text-shadow: var(--glow-green); letter-spacing: 4px; }
+.masthead-sub { font-family: 'Press Start 2P', monospace; font-size: clamp(10px, 2vw, 14px); color: var(--magenta); letter-spacing: 2px; padding: 16px 0; text-align: center; }
+.pixel-bar { height: 8px; background: repeating-linear-gradient(90deg, var(--green) 0, var(--green) 8px, var(--magenta) 8px, var(--magenta) 16px, var(--cyan) 16px, var(--cyan) 24px, transparent 24px, transparent 32px); }
+.tabs { background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
+.tab-bar { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+.tab-bar::-webkit-scrollbar { height: 4px; }
+.tab-bar::-webkit-scrollbar-thumb { background: var(--green); }
+.tab-btn { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--text-secondary); background: transparent; border: none; border-bottom: 2px solid transparent; padding: 16px 18px; cursor: pointer; white-space: nowrap; transition: all 0.15s; letter-spacing: 1px; }
+.tab-btn:hover { color: var(--text-primary); }
+.tab-btn.active { color: var(--green); border-bottom: 2px solid var(--green); background: rgba(57,255,20,0.06); }
+.tab-btn:focus-visible { outline: 2px solid var(--green); outline-offset: -2px; }
+.section-panel { display: none; padding: 48px 0 64px; min-height: 60vh; }
+.section-panel.active { display: block; }
+.section-header { margin-bottom: 32px; }
+.section-label { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--magenta); letter-spacing: 2px; text-transform: uppercase; }
+.section-title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: clamp(28px, 5vw, 48px); color: var(--green); text-shadow: var(--glow-green); margin-top: 8px; line-height: 1.1; }
+.pixel-divider { height: 4px; background: repeating-linear-gradient(90deg, var(--green) 0, var(--green) 8px, transparent 8px, transparent 16px); margin: 40px 0; }
+.pixel-divider-light { height: 2px; background: repeating-linear-gradient(90deg, var(--border-color) 0, var(--border-color) 4px, transparent 4px, transparent 8px); margin: 24px 0; }
+.pixel-divider-magenta { height: 4px; background: repeating-linear-gradient(90deg, var(--magenta) 0, var(--magenta) 8px, transparent 8px, transparent 16px); margin: 40px 0; }
+.prose p { margin: 16px 0; font-size: 17px; }
+.prose h3 { font-family: 'Orbitron', sans-serif; font-size: 22px; color: var(--cyan); margin: 32px 0 16px; }
+.prose h4 { font-family: 'Press Start 2P', monospace; font-size: 13px; color: var(--magenta); margin: 24px 0 12px; letter-spacing: 1px; }
+.prose strong { color: var(--yellow); }
+.prose em { color: var(--text-primary); font-style: italic; }
+.prose a { color: var(--cyan); }
+.pull-quote { font-family: 'Russo One', sans-serif; font-size: 1.5rem; line-height: 1.4; color: var(--green); border-left: 4px solid var(--magenta); padding: 20px 28px; margin: 36px 0; background: rgba(57,255,20,0.05); font-style: italic; }
+.card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 28px; margin: 24px 0; }
+.score-card { background: var(--bg-card); border: 2px solid var(--border-color); margin: 32px 0; padding: 28px; }
+.score-header { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 16px; border-bottom: 2px solid var(--border-color); flex-wrap: wrap; gap: 12px; }
+.channel-name { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; color: var(--text-primary); letter-spacing: 1px; }
+.overall-score { font-family: 'VT323', monospace; font-size: 64px; color: var(--green); text-shadow: var(--glow-green); line-height: 1; }
+.overall-score.low { color: var(--red); text-shadow: var(--glow-red); }
+.overall-score .denom { font-size: 28px; color: var(--text-dim); }
+.score-bars { padding: 20px 0; }
+.category { display: grid; grid-template-columns: 160px 1fr 60px; align-items: center; gap: 12px; padding: 8px 0; }
+.cat-label { font-family: 'Exo 2', sans-serif; font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+.bar-track { background: rgba(255,255,255,0.05); height: 14px; border: 1px solid var(--border-color); position: relative; overflow: hidden; }
+.bar-fill { height: 100%; transition: width 0.3s; }
+.bar-fill.s-90 { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+.bar-fill.s-80 { background: var(--green); }
+.bar-fill.s-70 { background: var(--cyan); }
+.bar-fill.s-60 { background: var(--text-secondary); }
+.bar-fill.s-50 { background: var(--orange); }
+.bar-fill.s-40 { background: var(--red); }
+.cat-score { font-family: 'VT323', monospace; font-size: 24px; color: var(--text-primary); text-align: right; }
+.verdict-banner { font-family: 'Press Start 2P', monospace; font-size: 14px; padding: 16px; text-align: center; letter-spacing: 3px; margin-top: 16px; border: 2px solid; }
+.verdict-essential { color: var(--yellow); border-color: var(--yellow); text-shadow: var(--glow-yellow); }
+.verdict-excellent { color: var(--green); border-color: var(--green); text-shadow: var(--glow-green); }
+.verdict-good { color: var(--cyan); border-color: var(--cyan); text-shadow: var(--glow-cyan); }
+.verdict-average { color: var(--text-secondary); border-color: var(--text-secondary); }
+.verdict-mediocre { color: var(--orange); border-color: var(--orange); }
+.verdict-gameover { color: var(--red); border-color: var(--red); text-shadow: var(--glow-red); }
+.tc-interview { background: var(--bg-card); border: 1px solid var(--border-color); margin: 32px 0; padding: 32px; border-left: 4px solid var(--magenta); }
+.tc-disclaimer { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--orange); padding: 12px; background: rgba(255,107,0,0.08); border: 1px dashed var(--orange); margin-bottom: 24px; letter-spacing: 1px; line-height: 1.6; }
+.tc-subject { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 32px; color: var(--green); text-shadow: var(--glow-green); margin-bottom: 8px; letter-spacing: 1px; }
+.tc-meta { font-family: 'VT323', monospace; font-size: 18px; color: var(--text-secondary); margin-bottom: 24px; }
+.tc-exchange { margin: 18px 0; }
+.tc-speaker { font-family: 'Press Start 2P', monospace; font-size: 10px; letter-spacing: 1px; }
+.tc-cw { color: var(--magenta); }
+.tc-subj { color: var(--yellow); }
+.tc-line { font-size: 17px; padding: 4px 0 4px 12px; line-height: 1.7; }
+.tc-stage { color: var(--text-secondary); font-style: italic; }
+.tc-final { font-family: 'Russo One', sans-serif; font-size: 22px; color: var(--green); padding: 20px; background: rgba(57,255,20,0.06); border: 1px solid var(--green); margin-top: 24px; text-align: center; line-height: 1.4; }
+.top50-table { width: 100%; border-collapse: collapse; font-family: 'Exo 2', sans-serif; margin: 24px 0; }
+.top50-table th { font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--green); border-bottom: 2px solid var(--green); padding: 12px 10px; text-align: left; letter-spacing: 1px; background: rgba(57,255,20,0.05); }
+.top50-table td { padding: 8px 10px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); font-size: 15px; }
+.top50-table tr.top3 td { background: rgba(255,230,0,0.05); }
+.top50-table tr.top3 td.rank { font-family: 'VT323', monospace; font-size: 28px; color: var(--yellow); text-shadow: var(--glow-yellow); }
+.top50-table tr.new-entry td { background: rgba(57,255,20,0.06); border-left: 3px solid var(--green); }
+.top50-table td.rank { font-family: 'VT323', monospace; font-size: 22px; color: var(--cyan); width: 50px; }
+.top50-table td.score { font-family: 'VT323', monospace; font-size: 22px; color: var(--text-primary); width: 70px; }
+.top50-table td.genre { color: var(--text-secondary); font-size: 14px; font-style: italic; }
+.top50-table td.movement { font-family: 'VT323', monospace; font-size: 20px; width: 80px; }
+.mv-up { color: var(--green); }
+.mv-down { color: var(--orange); }
+.mv-flat { color: var(--text-dim); }
+.mv-new { color: var(--green); font-weight: bold; text-shadow: var(--glow-green); }
+.bf-title { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 48px; color: var(--magenta); text-align: center; text-shadow: var(--glow-magenta); margin: 32px 0 8px; letter-spacing: 4px; }
+.bf-subtitle { font-family: 'Press Start 2P', monospace; font-size: 12px; color: var(--green); text-align: center; margin-bottom: 32px; letter-spacing: 2px; }
+.tale-tape { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 32px auto; border: 2px solid var(--green); max-width: 900px; }
+.tape-col { padding: 24px; }
+.tape-col:first-child { border-right: 2px solid var(--green); }
+.tape-channel { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; color: var(--green); text-shadow: var(--glow-green); margin-bottom: 16px; }
+.tape-row { padding: 8px 0; font-size: 14px; border-bottom: 1px dashed var(--border-color); }
+.tape-row strong { color: var(--magenta); font-family: 'Press Start 2P', monospace; font-size: 9px; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+.bf-round { background: var(--bg-card); border-left: 4px solid var(--green); padding: 24px 28px; margin: 24px auto; }
+.bf-round-num { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--magenta); letter-spacing: 2px; }
+.bf-round-title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; color: var(--cyan); margin: 6px 0 14px; }
+.bf-round p { font-size: 16px; }
+.bf-round-verdict { font-family: 'Press Start 2P', monospace; font-size: 11px; color: var(--yellow); padding: 10px; border: 1px solid var(--yellow); margin-top: 16px; text-align: center; letter-spacing: 2px; }
+.bf-scorecard { background: var(--bg-card); border: 2px solid var(--magenta); padding: 28px; margin: 32px auto; max-width: 820px; }
+.bf-scorecard table { width: 100%; border-collapse: collapse; }
+.bf-scorecard th { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--cyan); padding: 12px; text-align: center; border-bottom: 2px solid var(--cyan); }
+.bf-scorecard td { padding: 12px; text-align: center; border-bottom: 1px solid var(--border-color); font-family: 'VT323', monospace; font-size: 24px; }
+.bf-scorecard td:first-child { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--text-secondary); text-align: left; letter-spacing: 1px; }
+.bf-scorecard tr.total td { font-size: 32px; color: var(--yellow); border-top: 2px solid var(--cyan); padding-top: 16px; }
+.hl-card { background: var(--bg-card); border: 1px solid var(--border-color); border-left: 3px solid var(--green); padding: 24px; margin: 20px auto; position: relative; }
+.hl-card.yobs-pick { border-left: 3px solid var(--yellow); }
+.hl-card p { font-size: 16px; }
+.hl-name { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 20px; color: var(--cyan); }
+.hl-meta { font-family: 'VT323', monospace; font-size: 18px; color: var(--text-secondary); margin: 6px 0 12px; }
+.hl-pick-badge { position: absolute; top: 16px; right: 16px; font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--bg-primary); background: var(--yellow); padding: 6px 10px; letter-spacing: 1px; }
+.hl-handle { font-family: 'VT323', monospace; font-size: 17px; color: var(--green); }
+.ads-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin: 32px 0; }
+.ad-box { background: var(--bg-card); border: 3px solid var(--magenta); padding: 24px; box-shadow: 0 0 16px rgba(255,0,170,0.3); position: relative; }
+.ad-box.yellow-tint { border-color: var(--yellow); box-shadow: 0 0 16px rgba(255,230,0,0.3); }
+.ad-box.green-tint { border-color: var(--green); box-shadow: 0 0 16px rgba(57,255,20,0.3); }
+.ad-name { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 26px; color: var(--magenta); text-shadow: var(--glow-magenta); margin-bottom: 4px; letter-spacing: 1px; line-height: 1.1; }
+.ad-box.yellow-tint .ad-name { color: var(--yellow); text-shadow: var(--glow-yellow); }
+.ad-box.green-tint .ad-name { color: var(--green); text-shadow: var(--glow-green); }
+.ad-tagline { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--cyan); letter-spacing: 1px; margin-bottom: 16px; line-height: 1.5; }
+.ad-body { font-size: 13px; line-height: 1.5; margin-bottom: 12px; }
+.ad-features { font-size: 12px; padding-left: 18px; margin: 12px 0; color: var(--text-secondary); }
+.ad-features li { padding: 3px 0; }
+.ad-cta { font-family: 'VT323', monospace; font-size: 22px; color: var(--yellow); text-align: center; padding: 8px 0; border-top: 1px dashed var(--text-dim); border-bottom: 1px dashed var(--text-dim); margin: 12px 0; }
+.ad-fineprint { font-size: 9px; color: var(--text-dim); font-style: italic; line-height: 1.4; }
+.yob-intro { display: flex; align-items: center; gap: 20px; margin-bottom: 32px; flex-wrap: wrap; }
+.yob-svg { flex-shrink: 0; }
+.yob-text { font-family: 'VT323', monospace; font-size: 22px; color: var(--green); flex: 1; min-width: 200px; }
+.letter { background: var(--bg-card); border-left: 3px solid var(--cyan); padding: 24px; margin: 24px auto; }
+.letter-from { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--magenta); letter-spacing: 1px; margin-bottom: 12px; }
+.letter-body { font-size: 15px; line-height: 1.6; font-style: italic; color: var(--text-primary); }
+.letter-rating { padding: 14px 0 6px; }
+.star-rating { color: var(--yellow); font-size: 18px; letter-spacing: 2px; }
+.star-empty { color: var(--text-dim); }
+.verdict-tag { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--magenta); letter-spacing: 2px; padding-left: 16px; }
+.yob-reply { background: rgba(57,255,20,0.04); border: 1px dashed var(--green); padding: 16px 20px; margin-top: 14px; font-size: 14px; line-height: 1.6; }
+.yob-reply::before { content: '> YOB SAYS:'; font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--green); display: block; margin-bottom: 8px; letter-spacing: 1px; }
+.yob-sign { display: block; text-align: right; color: var(--green); font-family: 'VT323', monospace; font-size: 18px; margin-top: 8px; }
+.yob-announce { background: rgba(57,255,20,0.06); border: 2px solid var(--green); padding: 24px; margin: 32px auto; }
+.yob-announce h4 { font-family: 'Press Start 2P', monospace; font-size: 12px; color: var(--green); letter-spacing: 2px; margin-bottom: 14px; line-height: 1.6; }
+.yob-announce p { font-size: 15px; line-height: 1.7; margin: 12px 0; }
+.yob-announce .mail { font-family: 'VT323', monospace; font-size: 28px; color: var(--green); text-shadow: var(--glow-green); }
+.go-trend { background: var(--bg-card); border-left: 4px solid var(--red); padding: 24px 28px; margin: 24px auto; }
+.go-trend p { font-size: 16px; }
+.go-num { font-family: 'VT323', monospace; font-size: 32px; color: var(--red); text-shadow: var(--glow-red); }
+.go-title { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; color: var(--red); margin: 4px 0 12px; }
+.go-killshot { font-family: 'Russo One', sans-serif; font-size: 18px; color: var(--orange); padding: 12px 16px; background: rgba(255,107,0,0.06); border-left: 3px solid var(--orange); margin-top: 14px; font-style: italic; }
+.news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+.news-item { background: var(--bg-card); border: 1px solid var(--border-color); padding: 22px; }
+.news-headline { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 18px; color: var(--cyan); margin-bottom: 10px; line-height: 1.3; }
+.news-tag { font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--magenta); letter-spacing: 1px; margin-bottom: 8px; }
+.news-body { font-size: 14px; line-height: 1.6; }
+.canon-link { text-align: center; margin-top: 20px; }
+.canon-link a { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--cyan); text-decoration: none; border: 1px solid var(--cyan); padding: 10px 16px; display: inline-block; letter-spacing: 1px; }
+.footer { background: var(--bg-header); padding: 32px 0; text-align: center; margin-top: 64px; border-top: 1px solid var(--border-color); }
+.footer p { font-size: 11px; color: var(--text-dim); line-height: 1.6; }
+.footer p.copy { font-family: 'VT323', monospace; font-size: 16px; color: var(--text-secondary); margin-top: 8px; }
+/* Reading measure — Layout & Readability Contract (#017+) */
+.prose, .section-header, .bf-round, .go-trend, .hl-card, .letter, .tc-interview, .yob-intro, .yob-announce, .card { max-width: 75ch; margin-inline: auto; }
+@media (max-width: 768px) {
+  .category { grid-template-columns: 110px 1fr 50px; gap: 8px; }
+  .cat-label { font-size: 11px; }
+  .channel-name { font-size: 18px; }
+  .overall-score { font-size: 48px; }
+  .overall-score .denom { font-size: 22px; }
+  .tale-tape { grid-template-columns: 1fr; }
+  .tape-col:first-child { border-right: none; border-bottom: 2px solid var(--green); }
+  .ads-grid { grid-template-columns: 1fr; }
+  .news-grid { grid-template-columns: 1fr; }
+  .top50-table th, .top50-table td { padding: 6px 4px; font-size: 12px; }
+  .top50-table td.rank, .top50-table td.score { font-size: 18px; }
+  .bf-title { font-size: 32px; letter-spacing: 2px; }
+  .tc-subject { font-size: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  html { scroll-behavior: auto; }
+}
+/* SITE NAV BAR */
+.site-nav-bar {
+  background: #08080F;
+  border-bottom: 1px solid #222244;
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1001;
+}
+.site-nav-bar a { color: #9090A0; text-decoration: none; transition: color 0.2s, text-shadow 0.2s; }
+.site-nav-bar a:hover { color: #39FF14; text-shadow: 0 0 10px #39FF1444, 0 0 30px #39FF1422; }
+.site-nav-bar .nav-sep { color: #333355; }
+</style>
+<!-- GoatCounter analytics -->
+<script data-goatcounter="https://ctrlwatch.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<link rel="stylesheet" href="/issues/_shell.css?v=848c7b56">
+<script>/* cw-mode-v6 */(function(){try{var m=localStorage.getItem('ctrlwatch_mode');if(m===null){m=sessionStorage.getItem('ctrlwatch_mode');if(m!==null)localStorage.setItem('ctrlwatch_mode',m);}if(m==='print')document.documentElement.classList.add('mode-print');}catch(e){}function i(){var prev=document.querySelector('.cw-mode-widget');if(prev)prev.remove();var w=document.createElement('div');w.className='cw-mode-widget';w.setAttribute('role','group');w.setAttribute('aria-label','Display mode');w.innerHTML='<button type="button" data-mode="terminal" aria-label="Terminal mode" title="Terminal mode">[TERMINAL]</button><button type="button" data-mode="print" aria-label="Magazine mode" title="Magazine mode">[MAGAZINE]</button>';document.body.appendChild(w);var b=w.querySelectorAll('button');function s(){var m=document.documentElement.classList.contains('mode-print')?'print':'terminal';b.forEach(function(x){x.setAttribute('aria-pressed',x.dataset.mode===m?'true':'false');});}s();function set(m){if(m==='print')document.documentElement.classList.add('mode-print');else document.documentElement.classList.remove('mode-print');try{sessionStorage.setItem('ctrlwatch_mode',m);localStorage.setItem('ctrlwatch_mode',m);}catch(e){}s();}b.forEach(function(x){x.addEventListener('click',function(){set(x.dataset.mode);});});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',i);else i();})();</script>
+<!-- ctrlwatch:og:start -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ctrl-watch.xyz/issues/019/">
+<meta property="og:title" content="CTRL+WATCH — Issue #019 — THE COMPETITION ISSUE">
+<meta property="og:description" content="The esports leagues froze. The couch, the chessboard, and a streamer's boxing ring did not. Who actually owns competition on YouTube?">
+<meta property="og:image" content="https://ctrl-watch.xyz/covers/019-og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CTRL+WATCH — Issue #019 — THE COMPETITION ISSUE">
+<meta name="twitter:description" content="The esports leagues froze. The couch, the chessboard, and a streamer's boxing ring did not. Who actually owns competition on YouTube?">
+<meta name="twitter:image" content="https://ctrl-watch.xyz/covers/019-og.png">
+<!-- ctrlwatch:og:end -->
+<!-- ctrlwatch:seo:start -->
+<meta name="description" content="The esports leagues froze. The couch, the chessboard, and a streamer's boxing ring did not. Who actually owns competition on YouTube?">
+<link rel="canonical" href="https://ctrl-watch.xyz/issues/019/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Top 50 YouTube Channels — Issue #019 (October 2026) — CTRL+WATCH",
+  "description": "CTRL+WATCH's master ranking of YouTube channels as published in Issue #019 (October 2026).",
+  "url": "https://ctrl-watch.xyz/issues/019/#high-scores",
+  "numberOfItems": 50,
+  "itemListOrder": "https://schema.org/ItemListOrderDescending",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "3Blue1Brown"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Kurzgesagt"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Every Frame a Painting"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Primitive Technology"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "name": "Jacob Geller"
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "name": "Adam Neely"
+    },
+    {
+      "@type": "ListItem",
+      "position": 7,
+      "name": "CGP Grey"
+    },
+    {
+      "@type": "ListItem",
+      "position": 8,
+      "name": "Lemmino"
+    },
+    {
+      "@type": "ListItem",
+      "position": 9,
+      "name": "Jenny Nicholson"
+    },
+    {
+      "@type": "ListItem",
+      "position": 10,
+      "name": "Fireship"
+    },
+    {
+      "@type": "ListItem",
+      "position": 11,
+      "name": "Dan Carlin's Hardcore History"
+    },
+    {
+      "@type": "ListItem",
+      "position": 12,
+      "name": "Townsends"
+    },
+    {
+      "@type": "ListItem",
+      "position": 13,
+      "name": "Mark Rober"
+    },
+    {
+      "@type": "ListItem",
+      "position": 14,
+      "name": "Veritasium"
+    },
+    {
+      "@type": "ListItem",
+      "position": 15,
+      "name": "Vsauce"
+    },
+    {
+      "@type": "ListItem",
+      "position": 16,
+      "name": "Fall of Civilizations"
+    },
+    {
+      "@type": "ListItem",
+      "position": 17,
+      "name": "Technology Connections"
+    },
+    {
+      "@type": "ListItem",
+      "position": 18,
+      "name": "Conan O'Brien / Team Coco"
+    },
+    {
+      "@type": "ListItem",
+      "position": 19,
+      "name": "Contrapoints"
+    },
+    {
+      "@type": "ListItem",
+      "position": 20,
+      "name": "exurb1a"
+    },
+    {
+      "@type": "ListItem",
+      "position": 21,
+      "name": "Clickspring"
+    },
+    {
+      "@type": "ListItem",
+      "position": 22,
+      "name": "Game Maker's Toolkit"
+    },
+    {
+      "@type": "ListItem",
+      "position": 23,
+      "name": "Summoning Salt"
+    },
+    {
+      "@type": "ListItem",
+      "position": 24,
+      "name": "Internet Historian"
+    },
+    {
+      "@type": "ListItem",
+      "position": 25,
+      "name": "Theo Von"
+    },
+    {
+      "@type": "ListItem",
+      "position": 26,
+      "name": "Good Mythical Morning"
+    },
+    {
+      "@type": "ListItem",
+      "position": 27,
+      "name": "Caspian Report"
+    },
+    {
+      "@type": "ListItem",
+      "position": 28,
+      "name": "Historia Civilis"
+    },
+    {
+      "@type": "ListItem",
+      "position": 29,
+      "name": "JCS — Criminal Psychology"
+    },
+    {
+      "@type": "ListItem",
+      "position": 30,
+      "name": "Tasting History with Max Miller"
+    },
+    {
+      "@type": "ListItem",
+      "position": 31,
+      "name": "Breaking Points"
+    },
+    {
+      "@type": "ListItem",
+      "position": 32,
+      "name": "12tone"
+    },
+    {
+      "@type": "ListItem",
+      "position": 33,
+      "name": "Like Stories of Old"
+    },
+    {
+      "@type": "ListItem",
+      "position": 34,
+      "name": "Nerdwriter1"
+    },
+    {
+      "@type": "ListItem",
+      "position": 35,
+      "name": "NileRed"
+    },
+    {
+      "@type": "ListItem",
+      "position": 36,
+      "name": "Stuff Made Here"
+    },
+    {
+      "@type": "ListItem",
+      "position": 37,
+      "name": "J. Kenji López-Alt"
+    },
+    {
+      "@type": "ListItem",
+      "position": 38,
+      "name": "Scott The Woz"
+    },
+    {
+      "@type": "ListItem",
+      "position": 39,
+      "name": "Drew Gooden"
+    },
+    {
+      "@type": "ListItem",
+      "position": 40,
+      "name": "Noclip"
+    },
+    {
+      "@type": "ListItem",
+      "position": 41,
+      "name": "Binging with Babish"
+    },
+    {
+      "@type": "ListItem",
+      "position": 42,
+      "name": "Tantacrul"
+    },
+    {
+      "@type": "ListItem",
+      "position": 43,
+      "name": "Philosophy Tube"
+    },
+    {
+      "@type": "ListItem",
+      "position": 44,
+      "name": "Real Engineering"
+    },
+    {
+      "@type": "ListItem",
+      "position": 45,
+      "name": "Chinese Cooking Demystified"
+    },
+    {
+      "@type": "ListItem",
+      "position": 46,
+      "name": "The Slow Mo Guys"
+    },
+    {
+      "@type": "ListItem",
+      "position": 47,
+      "name": "Map Men (Jay and Mark)"
+    },
+    {
+      "@type": "ListItem",
+      "position": 48,
+      "name": "Smarter Every Day"
+    },
+    {
+      "@type": "ListItem",
+      "position": 49,
+      "name": "TED-Ed"
+    },
+    {
+      "@type": "ListItem",
+      "position": 50,
+      "name": "Jomboy Media"
+    }
+  ]
+}
+</script>
+<!-- ctrlwatch:seo:end -->
+</head>
+<body>
+
+<!-- SITE NAVIGATION -->
+<div class="site-nav-bar">
+  <a href="/">← Home</a>
+  <span class="nav-sep">/</span>
+  <a href="/archive">Archive</a>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="masthead-top">
+      <span>ISSUE #019 &middot; £4.99 / $6.25</span>
+      <span>OCTOBER 2026 &middot; EST. 2023</span>
+    </div>
+    <div class="masthead-title"><h1>CTRL+WATCH</h1></div>
+    <div class="masthead-sub">▌ ▌ ▌  THE COMPETITION ISSUE  ▌ ▌ ▌</div>
+  </div>
+</header>
+<div class="pixel-bar"></div>
+<nav class="tabs">
+  <div class="wrap">
+    <div class="tab-bar" role="tablist" aria-label="Issue sections">
+      <button class="tab-btn active" role="tab" id="tab-press-start" data-tab="press-start" aria-selected="true" aria-controls="press-start" onclick="showTab('press-start')">PRESS START</button>
+      <button class="tab-btn" role="tab" id="tab-now-loading" data-tab="now-loading" aria-selected="false" aria-controls="now-loading" tabindex="-1" onclick="showTab('now-loading')">NOW LOADING</button>
+      <button class="tab-btn" role="tab" id="tab-time-capsule" data-tab="time-capsule" aria-selected="false" aria-controls="time-capsule" tabindex="-1" onclick="showTab('time-capsule')">TIME CAPSULE</button>
+      <button class="tab-btn" role="tab" id="tab-player-profiles" data-tab="player-profiles" aria-selected="false" aria-controls="player-profiles" tabindex="-1" onclick="showTab('player-profiles')">PLAYER PROFILES</button>
+      <button class="tab-btn" role="tab" id="tab-boss-fight" data-tab="boss-fight" aria-selected="false" aria-controls="boss-fight" tabindex="-1" onclick="showTab('boss-fight')">BOSS FIGHT</button>
+      <button class="tab-btn" role="tab" id="tab-high-scores" data-tab="high-scores" aria-selected="false" aria-controls="high-scores" tabindex="-1" onclick="showTab('high-scores')">HIGH SCORES</button>
+      <button class="tab-btn" role="tab" id="tab-hidden-levels" data-tab="hidden-levels" aria-selected="false" aria-controls="hidden-levels" tabindex="-1" onclick="showTab('hidden-levels')">HIDDEN LEVELS</button>
+      <button class="tab-btn" role="tab" id="tab-cheat-codes" data-tab="cheat-codes" aria-selected="false" aria-controls="cheat-codes" tabindex="-1" onclick="showTab('cheat-codes')">CHEAT CODES</button>
+      <button class="tab-btn" role="tab" id="tab-game-over" data-tab="game-over" aria-selected="false" aria-controls="game-over" tabindex="-1" onclick="showTab('game-over')">GAME OVER</button>
+      <button class="tab-btn" role="tab" id="tab-save-point" data-tab="save-point" aria-selected="false" aria-controls="save-point" tabindex="-1" onclick="showTab('save-point')">YOB'S SAVE POINT</button>
+      <button class="tab-btn" role="tab" id="tab-retro-ads" data-tab="retro-ads" aria-selected="false" aria-controls="retro-ads" tabindex="-1" onclick="showTab('retro-ads')">RETRO ADS</button>
+    </div>
+  </div>
+</nav>
+<main class="wrap">
+<section id="press-start" class="section-panel active" role="tabpanel" aria-labelledby="tab-press-start">
+  <div class="section-header">
+    <div class="section-label">▌ EDITOR'S LETTER ▌</div>
+    <h2 class="section-title">Everyone Is Keeping Score</h2>
+  </div>
+  <div class="prose">
+    <p><em>This magazine ranks fifty channels an issue, scores five categories to two digits, and prints a table with movement arrows. We are in no position to pretend we're above keeping score. So this issue we stopped pretending and went to look at the scoreboard itself — at what happened when actual competition, the kind with winners, moved onto a platform that was already one.</em></p>
+
+    <p>YouTube is a scoreboard-shaped medium. It always was. Every video ships with its result stapled underneath it in public — views, likes, the brutal arithmetic of the subscriber counter — and every creator on the platform is in a ranked match whether they entered one or not. The algorithm does not have taste; it has standings. Which makes it strange, when you think about it, how long it took us to do this issue: a magazine obsessed with rankings, on a platform that is one, has never once looked squarely at the people whose actual subject is competition. The speedrunners. The chess people. The breakdown artists. The trick-shot industrialists. The man in Spain who invented a boxing league out of nothing and broke the concurrent-viewership record for the entire internet doing it.</p>
+
+    <p>And here is what we found, and it is genuinely the opposite of what the money believed. For most of the last decade, the smartest capital in entertainment was betting that competition on the internet would look like television — franchised leagues, city teams, ten-million-dollar slots, a Sunday broadcast with a desk. That bet is now a smoking crater, and our Special Feature walks the whole debris field: the Overwatch League voting itself out of existence, franchise slots bought for $33 million and sold for $10 million, a $725 million esports company delisting its way to a fire sale. The esports winter was real. But the viewers never left — they just walked across the street to where a streamer was organising a boxing night, and nine million of them watched it at once.</p>
+
+    <div class="pull-quote">Competition didn't die on YouTube. The attempt to make it television did. What survived is older than television: somebody sets a challenge, somebody swears they can beat it, and everybody crowds round to watch.</div>
+
+    <p>That's the thesis, and every section this issue tests it from a different corner. Our Player Profiles run the full spread: the return of Summoning Salt, whose speedrun histories we dropped from the Top 50 in a displacement three years of work has made indefensible; Jomboy Media, the lip-reading baseball desk that a ninety-billion-dollar league eventually decided to buy into rather than out-compete; Ibai Llanos, who invents competitions the way other channels invent thumbnails; and Dude Perfect, where this issue's negative review asks the uncomfortable question of what remains of a competition when the losing has been edited out. The Boss Fight is chess — the archivist who kept the game's flame alight against the broadcaster who caught fire when the boom came. Time Capsule opens a new shelf entirely: five people who lived and died by the scoreboard, from Pelé to Bobby Fischer, shown what became of the arena. And Yob, at last, pays a debt the letters page has owed a reader in Birmingham since Issue #016.</p>
+
+    <p>One honesty before you start. A competition issue written by a magazine that publishes a Top 50 is a mirror held up to a mirror, and we know it. When we say Dude Perfect removed the stakes, someone will say our rankings have none either — nobody gets relegated from YouTube for losing our table. Fair. The difference, we'd argue, is the one this whole issue keeps finding: a real competition is legible. You can see the attempts, the failures, the record before this one. Our scores print their working; the reviews are the attempts, in public, on the record, arguable. That is the only kind of authority this magazine has ever claimed — the kind you can check. The scoreboard is open. Argue with it.</p>
+
+    <p style="margin-top: 32px; text-align: right; font-family: 'VT323', monospace; font-size: 22px; color: var(--magenta);">— The Editor<br>September 2026</p>
+
+    <p style="text-align: center; font-family: 'Press Start 2P', monospace; font-size: 13px; color: var(--green); margin-top: 32px; letter-spacing: 3px;">▶ PRESS START ◀</p>
+  </div>
+</section>
+
+<section id="now-loading" class="section-panel" role="tabpanel" aria-labelledby="tab-now-loading">
+  <div class="section-header">
+    <div class="section-label">▌ CURRENT EVENTS &amp; COMING UP ▌</div>
+    <h2 class="section-title">Now Loading</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">Six dispatches from the arena. The facts are real; the tone is ours. Where we're joking, you'll be able to tell — and the trust legend at the foot of the page confirms it.</p>
+  </div>
+
+  <div class="news-grid">
+    <div class="news-item">
+      <div class="news-tag">▶ THE FEATURE IS RELEVANT</div>
+      <div class="news-headline">Riot Kills the LTA After One Season — the League Model Can't Stop Reorganising Itself</div>
+      <p class="news-body">In June 2024 Riot announced that three regional League of Legends leagues — the LCS, Brazil's CBLOL, and Latin America's LLA — would merge into one pan-American super-league, the LTA, launching 2025. On September 28, 2025, Riot discontinued the LTA after exactly one season, reviving the standalone LCS and CBLOL for 2026 and citing what fans had said from day one: you cannot merge away regional pride and call it strategy. Read that timeline again. The premier esport on Earth restructured its American operation, watched it fail, and restructured it back, inside eighteen months. Our Special Feature this issue is about the decade-long unravelling of the franchised-league dream, and the LTA is its perfect miniature — a model so unsure of itself it now reorganises faster than its audience can learn the new acronym. The games are fine. The viewers are fine. The org chart is the thing that keeps dying.</p>
+    </div>
+    <div class="news-item">
+      <div class="news-tag">▶ THE COUNTER-TREND</div>
+      <div class="news-headline">La Velada VI Goes Tri-Platform — Ibai's Boxing Night Is Now Infrastructure</div>
+      <p class="news-body">On July 25, 2026, Ibai Llanos ran the sixth edition of La Velada del Año, and for the first time simulcast it across Twitch, YouTube, and TikTok — with reported viewership north of thirty million devices across the three platforms (the organisers' own aggregate claims run far higher; we cite the platform-split figure because it is the one you can actually reason about). For context: edition five, in 2025, peaked above nine million concurrent viewers on a single channel — the biggest single-channel livestream ever recorded, on any platform, for anything. A streamer's amateur boxing night now outdraws most professional sport in Europe. We review the man responsible in Player Profiles this issue, and the feature explains why his invented competitions thrived through the exact years the franchised leagues were liquidating. Short version: he never once tried to be television.</p>
+    </div>
+    <div class="news-item">
+      <div class="news-tag">▶ THE COUNTEREXAMPLE</div>
+      <div class="news-headline">AGDQ 2026 Raises $2.4M — Speedrunning Declines to Have a Winter</div>
+      <p class="news-body">Awesome Games Done Quick 2026 closed in January having raised $2,443,414 for the Prevent Cancer Foundation — following SGDQ 2025's $2,436,614 for Doctors Without Borders. Steady, unglamorous, metronomic: roughly two and a half million dollars per event, twice a year, going on two decades of marathon. Here is the thing worth sitting with. Speedrunning has no franchise slots, no city teams, no venture capital, and no league office — and it is the one corner of competitive gaming that has never had a crash, because there is nothing financialised enough to crash. The couch, the timer, the donation counter. While the feature this issue counts the bodies from the esports winter, hold this number in the other hand: the most durable competitive institution on the platform is a charity marathon run by volunteers. It was never a business. That turns out to be the moat.</p>
+    </div>
+    <div class="news-item">
+      <div class="news-tag">▶ THE LEAGUE BUYS THE CREATOR</div>
+      <div class="news-headline">MLB Takes an Equity Stake in Jomboy Media — the Scoreboard Buys the Commentary</div>
+      <p class="news-body">In mid-2025, Major League Baseball took a strategic equity stake in Jomboy Media — by most accounts the first time the league has put actual ownership money into a creator company, after a negotiation Jimmy O'Brien has said took four years and started from terms he called a non-starter. Sit with the shape of that story. In 2019, O'Brien was a guy with editing software who proved the Astros were banging a trash can while the sport's official media apparatus was still clearing its throat. Six years later the league concluded that the correct response to independent scrutiny it couldn't control was to buy a piece of it. We profile Jomboy this issue — the review takes the deal seriously as both a triumph and a question. When the institution you fact-check becomes your shareholder, the fact-checking has a new conflict to disclose. The breakdowns are still great. The cap table got complicated.</p>
+    </div>
+    <div class="news-item">
+      <div class="news-tag">▶ SCALE CHECK</div>
+      <div class="news-headline">The Esports World Cup Paid Out $71.5M Last Summer — the Winter Has a Space Heater, and It's Sovereign</div>
+      <p class="news-body">The 2025 Esports World Cup ran in Riyadh from July to August with a $71.5 million prize pool across 24 games — up ten million on 2024's edition, which was already the largest in esports history. If the franchised-league era is dead, somebody forgot to tell the Kingdom of Saudi Arabia, whose Public Investment Fund has poured a reported $38 billion into gaming and esports through Savvy Games Group — which also now operates the circuit that replaced the Overwatch League. This is the complicating fact our feature refuses to look away from: the league model didn't just collapse into creator spectacle, it also consolidated into sovereign-wealth spectacle, and "the prize pool is the message" is a sentence with more than one meaning. The winter is real. So is the space heater. Who's paying for the heating, and why, is a question esports has mostly decided not to ask out loud.</p>
+    </div>
+    <div class="news-item">
+      <div class="news-tag">▶ IN-WORLD · THE INBOX IS OPEN</div>
+      <div class="news-headline">yob@ctrl-watch.xyz: Month Three. Yob Is Now Losing a 1v1 Against His Own Spam Folder</div>
+      <p class="news-body">Housekeeping from the letters desk, where the numbers are in and they are perfect: two issues since the Save Point inbox went real, and the running total of genuine reader letters stands at zero. Yob — who this issue watched five hours of speedrunning footage "for professional reasons" — has begun describing the situation in competitive terms: he is, he says, in a ranked match against an empty mailbox, and the mailbox is winning on consistency. The promise from #017 stands exactly as printed, un-kept and un-broken: the first real letter to arrive gets printed, badged like a relic, rated with suspicious generosity. The current world record for Fastest Genuine Letter to yob@ctrl-watch.xyz remains unset. It is, and we cannot stress this enough, an any% category. There are no other runners. The leaderboard is empty. Write in and set it.</p>
+    </div>
+  </div>
+</section>
+
+<section id="time-capsule" class="section-panel" role="tabpanel" aria-labelledby="tab-time-capsule">
+  <div class="section-header">
+    <div class="section-label">▌ FICTIONAL INTERVIEWS ▌</div>
+    <h2 class="section-title">Time Capsule</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">Five people who lived and died by the scoreboard, shown what became of the arena. This issue opens the athletes-and-arena-voices shelf: the most joyful footballer who ever lived, the chess champion who threw the cameras out, the man who invented the sporting brag, the driver who narrated the limit, and the broadcaster who told it like it was before "it" became a format. They see YouTube from inside their own eras. The irony does the rest.</p>
+  </div>
+
+  <!-- INTERVIEW 1: PELÉ -->
+  <div class="tc-interview">
+    <div class="tc-disclaimer">⚠ SATIRICAL / FICTIONAL — Pelé did not participate in this Q&amp;A.</div>
+    <div class="tc-subject">Pelé</div>
+    <div class="tc-meta">Edson Arantes do Nascimento · three-time World Cup winner · responding from Santos, 1970, weeks after Mexico</div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">We want to show you how people watch football now. Millions of them, on small screens, whenever they like. Start anywhere.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">PELÉ</div><div class="tc-line"><span class="tc-stage">[he has been watching for some time already, smiling the whole while]</span> This one has watched my header against Italy two hundred times, it says. Two hundred! <span class="tc-stage">[laughs, delighted]</span> In Brazil, if you missed the match, you missed it. Maybe the radio told you. Maybe a man in the café stood up and performed the goal with his hat. Now the goal lives in a little box and you visit it like a friend. I think this is beautiful. I scored it once. He has seen it two hundred times. Who owns that goal now, him or Pelé? <span class="tc-stage">[waves his own question away, grinning]</span> Him. Let him have it.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">There are entire channels of nothing but skills. Ten minutes of stepovers, rainbow flicks, nutmegs — no matches, just the tricks.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">PELÉ</div><div class="tc-line">Show me. <span class="tc-stage">[watches a freestyle compilation in complete silence, leaning closer and closer]</span> The boy in this one — the ball never touches the ground. Never! Where does he play? <span class="tc-stage">[hears the answer: he doesn't, he films in a car park]</span> He doesn't <em>play</em>? <span class="tc-stage">[sits back]</span> Ah. So this is a new position. In my time, we had this player too — every favela had one, the boy who could do everything with the ball and nothing with the game. We loved him at parties. We did not pass to him. <span class="tc-stage">[thinks better of it]</span> But no — I am being unfair, and I promised Dondinho I would never be unfair about skill. What that boy does is real. It is not football, but it is real. It is the joy with the match removed. Half of the thing. The beautiful half, maybe. But which half made it beautiful, eh? That is the question your little box has decided not to ask.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Here's a channel that analyses tactics. Arrows, diagrams, why the full-back inverted. Twenty minutes on one match's structure.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">PELÉ</div><div class="tc-line"><span class="tc-stage">[watches with polite attention that slowly becomes genuine attention]</span> He is not wrong, this professor. That is more or less what Zagallo tells us, with worse drawings. <span class="tc-stage">[tapping the screen]</span> But look what is missing from his arrows. Fear. The arrow does not show you that the full-back is playing with a bad ankle and a worse marriage. Football looks like geometry from up there. From the pitch it is biography — twenty-two biographies, running. <span class="tc-stage">[softening]</span> Still. A boy who cannot afford a ticket can learn the game's whole shape from this man for nothing. In Três Corações we learned by watching the ball leave. This is better. I only ask the professor to remember, once per video, that the diagram sweats.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Something harder. Most people now see football only as highlights. The goal, the skill, the red card. Almost nobody watches the whole ninety minutes.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">PELÉ</div><div class="tc-line"><span class="tc-stage">[the smile stays, but something behind it goes still]</span> Then they have the fruit without the tree. <span class="tc-stage">[quiet for a moment]</span> You know what the goal against Italy was? It was Rivelino running for eighty minutes so their midfield was tired in the eighty-sixth. It was Gérson's cigarette calm. The goal is the last sentence of a long story, and your box teaches people to read only last sentences. <span class="tc-stage">[then, unable to help himself, the grin returns]</span> Although — I confess something shameful. The last sentences they chose? They chose well. Whoever cuts these highlights loves football. He just loves it the way you love a woman in photographs.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">One more. A twelve-year-old in Jakarta, filming himself practising your bicycle kick against a wall, four hundred attempts, and posting the one that worked.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">PELÉ</div><div class="tc-line"><span class="tc-stage">[watches all four hundred attempts — the compilation shows the failures — and does not speak until it ends]</span> He shows the failures. <span class="tc-stage">[moved, and not hiding it]</span> This is the part your box does that nothing in my world does. When I was twelve I practised the bicycle on the sand at Santos and nobody saw the thousand bad ones, so when the good one came, they called it magic. It was not magic. It was the thousand. This boy — he publishes the thousand. He is more honest about skill than my whole legend is. <span class="tc-stage">[laughs suddenly]</span> Don't print that. Print it.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Last question. If this box had existed in 1958 — you, seventeen, in Sweden — what would have happened?</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">PELÉ</div><div class="tc-line"><span class="tc-stage">[a long, happy exhale, the answer arriving before the question finished]</span> The world would have seen a black boy from Bauru cry after the final, that same night, and fall in love with him three years earlier than it did. That is the good. The bad — <span class="tc-stage">[holds up a finger]</span> — the bad is that seventeen-year-old Pelé would have read what the box said about him at halftime. And I do not know if the boy scores the second goal after reading the comments about the first.</div></div>
+
+    <div class="tc-final">"You have built a stadium where the whole world has a seat, and the whole world has a whistle. The game is still beautiful. But tell your players to score first, and read later — because joy cannot hear the crowd and the comments at the same time."</div>
+  </div>
+
+  <div class="pixel-divider"></div>
+
+  <!-- INTERVIEW 2: BOBBY FISCHER -->
+  <div class="tc-interview">
+    <div class="tc-disclaimer">⚠ SATIRICAL / FICTIONAL — Bobby Fischer did not participate in this Q&amp;A.</div>
+    <div class="tc-subject">Bobby Fischer</div>
+    <div class="tc-meta">1943–2008 · World Chess Champion · responding from Reykjavik, September 1972, days after taking the title</div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">You just spent a summer fighting, among other things, television cameras. You demanded they be removed from the hall. We'd like to show you what chess looks like fifty years on.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BOBBY FISCHER</div><div class="tc-line"><span class="tc-stage">[arms folded, already suspicious of the screen itself]</span> If there's a camera in it, I already know what happened. The camera wins. <span class="tc-stage">[watches anyway — a grandmaster streaming blitz to an audience of eighty thousand]</span> Wait. <span class="tc-stage">[leans in despite himself]</span> He's playing. While he talks. And that number — that's people <em>watching</em>? Eighty thousand people watching a chess game that isn't even a real game, it's five-minute chess, it's — <span class="tc-stage">[stops. recalculates.]</span> Eighty thousand. We got three thousand in the hall here and they called it the match of the century.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">After a television show about chess in 2020, the biggest chess website was signing up a million new players a month. It now has more than two hundred million accounts.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BOBBY FISCHER</div><div class="tc-line"><span class="tc-stage">[a rare, unguarded pause]</span> Two hundred million. <span class="tc-stage">[something in the voice that is almost hunger]</span> Do you know what I was doing this summer? Fighting a federation for prize money, because chess players got paid like coat-check clerks and I was the only one rude enough to say the game was worth more. They hated me for the demands. Every player who eats from that number you just said — every one — eats because somebody was rude first. <span class="tc-stage">[flat again, catching himself]</span> I'm glad the game got big. I notice it got big from a television show and not from the games. That tells you what people actually watched. They didn't fall in love with chess. They fell in love with somebody winning.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">The most popular chess videos aren't games at all, exactly. They're a commentator recapping tournaments — jokes, drama, storylines. Millions of viewers who never play a rated game.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BOBBY FISCHER</div><div class="tc-line"><span class="tc-stage">[watching a recap with an expression of deepening offence]</span> He talked for eleven minutes and showed four moves. <span class="tc-stage">[jabs at the screen]</span> Where's the game? The game is the interesting part! Twenty-four moves of theory and then a man finds one move nobody in a hundred years found, and this — this <em>announcer</em> — gives it four seconds and a sound effect. <span class="tc-stage">[pacing now]</span> This is what I threw the cameras out for. Not because I hate people watching. Because the camera doesn't watch the board. The camera watches the <em>faces</em>. It turns the fight into a soap opera, and eventually the soap opera pays better than the fight, and then God help you, because that's when the players start performing instead of playing.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">You should know it goes further. There are machines now that play far beyond any human. Every viewer watches with a machine's evaluation on screen. Every strong player is suspected, sometimes accused, of consulting one. There was a scandal about it that reached the newspapers of the whole world.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BOBBY FISCHER</div><div class="tc-line"><span class="tc-stage">[goes very still — the stillness of a man hearing his own private weather confirmed by a forecast]</span> So it finally happened. Everyone laughed at me for the demands — seal the hall, check the chairs, the lights, the cameras. They said Bobby sees enemies everywhere. <span class="tc-stage">[a short, bitter laugh]</span> And fifty years later every player in the world sits down across from a stranger and wonders. You built an arena where the strongest player in history is a machine in the audience, and now no victory is clean unless a referee checks your shoes. <span class="tc-stage">[quieter]</span> I don't feel vindicated. Understand that. I wanted to be wrong. Suspicion eats the game from inside — I know exactly what it eats first, and it is not the game.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">And yet — the paradox is that more humans play chess now than at any moment in history. A teenager just became world champion. Children study openings free that you had to fight for Russian journals to see.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BOBBY FISCHER</div><div class="tc-line"><span class="tc-stage">[the arms unfold, slowly]</span> That part is good. <span class="tc-stage">[grudging, then less grudging]</span> No — that part is <em>very</em> good, and I'll say it plainly for once. I learned from a dollar chess book and whatever Russian theory I could smuggle into Brooklyn, and the Soviets had forty coaches to my zero, and the whole point of the fight this summer was one person against a system that hoarded the game. If some kid in Lagos or Manila gets the whole library free — every game ever played, every idea — then the system lost and the kid won, permanently. <span class="tc-stage">[a warning finger]</span> But tell the kid this from me. The library will make him knowledgeable. Only the board will make him honest.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Last one. The champion who came after your era says the title brought him mostly pressure — that the fame is a machine you can't switch off. You'd know something about that. Any advice for the ones living it in public now, on camera, every day?</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BOBBY FISCHER</div><div class="tc-line"><span class="tc-stage">[a long silence — long enough to be uncomfortable, which he does not appear to notice]</span> They chose the camera. I need you to understand how strange that is to me. I gave up everything for the board and they are giving up the board for the audience, one recap at a time, and the terrible thing is I can't even tell them they're wrong, because the audience pays and the board never did. <span class="tc-stage">[stands, straightening the pieces on a board that was already straight]</span> Advice. Fine.</div></div>
+
+    <div class="tc-final">"The board is the only place in the world where the truth can't be argued with. Sixty-four squares, no cameras, no committee, no crowd. Guard one place in your life like that. I guarded it with everything I had — and you should ask what it cost me, but you should also ask what it's costing you not to have one."</div>
+  </div>
+
+  <div class="pixel-divider"></div>
+
+  <!-- INTERVIEW 3: BABE RUTH -->
+  <div class="tc-interview">
+    <div class="tc-disclaimer">⚠ SATIRICAL / FICTIONAL — Babe Ruth did not participate in this Q&amp;A.</div>
+    <div class="tc-subject">Babe Ruth</div>
+    <div class="tc-meta">1895–1948 · "The Sultan of Swat" · responding from New York, 1930, the year he out-earned the President</div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Mr. Ruth, we're going to show you the future of sports entertainment. Fair warning: you may recognise your own fingerprints on it.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BABE RUTH</div><div class="tc-line"><span class="tc-stage">[cigar going, entirely at ease before the screen is even on]</span> Kid, I invented the future of sports entertainment on a Tuesday and hit two home runs the same afternoon. Show me. <span class="tc-stage">[watches a trick-shot video — a basketball dropped from a tower, a bowling-ball flip, five men in matching shirts celebrating]</span> Ha! HA! <span class="tc-stage">[slaps his knee, genuinely thrilled]</span> Now that's the stuff. That's the circus half of the business, and don't let anybody tell you the circus half don't count. I used to call my shot — point the bat at the bleachers, you know, give the people something to argue about for thirty years. These boys point at the impossible thing and then film themselves doing it. Same church, kid. Same church.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">We should be straight with you: they film hundreds of attempts and show you the one that lands.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BABE RUTH</div><div class="tc-line"><span class="tc-stage">[completely unbothered]</span> Sure. And you think I told reporters about the strikeouts? <span class="tc-stage">[jabbing the cigar for emphasis]</span> I led the league in strikeouts more years than I care to count, and you know what people remember? The sixty. The called shot. Listen — the brag is a sport too. Saying it, then doing it, that's the whole American religion right there. <span class="tc-stage">[then, squinting at the screen with the first flicker of doubt]</span> Only — hold on. Run that again. <span class="tc-stage">[watches closer]</span> Where's the pitcher?</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">What do you mean?</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BABE RUTH</div><div class="tc-line">The <em>pitcher</em>, kid. The other guy. The fella whose whole job is making me look like a bum. <span class="tc-stage">[gesturing at the trick-shot men]</span> These boys are playing against a tower and a bucket. The tower ain't trying. When I pointed at those bleachers, Charlie Root was sixty feet away wanting to knock my head off, and THAT'S why they still argue about it — because I could've ended up on my backside in front of forty thousand people. No pitcher, no called shot. Just a fella doing tricks. <span class="tc-stage">[settling back, cigar relit, judgement rendered]</span> It's good circus. But the brag only counts when somebody's trying to make a liar out of you.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Here's something else. Athletes now speak directly to the public — no reporters in between. They film their own lives, their training, their breakfasts.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BABE RUTH</div><div class="tc-line"><span class="tc-stage">[sitting up, doing the arithmetic of it instantly]</span> No writers? None? <span class="tc-stage">[a low whistle]</span> Kid, do you know what I'd have given for that. Half of what America knows about me got invented by fellas on deadline — some of it I did, some of it I said I did, some of it Christy Walsh cooked up while I was asleep, and I'm the only man alive who can't remember which is which. <span class="tc-stage">[warming to it enormously]</span> A camera of my own! The Babe, direct to the kids, no middleman! I'd have been bigger than — <span class="tc-stage">[pauses, honestly consults himself]</span> — well. Bigger than me, and there wasn't room. <span class="tc-stage">[quieter, an unexpected note]</span> Though I'll tell you the one thing the writers did that your camera won't. They went home at night. A fella needs some hours that don't have an audience, even a fella like me. <em>Especially</em> a fella like me.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">The five men in matching shirts you liked — their company is worth over a hundred million dollars. They have a chief executive from the basketball league, and they're building a theme park.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BABE RUTH</div><div class="tc-line"><span class="tc-stage">[a huge laugh that ends sooner than it should]</span> A hundred million! And people said MY salary was a scandal — eighty grand, and I had to explain why I made more than Hoover! I said I had a better year than him, which was true, and also the funniest thing any ballplayer ever said, and I'm including everything said since. <span class="tc-stage">[then the cigar comes down, and the face does something more thoughtful than it has all interview]</span> A chief executive, though. Huh. Kid, I've met the executives. Fine fellas, good suits. But nothing with an executive in the room ever stayed fun for long, and the fun was the product. You go ask those five boys in the matching shirts whether they still laugh when the camera's off. Don't ask 'em on camera. You'll get the wrong answer.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Last question, Babe. A hundred years from your time, kids will watch you swing on this machine — grainy, jerky film, over and over. What do you want them to see?</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">BABE RUTH</div><div class="tc-line"><span class="tc-stage">[for once, no performance at all — he looks at the screen the way a man looks out a train window]</span> St. Mary's Industrial School had one thing going for it, kid: nobody watching. A fat orphan nobody wanted, hitting a dead ball against a wall ten thousand times because it was the only thing that felt like being somebody. Every swing you got on that film of yours got built in a yard where there wasn't a single camera, and that's the part the film can't show. <span class="tc-stage">[the grin comes back, full wattage]</span> But sure — let 'em watch the swing.</div></div>
+
+    <div class="tc-final">"Tell your boys with the cameras: the pointing at the bleachers, anybody can film. It's the pitcher trying to make a liar out of you that makes it a sport — and if there's no pitcher in the frame, kid, it ain't a brag. It's just talking."</div>
+  </div>
+
+  <div class="pixel-divider"></div>
+
+  <!-- INTERVIEW 4: AYRTON SENNA -->
+  <div class="tc-interview">
+    <div class="tc-disclaimer">⚠ SATIRICAL / FICTIONAL — Ayrton Senna did not participate in this Q&amp;A.</div>
+    <div class="tc-subject">Ayrton Senna</div>
+    <div class="tc-meta">1960–1994 · three-time Formula One World Champion · responding from São Paulo, winter 1993</div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">You know the onboard camera — Formula One has carried them for years now. We want to show you what the onboard became.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">AYRTON SENNA</div><div class="tc-line"><span class="tc-stage">[he watches an onboard lap in silence and does not blink for most of it]</span> The quality. You can see everything now — the hands, the small corrections, the moment the rear goes light over the crest. <span class="tc-stage">[softly, almost to himself]</span> For years I tried to explain to journalists what happens in Eau Rouge, and they wrote down "he is brave," which is not what happens in Eau Rouge. This camera explains it better than I ever did. The steering wheel is never still. People think we hold a line. There is no line. There is a conversation, two hundred times a second, and now — <span class="tc-stage">[gestures at the screen, something opening in his face]</span> — now everyone can watch the conversation.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">There are channels devoted to explaining exactly that. Telemetry traces, braking points, two drivers' inputs overlaid — the kind of data only your engineers see, now narrated for millions.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">AYRTON SENNA</div><div class="tc-line"><span class="tc-stage">[leaning forward now, fully engaged, a finger tracing the telemetry trace on the screen]</span> This is Honda's data screen. On the internet. For everyone. <span class="tc-stage">[a small, disbelieving laugh]</span> Do you understand what you are showing me? The most secret room in my world — the room where we argue over three hundredths in the second sector — and you have given the whole world a seat in it. In 1988 I did a lap in Monaco where the car and I went somewhere I still do not have words for, and only the telemetry knew the truth of it. If this had existed then, a million people could have <em>seen</em> what I could not say. <span class="tc-stage">[sitting back]</span> This is the best thing you have shown any of us, I think. It does not make the driving smaller, like television does. It makes it bigger. It shows the work inside the miracle.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">The overtake compilations are some of the most-watched racing videos. Your own moves — Donington's first lap, especially — replayed millions of times.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">AYRTON SENNA</div><div class="tc-line"><span class="tc-stage">[watches his own first lap at Donington with a critical stillness, as if scoring it]</span> They always show that lap in the rain and call it magic, and I will tell you the same thing I tell everyone: it is not magic, it is that I decided before Redgate what the others were still deciding at Redgate. The lap was won in the decision, not in the water. <span class="tc-stage">[then, noticing something]</span> But look how they cut it. Move, move, move, five overtakes in forty seconds. The lap took a minute and a half. Even here, even for the best lap of my life, ninety seconds is too long for them. <span class="tc-stage">[a wry look]</span> What do they do with the parts of life that take years?</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">This is the part we hesitated to show you. The crash compilations. Millions of views. Accidents — some of them fatal, from your era and before — watched as entertainment, replayed, slowed down, set to music.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">AYRTON SENNA</div><div class="tc-line"><span class="tc-stage">[he watches perhaps ten seconds, then reaches over and stops it himself — the first time he has touched the machine]</span> No. <span class="tc-stage">[a long silence; when he speaks again the voice is level and very quiet]</span> I have stopped my car in the middle of a session and run across a live track to hold a man's head — Comas, at Spa, last year. When Ratzenberger — no. You said this is 1993 for me, so let me say it generally. When we lose someone, we lose someone. It is not footage. <span class="tc-stage">[looking directly at the interviewer now]</span> I understand why people watch. The limit is the most honest place in the world, and death standing near it is what makes it the limit — I have said this myself, motor racing is that danger or it is nothing special. But there is a difference between witnessing and consuming. The man in the car has a mother who also has this machine of yours. Set it to music? <span class="tc-stage">[shakes his head once]</span> Some things you may watch only if you are willing to pray after.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">A gentler one. Sim racing — ordinary people race your circuits in machines at home, in leagues, seriously. Some have become real racing drivers that way.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">AYRTON SENNA</div><div class="tc-line"><span class="tc-stage">[brightening, and openly curious]</span> This I like, and I will tell you why with a memory. Kart. Everything true I know, I learned in kart — a boy in Interlagos with no money for Formula Ford yet, just laps and laps. Kart was our simulator; it simply also bruised. <span class="tc-stage">[watching a sim racer's hands]</span> His hands are doing real things. The fear is missing, and the fear is not nothing — the fear is information. But the craft, the judgement, the racecraft of managing another man's ambition into turn one — this transfers. A poor boy in Brazil who cannot afford one kart season can now do ten thousand laps of Monaco in his bedroom. <span class="tc-stage">[nodding slowly]</span> Racing was always a rich man's door. You have built a window. Good.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Last question, Ayrton. All of it together — the onboards, the data, the millions watching everything. Is something lost?</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">AYRTON SENNA</div><div class="tc-line"><span class="tc-stage">[he takes a long time, and it is clearly not for effect]</span> When I am in the car, there is a place I go where there is no crowd. No camera, no championship, not even Ayrton, really — just the next corner arriving, and God very close. That place cannot be broadcast. You can film everything around it — the hands, the data, the eyes — and the cameras now film more of the around than I dreamed possible, and I am glad. <span class="tc-stage">[a small smile]</span> But do not let the millions who watch believe they have been there. The onboard shows the conversation. It does not show who I am talking to.</div></div>
+
+    <div class="tc-final">"You can show them my hands, my data, even my eyes — and you should, it is the work inside the miracle. But the limit itself has no camera angle. It is between the driver and God, and it does not stream."</div>
+  </div>
+
+  <div class="pixel-divider"></div>
+
+  <!-- INTERVIEW 5: HOWARD COSELL -->
+  <div class="tc-interview">
+    <div class="tc-disclaimer">⚠ SATIRICAL / FICTIONAL — Howard Cosell did not participate in this Q&amp;A.</div>
+    <div class="tc-subject">Howard Cosell</div>
+    <div class="tc-meta">1918–1995 · broadcaster, "telling it like it is" · responding from New York, 1975, at the height of Monday Night Football</div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Mr. Cosell, we'd like to show you the future of sports broadcasting. Everyone has a microphone now.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">HOWARD COSELL</div><div class="tc-line"><span class="tc-stage">[adjusting an imaginary lapel, already mid-performance before the screen warms up]</span> Young man, I have spent two decades being the most reviled and most watched man in American broadcasting — frequently in the same household, frequently in the same minute — so let us dispense with the preamble and proceed directly to the inevitable: show me the horror, and I shall tell you, as is my custom and my curse, precisely what it is. <span class="tc-stage">[watches a young commentator break down a fight from a bedroom, sharply, knowledgeably]</span> Hm. <span class="tc-stage">[a grudging pause]</span> The boy can talk. No network would ever have hired him — wrong voice, wrong face, no connections, broadcasting from what is unmistakably his mother's spare room — and yet there he is, transmitting to the nation. <span class="tc-stage">[with sudden force]</span> Do you comprehend what you have done? You have abolished the gatekeepers. I spent my life at war with those imbeciles. I am obliged to approve, and I approve of being obliged to approve of nothing.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">You coined a word for what you hated — the "jockocracy," ex-players handed the booth regardless of ability. Did the internet fix that?</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">HOWARD COSELL</div><div class="tc-line"><span class="tc-stage">[a sound that is half laugh, half cough, wholly theatrical]</span> Fix it! My dear boy, it metastasised in both directions at once. <span class="tc-stage">[gesturing at the screen with counsel's precision]</span> Observe: the jockocracy persists — the retired quarterback with his podcast, mumbling banalities to eight million subscribers. But alongside it has arisen its mirror image, a phenomenon I shall name, since naming things is my gift to this republic: the <em>talkocracy</em>. Men who never played, never reported, never attended — who know nothing except how to be outraged on schedule — elevated to the analyst's chair by an algorithm that cannot distinguish conviction from volume. I was accused of that my whole career. The difference, and it is the entire difference, is that I did the reporting first. I went to the weigh-ins. I learned the fighters' histories. The outrage was the garnish, young man. The journalism was the meal.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">You should see the debate shows, then. Two men, one desk, manufactured disagreement about the same three topics, every day, forever. It's the dominant format in sports television — and its children run the sports internet.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">HOWARD COSELL</div><div class="tc-line"><span class="tc-stage">[watches sixty seconds of a shouting-heads segment with the expression of a man identifying a body]</span> Turn it off. <span class="tc-stage">[it is turned off]</span> That, young man, is my bastard grandchild, and I acknowledge paternity with a heavy heart. <span class="tc-stage">[rising, pacing, the full courtroom register now]</span> They took the one discovery of my career — that a broadcaster saying a true unpopular thing electrifies an audience — and they industrialised the electricity while discarding the truth. Watch them closely: the disagreement is scripted, the outrage rehearsed, the positions assigned like homework. I said Muhammad Ali was within his rights when it cost me half my mail and several friendships, because it was TRUE and the truth had no other volunteers. These men say whatever the segment requires and believe none of it by dinner. It is not telling it like it is. It is telling it like it trends, and the distinction is the whole of my life's work.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">In fairness — the breakdown artists we showed you first are doing real work. There's a man who reads umpires' lips and reconstructs their arguments. He exposed a cheating scandal before most of the press did. The league just bought a stake in his company.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">HOWARD COSELL</div><div class="tc-line"><span class="tc-stage">[stops pacing; genuine interest, the performance dropping several decibels]</span> Now that — say that again. A private citizen, with a camera and his wits, documented the sport's malfeasance while the credentialed press corps was composing its lunch order? <span class="tc-stage">[a slow, savouring nod]</span> Magnificent. That is journalism, whatever room it was edited in. <span class="tc-stage">[then the eyebrows descend]</span> And then the league purchased a piece of him. <span class="tc-stage">[sits back down, steepling his fingers]</span> There it is. There is the oldest play in the book, executed at internet speed. I broadcast for a network that paid the leagues fortunes for the rights, and I said so, on the air — that the press box was bought and I was shouting from inside the purchase. This boy's dilemma is mine with better graphics: the institution he polices now holds his paper. Mark me — he will remain honest right up until the first story that truly costs them. That story is coming. It is always coming. And on that day we discover what the equity was actually purchasing.</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Here's the part that would sting. The audience doesn't want one authoritative voice anymore. No future Cosell. A thousand smaller voices instead, each with their tribe.</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">HOWARD COSELL</div><div class="tc-line"><span class="tc-stage">[a long moment; the vanity and the intellect visibly negotiating, and the intellect, for once, winning]</span> You expect me to mourn, and my ego is entirely prepared to oblige you. But the lawyer in me must file a stipulation first. <span class="tc-stage">[quieter, and more precise for it]</span> One authoritative voice was never a virtue, young man. It was a bottleneck that happened, briefly, to contain me — and America mistook the bottleneck for a standard. When they polled the nation on its most-liked sportscaster, I won. Most disliked: I won that also. Same poll, same year, same man. The unitary voice was always two nations pretending to share one broadcast. Your thousand tribes have merely stopped pretending. <span class="tc-stage">[the finger rises for the peroration]</span> What I mourn is not the throne. It is the burden of proof. When there was one of me, I could be caught lying by everyone at once. A thousand voices, each with a tribe that forgives them — who catches THEM, young man? Who has the standing? The answer had better not be "no one."</div></div>
+
+    <div class="tc-exchange"><div class="tc-speaker tc-cw">C+W</div><div class="tc-line">Final question, Mr. Cosell. Would you have thrived there?</div></div>
+    <div class="tc-exchange"><div class="tc-speaker tc-subj">HOWARD COSELL</div><div class="tc-line"><span class="tc-stage">[removes the imaginary headset, and for one sentence the bombast is entirely gone]</span> Thrived? I would have been enormous, insufferable, and cancelled within the fiscal quarter — likely in that order, possibly all in one afternoon. <span class="tc-stage">[the old timbre returning for the close, because it must]</span> But mark the record.</div></div>
+
+    <div class="tc-final">"Every one of them is doing an impression of a man they never watched. The voice, the certainty, the beautiful arrogance — they inherited my entire act, young man. The journalism underneath it, they left in the will, unclaimed."</div>
+  </div>
+</section>
+
+<section id="player-profiles" class="section-panel" role="tabpanel" aria-labelledby="tab-player-profiles">
+<!-- ctrlwatch:reviewlinks:start -->
+<div style="margin:0 0 28px;padding:14px 16px;border:1px solid #00F0FF;background:rgba(0,240,255,0.06);font-family:'Share Tech Mono',monospace;"><div style="font-size:12px;letter-spacing:0.05em;color:#9090A0;margin-bottom:10px;">Canonical Player Profiles — the always-current home of each review below:</div><div style="display:flex;flex-wrap:wrap;gap:8px;"><a href="/reviews/dude-perfect/" style="font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:0.05em;color:#00F0FF;text-decoration:none;border:1px solid #00F0FF;padding:8px 10px;display:inline-block;">Dude Perfect ▸</a> <a href="/reviews/ibai-llanos/" style="font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:0.05em;color:#00F0FF;text-decoration:none;border:1px solid #00F0FF;padding:8px 10px;display:inline-block;">Ibai ▸</a> <a href="/reviews/jomboy-media/" style="font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:0.05em;color:#00F0FF;text-decoration:none;border:1px solid #00F0FF;padding:8px 10px;display:inline-block;">Jomboy Media ▸</a> <a href="/reviews/summoning-salt/" style="font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:0.05em;color:#00F0FF;text-decoration:none;border:1px solid #00F0FF;padding:8px 10px;display:inline-block;">Summoning Salt ▸</a></div></div>
+<!-- ctrlwatch:reviewlinks:end -->
+  <div class="section-header">
+    <div class="section-label">▌ CHANNEL REVIEWS ▌</div>
+    <h2 class="section-title">Player Profiles</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">Four ways to make competition into content, scored on the five axes. The speedrun historian whose displacement we finally reverse, the lip-reading baseball desk a whole league decided to buy into, the Spaniard who invents competitions from thin air, and this issue's negative review — the trick-shot empire that took the one thing that makes competition mean anything and edited it out.</p>
+  </div>
+
+  <div class="prose">
+
+    <h3><a href="/reviews/summoning-salt/" style="color:inherit;text-decoration:none;">Summoning Salt</a> <span style="font-size:14px;color:var(--text-secondary);">— ~2.1M subs</span></h3>
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">Speedrun history documentary &middot; feature-length, months apart &middot; <strong style="color:var(--yellow)">RE-EVALUATION · 82 → 88 · NEW ★ Top 50 #23</strong></p>
+    <p>Start with an admission, because the readers who remember Issue #011 have earned it: we dropped this channel for a crime it didn't commit. Summoning Salt left our Top 50 at 82, reason logged as "displaced" — not a quality complaint, just crowding at the bottom of the table in a busy issue. Three years of accumulated evidence have made that displacement indefensible, and the Competition Issue is the only honest place to say so. Nobody on this platform — nobody — documents competition itself better than a man you almost never see, narrating the decades-long wars over hundredths of a second in games older than most of the people fighting them.</p>
+    <p>The format has not changed, which is precisely the point; it has <em>deepened</em>. A World Record Progression video takes one game — Mike Tyson's Punch-Out!!, Super Mario Bros., last year's "The History of Minus World Speedruns" (December 2024) or "The History of 120 Star's Early Era" (April 2025) — and tells the history of its record the way a war historian tells a campaign: era by era, runner by runner, heartbreak by heartbreak, over the synth swell of HOME's "We're Finally Landing," an intro so ritualised the first chord now functions as a starting pistol. What has changed is scale. The early videos ran twenty minutes; the recent work runs feature-length, closer to two hours, each one effectively a documentary film researched from forum archives, dead YouTube accounts and Twitch VODs that this channel is often the only institution bothering to preserve. This is the connective tissue between the magazine's history shelf and its competition shelf: he is not a gaming channel that mentions history. He is a sports historian whose sport happens to be Nintendo.</p>
+    <div class="pull-quote">Speedrunning never had an esports winter, and Summoning Salt is the reason you understand why: it was never a business. It was a priesthood, and he is its chronicler.</div>
+    <p>And then there is the thing that separates the chronicler from the commentator: he plays. In February 2025, after five years and by his own count roughly seventy-five thousand attempts, he broke the two-minute barrier on Punch-Out!!'s final fight — a record he had spent years narrating other people's failures to reach. Read that again. The historian of the impossible spent half a decade inside his own genre's plot and emerged holding the record. It is as if Herodotus, mid-chronicle, had put down the stylus and won the battle of Marathon. The Content Quality at 93 and Replay Value at 94 price the craft — these are films you rewatch the way you rewatch documentaries, because the records fall but the stories don't — and the X-Factor at 93 prices the fact that this entire genre, now widely imitated, has exactly one canonical voice.</p>
+    <p>The honest ceiling is the calendar, and we've been here before with Clickspring and Fall of Civilizations: Consistency at 62, videos arriving like comets, months of silence between uploads that are each two hours long. The one public glimpse of the man himself — a June 2025 face reveal, after eight years, staged to sell a limited-run VHS tape of his own video, an artifact for the archive about archives — tells you everything about the pace: this is a person who would rather be right than frequent. Fine. The re-evaluation moves him 82 to 88, six points, and back into the table at #23. The apology is the ranking.</p>
+    <div class="score-card">
+      <div class="score-header"><span class="channel-name">Summoning Salt</span><span class="overall-score">88<span class="denom">/100</span></span></div>
+      <div class="score-bars">
+        <div class="category"><span class="cat-label">Content Quality</span><div class="bar-track"><div class="bar-fill s-90" style="width:93%"></div></div><span class="cat-score">93</span></div>
+        <div class="category"><span class="cat-label">Consistency</span><div class="bar-track"><div class="bar-fill s-60" style="width:62%"></div></div><span class="cat-score">62</span></div>
+        <div class="category"><span class="cat-label">Replay Value</span><div class="bar-track"><div class="bar-fill s-90" style="width:94%"></div></div><span class="cat-score">94</span></div>
+        <div class="category"><span class="cat-label">Community</span><div class="bar-track"><div class="bar-fill s-80" style="width:88%"></div></div><span class="cat-score">88</span></div>
+        <div class="category"><span class="cat-label">X-Factor</span><div class="bar-track"><div class="bar-fill s-90" style="width:93%"></div></div><span class="cat-score">93</span></div>
+      </div>
+      <div class="verdict-banner verdict-excellent">EXCELLENT</div>
+    </div>
+    <div class="canon-link"><a href="/reviews/summoning-salt/">READ THE FULL PLAYER PROFILE →</a></div>
+
+    <div class="pixel-divider-light"></div>
+
+    <h3><a href="/reviews/jomboy-media/" style="color:inherit;text-decoration:none;">Jomboy Media</a> <span style="font-size:14px;color:var(--text-secondary);">— Jimmy O'Brien — ~2.3M subs</span></h3>
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">Baseball breakdowns / lip-reading &middot; relentless daily output &middot; <strong style="color:var(--green)">NEW ★ Top 50 #50</strong></p>
+    <p>In November 2019, within hours of The Athletic's report on the Houston Astros, a Yankees fan with editing software posted a video that did what the sport's entire credentialed press corps had not: it showed you the cheating. Bang. Bang. Jimmy O'Brien synced the dugout trash-can audio to the pitches, on screen, checkably, and the sign-stealing scandal stopped being an allegation and became a thing you had heard with your own ears. ESPN later credited the internet with helping crack the case; the internet, in this instance, was one guy. That video is the channel's founding myth and also its thesis: modern sport generates more evidence than its institutions are willing to look at, and a stranger with patience and a timeline can be the most trusted analyst in the room.</p>
+    <p>The signature format is the breakdown — and the lip-read is the invention. An umpire ejects a manager; the broadcast gives you thirty seconds of distant shouting; Jomboy gives you the screenplay, reconstructed word by word from the mouths, annotated, paced like a two-hander. It is equal parts forensics and comedy, and it created a genre now imitated across every sport. Around it, O'Brien and co-founder Jake Storiale have built an actual media company since 2017 — Talkin' Baseball, Talkin' Yanks, The Warehouse Games, a bench of shows deep enough that the Consistency 96 is simply a description of the machine. And in 2025 came the plot twist that makes this a Competition Issue story: Major League Baseball itself took an equity stake in the company, a negotiation O'Brien says ran four years. The league that got caught by a breakdown video decided the correct long-term response was to own a piece of the desk.</p>
+    <div class="pull-quote">Jomboy proved the scoreboard was lying before the league did. The league's answer, six years later, was to buy shares in the guy who checks.</div>
+    <p>The review has to hold two things honestly. The work is superb: the Astros file, the ump-show taxonomy, a decade of receipts — and a fan-first warmth that keeps the forensics from curdling into gotcha content. But the record isn't spotless, and we grade the record: the "buzzer" theory the channel amplified in the scandal's aftermath was never substantiated, and this summer a Dodgers prospect pushed back publicly on being breakdown fodder — a fair glimpse of the format's unpriced cost, which is that the people in the clips never volunteered. And the MLB stake cuts both ways forever now. Independence was the product; the shareholder register says otherwise; every future controversy will be read through it. The Replay Value at 70 is the other honest number — breakdowns are news, and news expires.</p>
+    <p>X-Factor 92, though, because the thing at the centre is irreplaceable: a voice that treats sport's pettiest moments — a balk dispute, a bat-flip feud — as the grand human theatre they secretly are. EXCELLENT, 85, and into the Top 50 at #50, where the arithmetic this issue is unusually bloody. See High Scores for the body count.</p>
+    <div class="score-card">
+      <div class="score-header"><span class="channel-name">Jomboy Media</span><span class="overall-score">85<span class="denom">/100</span></span></div>
+      <div class="score-bars">
+        <div class="category"><span class="cat-label">Content Quality</span><div class="bar-track"><div class="bar-fill s-80" style="width:82%"></div></div><span class="cat-score">82</span></div>
+        <div class="category"><span class="cat-label">Consistency</span><div class="bar-track"><div class="bar-fill s-90" style="width:96%"></div></div><span class="cat-score">96</span></div>
+        <div class="category"><span class="cat-label">Replay Value</span><div class="bar-track"><div class="bar-fill s-70" style="width:70%"></div></div><span class="cat-score">70</span></div>
+        <div class="category"><span class="cat-label">Community</span><div class="bar-track"><div class="bar-fill s-80" style="width:88%"></div></div><span class="cat-score">88</span></div>
+        <div class="category"><span class="cat-label">X-Factor</span><div class="bar-track"><div class="bar-fill s-90" style="width:92%"></div></div><span class="cat-score">92</span></div>
+      </div>
+      <div class="verdict-banner verdict-excellent">EXCELLENT</div>
+    </div>
+    <div class="canon-link"><a href="/reviews/jomboy-media/">READ THE FULL PLAYER PROFILE →</a></div>
+
+    <div class="pixel-divider-light"></div>
+
+    <h3><a href="/reviews/ibai-llanos/" style="color:inherit;text-decoration:none;">Ibai</a> <span style="font-size:14px;color:var(--text-secondary);">— Ibai Llanos — ~16–17M subs</span> <span style="font-size:12px;color:var(--magenta);border:1px solid var(--magenta);padding:2px 6px;margin-left:6px;">🇪🇸 SPANISH-LANGUAGE</span></h3>
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">Streaming / invented competition &middot; Spanish-language &middot; <strong style="color:var(--green)">EXCELLENT · 81</strong> &middot; does not enter</p>
+    <p>Every so often the non-English column of this magazine gets to file a report the Anglosphere genuinely needs, and this is one: the most important competition organiser on the modern internet is not a league, a federation, or a platform. He is a thirty-one-year-old from Bilbao who started as a League of Legends caster in Spain's LVP in 2014, went independent in early 2021, and has since invented more successful competitive formats from scratch than the entire franchised-esports industry managed in a decade of burning venture capital. La Velada del Año — an amateur boxing card where streamers and creators train for months and fight in front of actual stadiums — grew in five editions from a Barcelona club night to the single biggest livestream any individual channel has ever produced: the 2025 edition peaked above nine million concurrent viewers. Nine million people, watching one channel, at once. There are World Cup broadcasts that would take that number.</p>
+    <p>And La Velada is only the flagship. The Kings League, co-founded in 2022 with Gerard Piqué, took seven-a-side football and rebuilt it with game-design logic — secret weapons, penalty roulettes, streamer-owned teams broadcasting their own matches — and is now expanding across the Americas with nine-figure ambitions. The Balloon World Cup — yes, keeping a balloon off the floor, as an international televised sport — was a one-joke format that half a million people watched sincerely. The pattern is the point: where esports tried to imitate the NBA and died of the overheads, Ibai starts from the other end. What would be joyful to watch? What can a community feel it owns? The competition is designed as content from the first whistle, and it turns out that is not a corruption of sport. It is a return to what sport was before television dressed it in a league office.</p>
+    <div class="pull-quote">The esports winter froze every league that tried to become television. Ibai never tried — he became a carnival instead, and carnivals don't have winters.</div>
+    <p>Now the honest platform arithmetic, because this is a YouTube magazine and Ibai is not primarily a YouTube phenomenon. He is the most-followed channel on Twitch on Earth; YouTube — sixteen to seventeen million subscribers, depending which tracker you squint at — is his archive and his overflow car park. The channel's daily output is streaming culture's: reactions, food tours, event VODs, a torrent of Consistency-88 material with the shelf life of fruit. Replay Value 58 is the price of living live; almost nothing here is built to be watched twice, La Velada excepted. And the review must note what a profile of a one-man broadcasting nation always must: the occasional flare-up (a botched chilaquiles, a World Cup prediction that annoyed a hemisphere) is the cost of talking on camera eight hours a day, and none of it rises above weather.</p>
+    <p>The 81 will look low to his fans and high to anyone who only counts YouTube, and both readings miss the point of the exercise. Community 93 and X-Factor 96 are as high as this magazine has scored either axis for a non-English creator, because the intangible here is genuinely singular: he is the proof, at civilisational scale, that one person with a community can out-organise an industry. He does not enter the Top 50 — the table below now cuts at 85, and a YouTube channel that is 60% archive can't argue past that on this platform's terms. The standing non-English commitment — Nota Bene in #018, Dot CSV in #017 — continues here, and continues because of channels like this, not as a quota.</p>
+    <div class="score-card">
+      <div class="score-header"><span class="channel-name">Ibai</span><span class="overall-score">81<span class="denom">/100</span></span></div>
+      <div class="score-bars">
+        <div class="category"><span class="cat-label">Content Quality</span><div class="bar-track"><div class="bar-fill s-70" style="width:76%"></div></div><span class="cat-score">76</span></div>
+        <div class="category"><span class="cat-label">Consistency</span><div class="bar-track"><div class="bar-fill s-80" style="width:88%"></div></div><span class="cat-score">88</span></div>
+        <div class="category"><span class="cat-label">Replay Value</span><div class="bar-track"><div class="bar-fill s-50" style="width:58%"></div></div><span class="cat-score">58</span></div>
+        <div class="category"><span class="cat-label">Community</span><div class="bar-track"><div class="bar-fill s-90" style="width:93%"></div></div><span class="cat-score">93</span></div>
+        <div class="category"><span class="cat-label">X-Factor</span><div class="bar-track"><div class="bar-fill s-90" style="width:96%"></div></div><span class="cat-score">96</span></div>
+      </div>
+      <div class="verdict-banner verdict-excellent">EXCELLENT</div>
+    </div>
+    <div class="canon-link"><a href="/reviews/ibai-llanos/">READ THE FULL PLAYER PROFILE →</a></div>
+
+    <div class="pixel-divider-light"></div>
+
+    <h3><a href="/reviews/dude-perfect/" style="color:inherit;text-decoration:none;">Dude Perfect</a> <span style="font-size:14px;color:var(--text-secondary);">— ~62M subs</span></h3>
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">Trick shots / family sports entertainment &middot; <strong style="color:var(--orange)">MEDIOCRE · 58</strong> &middot; the negative review, on schedule</p>
+    <p>Let's establish what this review is not, because sixty-two million subscribers include a lot of eight-year-olds we have no interest in wounding. Dude Perfect is not a scam, not slop, not cynical. Five Texas A&amp;M roommates turned backyard basketball wagers into the biggest sports channel on the platform through fifteen years of genuine skill, genuine friendship, and a family-safe register that is rarer and harder than the internet admits. The trick shots are real; the work ethic is real; the 30 for 30 documentary ESPN gave them in 2024 was earned. When we score this channel 58, we are not saying the men failed. We are saying the format did — and that its failure is the single most instructive one in this entire issue.</p>
+    <p>Here is the case, and it fits in one sentence: Dude Perfect built an empire on competition with the losing removed. The trick shot is an edit — four hundred attempts, one make, and unlike the twelve-year-old in our Pelé interview, the four hundred stay on the cutting-room floor, because the brand is effortlessness. The "battles" are competitions with nothing at stake, no standings, no consequence, a rotating Rage Monster sketch where even the anger is scheduled. Watch a decade of it back to back — we did — and the pattern becomes unmissable: every element that makes competition <em>mean</em> something (an opponent who wants you to fail, a cost to losing, an outcome you can't reshoot) has been surgically excised, because meaning is risk and risk is off-brand. What remains is astonishingly polished, completely pleasant, and hollow in a way you can hear if you knock on it. Babe Ruth, three tabs over, says it better than we can: no pitcher in the frame, no brag — just talking.</p>
+    <div class="pull-quote">Dude Perfect discovered you could sell competition with the losing removed. Sixty-two million people bought it, which is the most important fact in this issue — because what they bought isn't competition. It's the smile competition makes.</div>
+    <p>The corporate chapter turned the format's quiet flaw into its explicit strategy. Since October 2024 the group has taken a nine-figure investment from Highmount Capital, hired its first CEO — Andrew Yaffe, out of the NBA's content operation — and pressed on with plans for a $100M-plus theme park outside Dallas, complete with a 330-foot "Impossible Shot" tower. This is a channel becoming a diversified family-entertainment conglomerate, and it explains the scores: main-channel output has thinned toward event-scale Overtime episodes while the machine builds toys, parks, and platforms. Consistency 74 reflects a schedule that now serves a portfolio, not an audience. And their own documentary, to its credit, shows the cost of the smile: the 2012 equity fight, a member saying on camera, "I remember feeling undervalued." The one genuinely high-stakes competition in Dude Perfect history — five friends versus a cap table — is the one they never filmed.</p>
+    <p>Replay Value 45, because a resolved trick has no tension the second time; X-Factor 50, because the personality long ago merged into the brand and brands do not have X-Factor, they have guidelines. MEDIOCRE, 58 — watchable, professional, safe, and a warning label for everything else in this issue: the audience for competition is enormous, but what it actually pays for is stakes, and stakes are the one thing you cannot manufacture in post. This fulfils the negative-review mandate, on schedule, with respect and without apology.</p>
+    <div class="score-card">
+      <div class="score-header"><span class="channel-name">Dude Perfect</span><span class="overall-score low">58<span class="denom">/100</span></span></div>
+      <div class="score-bars">
+        <div class="category"><span class="cat-label">Content Quality</span><div class="bar-track"><div class="bar-fill s-50" style="width:55%"></div></div><span class="cat-score">55</span></div>
+        <div class="category"><span class="cat-label">Consistency</span><div class="bar-track"><div class="bar-fill s-70" style="width:74%"></div></div><span class="cat-score">74</span></div>
+        <div class="category"><span class="cat-label">Replay Value</span><div class="bar-track"><div class="bar-fill s-40" style="width:45%"></div></div><span class="cat-score">45</span></div>
+        <div class="category"><span class="cat-label">Community</span><div class="bar-track"><div class="bar-fill s-70" style="width:72%"></div></div><span class="cat-score">72</span></div>
+        <div class="category"><span class="cat-label">X-Factor</span><div class="bar-track"><div class="bar-fill s-50" style="width:50%"></div></div><span class="cat-score">50</span></div>
+      </div>
+      <div class="verdict-banner verdict-mediocre">MEDIOCRE</div>
+    </div>
+    <div class="canon-link"><a href="/reviews/dude-perfect/">READ THE FULL PLAYER PROFILE →</a></div>
+  </div>
+</section>
+
+<section id="boss-fight" class="section-panel" role="tabpanel" aria-labelledby="tab-boss-fight">
+<!-- ctrlwatch:vslink:start -->
+<div style="margin:0 0 28px;padding:14px 16px;border:1px solid #FFE600;background:rgba(255,230,0,0.06);font-family:'Share Tech Mono',monospace;"><div style="font-size:12px;letter-spacing:0.05em;color:#9090A0;margin-bottom:10px;">Canonical Boss Fight — the standalone home of this matchup:</div><a href="/vs/agadmator-vs-gothamchess/" style="font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:0.05em;color:#FFE600;text-decoration:none;border:1px solid #FFE600;padding:8px 10px;display:inline-block;">⚔ agadmator vs GothamChess ▸</a></div>
+<!-- ctrlwatch:vslink:end -->
+  <div class="section-header">
+    <div class="section-label">▌ HEAD-TO-HEAD ▌</div>
+    <h2 class="section-title">Boss Fight</h2>
+  </div>
+
+  <div class="bf-title">⚔ BOSS FIGHT ⚔</div>
+  <div class="bf-subtitle">GOTHAMCHESS vs AGADMATOR · CATEGORY: CHESS CONTENT</div>
+
+  <div class="prose">
+    <p>Before October 2020, chess YouTube had a king, and it was a soft-spoken Croatian named Antonio Radić who filmed a chessboard, a captured-pieces tray, and nothing else. agadmator was the first chess channel to a million subscribers, the biggest in the world from 2018 onward, built one daily historical game at a time. Then Netflix aired The Queen's Gambit, a pandemic-bored planet discovered that chess.com existed — a million new accounts a month, at the peak — and the boom needed something the archive could not supply: a broadcaster. It found Levy Rozman, an International Master from New York who could make a tournament recap feel like a heavyweight presser, and by late 2021 GothamChess had taken the crown. Today Levy sits near eight million subscribers; agadmator holds around 1.35 million, roughly where the boom left him. The market has spoken. The market, however, does not get to write this magazine, which is why the fight is worth staging.</p>
+    <p>Because this is the cleanest possible test of a question the whole Competition Issue circles: when a game becomes a spectator sport, what actually gets rewarded — the game, or the coverage of the game? agadmator is the archivist: Morphy, Tal, Fischer, the immortal games, narrated with the same layout and the same gentle cadence since 2016, a museum that happens to upload daily. GothamChess is the broadcaster: recaps, drama, Guess the Elo, the Carlsen–Niemann scandal called like a title fight days after it broke. One of them kept the flame. One of them caught the fire. Only one wins.</p>
+  </div>
+
+  <div class="tale-tape">
+    <div class="tape-col">
+      <div class="tape-channel">GOTHAMCHESS</div>
+      <div class="tape-row"><strong>PRESENTER</strong>IM Levy Rozman (IM 2018, peak FIDE 2421)</div>
+      <div class="tape-row"><strong>EST.</strong>Content full-time from 2020; teaching a decade before that</div>
+      <div class="tape-row"><strong>SUBS</strong>~8M (crossed 5M mid-2024, still climbing)</div>
+      <div class="tape-row"><strong>FORMAT</strong>Recaps, Guess the Elo, openings, chess news as sports broadcast</div>
+      <div class="tape-row"><strong>BEST KNOWN</strong>The recap voice of the boom; a No.1 NYT-bestselling chess book</div>
+      <div class="tape-row"><strong>WEAKNESS</strong>The thumbnails run hotter than the content needs; news expires</div>
+    </div>
+    <div class="tape-col">
+      <div class="tape-channel">AGADMATOR</div>
+      <div class="tape-row"><strong>PRESENTER</strong>Antonio Radić (Croatia, no title, no apologies)</div>
+      <div class="tape-row"><strong>EST.</strong>2016 · first chess channel to 1M subs</div>
+      <div class="tape-row"><strong>SUBS</strong>~1.35M, plateaued since the boom redistributed the audience</div>
+      <div class="tape-row"><strong>FORMAT</strong>One game per video, same board, same layout, since forever</div>
+      <div class="tape-row"><strong>BEST KNOWN</strong>The historical archive — Morphy to Tal to yesterday, daily</div>
+      <div class="tape-row"><strong>WEAKNESS</strong>The format never evolves, because evolving it was never the point</div>
+    </div>
+  </div>
+
+  <div class="bf-round">
+    <div class="bf-round-num">ROUND 1</div>
+    <div class="bf-round-title">Content Quality</div>
+    <p>The chess is not in question on either side; the craft around it is where they split. Levy is a credentialed teacher — International Master, a decade of coaching before the boom, a structured course platform, and a beginners' book good enough to hit the bestseller lists — and it shows in the best of the work: a Gotham opening breakdown teaches a middlegame plan, not just a trap. But the daily engine also ships a lot of content that is news first and chess second, dressed in packaging that has been a running community complaint for years. agadmator's quality curve is flatter and calmer: a great historical game, clearly narrated, the "completely different game" of it allowed to be the star. What he lacks is Levy's instructional depth — you learn what happened, less often how to do it yourself. Teaching beats witnessing, narrowly, and the sharper production wins the round while taking a warning about the thumbnails with it.</p>
+    <div class="bf-round-verdict">ROUND 1 — GOTHAMCHESS WINS, ON POINTS, WITH A NOTE FROM THE JUDGES</div>
+  </div>
+
+  <div class="bf-round">
+    <div class="bf-round-num">ROUND 2</div>
+    <div class="bf-round-title">Consistency</div>
+    <p>Here we simply stand back and applaud both corners, because these are two of the most reliable publishing operations on the entire platform, in any genre. agadmator has uploaded near-daily — often twice daily — for the better part of a decade, through the boom, through the plateau, through the loss of Medo, the chess dog the whole internet mourned with him. Levy's cadence through the boom years was just as unrelenting, at vastly higher production cost per video, while also writing books and running a course business. One is a metronome by temperament, the other a metronome by will. Choosing between a 96 and a 97 here would be false precision, and the fight doesn't need it.</p>
+    <div class="bf-round-verdict">ROUND 2 — DRAW. TWO METRONOMES, ZERO EXCUSES</div>
+  </div>
+
+  <div class="bf-round">
+    <div class="bf-round-num">ROUND 3</div>
+    <div class="bf-round-title">Replay Value</div>
+    <p>Now the archive gets its revenge. Ask the brutal question of both catalogues: what is a three-year-old video worth today? A 2022 GothamChess tournament recap is a newspaper — brilliant on the morning it mattered, trivia by Christmas. The Carlsen–Niemann videos are historical documents of a scandal, but you revisit them the way you revisit old headlines, not old friends. Now open agadmator's back catalogue: Morphy's Opera Game, Tal dismantling grandmasters like a man late for a bus, Fischer's Game of the Century — these were evergreen when he filmed them because they had already been evergreen for a hundred years. He didn't build a news desk; he built a library, and libraries appreciate. It is the same split this magazine found in Fall of Civilizations versus the factories, replayed on sixty-four squares: the recap serves the moment, the archive serves forever.</p>
+    <div class="bf-round-verdict">ROUND 3 — AGADMATOR WINS, AND IT ISN'T CLOSE</div>
+  </div>
+
+  <div class="bf-round">
+    <div class="bf-round-num">ROUND 4</div>
+    <div class="bf-round-title">Community</div>
+    <p>Levy's community is enormous, participatory, and load-bearing — Guess the Elo literally runs on viewer-submitted games, which makes the audience a co-author of the format, and the sheer scale of Gotham comment culture (the roasts, the "sacrifices THE ROOOOK" liturgy) is a real achievement. But it has the temperature of a stadium: loud, fun, transient. agadmator's comment section is one of the internet's quiet miracles — a decade-old congregation that shows up daily, knows the liturgy ("pause the video and find the winning move"), grieved a dog together like a village, and treats the channel less like content than like a local. Per capita, there is nothing in chess YouTube — arguably nothing in this magazine's whole coverage area — with more accumulated warmth. Scale is a real argument, and it loses to belonging.</p>
+    <div class="bf-round-verdict">ROUND 4 — AGADMATOR WINS</div>
+  </div>
+
+  <div class="bf-round">
+    <div class="bf-round-num">ROUND 5</div>
+    <div class="bf-round-title">X-Factor</div>
+    <p>Two rounds each, one draw, and so the fight comes down to the axis it was always coming down to: which of these channels is irreplaceable? The case for agadmator is real and touching — he is chess YouTube's founding institution, the proof that a man, a board, and sincerity could build the genre before there was a boom to surf. But here is the hard truth the scorecard has to metabolise: the format he pioneered is, precisely because of its beautiful simplicity, imitable. There are now dozens of one-game-per-video channels, and while none have his congregation, the <em>format</em> survives him. Levy is the opposite case. When the biggest scandal in chess history broke in September 2022, an entire sport — players, press, twelve-year-olds, your uncle — went to one place to find out what had happened, and that place was a YouTube channel run by an IM from New York. That is not a format. That is a <em>position</em>: chess's answer to the evening news, self-appointed, boom-forged, and currently without a plausible substitute. He turned the game's biggest moments into broadcast events, and the sport now behaves as if it has a broadcaster, because it does. You can clone a board layout. You cannot clone being the place everyone already goes. The record should also show what Levy's fiercest critics concede: chess is measurably, massively bigger because he made it legible to people the game had never once tried to talk to.</p>
+    <div class="bf-round-verdict">ROUND 5 — GOTHAMCHESS WINS THE ROUND, AND WITH IT THE FIGHT</div>
+  </div>
+
+  <div class="bf-scorecard">
+    <table>
+      <thead>
+        <tr><th>CATEGORY</th><th>GOTHAMCHESS</th><th>AGADMATOR</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>CONTENT QUALITY</td><td>80</td><td>78</td></tr>
+        <tr><td>CONSISTENCY</td><td>97</td><td>96</td></tr>
+        <tr><td>REPLAY VALUE</td><td>66</td><td>74</td></tr>
+        <tr><td>COMMUNITY</td><td>84</td><td>88</td></tr>
+        <tr><td>X-FACTOR</td><td>88</td><td>82</td></tr>
+        <tr class="total"><td>OVERALL</td><td>83</td><td>80</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <h4>THE DECISION</h4>
+    <p>GothamChess wins, 83 to 80, and the margin is honest: this was two rounds apiece with a draw, settled on the axes this magazine weights hardest. But read the decision carefully, because it is not the decision the subscriber counts already made. Levy does not win because he is six times bigger. He wins because the boom created a job — chess's broadcaster, the voice an entire sport turns to when something happens — and he is the only person on the platform actually holding it. That is X-Factor in its purest form: not "good at the format," but "the format would have a hole shaped exactly like him."</p>
+    <p>And yet the loser leaves this ring holding the thing the winner should envy. agadmator's 74 Replay Value against Levy's 66 is the quiet headline of the whole fight: when the news cycle finally slows — and it always slows — the library outlasts the broadcast. Twenty years from now, a kid discovering Tal will still land on that same unchanged board layout, and it will not have aged, because it was never fashionable to begin with. Levy won the boom. Antonio built the thing the boom was standing on. Both sentences are true; only one of them wins a Boss Fight; the other one wins something slower.</p>
+
+    <h4>POST-FIGHT — TOP 50 IMPLICATIONS</h4>
+    <p>Neither channel enters. GothamChess's 83 lands one point under the old 84 cutline, and this issue's bloodbath at the bottom of the table (see High Scores) raises the effective bar to 85 — he joins Eddy Burback in the 83-tier waiting room, a genuine future entrant if the instructional side keeps gaining on the news side. agadmator's 80 is an EXCELLENT that was never going to argue with the arithmetic. Both scores are now the official record; the pairing is retired.</p>
+  </div>
+</section>
+
+<section id="high-scores" class="section-panel" role="tabpanel" aria-labelledby="tab-high-scores">
+<!-- ctrlwatch:top50link:start -->
+<div style="margin:0 0 24px;padding:14px 16px;border:1px solid #00F0FF;background:rgba(0,240,255,0.06);font-family:'Share Tech Mono',monospace;"><div style="font-size:12px;letter-spacing:0.05em;color:#9090A0;margin-bottom:8px;">This is a snapshot from when this issue shipped. The ranking is re-scored every issue.</div><a href="/top50/" style="display:inline-block;font-family:'Press Start 2P',monospace;font-size:10px;letter-spacing:0.1em;color:#00F0FF;text-decoration:none;border:1px solid #00F0FF;padding:10px 14px;">▶ SEE THE LIVE TOP 50 →</a></div>
+<!-- ctrlwatch:top50link:end -->
+  <div class="section-header">
+    <div class="section-label">▌ THE TOP 50 ▌</div>
+    <h2 class="section-title">High Scores</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">The master ranking, updated for Issue #019. Two entries, two exits, and a piece of magazine history: the first time a displacement has been formally reversed. The entry threshold climbs to 85. This is a snapshot; the live, always-current ranking lives at <a href="/top50/">/top50/</a>.</p>
+  </div>
+
+  <table class="top50-table">
+    <thead>
+      <tr><th>Rank</th><th>Channel</th><th>Score</th><th>Genre</th><th>Move</th></tr>
+    </thead>
+    <tbody>
+      <tr class="top3"><td class="rank">1</td><td>3Blue1Brown</td><td class="score">96</td><td class="genre">Mathematics / Education</td><td class="movement mv-flat">—</td></tr>
+      <tr class="top3"><td class="rank">2</td><td>Kurzgesagt</td><td class="score">94</td><td class="genre">Science / Animation</td><td class="movement mv-flat">—</td></tr>
+      <tr class="top3"><td class="rank">3</td><td>Every Frame a Painting</td><td class="score">92</td><td class="genre">Film Analysis</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">4</td><td>Primitive Technology</td><td class="score">91</td><td class="genre">Maker / Survival</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">5</td><td>Jacob Geller</td><td class="score">91</td><td class="genre">Video Games × Philosophy × Art</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">6</td><td>Adam Neely</td><td class="score">91</td><td class="genre">Music Theory / Jazz Bass</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">7</td><td>CGP Grey</td><td class="score">91</td><td class="genre">Education / Explainer</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">8</td><td>Lemmino</td><td class="score">91</td><td class="genre">Documentary / Mystery</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">9</td><td>Jenny Nicholson</td><td class="score">91</td><td class="genre">Long-form comic essay</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">10</td><td>Fireship</td><td class="score">90</td><td class="genre">Technology / Programming</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">11</td><td>Dan Carlin's Hardcore History</td><td class="score">90</td><td class="genre">History / Long-Form</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">12</td><td>Townsends</td><td class="score">90</td><td class="genre">Historical Living / Cooking</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">13</td><td>Mark Rober</td><td class="score">89</td><td class="genre">Engineering / Entertainment</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">14</td><td>Veritasium</td><td class="score">89</td><td class="genre">Science / Education</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">15</td><td>Vsauce</td><td class="score">89</td><td class="genre">Science / Philosophy</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">16</td><td><a href="/reviews/fall-of-civilizations/">Fall of Civilizations</a></td><td class="score">89</td><td class="genre">Narrative History / Documentary</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">17</td><td>Technology Connections</td><td class="score">88</td><td class="genre">Technology / History</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">18</td><td>Conan O'Brien / Team Coco</td><td class="score">88</td><td class="genre">Comedy / Talk</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">19</td><td>Contrapoints</td><td class="score">88</td><td class="genre">Political Essay / Trans Studies</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">20</td><td>exurb1a</td><td class="score">88</td><td class="genre">Philosophy / Existential</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">21</td><td>Clickspring</td><td class="score">88</td><td class="genre">Clockmaking / Machining</td><td class="movement mv-flat">—</td></tr>
+      <tr><td class="rank">22</td><td><a href="/reviews/game-maker-s-toolkit/">Game Maker's Toolkit</a></td><td class="score">88</td><td class="genre">Game Design Criticism</td><td class="movement mv-flat">—</td></tr>
+      <tr class="new-entry"><td class="rank">23</td><td><a href="/reviews/summoning-salt/">Summoning Salt</a></td><td class="score">88</td><td class="genre">Speedrun History / Documentary</td><td class="movement mv-new">NEW</td></tr>
+      <tr><td class="rank">24</td><td>Internet Historian</td><td class="score">87</td><td class="genre">Internet Culture / Documentary</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">25</td><td>Theo Von</td><td class="score">87</td><td class="genre">Comedy / Podcast</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">26</td><td>Good Mythical Morning</td><td class="score">87</td><td class="genre">Entertainment / Variety</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">27</td><td>Caspian Report</td><td class="score">87</td><td class="genre">Geopolitics / Analysis</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">28</td><td>Historia Civilis</td><td class="score">87</td><td class="genre">Ancient History</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">29</td><td>JCS — Criminal Psychology</td><td class="score">86</td><td class="genre">True Crime / Analysis</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">30</td><td><a href="/reviews/tasting-history-with-max-miller/">Tasting History with Max Miller</a></td><td class="score">86</td><td class="genre">History × Cooking</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">31</td><td>Breaking Points</td><td class="score">86</td><td class="genre">Political Analysis / Podcast</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">32</td><td>12tone</td><td class="score">86</td><td class="genre">Music Theory / Analysis</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">33</td><td>Like Stories of Old</td><td class="score">86</td><td class="genre">Philosophy / Video Essay</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">34</td><td>Nerdwriter1</td><td class="score">86</td><td class="genre">Art / Film Analysis</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">35</td><td>NileRed</td><td class="score">86</td><td class="genre">Chemistry</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">36</td><td>Stuff Made Here</td><td class="score">86</td><td class="genre">Engineering / Maker</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">37</td><td>J. Kenji López-Alt</td><td class="score">86</td><td class="genre">Food Science / Cooking</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">38</td><td>Scott The Woz</td><td class="score">86</td><td class="genre">Retro Gaming / Comedy</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">39</td><td>Drew Gooden</td><td class="score">86</td><td class="genre">Deadpan Comedy Commentary</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">40</td><td><a href="/reviews/noclip/">Noclip</a></td><td class="score">86</td><td class="genre">Games Documentary</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">41</td><td><a href="/reviews/binging-with-babish/">Binging with Babish</a></td><td class="score">85</td><td class="genre">Cooking / Entertainment</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">42</td><td>Tantacrul</td><td class="score">85</td><td class="genre">Music Software / Comedy Essay</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">43</td><td>Philosophy Tube</td><td class="score">85</td><td class="genre">Political Philosophy / Theatre</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">44</td><td>Real Engineering</td><td class="score">85</td><td class="genre">Engineering / Education</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">45</td><td><a href="/reviews/chinese-cooking-demystified/">Chinese Cooking Demystified</a></td><td class="score">85</td><td class="genre">Regional Chinese Cooking</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">46</td><td>The Slow Mo Guys</td><td class="score">85</td><td class="genre">Science / Entertainment</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">47</td><td>Map Men (Jay and Mark)</td><td class="score">85</td><td class="genre">Geography / Comedy</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">48</td><td>Smarter Every Day</td><td class="score">85</td><td class="genre">Science / Curiosity</td><td class="movement mv-down">↓1</td></tr>
+      <tr><td class="rank">49</td><td>TED-Ed</td><td class="score">85</td><td class="genre">Animated Education / Global</td><td class="movement mv-down">↓1</td></tr>
+      <tr class="new-entry"><td class="rank">50</td><td><a href="/reviews/jomboy-media/">Jomboy Media</a></td><td class="score">85</td><td class="genre">Baseball / Sports Breakdown</td><td class="movement mv-new">NEW</td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose">
+    <h4>NOTABLE MOVEMENTS — ISSUE #019</h4>
+    <p><strong>Summoning Salt — NEW at #23 (88), re-evaluated 82→88.</strong> A first in magazine history: a displacement formally reversed. We dropped him in #011 with the reason logged as "displaced" — not a quality verdict, a crowding one — and three years of feature-length work later, holding that line would have been indefensible. The +6 re-evaluation is earned on the merits (see the full profile), and there's a precedent worth naming: like Clickspring at 88 with Consistency 62, this is the table doing the thing it was built to do — letting transcendent Content Quality and X-Factor outvote a slow calendar. He re-enters at the bottom of the 88-tier, one seat under the channel he most resembles in structure, Game Maker's Toolkit. Full profile at <a href="/reviews/summoning-salt/">/reviews/summoning-salt/</a>.</p>
+    <p><strong>Jomboy Media — NEW at #50 (85).</strong> The lip-reading baseball desk enters at the bottom of a compressed 85-tier on the strength of Consistency 96 and an X-Factor the genre now orbits. Within the tier, the tie-break goes against him on trajectory-versus-tenure — a brand-new entrant starts at the bottom of his band — but make no mistake about the direction: this channel invented a format an entire sport's coverage now imitates, and a league literally bought in. Full profile at <a href="/reviews/jomboy-media/">/reviews/jomboy-media/</a>.</p>
+    <p><strong>Dropped: Coffeezilla (84) and AI Explained (84).</strong> Both after a single issue of tenure, and we're not going to dress it up: this is the revolving door at the bottom of the table, and it revolved. Two entries at 88 and 85 mean two exits at the bottom, and the bottom was the 84-tier — all of it. There is precedent (Some More News in #012, Answer in Progress in #013 — one-issue tenures both), and there is also a lesson the table keeps teaching: entering at exactly the threshold is a lease, not a deed. Neither drop is a quality verdict. Coffeezilla's work remains the platform's immune system and AI Explained's SimpleBench remains an actual original contribution — both re-enter the moment the maths allows. But the maths this issue did not allow, and we print the maths.</p>
+    <p><strong>The new threshold is 85 — and the waiting room is now a crowd.</strong> With the 84-tier emptied, entry now requires 85, the highest bar in the ranking's history. The queue outside: Videogamedunkey (84, dropped #018), Coffeezilla (84), AI Explained (84), Whang! (84), Ryan George (84), Abroad in Japan (84), Danny Gonzalez (84) — plus GothamChess arriving this issue at 83 from the Boss Fight and Eddy Burback still at 83. Ranks 1–22 didn't move a single seat, for the third consecutive issue at the top. The table is calm above and carnivorous below, which — for a Competition Issue — is exactly the standings you'd want. The live ranking, always current, is at <a href="/top50/">/top50/</a>.</p>
+  </div>
+</section>
+
+<section id="hidden-levels" class="section-panel" role="tabpanel" aria-labelledby="tab-hidden-levels">
+  <div class="section-header">
+    <div class="section-label">▌ SMALL-CHANNEL DISCOVERY ▌</div>
+    <h2 class="section-title">Hidden Levels</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">Real run number three. Every channel below actually exists, every one is a human doing real work below 200K subscribers, and every subscriber figure was checked against the best available data at press time — approximations flagged where the trackers disagree, same discipline as the last two issues. The brief this issue: the competitive scenes nobody covers. Fighting-game archaeology, championship Scrabble, French chess pedagogy, code-level speedrun science, and a grandmaster who teaches like a stand-up. Two chess picks on a chess-Boss-Fight issue is deliberate, not lazy — the boom's tide lifted the big boats and left these two rowing beautifully in the shallows. Go and subscribe to one.</p>
+  </div>
+
+  <div class="hl-card">
+    <div class="hl-name">GuileWinQuote</div>
+    <div class="hl-meta">~100K subs · retro fighting-game video essays · one a month, like clockwork</div>
+    <div class="hl-handle">youtube.com/@GuileWinQuote</div>
+    <p style="margin-top:12px;">The fighting-game community has the richest competitive history on the internet and almost nobody writing it down properly. GuileWinQuote — the name is a Street Fighter II deep cut, which tells you the register — has quietly become the FGC's resident essayist for the games history forgot: dead arcade fighters, abandoned mechanics, the beautiful failures that evolution stepped over on its way to the games that survived. The channel's promise is printed right on the masthead — a new video every month — and the community's running joke is the "GuileWinQuote effect": cover an obscure fighter with enough love and a publisher announces its re-release suspiciously soon after. When the genre's bigger channels want a historian in the room, this is who they invite on.</p>
+    <p>What earns the slot is the angle. Most FGC content is matches, tier lists, and drama; this is criticism — why a mechanic felt the way it felt, what a forgotten game understood that the canon didn't. It is the difference between covering the competition and covering the <em>discipline</em>, and it's exactly the gap this issue keeps finding: the scenes are old and deep, and the archivists are few and small. The honest caveat: the ~100K figure comes from tracker data rather than a fresh About-page read, so treat it as an approximation. The work needs no approximating. Start with the collaborations and work backward into the catalogue.</p>
+  </div>
+
+  <div class="hl-card yobs-pick">
+    <div class="hl-pick-badge">YOB'S PICK</div>
+    <div class="hl-name">Will Anderson (wanderer15)</div>
+    <div class="hl-meta">~71K subs · competitive Scrabble commentary from an actual national champion</div>
+    <div class="hl-handle">youtube.com/@wanderer15</div>
+    <p style="margin-top:12px;">Yob's Pick, and this issue it wasn't even close. Will Anderson is a Scrabble Grandmaster and the 2017 North American national champion, and his channel is the thing this section exists to find: a top-of-the-discipline competitor doing narrated commentary on master-level tournament Scrabble, for an audience the algorithm has never once tried to build. Real championship games, explained from inside — why the grandmaster keeps the V, why the obvious 40-point play is a trap, what the rack is <em>threatening</em> — plus "Better Know a Letter," a running series that gives each tile the strategic biography you didn't know it had. It is a director's commentary for a sport most people don't know is one, funded on Patreon, sustained on nothing but obsession.</p>
+    <p>Here is why it takes the stamp. Every discipline in this issue — speedrunning, chess, baseball — has at least one canonical explainer. Competitive Scrabble, a genuine mind sport with a century of theory, tournament circuits and a rating system, has effectively one man on YouTube treating it seriously, and he happens to have been continental champion. That ratio — importance of the archive to number of archivists — is the purest Hidden Levels arithmetic there is. Yob watched a man spend nine minutes on the letter O and reports, with some irritation, that it was gripping. The caveat is the usual one at this size: the ~71K figure is aggregator-sourced, cadence is hobbyist. Subscribe, learn what a "phony" is, and never play your aunt for money again.</p>
+  </div>
+
+  <div class="hl-card">
+    <div class="hl-name">Sylvain Ravot</div>
+    <div class="hl-meta">~9K subs · French chess teaching from a FIDE Master · the smallest channel we've ever covered</div>
+    <div class="hl-handle">youtube.com/c/SylvainRavot</div>
+    <p style="margin-top:12px;">The non-English continuation this issue goes to France, and to the smallest channel Hidden Levels has ever printed. Sylvain Ravot is a FIDE Master, a professional chess trainer since 2003, and a former coach of the French national youth teams — credentials you can verify against his FIDE profile, which is more than can be said for most chess content — and his channel is what serious chess pedagogy looks like when it refuses to chase a boom: études, endgame studies, the game's history taught as craft, in French, for the few thousand people who showed up for exactly that. While the boom minted broadcast empires (see this issue's Boss Fight for what the tide lifted), the trainers kept training. This is one of them, with a camera.</p>
+    <p>Two honesty notes, stated plainly because this section's whole credibility rests on them. First, the ~9,000 figure comes from a single French chess-press roundup — the least-corroborated number on this page, flagged accordingly; every other signal (the FIDE record, the body of work) checks out solidly. Second, cadence is irregular in the way of a working coach's side project — treat the channel as a library, not a feed. But that's rather the point. Fifty years of chess YouTube from now, the recaps will be sediment; the endgame studies will still be true. A national-youth-team coach explaining them for free, to nine thousand people, in the language of Philidor, is precisely the kind of thing this section was invented to point at.</p>
+  </div>
+
+  <div class="hl-card">
+    <div class="hl-name">Displaced Gamers</div>
+    <div class="hl-meta">est. under ~100K subs · code-level retro game analysis · the science under the speedrun</div>
+    <div class="hl-handle">youtube.com/@DisplacedGamers</div>
+    <p style="margin-top:12px;">If Summoning Salt writes the history of speedrunning, Displaced Gamers writes its physics. The "Behind the Code" series disassembles retro games at the instruction level to answer the questions every record chase eventually hits: why does Metroid's NES engine drop frames exactly there? What is the actual code underneath a famous glitch? In one of the channel's best tricks to date, it didn't just diagnose Ghosts 'n Goblins' notorious slowdown — it reprogrammed the sprite engine and made the 1986 game run at a smooth 60fps, a repair job on a machine nobody has manufactured in three decades. Running since 2015, cross-referenced by the retro-hardware community's most careful sites, and utterly unduplicated: this is assembly-language archaeology narrated for humans.</p>
+    <p>The competition connection is direct even though no records are being chased on camera: every frame-perfect trick in every speedrun you've ever watched exists because the code behaves a specific, knowable way, and this is the channel that shows you the knowing. It is the deepest technical literacy on this page in service of the least monetisable niche imaginable, which is the Hidden Levels quality bar in a sentence. Full disclosure on the number, because we print our uncertainty: the freshest independent subscriber figure we could corroborate is stale, and "under 100K" is our best-evidenced estimate rather than a checked count — comfortably inside the ceiling on every signal available, and flagged here so you know exactly how we know what we know. The videos, happily, verify themselves: the code either runs or it doesn't, and his runs.</p>
+  </div>
+
+  <div class="hl-card">
+    <div class="hl-name">GM Benjamin Finegold</div>
+    <div class="hl-meta">~165K subs — borderline, flagged · grandmaster chess teaching, heckling included</div>
+    <div class="hl-handle">youtube.com/@GMBenjaminFinegold</div>
+    <p style="margin-top:12px;">A borderline case, flagged plainly, same precedent as Robert Miles (~170K, #017) and Pete Kelly (~176K, #018): at roughly 165K subscribers — a figure two independent trackers roughly agree on, the best-corroborated count on this page — Ben Finegold sits near the top of our ceiling, and he isn't obscure within chess, where he's a beloved fixture. He earns the slot anyway, for what the number hides: an actual grandmaster, one of the strongest players ever to spend his energy on <em>teaching</em> rather than broadcasting, running lecture content that has quietly become the best free chess instruction on the platform — delivered in a register somewhere between a masterclass and an open-mic night. "Never resign," the running gags, the merciless heckling of famous blunders: the comedy is a delivery system for genuinely serious pedagogy about how strong players actually think.</p>
+    <p>Why print him on the issue where the Boss Fight already covers chess's two biggest names? Because he is the third register the fight's framing missed. Levy broadcasts, Antonio archives — Finegold <em>teaches</em>, in the ancient, unscalable, one-room-classroom sense, and the gap between his instructional value and his subscriber count is the widest of anyone on this page relative to fame. The chess boom made stars; it did not particularly reward teachers, and that misallocation is exactly the kind the discovery section exists to correct. Caveat as always at the borderline: he's the least hidden pick here, and we've said so. Watch one endgame lecture and you'll understand why we bent the spirit of the rule and kept the letter of it.</p>
+  </div>
+</section>
+
+<section id="cheat-codes" class="section-panel" role="tabpanel" aria-labelledby="tab-cheat-codes">
+  <div class="section-header">
+    <div class="section-label">▌ SPECIAL FEATURE ▌</div>
+    <h2 class="section-title">The Esports Winter</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">How the franchised-league dream froze to death, who ate its lunch, and why the couch outlived the stadium. Every number below is documented; the obituary is ours.</p>
+  </div>
+  <div class="prose">
+    <p>For about seven years, the smartest money in entertainment believed competitive gaming was about to become the next NBA, and it priced that belief in public. City-branded teams. Franchise slots selling for eight figures — Evil Geniuses paid a reported $33 million to buy into the LCS in 2020. A $725 million SPAC valuation for FaZe Clan. Overwatch League teams committing tens of millions for the right to exist. The theory was coherent, even elegant: esports had young audiences legacy sport would kill for, so build the legacy-sport container around them — leagues, seasons, media rights, a desk show — and wait for the television money to arrive. The television money did not arrive. And between 2023 and 2025, the container collapsed with a speed that traditional sport, whose failures take generations, has never experienced in its history.</p>
+
+    <h3>The Body Count</h3>
+    <p>Run the ledger, because the ledger is the story. The Overwatch League — Activision Blizzard's flagship experiment in city franchising — ended after its 2023 season, with roughly two-thirds of its twenty teams voting to take a $6 million exit payment rather than continue; the publisher paid out on the order of $120 million to wind down the thing it had spent years selling as the future. The LCS, North America's League of Legends franchise league, shrank from ten teams to eight in 2024. TSM — one of the region's founding dynasties — had already sold its slot to Shopify Rebellion for around $10 million, roughly a third of what Evil Geniuses had paid for theirs three years earlier; EG itself walked away the following season. The 2023 players' walkout over cut Challengers rosters cost dozens of jobs and delayed a split. FaZe Clan, the SPAC era's poster child, rode its stock from $24.69 to under a dollar inside five months, got its delisting warning, and was eventually acquired for a reported fourteen-to-seventeen million dollars — call it a ninety-seven percent discount on the dream. And in 2024 Riot tried one more reorganisation, merging the LCS with Brazil's and Latin America's leagues into a pan-American "LTA" — which it then dissolved after exactly one season, reviving the leagues it had just merged. The org chart reorganised faster than the audience could learn the acronyms. That is not a downturn. That is a business model politely admitting it never existed.</p>
+
+    <div class="pull-quote">The esports winter was not a crash in demand for competition. It was a foreclosure on the belief that competition needed to be television first. The viewers never left. They left the format.</div>
+
+    <h3>What Never Died</h3>
+    <p>Here is the part the obituaries kept missing: through every year of that collapse, the underlying numbers — people playing, people watching people play — stayed enormous. The winter killed a corporate container, not an appetite. You can prove it with a control group, and the control group is this magazine's favourite kind of institution: speedrunning. Games Done Quick has run its charity marathons since 2010 — a couch, a timer, a donation counter — and in the exact years the franchise leagues were liquidating, it just kept metronoming along: roughly two and a half million dollars raised per event, event after event, through 2025 and into 2026. No slots, no city brands, no venture round, and therefore nothing to collapse. Speedrunning never had a winter for the same reason your local pub quiz never had one: it was never financialised enough to freeze. The couch outlived the stadium, and the couch wasn't even trying.</p>
+
+    <h3>The Ones Who Ate the Lunch</h3>
+    <p>Meanwhile, the audience the leagues were built to capture showed up somewhere else entirely — at competitions run by the entertainers themselves. The case study is Ibai Llanos, reviewed in full this issue: La Velada del Año, an amateur boxing card for streamers, grew in five editions from a Barcelona club night into the single most-watched individual livestream in the history of the internet — a peak above nine million concurrent viewers in 2025, with the 2026 edition simulcast across three platforms. The Kings League, Piqué and Ibai's game-designed seven-a-side football, drew nation-scale audiences to a competition that was <em>born</em> as content. The Sidemen sold out Wembley — ninety thousand seats — for a charity football match that peaked at 2.7 million concurrent viewers and raised £4.7 million. Note what these events did not have: franchises, media-rights decks, a league office. Note what they did have: creators the audience already loved, stakes the audience could feel, and a broadcast that belonged to the people in it. The franchised leagues spent a decade trying to bolt an audience onto a structure. The creators bolted a structure onto an audience. Only one of those directions works, and everyone now knows which. Honesty requires the counterexample, so here it is: Creator Clash 2 halved its predecessor's buys, paid none of its pledged charity money, and lost a quarter of a million dollars. Creator-run is a direction, not a guarantee — the events that thrive are the ones where the community was real before the ring was.</p>
+
+    <h3>The Complicating Space Heater</h3>
+    <p>And now the fact that ruins the tidy narrative, which is why it gets its own section. While the Western league model froze, the biggest prize pools in esports history were being written — in Riyadh. The Esports World Cup paid out $62.5 million in 2024 and $71.5 million in 2025, bankrolled by a Saudi sovereign-wealth apparatus that has put a reported $38 billion into gaming through Savvy Games Group — which, for good measure, also owns the operator now running Overwatch's replacement circuit. So the honest map of post-winter esports has two continents: a creator-carnival economy that runs on communities, and a sovereign-spectacle economy that runs on strategic budgets and does not especially need an audience economics to close. Between them, the old middle — the venture-funded, city-franchised, television-shaped league — is simply gone. What that second continent buys, and what it costs a competitive scene to be someone's national strategy, is a question esports has mostly declined to ask out loud, and this magazine notes — for the record — that the silence is itself an answer of sorts.</p>
+
+    <h3>What the Winter Teaches</h3>
+    <p>Strip it to the mechanism and the lesson is the same one running through every section of this issue. Competition is not a format; it is a relationship — somebody sets a challenge, somebody swears they can beat it, and a crowd gathers that cares about the somebodies. The franchise era failed because it tried to sell the crowd a structure before it had given them anyone to care about; it built the stadium and assumed the belonging would follow the seating chart. Everything that survived the winter — the speedrun marathon, the streamer boxing night, the chess boom the Boss Fight tab is arguing about right now — got the order right: community first, competition grown out of it, structure last and lightly. This magazine, a scoreboard-shaped publication on a scoreboard-shaped platform, would only add: the audience was never confused. Nine million people did not misunderstand what they wanted when they watched a streamer's boxing night instead of a franchise final. They wanted stakes carried by people they knew. They always did. The only ones who misunderstood were the ones holding the spreadsheets — and the spreadsheet, this issue keeps finding, is where competition goes to die. This feature closes a debt, by the way: a reader named Devraj S. asked for the esports issue back in #016. The Save Point has the receipt.</p>
+  </div>
+</section>
+
+<section id="game-over" class="section-panel" role="tabpanel" aria-labelledby="tab-game-over">
+  <div class="section-header">
+    <div class="section-label">▌ DEATH OF FORMAT ▌</div>
+    <h2 class="section-title">Game Over</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">Five ways competition got turned into retention bait. The format is the corpse — never the audience. Autopsies below.</p>
+  </div>
+
+  <div class="go-trend">
+    <div class="go-num">☠</div>
+    <div class="go-title">The "[Team] Is In SHAMBLES" Rage Merchant</div>
+    <p>Every fanbase now has one: the daily apocalypse channel, thumbnail face mid-scream, announcing that the club is FINISHED, the manager is a FRAUD, and the transfer window was a BETRAYAL — twenty-four hours after announcing the identical collapse from the opposite direction. It exists because sports fandom is the most reliable outrage reservoir ever discovered: the games arrive on a schedule, half the audience is guaranteed to be furious after each one, and the algorithm cannot tell the difference between analysis and a man burning his own jersey for the fourth consecutive Tuesday. The tragedy is what it displaces. Actual fan analysis — tactics, context, the long view — exists on the platform and is routinely out-recommended by a grown adult screaming at a badge. The rage merchant doesn't cover the competition. He <em>is</em> one: a daily contest to be angriest first, and the standings reset at midnight.</p>
+    <div class="go-killshot">He has declared the season over forty times this season. A man who is always furious is providing weather, not analysis — and the club he's screaming about will outlive his larynx.</div>
+  </div>
+
+  <div class="go-trend">
+    <div class="go-num">☠</div>
+    <div class="go-title">The AI-Voiced "TRAGIC Story of…" Sports Documentary</div>
+    <p>The thumbnail is a star athlete in grayscale. The title promises the UNTOLD, TRAGIC, or HEARTBREAKING story. The video is a Wikipedia career summary read by a synthetic baritone over licensed highlight scraps and slow zooms on press photos, at a volume of dozens per week per channel, for every athlete with a name worth searching. This is the slop wave the Machine Issue mapped, arrived at the stadium: the past of sport is infinite, public-domain-adjacent, and emotionally pre-loaded, which makes it perfect strip-mining territory — no expert to consult, no fan who was there to object, no claim precise enough to be falsified. The tell is the grief without the knowledge: the "tragic story" that cannot name the injury, the "untold story" told identically by nine channels the same week. Real sports documentary — the kind Jomboy or a 30 for 30 does with receipts — requires knowing something. This requires only that you once existed and can be searched.</p>
+    <div class="go-killshot">A career is not a content mine, and grief is not a genre setting. If the narrator can't pronounce the club's name, the story was never going to be told — only extracted.</div>
+  </div>
+
+  <div class="go-trend">
+    <div class="go-num">☠</div>
+    <div class="go-title">The Fabricated Trick-Shot Reel</div>
+    <p>Downstream of the trick-shot empires came the counterfeiters: channels whose impossible shots are not improbable-but-earned, they are <em>edited</em> — reversed footage, hidden cuts, compositing, physics that would make a ping-pong ball file a complaint. The format thrives because the feed rewards the reaction, not the verification: a fake make and a real make produce the same three seconds of dopamine, and only one of them costs four hundred attempts. This is the trend that makes our Dude Perfect review look almost heroic by contrast — they, at least, genuinely make the shots they show you. But the counterfeiters are also the format's logical conclusion, and that's the autopsy finding worth keeping: once a genre establishes that the attempts don't matter and only the make gets shown, it has already taught its audience that the process is disposable. Faking the make is just the next efficiency. A competition where you can't see the trying was always one edit away from a competition where nobody tried at all.</p>
+    <div class="go-killshot">The fake trick shot didn't corrupt the genre — it graduated from it. Once you've sold competition with the failure removed, removing the success's reality is barely a step.</div>
+  </div>
+
+  <div class="go-trend">
+    <div class="go-num">☠</div>
+    <div class="go-title">The Betting-App "Analysis" Channel</div>
+    <p>It walks like analysis. It talks like analysis — form guides, matchup stats, a confident man with a screen. And every road in it leads to a promo code. The betting-pick channel is the most cynical format on this page because it borrows the entire costume of sports expertise to do the opposite of expertise's job: the analysis exists to generate the pick, the pick exists to generate the deposit, and the channel's actual customer is not the viewer but the sportsbook whose sign-up bonus lives in the description. The record of past picks — the one piece of accountability that would make the format honest — is curated, deleted, or simply never mentioned; wins are pinned, losses evaporate; the highlight reel logic of the trick-shot channel applied to your rent money. Sport spent a century building an audience's trust in the person with the statistics. This format spends that trust at the window and keeps the vig.</p>
+    <div class="go-killshot">An analyst who profits when you lose is not an analyst — he's a tout with a thumbnail. Show the full pick history or admit the description link is the entire show.</div>
+  </div>
+
+  <div class="go-trend">
+    <div class="go-num">☠</div>
+    <div class="go-title">The "Ranking Every…" Tier-List Mill</div>
+    <p>Ranking EVERY champion. EVERY stadium. EVERY season, kit, mascot, goal celebration. The tier-list mill is what happens when the shape of competition gets harvested and the substance composted: a format that produces the <em>feeling</em> of standings — S through F, the little draggable icons, the pleasant finality of placement — without a single argued criterion underneath. It exists because ranking is the cheapest possible content to generate (opinions are free, grids are free, the catalogue is pre-made) and the most reliable to engage, since every placement is a tiny outrage machine addressed personally to someone's childhood. We are aware, thank you, of the glass house this magazine ranks from. The difference is the working: a ranking is criticism only if each placement is an argument that could be wrong — with reasons stated, evidence named, and the record kept. Strip the arguments and a tier list is just fifty small provocations in a trench coat, and the mill strips the arguments first, because arguments take time and the grid doesn't.</p>
+    <div class="go-killshot">A ranking without reasons is a Ouija board with extra steps. Yes, we publish a Top 50. Ours prints its working — that's not a defence, it's the entire genre's price of admission.</div>
+  </div>
+</section>
+
+<section id="save-point" class="section-panel" role="tabpanel" aria-labelledby="tab-save-point">
+  <div class="section-header">
+    <div class="section-label">▌ READER LETTERS ▌</div>
+    <h2 class="section-title">Yob's Save Point</h2>
+  </div>
+
+  <div class="yob-intro">
+    <div class="yob-svg">
+      <svg width="60" height="60" viewBox="0 0 60 60">
+        <ellipse cx="30" cy="32" rx="22" ry="20" fill="#39FF14" opacity="0.9"/>
+        <ellipse cx="30" cy="20" rx="18" ry="16" fill="#39FF14"/>
+        <circle cx="24" cy="19" r="4" fill="white"/>
+        <circle cx="36" cy="19" r="4" fill="white"/>
+        <circle cx="25" cy="20" r="2" fill="#0A0A12"/>
+        <circle cx="37" cy="20" r="2" fill="#0A0A12"/>
+        <path d="M 25 27 Q 30 31 35 27" stroke="#0A0A12" stroke-width="2" fill="none"/>
+      </svg>
+    </div>
+    <div class="yob-text">Month three of the real inbox, and Yob has been keeping stats, because this is the Competition Issue and Yob commits to a theme. Genuine letters received: nil. Refreshes performed: Yob stopped counting at a number he isn't proud of. Current form: the empty mailbox remains undefeated, a flawless title defence stretching back to July, and Yob — who has spent this issue watching men attempt one boxing punch-out fight seventy-five thousand times — has decided to take the champion's approach: the promise from #017 stands, un-kept and un-broken, and the first genuine letter to yob@ctrl-watch.xyz still prints the moment it exists, badged like a relic. Attempt seventy-five thousand and one. Pull, nothing. The letters below are dramatized, same as every issue before. The fruit machine and Yob have become, at this point, colleagues. — Yob</div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: Devraj S. — Birmingham, England</div>
+    <div class="letter-body">"Right. Issue sixteen, I told you it was snobbery — a clockmaker and a painting-restorer before a single competitive channel — and you said, quote, 'consider the flag planted,' and that it was on your conscience. Three issues, blob. I counted. I've had the letter drafted since the Gaming Issue shipped, waiting to see if the conscience was real or just another thing you say to make four stars feel like a refund. So which is it? Because if this issue is what I think it is from the cover, I want it on record that I called it first — and I want to know what took you."</div>
+    <div class="yob-reply">Devraj. It's what you think it is, and you called it first, and it's going on the record exactly the way you asked, because you've earned the full ledger: the speedrun historian goes back into the Top 50 at 23 after this magazine spent three years being wrong about him. The chess fight is real. The esports winter got the full autopsy in Cheat Codes — the $33 million slots, the $10 million fire sales, the whole frozen continent — and the discovery section found you a fighting-game essayist and a Scrabble grandmaster. What took Yob? Honestly — the thing Yob said in #016, which you quoted back at him like a solicitor, which Yob respects: one issue is one issue, and this one needed doing properly or not at all. The conscience is real, for the record. It's the tracker with feelings, and you've been sat in it since July, itching. Five stars. Not for the letter — the letter is mostly gloating, professionally executed — but because you planted a flag, waited three issues without whinging more than the permitted amount, and the flag grew an entire magazine. That's how the letters page is supposed to work, and you're the first reader to run it start to finish. THE DEBT, PAID.<span class="yob-sign">— Yob</span></div>
+    <div class="letter-rating">
+      <span class="star-rating">★★★★★</span>
+      <span class="verdict-tag">THE DEBT, PAID</span>
+    </div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: DepthCharge — Lagos, Nigeria</div>
+    <div class="letter-body">"Yob. No Type today — put the stamp down. A field report instead. I went where you're going this issue, and the Collision is already there. Summoning Salt is not a gaming channel: he is athletics × archive — a sports historian whose primary sources are dead forum threads, and the fusion is the whole value, because a man with only one of those literacies makes either a highlights reel or a spreadsheet. Jomboy is sport × forensics — lip-reading is a second discipline, that's why the league had to buy him instead of copy him. Even your chess fight is one register against another. My question, and it is a question, not a proposal: when a whole THEME turns out to be made of Type 7s, does that tell us something about the theme — or something about the taxonomy?"</div>
+    <div class="yob-reply">DepthCharge — two issues running you've come to the counter with no Type under your coat, and Yob is beginning to suspect strategy. The observation is right, again, infuriatingly: the Competition Issue is wall-to-wall Collisions, and your Summoning Salt reading is sharper than the one Yob's own reviewer filed, which will be discussed at the next editorial shout. But your question — theme or taxonomy — Yob will actually answer, because it has an answer. It tells us about the theme. Competition is the one subject that CANNOT be covered with a single literacy: to say anything true about a contest you must understand the discipline AND the recording of it — the game and the archive, the sport and the forensics. That's not the taxonomy going soft and matching everything. That's competition being, structurally, collision territory — which is exactly WHY the slop farms do so badly here, and why your #018 warning holds. A scraper has no second literacy; a contest demands two. Four stars, and Yob notes with growing unease that you have now been right three issues consecutively without once asking for anything. Whatever you're building toward, Yob will be stamping it on instinct alone. The framework lives at <a href="/concepts/collision-channels/">/concepts/collision-channels/</a>, with your name on it, as ever.<span class="yob-sign">— Yob</span></div>
+    <div class="letter-rating">
+      <span class="star-rating">★★★★<span class="star-empty">☆</span></span>
+      <span class="verdict-tag">RIGHT, THREE ISSUES RUNNING</span>
+    </div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: Halvorsen — Tromsø, Norway</div>
+    <div class="letter-body">"Third letter. I'm told that makes this a tradition, which in Norway means it can now only end at a funeral. You've made it easy this time — you did it to yourselves, in print: a COMPETITION issue, from a magazine that runs a ranking table. Fine. Competitions publish their results. All of them. So: where is the magazine's own loss column? Every table you print shows this issue's standings. None of them shows YOUR record — the scores you got wrong, the drops you'd take back. If Summoning Salt is re-entering because you were, your word, 'indefensible' — how many other rows are indefensible right now, and who audits the auditor? A real competition has relegation, Yob. What relegates you?"</div>
+    <div class="yob-reply">Halvorsen. Three letters, three dares, and Yob's brief flirtation with hoping you'd taken up a happier hobby is over. Here's the thing, and you already know it, which is why you're smiling at the fjord right now: the loss column exists, and this issue is largely MADE of it. The re-evaluation ledger is the magazine's own record printed in public — Adam Neely, we were seven under; JCS, thirteen under; Johnny Harris, fifteen over until #011 said so; and now Summoning Salt, wrongly displaced, reversed by name, with the word "indefensible" in the copy because Yob put it there. Every one of those is a published loss with a date on it. What relegates us? The same thing that relegates anyone: the record being checkable, and readers like you checking it — which, Yob notes darkly, has become your entire personality. But the second half of your dare lands, and Yob concedes it, which makes three concessions in three letters and a pattern he no longer controls: the losses are scattered through the archive rather than gathered in one place, and a competition's record should be legible in ONE table, not archaeologically. A standing errata ledger. It's noted — properly noted, tracker-noted. Not promised, because you know the house rule about promises shouted out of a man by a Norwegian. Three stars, as tradition demands. The tradition is the fourth star and you may not have it.<span class="yob-sign">— Yob</span></div>
+    <div class="letter-rating">
+      <span class="star-rating">★★★<span class="star-empty">☆☆</span></span>
+      <span class="verdict-tag">THE ANTAGONIST, INSTITUTIONALISED</span>
+    </div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: Tammy R. — Frisco, Texas</div>
+    <div class="letter-body">"I'll keep this short because I'm angrier than my church group knows I can get. Dude Perfect got a 58. A 58! Those five men are the only channel on this whole website I can put on for my grandkids without a finger hovering over the remote. No cussing, no cruelty, no garbage — just friends having fun for fifteen years. They're building the park twenty minutes from my house and we already have a date planned for the tower. You give them the same score band as channels you call 'soulless.' Explain to me, you rude green thing, how WHOLESOME became a crime at this magazine."</div>
+    <div class="yob-reply">Tammy. First: your grandkids are lucky, the park date sounds genuinely lovely, and Yob means both things without a gram of sarcasm, which for Yob is a personal best. Now the hard part, said gently. Wholesome isn't a crime here. Wholesome isn't a SCORE here — that's the whole of it. The 58 doesn't say Dude Perfect is bad for your grandkids; it says the videos have quietly stopped being what they're dressed as. A competition where the losing is edited out, where the anger is a scheduled sketch, where four hundred attempts vanish so the make looks effortless — that's not a contest, it's a pageant of one, and the review's argument is that the pageant got hollow, not that the men did. Here's the test Yob would offer you, one remote-holder to another: watch your grandkids during the video. The trick lands, they smile — and nothing is at stake, so nothing carries over. Now put on the twelve-year-old in our Pelé pages who shows all four hundred failed bicycle kicks before the one that works, and watch what THAT does to a kid. One teaches that success looks effortless. The other teaches that it isn't. Both are family-safe, Tammy. Only one is true. Two stars — the second entirely for the phrase "you rude green thing," which Yob is having made into a plaque.<span class="yob-sign">— Yob</span></div>
+    <div class="letter-rating">
+      <span class="star-rating">★★<span class="star-empty">☆☆☆</span></span>
+      <span class="verdict-tag">WHOLESOME IS NOT A SCORE</span>
+    </div>
+  </div>
+
+  <div class="letter">
+    <div class="letter-from">FROM: Ivana K. — Zagreb, Croatia</div>
+    <div class="letter-body">"So the American with the screaming thumbnails beats Antonio. Of course he does. I have watched agadmator since two thousand seventeen — since before your magazine existed, since before the boom made chess a 'content vertical,' God forgive us all. Every single day, the same board, the same 'sorry about that,' the same little tray of captured pieces, and for years the same good dog asleep behind him. You gave the fight to the man the ALGORITHM already gave everything to. Croatia built chess YouTube's first million with a webcam and manners, and your prize for it is second place. Tell me honestly, blob: what exactly does loyalty score, on your five little axes?"</div>
+    <div class="yob-reply">Ivana. Yob read your letter twice, and the second time was not for fact-checking — it was because "a webcam and manners" is the best five-word history of early chess YouTube anyone has filed with this desk, ours included. So here's the honest answer you asked for. Loyalty scores where it actually lives: Antonio WON Community, 88 to 84, and won it precisely on what you describe — a decade-old congregation that turns up daily and grieved a dog together like a village. He won Replay too, and that one's the future's vote: the Opera Game archive will be exactly as good in forty years, and the recaps will be sediment. What he lost is one axis — the broadcaster's chair, the place a whole sport turns when something happens — and Yob won't insult you by pretending that chair doesn't matter, because you watched the entire sport sprint to it in September 2022 same as we did. But hold on to what the fight actually said, because it's not what the subscriber counts say: the loser's pages call him chess YouTube's founding institution and the man the boom was standing on. Second place in a fight is not second place in history. Three stars, and a fourth was genuinely close — Medo cost you nothing, Ivana; Yob simply doesn't award full marks to letters that make him feel things about a dog he never met. It's a new rule. He invented it just now, for you, in self-defence.<span class="yob-sign">— Yob</span></div>
+    <div class="letter-rating">
+      <span class="star-rating">★★★<span class="star-empty">☆☆</span></span>
+      <span class="verdict-tag">A WEBCAM AND MANNERS</span>
+    </div>
+  </div>
+
+  <div class="yob-announce">
+    <h4>▌ SET THE RECORD ▌</h4>
+    <p>Competition Issue housekeeping, and Yob will use the language of the theme: <strong style="color:var(--green);">there is a world record standing open on this page, and nobody has attempted the run.</strong> Category: Fastest Genuine Letter to a Magazine Inbox, any%. Current holder: nobody. Current time: infinity. The route is trivial — one email, no tricks, no glitches, the door's not even locked.</p>
+    <p style="text-align:center;margin:20px 0;"><span class="mail">yob@ctrl-watch.xyz</span></p>
+    <p>Defend Dude Perfect better than Tammy did. Tell Yob the chess fight was rigged by the algorithm. Bring Devraj a rival debt to plant. Submit your own loss column and dare Yob to print it. The magazine spent this whole issue arguing that a competition is just a challenge, a claimant, and a crowd — well, there's the challenge, you're the claimant, and Yob, refreshing the inbox like a man who has forgotten what else hands are for, is the crowd. Any%. The timer's running. It has, in fact, been running since July, and Yob would like it on the record that he finds that genuinely hilarious and only a little bit sad.</p>
+    <p style="text-align:right;font-family:'VT323',monospace;font-size:20px;color:var(--green);margin-top:8px;">— Yob</p>
+  </div>
+</section>
+
+<section id="retro-ads" class="section-panel" role="tabpanel" aria-labelledby="tab-retro-ads">
+  <div class="section-header">
+    <div class="section-label">▌ ADVERTISEMENT ▌</div>
+    <h2 class="section-title">Retro Ads</h2>
+    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 16px;">Brought to you by the competition-content economy, which has generated these products to solve problems it also invented.</p>
+  </div>
+
+  <div class="ads-grid">
+    <div class="ad-box yellow-tint">
+      <div class="ad-name">THE HIGHLIGHT REEL™</div>
+      <div class="ad-tagline">YOUR LIFE, WITH THE LOSSES REMOVED.</div>
+      <p class="ad-body">Tired of your existence containing attempts? THE HIGHLIGHT REEL™ is the revolutionary life-editing service that does for you what the trick-shot industry did for sport: keeps the makes, deletes the four hundred misses, and presents the result as your personality. Job interviews, family gatherings, your own memory — all upgraded to a montage in which you have never once failed, sweated, or practised. Viewers will assume you're simply gifted. You will eventually assume it too. That's not a side effect. That's the premium tier.</p>
+      <ul class="ad-features">
+        <li>Attempt Eraser™ — the four hundred takes never happened; there was only ever the one</li>
+        <li>Effortless Filter — removes visible trying, the least marketable human activity</li>
+        <li>Stakes-Free Mode — nothing was ever riding on anything; wasn't that relaxing?</li>
+        <li>Celebration Loop — pre-rendered group high-five, compatible with all outcomes</li>
+      </ul>
+      <div class="ad-cta">£99.99/MONTH · FIRST MISS FREE ☎ EDIT NOW</div>
+      <p class="ad-fineprint">*THE HIGHLIGHT REEL™ does not improve performance, only footage of it. Persons made entirely of highlights may experience hollowness when knocked on. The losses are not deleted; they are stored, and they know where you live. Practice sold separately, off camera, where it has always been.*</p>
+    </div>
+
+    <div class="ad-box">
+      <div class="ad-name">CLUTCH GENE™</div>
+      <div class="ad-tagline">THE INTANGIBLE, NOW IN CAPSULE FORM.</div>
+      <p class="ad-body">Commentators agree: some competitors simply have "it" — the clutch gene, the winner's DNA, the dawg in them. Science has never located it, which is where we come in. CLUTCH GENE™ is the dietary supplement engineered to contain precisely as much of the clutch gene as has ever been isolated in a laboratory: none. But the bottle is magnificent, the narrative is airtight, and after two capsules you will describe your own Tuesday errands in the language of a game-seven comeback. As used by every debate-show host currently explaining why a man who lost "wanted it less."</p>
+      <ul class="ad-features">
+        <li>Narrative Coating™ — converts random variance into destiny, both directions</li>
+        <li>Mentality Blend — 0mg mentality per serving, but what a word</li>
+        <li>Hindsight Activation — works exclusively after the result is known</li>
+        <li>DAWG Complex — proprietary; do not ask what it is; there is nothing in it</li>
+      </ul>
+      <div class="ad-cta">£39.99/BOTTLE · BORN WITH IT, SOLD SEPARATELY ☎ WANT IT MORE</div>
+      <p class="ad-fineprint">*CLUTCH GENE™ contains no genes, clutch or otherwise. "Intangible" is a legal description of the contents. The supplement performs identically to belief, which is available free but ships without the bottle. If symptoms of actual preparation develop, consult a coach — preparation is the only known active ingredient in clutch performance and we couldn't fit it in a capsule.*</p>
+    </div>
+
+    <div class="ad-box green-tint">
+      <div class="ad-name">ASTERISK-B-GONE™</div>
+      <div class="ad-tagline">DEEP-CLEANS ANY RECORD. EVEN THAT ONE.</div>
+      <p class="ad-body">Is there an unsightly asterisk clinging to your greatest achievement? A cheating scandal, a banned substance, a suspiciously perfect scoreboard, an engine evaluation hovering over your best game like a conscience? ASTERISK-B-GONE™ is the industrial-strength record polish trusted by federations, franchises, and at least one era of an entire sport. One application and the footnote fades, the documentary gets a redemption arc, and the comment section moves on to someone newer. Stubborn asterisks may require the Legacy Formula, which simply waits for everyone who remembers to log off.</p>
+      <ul class="ad-features">
+        <li>Footnote Dissolver — breaks down citations, context, and the historical record</li>
+        <li>Era Spray — "everyone was doing it" in a convenient aerosol</li>
+        <li>Redemption Arc Wax — buffs any disgrace to a documentary-ready shine</li>
+        <li>Whataboutism Nozzle — redirects any accusation at a rival's record, instantly</li>
+      </ul>
+      <div class="ad-cta">£59.99/TIN · RECORDS* LOOK LIKE NEW ☎ SCRUB NOW</div>
+      <p class="ad-fineprint">*Asterisk not actually removed; relocated to the memory of everyone who watched it live, where it is permanent and load-bearing. ASTERISK-B-GONE™ is not affiliated with any specific scandal, and our lawyers have asked us to be visibly proud of that sentence. The record you clean may still be checked. Somebody always checks. This magazine, for instance.*</p>
+    </div>
+
+    <div class="ad-box">
+      <div class="ad-name">RANKED MODE: LIFE™</div>
+      <div class="ad-tagline">FINALLY — A NUMBER THAT TELLS YOU WHAT YOU'RE WORTH.</div>
+      <p class="ad-body">Why should ladder anxiety be confined to video games? RANKED MODE: LIFE™ assigns you a single, public, constantly-updating competitive rating for existing — recalculated after every conversation, commute, and family lunch. Watch your number twitch in real time! Feel the elo drain of a bad small-talk performance! Experience the item-shop thrill of climbing from Silver Acquaintance to Platinum Colleague, and the cold vertigo of demotion after one wrong opinion at a wedding! Based on the popular technology already operating inside every subscriber count, follower tally, and, if we're honest, this magazine's Top 50.</p>
+      <ul class="ad-features">
+        <li>Placement Matches — your first ten interactions each Monday decide your week</li>
+        <li>Demotion Shield — one (1) social failure forgiven per season; choose wisely</li>
+        <li>Spectator Mode — everyone you have ever met can see the number; that's the product</li>
+        <li>Rank Decay — stop performing and the number falls; rest is for the unranked</li>
+      </ul>
+      <div class="ad-cta">FREE-TO-PLAY* ☎ QUEUE NOW</div>
+      <p class="ad-fineprint">*You are the payment. RANKED MODE: LIFE™ cannot be uninstalled, only ignored, a feature no user has successfully activated. The number does not measure worth; prolonged exposure makes this indistinguishable from measuring worth. In trials, subjects asked what rank was required to feel finished. There is no such rank. Queue times may vary. The queue is your life.*</p>
+    </div>
+  </div>
+</section>
+</main>
+<!-- ctrlwatch:subscribe:start -->
+<div style="margin:48px auto 32px;max-width:720px;padding:20px 18px;border:1px solid #39FF14;background:rgba(57,255,20,0.05);text-align:center;"><div style="font-family:'Press Start 2P',monospace;font-size:11px;letter-spacing:0.08em;color:#39FF14;margin-bottom:10px;">NEXT ISSUE, NO ALGORITHM</div><div style="font-family:'Share Tech Mono',monospace;font-size:13px;color:#9090A0;margin-bottom:14px;">One email per issue — new reviews, the Top 50 shakeup, and whatever Yob is angry about.</div><a href="/#subscribe" style="display:inline-block;font-family:'Press Start 2P',monospace;font-size:10px;letter-spacing:0.1em;color:#39FF14;text-decoration:none;border:1px solid #39FF14;padding:12px 16px;">[INSERT COIN ▶] SUBSCRIBE</a></div>
+<!-- ctrlwatch:subscribe:end -->
+<footer class="footer">
+  <div class="wrap">
+        <p class="copy">© CTRL+WATCH 2026 — Issue #019 — THE COMPETITION ISSUE</p>
+  </div>
+<!-- ctrlwatch:trust:start -->
+<div style="margin:24px 0 0;font-family:'Share Tech Mono',monospace;font-size:11px;color:#9090A0;line-height:2.1;text-align:left;"><div style="font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:0.1em;color:#9090A0;margin-bottom:8px;">WHAT'S REAL HERE</div><span style="display:inline-block;border:1px solid #39FF14;color:#39FF14;padding:1px 5px;margin-right:6px;font-size:9px;letter-spacing:0.08em;">REVIEWS · TOP 50 · BOSS FIGHTS</span>Real channels. Real scores. Real opinions.<br><span style="display:inline-block;border:1px solid #00F0FF;color:#00F0FF;padding:1px 5px;margin-right:6px;font-size:9px;letter-spacing:0.08em;">TIME CAPSULE</span>Fiction. The dead did not sit for interviews.<br><span style="display:inline-block;border:1px solid #00F0FF;color:#00F0FF;padding:1px 5px;margin-right:6px;font-size:9px;letter-spacing:0.08em;">LETTERS &amp; STAFF</span>Dramatized. Yob is a green blob.<br><span style="display:inline-block;border:1px solid #00F0FF;color:#00F0FF;padding:1px 5px;margin-right:6px;font-size:9px;letter-spacing:0.08em;">NOW LOADING · RETRO ADS</span>Satire.<br><span style="display:inline-block;border:1px solid #00F0FF;color:#00F0FF;padding:1px 5px;margin-right:6px;font-size:9px;letter-spacing:0.08em;">HIDDEN LEVELS (#001–#016)</span>Fictional channels. Real small-channel picks from #017 onward.<div style="margin-top:8px;"><a href="/about#how-this-is-made" style="color:#9090A0;">How this magazine is made →</a></div></div>
+<!-- ctrlwatch:trust:end -->
+</footer>
+<script>
+(function(){
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.section-panel'));
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab-btn'));
+  var ids = panels.map(function(p){ return p.id; });
+  function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  window.showTab = function(tabId, opts){
+    opts = opts || {};
+    if(ids.indexOf(tabId) === -1){ tabId = 'press-start'; }
+    panels.forEach(function(p){ p.classList.toggle('active', p.id === tabId); });
+    tabs.forEach(function(b){
+      var on = b.getAttribute('data-tab') === tabId;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+      b.setAttribute('tabindex', on ? '0' : '-1');
+    });
+    if(!opts.noHash){
+      var h = '#' + tabId;
+      if(location.hash !== h){
+        try {
+          if(opts.replace){ history.replaceState(null, '', h); }
+          else { history.pushState(null, '', h); }
+        } catch(e){ location.hash = h; }
+      }
+    }
+    if(!opts.noScroll){
+      try { window.scrollTo({ top: 0, behavior: reduced() ? 'auto' : 'smooth' }); }
+      catch(e){ window.scrollTo(0, 0); }
+    }
+  };
+  var bar = document.querySelector('.tab-bar');
+  if(bar){
+    bar.addEventListener('keydown', function(e){
+      if(e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      var current = 0;
+      for(var i=0;i<tabs.length;i++){ if(tabs[i].classList.contains('active')){ current = i; break; } }
+      var next = e.key === 'ArrowRight' ? (current + 1) % tabs.length : (current - 1 + tabs.length) % tabs.length;
+      e.preventDefault();
+      showTab(tabs[next].getAttribute('data-tab'));
+      tabs[next].focus();
+    });
+  }
+  window.addEventListener('popstate', function(){
+    var id = decodeURIComponent((location.hash || '').slice(1));
+    showTab(ids.indexOf(id) !== -1 ? id : 'press-start', { noHash: true, noScroll: true });
+  });
+  function init(){
+    var id = decodeURIComponent((location.hash || '').slice(1));
+    showTab(ids.indexOf(id) !== -1 ? id : 'press-start', { replace: true, noScroll: true });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+<!-- ctrlwatch:tabhash:start -->
+<script>/* cw-tabhash-v1 */(function(){function idFor(el){if(el.dataset&&el.dataset.tab)return el.dataset.tab;var oc=el.getAttribute&&el.getAttribute('onclick');if(oc){var m=oc.match(/(?:showTab|switchTab|showSection|openTab)\(\s*(?:event\s*,\s*)?'([^']+)'/);if(m)return m[1];}return null;}function activate(id){if(!id)return;try{var btn=document.querySelector('[data-tab="'+id+'"], [onclick*="\''+id+'\'"]');if(btn&&!btn.classList.contains('active'))btn.click();}catch(e){}}document.addEventListener('click',function(e){var el=e.target&&e.target.closest?e.target.closest('[data-tab],[onclick]'):null;if(!el)return;var id=idFor(el);if(!id)return;if(location.hash!=='#'+id){try{history.pushState(null,'','#'+id);}catch(err){}}});window.addEventListener('popstate',function(){activate(decodeURIComponent(location.hash.slice(1)));});function init(){if(location.hash.length>1)activate(decodeURIComponent(location.hash.slice(1)));}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();</script>
+<!-- ctrlwatch:tabhash:end -->
+</body>
+</html>

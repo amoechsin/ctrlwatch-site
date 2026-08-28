@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-08-04T14:00:57.232Z",
+  "generatedAt": "2026-08-28T12:13:35.634Z",
   "source": "docs/continuity/CTRLWATCH_Continuity_Tracker.md",
   "totals": {
-    "creators": 114,
+    "creators": 119,
     "inTop50": 50,
-    "dropped": 34,
-    "neverEntered": 30,
-    "reEvaluated": 6,
-    "withApproxScore": 17
+    "dropped": 35,
+    "neverEntered": 34,
+    "reEvaluated": 7,
+    "withApproxScore": 16
   },
   "creators": [
     {
@@ -16,7 +16,7 @@
       "currentScore": 86,
       "verdict": "EXCELLENT",
       "genre": "Music Theory / Analysis",
-      "currentRank": 31,
+      "currentRank": 32,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -120,15 +120,37 @@
       ]
     },
     {
+      "name": "agadmator",
+      "slug": "agadmator",
+      "currentScore": 80,
+      "verdict": "EXCELLENT",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#019",
+          "score": 80,
+          "verdict": "EXCELLENT",
+          "notes": "Boss Fight loser; chess YouTube's founding institution; won Replay + Community rounds; does NOT enter",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
       "name": "AI Explained",
       "slug": "ai-explained",
       "currentScore": 84,
       "verdict": "EXCELLENT",
-      "genre": "AI Analysis / Benchmarks",
-      "currentRank": 50,
-      "status": "in-top-50",
-      "droppedAt": null,
-      "droppedReason": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#019",
+      "droppedReason": "Displaced after ONE-ISSUE tenure — same arithmetic as Coffeezilla; SimpleBench contribution stands; re-entry candidate",
       "reEvaluated": false,
       "reviews": [
         {
@@ -227,7 +249,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Cooking / Entertainment",
-      "currentRank": 40,
+      "currentRank": 41,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -249,7 +271,7 @@
       "currentScore": 86,
       "verdict": "EXCELLENT",
       "genre": "Political Analysis / Podcast",
-      "currentRank": 30,
+      "currentRank": 31,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -329,7 +351,7 @@
       "currentScore": 87,
       "verdict": "EXCELLENT",
       "genre": "Geopolitics / Analysis",
-      "currentRank": 26,
+      "currentRank": 27,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -373,7 +395,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Regional Chinese Cooking",
-      "currentRank": 44,
+      "currentRank": 45,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -452,11 +474,11 @@
       "slug": "coffeezilla",
       "currentScore": 84,
       "verdict": "EXCELLENT",
-      "genre": "Investigative / Tech Fraud",
-      "currentRank": 49,
-      "status": "in-top-50",
-      "droppedAt": null,
-      "droppedReason": null,
+      "genre": null,
+      "currentRank": null,
+      "status": "dropped",
+      "droppedAt": "#019",
+      "droppedReason": "Displaced after ONE-ISSUE tenure — entered #017 at the threshold, exited when two #019 entries (88/85) emptied the 84-tier; explicitly NOT a quality verdict; re-entry candidate",
       "reEvaluated": false,
       "reviews": [
         {
@@ -701,7 +723,7 @@
       "currentScore": 86,
       "verdict": "EXCELLENT",
       "genre": "Deadpan Comedy Commentary",
-      "currentRank": 38,
+      "currentRank": 39,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -712,6 +734,28 @@
           "score": 86,
           "verdict": "EXCELLENT",
           "notes": "Boss Fight winner; deadpan comedy commentary; new #35",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "Dude Perfect",
+      "slug": "dude-perfect",
+      "currentScore": 58,
+      "verdict": "MEDIOCRE",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#019",
+          "score": 58,
+          "verdict": "MEDIOCRE",
+          "notes": "MANDATORY negative FULFILLED; \"competition with the losing removed\"; Highmount $100M+ (Oct 2024), CEO Andrew Yaffe (ex-NBA), Frisco theme park; respect-first negative, our own analysis (no external critic cited)",
           "approx": false
         }
       ],
@@ -869,7 +913,7 @@
       "currentScore": 87,
       "verdict": "EXCELLENT",
       "genre": "Entertainment / Variety",
-      "currentRank": 25,
+      "currentRank": 26,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -880,6 +924,28 @@
           "score": 87,
           "verdict": "EXCELLENT",
           "notes": "3,000 consecutive episodes",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
+      "name": "GothamChess",
+      "slug": "gothamchess",
+      "currentScore": 83,
+      "verdict": "EXCELLENT",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#019",
+          "score": 83,
+          "verdict": "EXCELLENT",
+          "notes": "Boss Fight winner; ~8M subs; the boom's broadcaster; 83-tier waiting room with Eddy Burback; does NOT enter",
           "approx": false
         }
       ],
@@ -913,7 +979,7 @@
       "currentScore": 87,
       "verdict": "EXCELLENT",
       "genre": "Ancient History",
-      "currentRank": 27,
+      "currentRank": 28,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -922,12 +988,34 @@
       "reEvaluations": []
     },
     {
+      "name": "Ibai Llanos 🇪🇸",
+      "slug": "ibai-llanos",
+      "currentScore": 81,
+      "verdict": "EXCELLENT",
+      "genre": null,
+      "currentRank": null,
+      "status": "never-entered",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#019",
+          "score": 81,
+          "verdict": "EXCELLENT",
+          "notes": "MANDATORY non-English Player Profile; La Velada V 9M+ concurrent single-channel record (2025); Kings League; Twitch-primary honesty (YouTube = archive); does NOT enter (below 85)",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
+    },
+    {
       "name": "Internet Historian",
       "slug": "internet-historian",
       "currentScore": 87,
       "verdict": "EXCELLENT",
       "genre": "Internet Culture / Documentary",
-      "currentRank": 23,
+      "currentRank": 24,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -949,7 +1037,7 @@
       "currentScore": 86,
       "verdict": "EXCELLENT",
       "genre": "Food Science / Cooking",
-      "currentRank": 36,
+      "currentRank": 37,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -993,7 +1081,7 @@
       "currentScore": 86,
       "verdict": "EXCELLENT",
       "genre": "True Crime / Analysis",
-      "currentRank": 28,
+      "currentRank": 29,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1095,6 +1183,28 @@
           "notes": "↓ — methodology critique"
         }
       ]
+    },
+    {
+      "name": "Jomboy Media",
+      "slug": "jomboy-media",
+      "currentScore": 85,
+      "verdict": "EXCELLENT",
+      "genre": "Baseball / Sports Breakdown",
+      "currentRank": 50,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": false,
+      "reviews": [
+        {
+          "issue": "#019",
+          "score": 85,
+          "verdict": "EXCELLENT",
+          "notes": "NEW #50; lip-reading breakdown genre inventor; Astros trash-can video (Nov 2019); MLB equity stake (2025) noted as a standing conflict to watch; buzzer-theory caveat printed",
+          "approx": false
+        }
+      ],
+      "reEvaluations": []
     },
     {
       "name": "Joshua Weissman",
@@ -1239,7 +1349,7 @@
       "currentScore": 86,
       "verdict": "EXCELLENT",
       "genre": "Philosophy / Video Essay",
-      "currentRank": 32,
+      "currentRank": 33,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1283,7 +1393,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Geography / Comedy",
-      "currentRank": 46,
+      "currentRank": 47,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1385,7 +1495,7 @@
       "currentScore": 86,
       "verdict": "EXCELLENT",
       "genre": "Art / Film Analysis",
-      "currentRank": 33,
+      "currentRank": 34,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1429,7 +1539,7 @@
       "currentScore": 86,
       "verdict": "EXCELLENT",
       "genre": "Chemistry",
-      "currentRank": 34,
+      "currentRank": 35,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1443,7 +1553,7 @@
       "currentScore": 86,
       "verdict": "EXCELLENT",
       "genre": "Games Documentary",
-      "currentRank": 39,
+      "currentRank": 40,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1581,7 +1691,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Political Philosophy / Theatre",
-      "currentRank": 42,
+      "currentRank": 43,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1705,7 +1815,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Engineering / Education",
-      "currentRank": 43,
+      "currentRank": 44,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1829,7 +1939,7 @@
       "currentScore": 86,
       "verdict": "EXCELLENT",
       "genre": "Retro Gaming / Comedy",
-      "currentRank": 37,
+      "currentRank": 38,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1873,7 +1983,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Science / Curiosity",
-      "currentRank": 47,
+      "currentRank": 48,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1931,7 +2041,7 @@
       "currentScore": 86,
       "verdict": "EXCELLENT",
       "genre": "Engineering / Maker",
-      "currentRank": 35,
+      "currentRank": 36,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1942,16 +2052,31 @@
     {
       "name": "Summoning Salt",
       "slug": "summoning-salt",
-      "currentScore": null,
-      "verdict": null,
-      "genre": null,
-      "currentRank": null,
-      "status": "dropped",
-      "droppedAt": "#011",
-      "droppedReason": "Displaced",
-      "reEvaluated": false,
-      "reviews": [],
-      "reEvaluations": []
+      "currentScore": 88,
+      "verdict": "EXCELLENT",
+      "genre": "Speedrun History / Documentary",
+      "currentRank": 23,
+      "status": "in-top-50",
+      "droppedAt": null,
+      "droppedReason": null,
+      "reEvaluated": true,
+      "reviews": [
+        {
+          "issue": "#019",
+          "score": 88,
+          "verdict": "EXCELLENT",
+          "notes": "RE-EVALUATION 82→88; NEW #23 — first displacement formally reversed in magazine history (dropped #011 \"displaced,\" not a quality verdict); feature-length World Record Progression docs; holds the Punch-Out!! sub-2:00 record himself (Feb 2025, ~75K attempts)",
+          "approx": false
+        }
+      ],
+      "reEvaluations": [
+        {
+          "issue": "#019",
+          "scoreChange": "82→88",
+          "rankChange": "Re-enters at NEW #23",
+          "notes": "↑ from outside the table — FIRST DISPLACEMENT FORMALLY REVERSED in magazine history (dropped #011 \"displaced,\" not a quality verdict)"
+        }
+      ]
     },
     {
       "name": "Tantacrul",
@@ -1959,7 +2084,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Music Software / Comedy Essay",
-      "currentRank": 41,
+      "currentRank": 42,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -1981,7 +2106,7 @@
       "currentScore": 86,
       "verdict": "EXCELLENT",
       "genre": "History × Cooking",
-      "currentRank": 29,
+      "currentRank": 30,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -2061,7 +2186,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Animated Education / Global",
-      "currentRank": 48,
+      "currentRank": 49,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -2127,7 +2252,7 @@
       "currentScore": 85,
       "verdict": "EXCELLENT",
       "genre": "Science / Entertainment",
-      "currentRank": 45,
+      "currentRank": 46,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
@@ -2149,7 +2274,7 @@
       "currentScore": 87,
       "verdict": "EXCELLENT",
       "genre": "Comedy / Podcast",
-      "currentRank": 24,
+      "currentRank": 25,
       "status": "in-top-50",
       "droppedAt": null,
       "droppedReason": null,
