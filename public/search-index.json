@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-08-04T14:00:57.398Z",
+  "generatedAt": "2026-08-28T12:13:35.888Z",
   "totals": {
-    "total": 284,
-    "issue": 18,
-    "review": 98,
-    "channel": 16,
-    "time-capsule": 105,
-    "boss-fight": 19,
-    "special": 28
+    "total": 298,
+    "issue": 19,
+    "review": 102,
+    "channel": 17,
+    "time-capsule": 110,
+    "boss-fight": 20,
+    "special": 30
   },
   "entries": [
     {
@@ -137,6 +137,13 @@
       "issueTag": "#018"
     },
     {
+      "type": "issue",
+      "title": "THE COMPETITION ISSUE",
+      "subtitle": "The esports leagues froze. The couch, the chessboard, and a streamer's boxing ring did not. Who actually owns competition on YouTube?",
+      "url": "/issues/019/",
+      "issueTag": "#019"
+    },
+    {
       "type": "review",
       "title": "12tone",
       "subtitle": "Music Theory / Analysis · 86/100 · EXCELLENT",
@@ -173,8 +180,15 @@
     },
     {
       "type": "channel",
+      "title": "agadmator",
+      "subtitle": "EXCELLENT",
+      "url": "/creators/#creator-agadmator",
+      "issueTag": "#019"
+    },
+    {
+      "type": "channel",
       "title": "AI Explained",
-      "subtitle": "AI Analysis / Benchmarks",
+      "subtitle": "EXCELLENT",
       "url": "/creators/#creator-ai-explained",
       "issueTag": "#017"
     },
@@ -376,6 +390,13 @@
     },
     {
       "type": "review",
+      "title": "Dude Perfect",
+      "subtitle": "Trick Shots / Family Sports Entertainment · 58/100 · MEDIOCRE",
+      "url": "/reviews/dude-perfect/",
+      "issueTag": "#019"
+    },
+    {
+      "type": "review",
       "title": "Eddy Burback",
       "subtitle": "Comedy / Stunt Documentary · 83/100 · EXCELLENT",
       "url": "/reviews/eddy-burback/",
@@ -431,6 +452,13 @@
       "issueTag": "#006"
     },
     {
+      "type": "channel",
+      "title": "GothamChess",
+      "subtitle": "EXCELLENT",
+      "url": "/creators/#creator-gothamchess",
+      "issueTag": "#019"
+    },
+    {
       "type": "review",
       "title": "HasanAbi",
       "subtitle": "Political Commentary / Streaming · 68/100 · AVERAGE",
@@ -443,6 +471,13 @@
       "subtitle": "Ancient History · 87/100 · EXCELLENT",
       "url": "/reviews/historia-civilis/",
       "issueTag": "#001"
+    },
+    {
+      "type": "review",
+      "title": "Ibai",
+      "subtitle": "Streaming / Invented Competition · 81/100 · EXCELLENT",
+      "url": "/reviews/ibai-llanos/",
+      "issueTag": "#019"
     },
     {
       "type": "review",
@@ -492,6 +527,13 @@
       "subtitle": "Journalism / Explainer · 64/100 · AVERAGE",
       "url": "/reviews/johnny-harris/",
       "issueTag": "#011"
+    },
+    {
+      "type": "review",
+      "title": "Jomboy Media",
+      "subtitle": "Baseball / Sports Breakdown · 85/100 · EXCELLENT",
+      "url": "/reviews/jomboy-media/",
+      "issueTag": "#019"
     },
     {
       "type": "review",
@@ -774,11 +816,11 @@
       "issueTag": "#001"
     },
     {
-      "type": "channel",
+      "type": "review",
       "title": "Summoning Salt",
-      "subtitle": "",
-      "url": "/creators/#creator-summoning-salt",
-      "issueTag": null
+      "subtitle": "Speedrun History / Documentary · 88/100 · EXCELLENT",
+      "url": "/reviews/summoning-salt/",
+      "issueTag": "#019"
     },
     {
       "type": "review",
@@ -1670,6 +1712,41 @@
       "issueTag": "#018"
     },
     {
+      "type": "time-capsule",
+      "title": "Pelé",
+      "subtitle": "Highlight culture, skills-without-matches, tactics channels, the practice the legend hid; \"joy cannot hear the crowd and the comments at the same time\" — FIRST ATHLETES-AND-ARENA-VOICES FIGURE",
+      "url": "/issues/019/",
+      "issueTag": "#019"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Bobby Fischer",
+      "subtitle": "The man who threw the TV cameras out of Reykjavik shown a world where the camera IS the arena; the chess boom, engine suspicion vindicating his paranoia; \"the board is the only honest place\"",
+      "url": "/issues/019/",
+      "issueTag": "#019"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Babe Ruth",
+      "subtitle": "The inventor of the sporting brag on trick-shot culture; the called shot vs the pitcher-less frame; \"no pitcher in the frame, no brag — just talking\"",
+      "url": "/issues/019/",
+      "issueTag": "#019"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Ayrton Senna",
+      "subtitle": "Onboard cameras and telemetry channels as \"the work inside the miracle\"; crash-compilation consumption refused; sim racing as the poor boy's window; \"the limit does not stream\"",
+      "url": "/issues/019/",
+      "issueTag": "#019"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Howard Cosell",
+      "subtitle": "The \"jockocracy\" heir: debate-show hot-take culture as his bastard grandchild; the talkocracy; the Jomboy dilemma (the league buys the critic); \"they inherited my act, the journalism went unclaimed\"",
+      "url": "/issues/019/",
+      "issueTag": "#019"
+    },
+    {
       "type": "boss-fight",
       "title": "Dan Carlin vs Joe Rogan",
       "subtitle": "Winner: Dan Carlin",
@@ -1801,6 +1878,13 @@
       "subtitle": "Winner: Vox",
       "url": "/issues/018/",
       "issueTag": "#018"
+    },
+    {
+      "type": "boss-fight",
+      "title": "GothamChess vs agadmator",
+      "subtitle": "Winner: GothamChess",
+      "url": "/issues/019/",
+      "issueTag": "#019"
     },
     {
       "type": "special",
@@ -1976,6 +2060,20 @@
       "subtitle": "documented mechanics only (The Outline's Ridddle translation-line, Dec 2025 Screen Culture/KH Studio terminations)",
       "url": "/issues/017/",
       "issueTag": "#017"
+    },
+    {
+      "type": "special",
+      "title": "The Esports Winter",
+      "subtitle": "The Esports Winter — how the franchised-league model died (OWL wind-down ~$120M, LCS contraction, LTA one-season merger/dissolution, TSM $10M slot fire-sale vs EG's $33M buy-in, FaZe SPAC $725M→~$15M) and who ate the lunch (La Velada 9M+ concurrent record, Kings League, Sidemen Wembley £4.7M) vs the GDQ counterexample ($2.4M/event, no winter — never financialised) and the sovereign-wealth complication (EWC $71.5M pools, PIF $38B)",
+      "url": "/issues/019/",
+      "issueTag": "#019"
+    },
+    {
+      "type": "special",
+      "title": "closes Devraj S.'s #016 esports debt",
+      "subtitle": "",
+      "url": "/issues/019/",
+      "issueTag": "#019"
     },
     {
       "type": "special",
