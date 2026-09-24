@@ -35,7 +35,7 @@ Because this is the cleanest possible test of a question the whole Competition I
 | Est. | 2016 — first chess channel to 1M subs | Full-time content from 2020; teaching a decade prior |
 | Subs | ~1.35M, plateaued post-boom | ~8M (crossed 5M mid-2024, still climbing) |
 | Format | One game per video, same board, same layout, since forever | Recaps, Guess the Elo, openings, chess news as sports broadcast |
-| Best known for | The historical archive — Morphy to Tal to yesterday, daily | The recap voice of the boom; a No.1 NYT-bestselling chess book |
+| Best known for | The historical archive — Morphy to Tal to yesterday, daily | The recap voice of the boom; a New York Times-bestselling chess book |
 | Weakness | The format never evolves, because evolving it was never the point | The thumbnails run hotter than the content needs; news expires |
 
 **Round 1 — Content Quality.** The chess is not in question on either side; the craft around it is where they split. Levy is a credentialed teacher — International Master, a decade of coaching before the boom, a structured course platform, and a beginners' book good enough to hit the bestseller lists — and it shows in the best of the work: a Gotham opening breakdown teaches a middlegame plan, not just a trap. But the daily engine also ships a lot of content that is news first and chess second, dressed in packaging that has been a running community complaint for years. agadmator's quality curve is flatter and calmer: a great historical game, clearly narrated, allowed to be the star. What he lacks is Levy's instructional depth — you learn what happened, less often how to do it yourself. Teaching beats witnessing, narrowly. *GothamChess wins, on points, with a note from the judges about the thumbnails.*

@@ -513,7 +513,7 @@ NONE — POOL FULLY EXHAUSTED
 | Summoning Salt | 88 | EXCELLENT | RE-EVALUATION 82→88; NEW #23 — first displacement formally reversed in magazine history (dropped #011 "displaced," not a quality verdict); feature-length World Record Progression docs; holds the Punch-Out!! sub-2:00 record himself (Feb 2025, ~75K attempts) |
 | Jomboy Media | 85 | EXCELLENT | NEW #50; lip-reading breakdown genre inventor; Astros trash-can video (Nov 2019); MLB equity stake (2025) noted as a standing conflict to watch; buzzer-theory caveat printed |
 | Ibai Llanos 🇪🇸 | 81 | EXCELLENT | MANDATORY non-English Player Profile; La Velada V 9M+ concurrent single-channel record (2025); Kings League; Twitch-primary honesty (YouTube = archive); does NOT enter (below 85) |
-| Dude Perfect | 58 | MEDIOCRE | MANDATORY negative FULFILLED; "competition with the losing removed"; Highmount $100M+ (Oct 2024), CEO Andrew Yaffe (ex-NBA), Frisco theme park; respect-first negative, our own analysis (no external critic cited) |
+| Dude Perfect | 58 | MEDIOCRE | MANDATORY negative FULFILLED; "competition with the losing removed"; Highmount $100M+ (Apr 2024), first CEO hired ex-NBA (Oct 2024), Frisco theme park; respect-first negative, our own analysis (no external critic cited) |
 | GothamChess | 83 | EXCELLENT | Boss Fight winner; ~8M subs; the boom's broadcaster; 83-tier waiting room with Eddy Burback; does NOT enter |
 | agadmator | 80 | EXCELLENT | Boss Fight loser; chess YouTube's founding institution; won Replay + Community rounds; does NOT enter |
 
@@ -710,7 +710,7 @@ NONE — POOL FULLY EXHAUSTED
 
 1. GuileWinQuote (~100K subs) — retro fighting-game video essays; the FGC's resident historian of forgotten arcade fighters; monthly cadence; the "GuileWinQuote effect" running community joke
 2. Will Anderson / wanderer15 (~71K subs) — competitive Scrabble commentary from the 2017 North American champion; "Better Know a Letter" series; Patreon-funded pure obsession — **Yob's Pick**
-3. Sylvain Ravot (~9K subs — least-corroborated figure, flagged in print) — French chess pedagogy from a FIDE Master and former French national youth coach; smallest channel ever covered — **non-English coverage continuation**
+3. Sylvain Ravot (~12K subs — least-corroborated figure, flagged in print) — French chess pedagogy from a FIDE Master and former French national youth coach; smallest channel ever covered — **non-English coverage continuation**
 4. Displaced Gamers (est. under ~100K — stale figure, flagged in print) — "Behind the Code" assembly-level retro game analysis; reprogrammed Ghosts 'n Goblins to 60fps; the science under the speedrun
 5. GM Benjamin Finegold (~165K subs — borderline, flagged) — grandmaster chess teaching in a stand-up register; the least "hidden" pick, said so in print; the boom rewarded broadcasters, not teachers
 
@@ -1676,7 +1676,7 @@ Options: treat as #004A/#004B, merge, or declare one canonical. Affects continui
 |---------|-------------|-------------|
 | GuileWinQuote (retro FGC video essays) | ~100K | N |
 | Will Anderson / wanderer15 (competitive Scrabble, 2017 NA champion) | ~71K | Y |
-| Sylvain Ravot (French chess pedagogy, FIDE Master) | ~9K (least-corroborated figure, flagged in print) | N |
+| Sylvain Ravot (French chess pedagogy, FIDE Master) | ~12K (least-corroborated figure, flagged in print) | N |
 | Displaced Gamers (Behind the Code retro analysis) | est. under ~100K (stale figure, flagged in print) | N |
 | GM Benjamin Finegold (grandmaster chess teaching) | ~165K (borderline, flagged) | N |
 
