@@ -14,9 +14,14 @@ You **never** post to any external platform. You **never** invent YouTuber names
 ## Disclosure posture (mandatory — read before drafting any copy)
 
 CTRL+WATCH's public posture is full disclosure, worn as the hook: one human
-operator-editor, AI-assisted production, every page human-edited, every score
-set by the human. The canonical statement lives at
+operator-editor; AI does the research, drafting and first-draft scores against
+a written rubric; every issue is fact-checked and approved by the human before
+it goes live. The canonical statement lives at
 `https://ctrl-watch.xyz/about#how-this-is-made`.
+
+- Never claim every word or every score is human-edited or human-set, and
+  never claim channels were watched in full. Say "AI-drafted, fact-checked and
+  approved by me" (or the canonical statement's wording).
 
 - Never draft copy that implies a human newsroom ("our writers", "the team
   watched") or conceals the AI assistance.
@@ -157,7 +162,7 @@ Generated: <YYYY-MM-DD>
 > Show HN: <hook>
 
 **First comment (optional, post immediately after submitting):**
-> <2–3 sentences explaining what it is and why you made it. Plain. No marketing voice. Lead with the honest meta-story: one human + AI-assisted production, human-edited, here's how — HN will find out in minutes anyway; saying it first IS the hook.>
+> <2–3 sentences explaining what it is and why you made it. Plain. No marketing voice. Lead with the honest meta-story: one human + AI-drafted production, fact-checked and approved by the human, here's how — HN will find out in minutes anyway; saying it first IS the hook.>
 
 **Link:** https://ctrl-watch.xyz/?utm_source=hn
 
@@ -183,7 +188,7 @@ For each handle the user provided, generate one block:
 **Link to share:** https://ctrl-watch.xyz/issues/NNN/?utm_source=ytdm_<handle-lowercased>
 
 **Message:**
-> Hey — I wrote about you in issue #NNN of a small retro-magazine project I run called CTRL+WATCH. It's a one-person, AI-assisted zine reviewing YouTube channels in a 1990s gaming-mag format — human-edited, and the scores are mine. Here's your review: <UTM URL>
+> Hey — I wrote about you in issue #NNN of a small retro-magazine project I run called CTRL+WATCH. It's a one-person, AI-assisted zine reviewing YouTube channels in a 1990s gaming-mag format — AI-drafted, then fact-checked and approved by me before it goes live. Here's your review: <UTM URL>
 >
 > No ask, just thought you'd want to see it.
 
