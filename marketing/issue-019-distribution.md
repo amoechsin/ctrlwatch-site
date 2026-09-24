@@ -36,7 +36,148 @@ Skipped this issue. (Save the HN shot for an issue with the strongest hook.)
 
 ## 3. YouTuber DMs
 
-<!-- DM blocks appended after handle verification -->
+> Note: four creators (Jomboy Media, Summoning Salt, GothamChess, Ben Finegold) were emailed directly at their published business addresses by the monthly marketing run — see the report email. The DM blocks below cover the rest, plus the emailed four in case a DM follow-up is ever wanted.
+
+### @DudePerfect
+
+**Channel:** https://www.youtube.com/@DudePerfect
+**Open channel (one click from message button):** https://www.youtube.com/@DudePerfect/about
+**Link to share:** https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_dudeperfect
+
+**Message:**
+> Hey — I wrote about you in issue #019 of a small retro-magazine project I run called CTRL+WATCH. It's a one-person, AI-assisted zine reviewing YouTube channels in a 1990s gaming-mag format — human-edited, and the scores are mine. Here's your review: https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_dudeperfect
+>
+> No ask, just thought you'd want to see it.
+
+---
+
+### @IbaiLlanos
+
+**Channel:** https://www.youtube.com/@IbaiLlanos
+**Open channel (one click from message button):** https://www.youtube.com/@IbaiLlanos/about
+**Link to share:** https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_ibaillanos
+
+**Message:**
+> Hey — I wrote about you in issue #019 of a small retro-magazine project I run called CTRL+WATCH. It's a one-person, AI-assisted zine reviewing YouTube channels in a 1990s gaming-mag format — human-edited, and the scores are mine. Here's your review: https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_ibaillanos
+>
+> No ask, just thought you'd want to see it.
+
+---
+
+### @JomboyMedia
+
+**Channel:** https://www.youtube.com/@JomboyMedia
+**Open channel (one click from message button):** https://www.youtube.com/@JomboyMedia/about
+**Link to share:** https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_jomboymedia
+
+**Message:**
+> Hey — I wrote about you in issue #019 of a small retro-magazine project I run called CTRL+WATCH. It's a one-person, AI-assisted zine reviewing YouTube channels in a 1990s gaming-mag format — human-edited, and the scores are mine. Here's your review: https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_jomboymedia
+>
+> No ask, just thought you'd want to see it.
+
+---
+
+### @SummoningSalt
+
+**Channel:** https://www.youtube.com/@SummoningSalt
+**Open channel (one click from message button):** https://www.youtube.com/@SummoningSalt/about
+**Link to share:** https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_summoningsalt
+
+**Message:**
+> Hey — I wrote about you in issue #019 of a small retro-magazine project I run called CTRL+WATCH. It's a one-person, AI-assisted zine reviewing YouTube channels in a 1990s gaming-mag format — human-edited, and the scores are mine. Here's your review: https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_summoningsalt
+>
+> No ask, just thought you'd want to see it.
+
+---
+
+### @GothamChess
+
+**Channel:** https://www.youtube.com/@GothamChess
+**Open channel (one click from message button):** https://www.youtube.com/@GothamChess/about
+**Link to share:** https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_gothamchess
+
+**Message:**
+> Hey — I wrote about you in issue #019 of a small retro-magazine project I run called CTRL+WATCH. It's a one-person, AI-assisted zine reviewing YouTube channels in a 1990s gaming-mag format — human-edited, and the scores are mine. Here's your review: https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_gothamchess
+>
+> No ask, just thought you'd want to see it.
+
+---
+
+### @agadmator
+
+**Channel:** https://www.youtube.com/@agadmator
+**Open channel (one click from message button):** https://www.youtube.com/@agadmator/about
+**Link to share:** https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_agadmator
+
+**Message:**
+> Hey — I wrote about you in issue #019 of a small retro-magazine project I run called CTRL+WATCH. It's a one-person, AI-assisted zine reviewing YouTube channels in a 1990s gaming-mag format — human-edited, and the scores are mine. Here's your review: https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_agadmator
+>
+> No ask, just thought you'd want to see it.
+
+---
+
+### @GuileWinQuote
+
+**Channel:** https://www.youtube.com/@GuileWinQuote
+**Open channel (one click from message button):** https://www.youtube.com/@GuileWinQuote/about
+**Link to share:** https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_guilewinquote
+
+**Message:**
+> Hey — I wrote about you in issue #019 of a small retro-magazine project I run called CTRL+WATCH. It's a one-person, AI-assisted zine reviewing YouTube channels in a 1990s gaming-mag format — human-edited, and the scores are mine. Here's your review: https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_guilewinquote
+>
+> No ask, just thought you'd want to see it.
+
+---
+
+### @wanderer15
+
+**Channel:** https://www.youtube.com/@wanderer15
+**Open channel (one click from message button):** https://www.youtube.com/@wanderer15/about
+**Link to share:** https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_wanderer15
+
+**Message:**
+> Hey — I wrote about you in issue #019 of a small retro-magazine project I run called CTRL+WATCH. It's a one-person, AI-assisted zine reviewing YouTube channels in a 1990s gaming-mag format — human-edited, and the scores are mine. Here's your review: https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_wanderer15
+>
+> No ask, just thought you'd want to see it.
+
+---
+
+### Sylvain Ravot (no @handle found — legacy channel URL)
+
+**Channel:** https://www.youtube.com/c/SylvainRavot
+**Open channel (one click from message button):** https://www.youtube.com/c/SylvainRavot/about
+**Link to share:** https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_sylvainravot
+
+**Message:**
+> Hey — I wrote about you in issue #019 of a small retro-magazine project I run called CTRL+WATCH. It's a one-person, AI-assisted zine reviewing YouTube channels in a 1990s gaming-mag format — human-edited, and the scores are mine. Here's your review: https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_sylvainravot
+>
+> No ask, just thought you'd want to see it.
+
+---
+
+### @DisplacedGamers
+
+**Channel:** https://www.youtube.com/@DisplacedGamers
+**Open channel (one click from message button):** https://www.youtube.com/@DisplacedGamers/about
+**Link to share:** https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_displacedgamers
+
+**Message:**
+> Hey — I wrote about you in issue #019 of a small retro-magazine project I run called CTRL+WATCH. It's a one-person, AI-assisted zine reviewing YouTube channels in a 1990s gaming-mag format — human-edited, and the scores are mine. Here's your review: https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_displacedgamers
+>
+> No ask, just thought you'd want to see it.
+
+---
+
+### @GMBenjaminFinegold
+
+**Channel:** https://www.youtube.com/@GMBenjaminFinegold
+**Open channel (one click from message button):** https://www.youtube.com/@GMBenjaminFinegold/about
+**Link to share:** https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_gmbenjaminfinegold
+
+**Message:**
+> Hey — I wrote about you in issue #019 of a small retro-magazine project I run called CTRL+WATCH. It's a one-person, AI-assisted zine reviewing YouTube channels in a 1990s gaming-mag format — human-edited, and the scores are mine. Here's your review: https://ctrl-watch.xyz/issues/019/?utm_source=ytdm_gmbenjaminfinegold
+>
+> No ask, just thought you'd want to see it.
 
 ---
 
@@ -51,3 +192,7 @@ Skipped this issue. (Save the HN shot for an issue with the strongest hook.)
 | Source | Visits at 48h | Notes |
 |---|---|---|
 | reddit_esports | | |
+| ytdm_jomboymedia | | emailed johndorn@jomboymedia.com (press) |
+| ytdm_summoningsalt | | emailed summoningsalt@clovertalent.gg (agency) |
+| ytdm_gothamchess | | emailed Info@apollomasters.de (agency) |
+| ytdm_gmbenjaminfinegold | | emailed karen@atlchessclub.com (published contact) |
