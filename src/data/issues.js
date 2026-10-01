@@ -277,4 +277,15 @@ export const issues = [
     rating: null,
     published: true,
   },
+  {
+    slug: '020',
+    number: '#020',
+    date: 'November 2026',
+    title: 'THE ESSAY ISSUE',
+    subtitle: 'YouTube invented one literary form of its own: the video essay. We grade the canon — the monarchs, the economics, and the 89 held at the door.',
+    coverColor: '#00F0FF',
+    tag: 'ESSAY',
+    rating: null,
+    published: true,
+  },
 ];
