@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-08-28T12:13:35.888Z",
+  "generatedAt": "2026-10-01T06:45:59.461Z",
   "totals": {
-    "total": 298,
-    "issue": 19,
-    "review": 102,
+    "total": 310,
+    "issue": 20,
+    "review": 106,
     "channel": 17,
-    "time-capsule": 110,
-    "boss-fight": 20,
-    "special": 30
+    "time-capsule": 115,
+    "boss-fight": 21,
+    "special": 31
   },
   "entries": [
     {
@@ -144,6 +144,13 @@
       "issueTag": "#019"
     },
     {
+      "type": "issue",
+      "title": "THE ESSAY ISSUE",
+      "subtitle": "YouTube invented one literary form of its own: the video essay. We grade the canon — the monarchs, the economics, and the 89 held at the door.",
+      "url": "/issues/020/",
+      "issueTag": "#020"
+    },
+    {
       "type": "review",
       "title": "12tone",
       "subtitle": "Music Theory / Analysis · 86/100 · EXCELLENT",
@@ -191,6 +198,13 @@
       "subtitle": "EXCELLENT",
       "url": "/creators/#creator-ai-explained",
       "issueTag": "#017"
+    },
+    {
+      "type": "review",
+      "title": "Al-Daheeh (الدحيح)",
+      "subtitle": "Arabic Edutainment / Essay · 81/100 · EXCELLENT",
+      "url": "/reviews/al-daheeh/",
+      "issueTag": "#020"
     },
     {
       "type": "channel",
@@ -418,6 +432,13 @@
     },
     {
       "type": "review",
+      "title": "F.D Signifier",
+      "subtitle": "Cultural Analysis / Video Essay · 84/100 · EXCELLENT",
+      "url": "/reviews/f-d-signifier/",
+      "issueTag": "#020"
+    },
+    {
+      "type": "review",
       "title": "Fall of Civilizations",
       "subtitle": "History / Narrative Documentary · 89/100 · EXCELLENT",
       "url": "/reviews/fall-of-civilizations/",
@@ -429,6 +450,13 @@
       "subtitle": "Technology / Programming · 90/100 · ESSENTIAL",
       "url": "/reviews/fireship/",
       "issueTag": "#001"
+    },
+    {
+      "type": "review",
+      "title": "Folding Ideas",
+      "subtitle": "Video Essay / Media Criticism · 84/100 · EXCELLENT",
+      "url": "/reviews/folding-ideas/",
+      "issueTag": "#020"
     },
     {
       "type": "review",
@@ -464,6 +492,13 @@
       "subtitle": "Political Commentary / Streaming · 68/100 · AVERAGE",
       "url": "/reviews/hasanabi/",
       "issueTag": "#011"
+    },
+    {
+      "type": "review",
+      "title": "hbomberguy",
+      "subtitle": "Long-Form Video Essay · 89/100 · EXCELLENT",
+      "url": "/reviews/hbomberguy/",
+      "issueTag": "#020"
     },
     {
       "type": "review",
@@ -1747,6 +1782,41 @@
       "issueTag": "#019"
     },
     {
+      "type": "time-capsule",
+      "title": "Michel de Montaigne",
+      "subtitle": "1533–1592; the inventor of the essay (\"essai\" = attempt) on the video essay; \"Que sais-je?\" vs thumbnail certainty; digression vs the algorithm; delight that millions now attempt — FIRST ESSAYISTS FIGURE",
+      "url": "/issues/020/",
+      "issueTag": "#020"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Virginia Woolf",
+      "subtitle": "1882–1941; A Room of One's Own mapped onto Patreon and a spare bedroom; the common reader; who gets a room and who doesn't — **LAST ARTS/LITERATURE LEGACY FIGURE (pool now ZERO; legacy pool = 4-figure music reserve ONLY)**",
+      "url": "/issues/020/",
+      "issueTag": "#020"
+    },
+    {
+      "type": "time-capsule",
+      "title": "George Orwell",
+      "subtitle": "1903–1950; \"Politics and the English Language\" vs clickbait and prefabricated phrases; the pamphleteer's dream granted (no printer between writer and reader) with the complication that the platform IS the printer and the censor",
+      "url": "/issues/020/",
+      "issueTag": "#020"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Sei Shōnagon",
+      "subtitle": "c. 966–c. 1025; The Pillow Book's lists as the ur-listicle; zuihitsu (\"following the brush\") as the native register of the personal essay; the private notebook that circulated vs a world publishing its pillow books to strangers on purpose — FIRST NON-WESTERN ESSAYISTS FIGURE",
+      "url": "/issues/020/",
+      "issueTag": "#020"
+    },
+    {
+      "type": "time-capsule",
+      "title": "E.B. White",
+      "subtitle": "1899–1985; the plain style; \"omit needless words\" vs the three-hour essay; the essayist's self-indulgence named with affection; the quiet craft channels he'd love",
+      "url": "/issues/020/",
+      "issueTag": "#020"
+    },
+    {
       "type": "boss-fight",
       "title": "Dan Carlin vs Joe Rogan",
       "subtitle": "Winner: Dan Carlin",
@@ -1885,6 +1955,13 @@
       "subtitle": "Winner: GothamChess",
       "url": "/issues/019/",
       "issueTag": "#019"
+    },
+    {
+      "type": "boss-fight",
+      "title": "Jacob Geller vs Jenny Nicholson",
+      "subtitle": "Winner: Jacob Geller",
+      "url": "/issues/020/",
+      "issueTag": "#020"
     },
     {
       "type": "special",
@@ -2074,6 +2151,13 @@
       "subtitle": "",
       "url": "/issues/019/",
       "issueTag": "#019"
+    },
+    {
+      "type": "special",
+      "title": "A Channel of One's Own",
+      "subtitle": "A Channel of One's Own — the essay economy: Woolf's money-and-a-room thesis mapped onto the video essay's funding reality (Patreon patronage, Nebula's creator-owned structure, the runtime drift as economics, the patron-first release pattern, the form auditing itself via the Dec 2023 plagiarism reckoning kept consistent with #018)",
+      "url": "/issues/020/",
+      "issueTag": "#020"
     },
     {
       "type": "special",
