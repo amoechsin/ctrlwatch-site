@@ -1,7 +1,7 @@
 ---
 channel: Every Frame a Painting
 creator: Tony Zhou & Taylor Ramos
-dateline: "~2.8M subs · film analysis essays · 28 videos 2014–2016 · dormant"
+dateline: "~2.8M subs · film analysis essays · the 28-video 2014–2016 run · returned 2024"
 genre: Film Analysis
 axes:
   contentQuality: 98
@@ -16,10 +16,10 @@ originatingIssue: "#004"
 related:
   - nerdwriter1
   - like-stories-of-old
-updated: 2026-05-30
+updated: 2026-10-01
 ---
 
-There is an argument — a serious one, not a nostalgic one — that Every Frame a Painting produced the best film analysis ever made available to a general audience. Not the most, not the longest, not the most frequent. The best. Twenty-eight videos across roughly two years, then silence. The channel has not uploaded since 2016. It has not needed to.
+There is an argument — a serious one, not a nostalgic one — that Every Frame a Painting produced the best film analysis ever made available to a general audience. Not the most, not the longest, not the most frequent. The best. Twenty-eight videos across roughly two years, then silence — a canonical run that closed in September 2016 and did not need a sequel. (In August 2024, after an eight-year absence, Zhou and Ramos returned with new work alongside a short film; the score below was earned by the archive, and the archive is what it grades.)
 
 Tony Zhou and Taylor Ramos made video essays about filmmaking the way the filmmakers they admired made films: with ruthless precision, a commitment to the shot, and the understanding that everything in the frame is a choice. That sounds obvious until you watch their essay on Jackie Chan's choreography and realise that you have never actually *seen* a Jackie Chan film before. You watched the bodies. You didn't watch the *space*.
 
@@ -29,7 +29,7 @@ The craft on display is startling in retrospect. Zhou is a professional video ed
 
 The body of work rewards obsessive rewatch in the way that great albums do. You return to the Wright essay to catch the joke in the joke. You return to the Fincher essay because you've just seen *Se7en* again and you need to verify that you're seeing what you think you're seeing. You return to the Kubrick essay because it is, genuinely, one of the finest pieces of film criticism produced in any medium in the last twenty years, and you want to be inside that thinking again. The replay value here is not a score category — it is the entire point. Every Frame a Painting is a permanent reference work dressed as a YouTube channel.
 
-The dormancy is the only complication, and it is a real one. Zhou and Ramos published a farewell essay in 2016 — candid, gracious, and honest about the personal cost of the project — and the channel has been silent since. This means that Every Frame a Painting is a closed archive, not a living publication. On the Consistency axis, a dormant channel scores what it scores. We cannot pretend otherwise. The rubric does not have a category for "perfect and finished," so it must take its mark alongside channels that simply stopped uploading. That is a limitation of the rubric, not a judgement on the work.
+The cadence is the only complication, and it is a real one. Zhou and Ramos ended the original run in 2016 and declared the series finished in a candid 2017 farewell — honest about the personal cost of the project — and apart from the 2024 return, Every Frame a Painting remains an archive first and a publication second. On the Consistency axis, a dormant channel scores what it scores. We cannot pretend otherwise. The rubric does not have a category for "perfect and finished," so it must take its mark alongside channels that simply stopped uploading. That is a limitation of the rubric, not a judgement on the work.
 
 The community that gathered around the channel remains remarkable. The comments thread under any EFAP video reads like an extended seminar — specific, technically literate, genuinely engaged with the argument rather than performing engagement. Viewers caught Zhou's references, extended his analysis, pushed back on his conclusions with evidence. The discourse level is so unusual for YouTube that it functions as its own recommendation: if the audience a channel attracts looks like this, the channel earned it.
 
