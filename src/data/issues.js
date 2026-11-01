@@ -288,4 +288,15 @@ export const issues = [
     rating: null,
     published: true,
   },
+  {
+    slug: '021',
+    number: '#021',
+    date: 'December 2026',
+    title: 'THE MAKER ISSUE',
+    subtitle: 'YouTube is the biggest workshop on earth, and failure is its native genre. We grade the builders — and the hack factory that fakes it.',
+    coverColor: '#FF6B00',
+    tag: 'MAKERS',
+    rating: null,
+    published: true,
+  },
 ];
