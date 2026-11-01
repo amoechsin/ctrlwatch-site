@@ -1,7 +1,7 @@
 # CTRL+WATCH — Master Continuity Tracker (VERIFIED)
 
 **Verified From:** Actual HTML files for Issues #001-006; Issues #007-014 from generation records  
-**Last Updated:** November 2026 (Post-Issue #020)  
+**Last Updated:** November 2026 (Post-Issue #021)  
 **Purpose:** Track all content to prevent repetition and maintain narrative continuity.
 
 ---
@@ -51,6 +51,7 @@ These duplicates should be noted in editorial continuity. Going forward, maintai
 | #018 | The History Issue | public/issues/018/index.html |
 | #019 | The Competition Issue | public/issues/019/index.html |
 | #020 | The Essay Issue | public/issues/020/index.html |
+| #021 | The Maker Issue | public/issues/021/index.html |
 
 **Note:** Two versions of Issue #004 exist (Spectacle and Craft). Decide which is canonical or treat as #004A and #004B.
 
@@ -227,6 +228,15 @@ These duplicates should be noted in editorial continuity. Going forward, maintai
 
 *(5-figure slate. Opens the ESSAYISTS category — the SIXTH consecutive new-category open. Woolf is the first legacy draw since Turing (#017) and the LAST Arts/Literature figure — that pool is now ZERO. Legacy pool now: the 4-figure music reserve ONLY (Lennon, Joplin, Hendrix, Mitchell — music-adjacent issues only). Essayists shelf runway remains deep: William Hazlitt, Ralph Waldo Emerson, Charles Lamb, Joan Didion (handle recent deaths with care), James Thurber, Lu Xun, Natsume Sōseki, Jonathan Swift, Samuel Johnson.)*
 
+### Issue #021 — The Maker Issue
+1. Isambard Kingdom Brunel — 1806–1859; the chains photograph as proto-thumbnail; the ticketed Great Eastern launch failure as the original livestreamed failure; the atmospheric railway; engineering serials and shed-scale ambition — FIRST ENGINEERS & INVENTORS FIGURE
+2. Thomas Edison — 1847–1931; Menlo Park as the first content farm, recognized approvingly (the ambivalent/dark slot); team credit under one name (Dickson shot the films); the real Mallory-attested quote vs the "10,000 ways" paraphrase — he complains the internet misquotes him; kinetoscope irony
+3. Soichiro Honda — 1906–1991; rejected piston rings and metallurgy classes; racing as publicity; reacts to his own apocryphal "99% failure" quote; build-fail culture; distrust of credentialism — non-Western figure
+4. Margaret E. Knight — 1838–1914; the 1870 Annan patent interference case; she won because she documented the build (journals, drawings, models) — the build log as proof of authorship; Jerry Lawson (#016) attribution echo
+5. Archimedes — c.287–212 BC; Plutarch's engineering-disdain vs the Method's mechanical reasoning; the burning-mirrors legend as the original fake build video attached to a real maker's name; "do not disturb my circles" sentiment attested, wording later
+
+*(5-figure slate. Opens the ENGINEERS & INVENTORS category — the SEVENTH consecutive new-category open after culinary (#015), gaming (#016), computing (#017), historians (#018), athletes (#019), essayists (#020). Legacy pool UNTOUCHED: the 4-figure music reserve ONLY. Engineers/inventors runway remains deep: James Watt, the Wright brothers, Ismail al-Jazari (non-Western, dovetails with the Rome-problem seed), George Washington Carver, Josephine Cochrane, Lillian Gilbreth, Garrett Morgan, Sergei Korolev, Nikolaus Otto, Kelly Johnson. Edison was the last pre-listed "inventors" candidate from the #014 structural note — the category is now formally open.)*
+
 ---
 
 ## TIME CAPSULE — SAFE TO USE (Never Interviewed)
@@ -315,12 +325,14 @@ NONE — POOL FULLY EXHAUSTED
 | #018 | Johnny Harris vs Vox | Vox | 72 vs 66 | Map Explainer / Visual Journalism |
 | #019 | GothamChess vs agadmator | GothamChess | 83 vs 80 | Chess Content |
 | #020 | Jacob Geller vs Jenny Nicholson | Jacob Geller | 91 vs 91 | Long-Form Video Essay |
+| #021 | Mark Rober vs Stuff Made Here | Mark Rober | 89 vs 86 | The Engineer-Creator |
 
 ### Boss Fight Matchups — SAFE TO USE
-- Adam Savage vs Colin Furze
 - Adam Ragusea vs Ethan Chlebowski (cooking science)
 - NileRed vs Nile Blue (chemistry siblings)
 - Mrwhosetheboss vs Dave2D (global tech review)
+
+> ⚠️ **REMOVED FROM SAFE LIST (#021): Adam Savage vs Colin Furze — RETIRED UNFOUGHT.** Research for the planned #021 Boss Fight surfaced the documented record of the June 2020 civil suit against Adam Savage (filed by his sister under New York's Child Victims Act, alleging childhood abuse; he denied it flatly; the case was privately settled and dismissed without prejudice in May 2021 — no adjudication either way; no sponsor fallout found in the record). Per the exurb1a precedent (#020), a celebratory head-to-head spotlight is not editorially defensible while the record stands as an unadjudicated allegation + denial + sealed settlement. The pairing was replaced before writing began (Stuff Made Here vs Mark Rober fought instead) and the #021 issue notes the retirement in one unnamed sentence. **Colin Furze is unaffected and clean** (only a planning-permission saga, resolved 2022) — he remains a strong future Player Profile candidate (~13.3M subs per mid-2026 trackers) and may be re-paired with a different opponent. Any future Adam Savage coverage is an OPERATOR-LEVEL decision — see Watch-list.
 
 > ⚠️ **REMOVED FROM SAFE LIST (#020): exurb1a vs Like Stories of Old.** Research for #020 surfaced that the 2017 police reports against exurb1a (abuse and sexual-assault allegations by a former collaborator; Dutch prosecutors declined to proceed citing insufficient evidence; no public response from him) are documented and unresolved. A celebratory head-to-head spotlight is not editorially defensible. Do NOT re-propose this pairing. His standing #21 ranking (88) is a separate open editorial question flagged to the operator — see Watch-list.
 
@@ -344,7 +356,9 @@ NONE — POOL FULLY EXHAUSTED
 - ~~Johnny Harris vs Vox~~ ✓ #018
 - ~~GothamChess vs agadmator~~ ✓ #019
 - ~~Jacob Geller vs Jenny Nicholson~~ ✓ #020
+- ~~Mark Rober vs Stuff Made Here~~ ✓ #021
 - ~~exurb1a vs Like Stories of Old~~ ✗ RETIRED UNFOUGHT #020 — see removal note above; do not re-propose
+- ~~Adam Savage vs Colin Furze~~ ✗ RETIRED UNFOUGHT #021 — see removal note above; do not re-propose as constituted (Furze alone remains eligible)
 
 ---
 
@@ -540,9 +554,17 @@ NONE — POOL FULLY EXHAUSTED
 | F.D Signifier | 84 | EXCELLENT | N/A (below 85) | Pseudonymous; sociological thesis-first Black cultural criticism at 3–4-hour scale (Tyler Perry video Feb 2026); runtime is moat and wall; joins the 84 waiting room (now NINE deep — fullest in history) |
 | Al-Daheeh (الدحيح) 🇪🇬 | 81 | EXCELLENT | N/A (below 85) | Ahmed El-Ghandour; MANDATORY non-English profile — FIRST ARABIC PROFILE IN MAGAZINE HISTORY (honors the #013 Arabic flag); platform-nomad arc (AJ+ → New Media Academy → back to AJ+ April 2026); 2021 boycott controversy covered evenhandedly; verification limits stated in print; does NOT enter |
 
+### Issue #021 — The Maker Issue
+| Channel | Score | Verdict | Top 50 | Notes |
+|---------|-------|---------|--------|-------|
+| Li Ziqi (李子柒) 🇨🇳 | 87 | EXCELLENT | NEW #30 | **FIRST NON-ENGLISH-LANGUAGE CHANNEL EVER TO ENTER THE TOP 50** — the issue's headline; MANDATORY non-English profile; Consistency 35 (lowest ever carried into the table — Jul 2021→Nov 2024 litigation silence + unverifiable post-return cadence, stated in print) outvoted by CQ 96 / Replay 94 / XF 97 (FoC/Clickspring precedent); won 99% of her company in the Dec 2022 court-mediated settlement; structurally answers Karim A.'s #020 "window or token?" |
+| Simone Giertz | 86 | EXCELLENT | NEW #43 | Deliberate-failure-as-philosophy arc (shitty robots → TED 2018 → Yetch product studio); Truckla; Every Day Calendar; 2026 Laundry Chair Kickstarter (reported ~$966K, aggregator-sourced, hedged in print); XF 93 |
+| Wintergatan | 82 | EXCELLENT | N/A (below 85) | Martin Molin; a decade of public non-completion — MMX stopped end-2021, MM3 begun Mar 2022; Community 92 (the audience funds the failing); the Special Feature's thesis in one channel; does NOT enter |
+| Troom Troom | 31 | GAME OVER | N/A | MANDATORY negative FULFILLED — "the anti-maker"; case built ONLY on the documented record (content-farm model, ~23.8M subs / ~10.6B views per vidIQ Oct 2026, language-clone network, ownership unconfirmed per Wikipedia's own framing, 2018 New Statesman/Vox reception); the unsourceable "dangerous hacks named to Troom Troom" charge deliberately NOT printed; third-lowest score in history (between Bright Side 28 and Ridddle 38) |
+
 ---
 
-## TOP 50 — CURRENT STATE (Post-Issue #020)
+## TOP 50 — CURRENT STATE (Post-Issue #021)
 
 | # | Channel | Score | Genre | Last Movement |
 |---|---------|-------|-------|---------------|
@@ -562,42 +584,42 @@ NONE — POOL FULLY EXHAUSTED
 | 14 | Veritasium | 89 | Science / Education | — |
 | 15 | Vsauce | 89 | Science / Philosophy | — |
 | 16 | Fall of Civilizations | 89 | Narrative History / Documentary | — |
-| 17 | hbomberguy | 89 | Long-Form Video Essay | NEW |
-| 18 | Technology Connections | 88 | Technology / History | ↓1 |
-| 19 | Conan O'Brien / Team Coco | 88 | Comedy / Talk | ↓1 |
-| 20 | Contrapoints | 88 | Political Essay / Trans Studies | ↓1 |
-| 21 | exurb1a | 88 | Philosophy / Existential | ↓1 |
-| 22 | Clickspring | 88 | Clockmaking / Machining | ↓1 |
-| 23 | Game Maker's Toolkit | 88 | Game Design Criticism | ↓1 |
-| 24 | Summoning Salt | 88 | Speedrun History / Documentary | ↓1 |
-| 25 | Internet Historian | 87 | Internet Culture / Documentary | ↓1 |
-| 26 | Theo Von | 87 | Comedy / Podcast | ↓1 |
-| 27 | Good Mythical Morning | 87 | Entertainment / Variety | ↓1 |
-| 28 | Caspian Report | 87 | Geopolitics / Analysis | ↓1 |
-| 29 | Historia Civilis | 87 | Ancient History | ↓1 |
-| 30 | JCS — Criminal Psychology | 86 | True Crime / Analysis | ↓1 |
-| 31 | Tasting History with Max Miller | 86 | History × Cooking | ↓1 |
-| 32 | Breaking Points | 86 | Political Analysis / Podcast | ↓1 |
-| 33 | 12tone | 86 | Music Theory / Analysis | ↓1 |
-| 34 | Like Stories of Old | 86 | Philosophy / Video Essay | ↓1 |
-| 35 | Nerdwriter1 | 86 | Art / Film Analysis | ↓1 |
-| 36 | NileRed | 86 | Chemistry | ↓1 |
-| 37 | Stuff Made Here | 86 | Engineering / Maker | ↓1 |
-| 38 | J. Kenji Lopez-Alt | 86 | Food Science / Cooking | ↓1 |
-| 39 | Scott The Woz | 86 | Retro Gaming / Comedy | ↓1 |
-| 40 | Drew Gooden | 86 | Deadpan Comedy Commentary | ↓1 |
-| 41 | Noclip | 86 | Games Documentary | ↓1 |
-| 42 | Binging with Babish | 85 | Cooking / Entertainment | ↓1 |
-| 43 | Tantacrul | 85 | Music Software / Comedy Essay | ↓1 |
-| 44 | Philosophy Tube | 85 | Political Philosophy / Theatre | ↓1 |
-| 45 | Real Engineering | 85 | Engineering / Education | ↓1 |
-| 46 | Chinese Cooking Demystified | 85 | Regional Chinese Cooking | ↓1 |
-| 47 | The Slow Mo Guys | 85 | Science / Entertainment | ↓1 |
-| 48 | Map Men (Jay and Mark) | 85 | Geography / Comedy | ↓1 |
-| 49 | Smarter Every Day | 85 | Science / Curiosity | ↓1 |
-| 50 | Jomboy Media | 85 | Baseball / Sports Breakdown | — |
+| 17 | hbomberguy | 89 | Long-Form Video Essay | — |
+| 18 | Technology Connections | 88 | Technology / History | — |
+| 19 | Conan O'Brien / Team Coco | 88 | Comedy / Talk | — |
+| 20 | Contrapoints | 88 | Political Essay / Trans Studies | — |
+| 21 | exurb1a | 88 | Philosophy / Existential | — |
+| 22 | Clickspring | 88 | Clockmaking / Machining | — |
+| 23 | Game Maker's Toolkit | 88 | Game Design Criticism | — |
+| 24 | Summoning Salt | 88 | Speedrun History / Documentary | — |
+| 25 | Internet Historian | 87 | Internet Culture / Documentary | — |
+| 26 | Theo Von | 87 | Comedy / Podcast | — |
+| 27 | Good Mythical Morning | 87 | Entertainment / Variety | — |
+| 28 | Caspian Report | 87 | Geopolitics / Analysis | — |
+| 29 | Historia Civilis | 87 | Ancient History | — |
+| 30 | Li Ziqi (李子柒) | 87 | Chinese Rural Craft / Food | NEW |
+| 31 | JCS — Criminal Psychology | 86 | True Crime / Analysis | ↓1 |
+| 32 | Tasting History with Max Miller | 86 | History × Cooking | ↓1 |
+| 33 | Breaking Points | 86 | Political Analysis / Podcast | ↓1 |
+| 34 | 12tone | 86 | Music Theory / Analysis | ↓1 |
+| 35 | Like Stories of Old | 86 | Philosophy / Video Essay | ↓1 |
+| 36 | Nerdwriter1 | 86 | Art / Film Analysis | ↓1 |
+| 37 | NileRed | 86 | Chemistry | ↓1 |
+| 38 | Stuff Made Here | 86 | Engineering / Maker | ↓1 |
+| 39 | J. Kenji Lopez-Alt | 86 | Food Science / Cooking | ↓1 |
+| 40 | Scott The Woz | 86 | Retro Gaming / Comedy | ↓1 |
+| 41 | Drew Gooden | 86 | Deadpan Comedy Commentary | ↓1 |
+| 42 | Noclip | 86 | Games Documentary | ↓1 |
+| 43 | Simone Giertz | 86 | Invention / Product Design | NEW |
+| 44 | Binging with Babish | 85 | Cooking / Entertainment | ↓2 |
+| 45 | Tantacrul | 85 | Music Software / Comedy Essay | ↓2 |
+| 46 | Philosophy Tube | 85 | Political Philosophy / Theatre | ↓2 |
+| 47 | Real Engineering | 85 | Engineering / Education | ↓2 |
+| 48 | Chinese Cooking Demystified | 85 | Regional Chinese Cooking | ↓2 |
+| 49 | The Slow Mo Guys | 85 | Science / Entertainment | ↓2 |
+| 50 | Map Men (Jay and Mark) | 85 | Geography / Comedy | ↓2 |
 
-**Entry threshold post-#020: holds at 85. One entry (hbomberguy NEW #17 at 89 — the highest new entry since Fall of Civilizations at #16 in #018), one exit: TED-Ed (85) dropped at the bottom of the ten-deep 85-tier on the X-Factor tie-break (institutional voicelessness — a Priority 5 displacement, not a quality verdict; its #013 multilingual re-eval flag stays live). Ranks 1–16 unchanged; old #17–#48 slide exactly one seat; Jomboy Media survives at #50 only because the exit happened one row above him — the #019 "lease, not a deed" warning nearly landed in one issue. The 84-tier waiting room is now NINE deep (Videogamedunkey, Coffeezilla, AI Explained, Whang!, Ryan George, Abroad in Japan, Danny Gonzalez + new this issue Folding Ideas and F.D Signifier) — the fullest in the ranking's history — with GothamChess and Eddy Burback still at 83.**
+**Entry threshold post-#021: holds at 85. Two entries (Li Ziqi NEW #30 at 87 — the FIRST NON-ENGLISH-LANGUAGE CHANNEL IN TOP 50 HISTORY; Simone Giertz NEW #43 at 86), two exits from the bottom seats of the 85-tier: Smarter Every Day (85, tenure back to the early issues — Priority 5 displacement, explicitly not a quality verdict, re-entry candidate) and Jomboy Media (85, in at #50 in #019, stay of execution in #020, out in #021 — the turnstile Dmitri K. named now has a body of work). Ranks 1–29 unchanged; the 86-tier slides one seat for Li Ziqi's insertion; the surviving 85-tier slides two. The 84-tier waiting room holds at NINE (Videogamedunkey, Coffeezilla, AI Explained, Whang!, Ryan George, Abroad in Japan, Danny Gonzalez, Folding Ideas, F.D Signifier), with GothamChess and Eddy Burback at 83 and Wintergatan new at 82.**
 
 ### Notable Movements — Issue #014
 - **Jenny Nicholson**: NEW at #9 (91) — first comedy essayist to hold the 91 ESSENTIAL tier; lowest Consistency in the tier (65)
@@ -658,6 +680,8 @@ NONE — POOL FULLY EXHAUSTED
 | Coffeezilla | #019 | 84 | Displaced after ONE-ISSUE tenure — entered #017 at the threshold, exited when two #019 entries (88/85) emptied the 84-tier; explicitly NOT a quality verdict; re-entry candidate |
 | AI Explained | #019 | 84 | Displaced after ONE-ISSUE tenure — same arithmetic as Coffeezilla; SimpleBench contribution stands; re-entry candidate |
 | TED-Ed | #020 | 85 | Dropped at the bottom of the ten-deep 85-tier on the X-Factor tie-break — institutional breadth without a voice; not a quality verdict; #013 multilingual re-eval flag stays live |
+| Smarter Every Day | #021 | 85 | Displaced from the bottom seats of the 85-tier by two entries — Priority 5, explicitly not a quality verdict; tenure stretched back to the ranking's early years; re-entry candidate |
+| Jomboy Media | #021 | 85 | Displaced after two-issue tenure (in #019, stay of execution #020, out #021) — the turnstile precedent now has three short tenures on record; re-entry candidate; MLB equity conflict-watch flag stays live |
 
 ### All-Time Re-Evaluation Records
 | Channel | Issue | Score Change | Rank Change | Notes |
@@ -747,6 +771,15 @@ NONE — POOL FULLY EXHAUSTED
 4. Allie Meowy (~19K) — game/media essayist; "How Many Times Can You Pee in Heavy Rain?" (182K+ views on a ~19K channel — the ratio is the story); hbomberguy comment attributed to Tufts Daily — **Yob's Pick**
 5. In/Frame/Out (~39K, stale figure flagged) — collective short essays on overlooked films; possibly resting — printed honestly as the archive pick ("we can vouch for the shelf, not the schedule"); no titles printed (unverifiable)
 
+### Issue #021 — The Maker Issue — ✅ REAL RUN #5
+> **🚨 REAL CHANNELS.** Standing decision (2026-07-03) honored a FIFTH time: all five are real channels verified via secondary sources (Hackaday/Hackster/trade coverage); counts are third-party-tracker figures (SponsorRadar et al.), mostly undated, flagged honestly in print — operator spot-check advised (same precedent as #019/#020). **No non-English channel could be verified under 200K to standard at press time — the slot is unfilled and the section says so in print; the non-English torch this issue is carried at full-profile scale (Li Ziqi, NEW #30). Leads invited to yob@ctrl-watch.xyz.**
+
+1. Usagi Electric (~134K, undated tracker figure flagged) — David Lovett's vacuum-tube computers: the wall-filling UE-1 (192 tubes), a one-bit 24-tube single-board machine, a hand-machined paper-tape reader (Hackaday/Hackster) — **Yob's Pick**
+2. Switch & Lever (~152K, undated figure flagged) — retro-tech making; Hackaday-covered vintage toggle-switch restoration, acid-etched brass plaques
+3. Artisan Makes (~146K per SponsorRadar, conflicting far-lower figure printed honestly) — hobby machining on an import lathe and small mill; nationality deliberately not stated (unverified)
+4. Wesley Treat (~196–199K — the MOST borderline pick in section history, said so in print) — handmade signs and retro-futuristic roadside Americana
+5. Turn Wright Machine Works (count unverified; "over 100K" in a 2018 trade roundup, staleness printed) — Keith Fenner, Cape Cod; ex-Navy ship repair; real paying lathe/mill jobs narrated — the working-shop pick
+
 ---
 
 ## SPECIAL FEATURES USED
@@ -773,6 +806,7 @@ NONE — POOL FULLY EXHAUSTED
 | #017 | How a Slop Farm Actually Works — pipeline anatomy of synthetic content (trend-scrape → script → synthetic voice → b-roll → thumbnail A/B → volume); documented mechanics only (The Outline's Ridddle translation-line, Dec 2025 Screen Culture/KH Studio terminations) |
 | #019 | The Esports Winter — how the franchised-league model died (OWL wind-down ~$120M, LCS contraction, LTA one-season merger/dissolution, TSM $10M slot fire-sale vs EG's $33M buy-in, FaZe SPAC $725M→~$15M) and who ate the lunch (La Velada 9M+ concurrent record, Kings League, Sidemen Wembley £4.7M) vs the GDQ counterexample ($2.4M/event, no winter — never financialised) and the sovereign-wealth complication (EWC $71.5M pools, PIF $38B); closes Devraj S.'s #016 esports debt |
 | #020 | A Channel of One's Own — the essay economy: Woolf's money-and-a-room thesis mapped onto the video essay's funding reality (Patreon patronage, Nebula's creator-owned structure, the runtime drift as economics, the patron-first release pattern, the form auditing itself via the Dec 2023 plagiarism reckoning kept consistent with #018) |
+| #021 | The Failure Engine — why building is the only genre on YouTube where going wrong is the product: iteration as narrative (Stuff Made Here's forensic logs, Giertz's useless-machines philosophy, Wintergatan's decade of funded non-completion), the counterfeit versions (timestamp lies, fake primitive builds, Troom Troom's craft-as-costume), the #019 Dude Perfect inverse, the economics of shown failure → patron trust; coda on Edison's real Mallory-attested quote vs the "10,000 ways" paraphrase. NO new framework/Type coined (deliberate, fourth issue running). |
 | #018 | Who Owns the Past? — four models of the history-explainer economy (Narrators / Factories / Readers / Animators) + the Pipeline Problem (Wikipedia→script→stock maps→synthetic voice, no citations norm on YouTube); the hbomberguy "Plagiarism and You(Tube)" reckoning kept in proportion (Internet Historian "Man in Cave"); the one ask — sources in the description |
 
 ---
@@ -798,6 +832,7 @@ NONE — POOL FULLY EXHAUSTED
 | #018 | PRIMARY SOURCE™ ("spray-on citation, smells like vellum"), THE KEN BURNS EFFECT MACHINE™ ("make any JPEG weep, violin sold separately"), EMPIRE IN A BOX™ ("rises, peaks, declines & falls; +GIBBON MODE"), HINDSIGHT 20/20™ ("goggles that show you it was all inevitable — afterwards") |
 | #019 | THE HIGHLIGHT REEL™ ("your life, with the losses removed"), CLUTCH GENE™ ("the intangible, now in capsule form"), ASTERISK-B-GONE™ ("deep-cleans any record, even that one"), RANKED MODE: LIFE™ ("finally — a number that tells you what you're worth") |
 | #020 | THE VISUAL METAPHOR BUCKET™ (b-roll of chess pieces, marionettes and a goldfish for any argument), PRESTIGE MODE™ (serif fonts, letterbox bars, grey grading, Roman numerals, a lowered voice — gravitas without the sad piano), THE DIGRESSION™ (a 40-minute tangent, sold separately), THE EPIGRAPH ENGINE™ (opens any video with a quotation that almost applies) |
+| #021 | MONTAGE IN A CAN™ (three months of failure compressed to forty seconds of inspiration), SWARF™ by the bag (artisanal metal shavings for the spotless show bench; Mild Steel / Brass Premium / Inconel Influencer), THE PLANNING PERMISSION™ EXPANSION PACK (retroactive council approval for the tunnel you already dug), PATENT TROLL UNDER THE BENCH™ (we invented your invention first, retroactively; interference-proceeding insurance; "Don't be like Margaret") |
 
 ---
 
@@ -818,6 +853,7 @@ NONE — POOL FULLY EXHAUSTED
 | #018 | The Historical-Accuracy Grader (historian became a proofreader); the Laser-Legionary Alternate-History Complex ("what if?" answered with "who knows" over a robot Roman); "The DARK History of [Beloved Thing]" (retroactive-sin, true-crime colonising the past); POV Medieval-Peasant Ambience Slop (the Black Death as lo-fi beats to study to); "Historians Don't Want You to Know" (pseudo-archaeology / ancient-aliens grudge) |
 | #019 | The "[Team] Is In SHAMBLES" rage merchant (daily apocalypse fan channels); the AI-voiced "TRAGIC Story of…" sports doc (slop wave at the stadium); the fabricated trick-shot reel (the genre's logical conclusion); the betting-app "analysis" channel (a tout with a thumbnail); the "Ranking Every…" tier-list mill (standings-shaped content with no argued criteria) |
 | #020 | The plot-recap "essay" (a synopsis in a trench coat); the runtime flex (length as prestige — "longer than The Irishman" as a selling point); the six-minute throat-clear ("in this essay I will…" + three sponsor reads before the thesis); the one-lens mill (every video discovers the same conclusion); the AI profundity mill (synthetic awe over stock nebula footage) |
+| #021 | The fake "primitive building" epic (excavator tracks in the hand-dug mud); the "I Built X in 24 Hours" timestamp lie (the B-roll has three haircuts in it); the reverse-restoration channel (buy it new, rust it on purpose); the AI-voiced "genius inventions" gadget-slop compilation (renders sold as products, no hands in frame); the shop-tour flex channel (a workshop that never makes a chip — the gym selfie of making) |
 
 ---
 
@@ -844,8 +880,9 @@ NONE — POOL FULLY EXHAUSTED
 | #018 | (none) | — | No dedicated negative Player Profile. Lowest full profile is Kings and Generals (75, GOOD — a positive on-merit verdict). Johnny Harris scores 66 (AVERAGE) but as a BOSS FIGHT loser / #011 re-score re-confirmation, not a standalone negative review. Counter advances to 1. |
 | #019 | Dude Perfect | 58 | MEDIOCRE — "competition with the losing removed"; respect-first negative; mandatory negative FULFILLED on the ~#019/#020 deadline |
 | #020 | (none) | — | No negative review this issue — lowest profile is Al-Daheeh (81, EXCELLENT). Counter advances to 1. |
+| #021 | Troom Troom | 31 | GAME OVER — "the anti-maker"; content-farm model, anonymous ownership, clone network; case built strictly on the documented record; third-lowest score in magazine history; mandatory negative FULFILLED |
 
-**Last negative review:** #019 (Dude Perfect, 58). Counter: 1 issue since last negative. **Next due by ~#021/#022 — treat as MANDATORY by #022, no further deferral.**
+**Last negative review:** #021 (Troom Troom, 31). Counter: RESET. Next due by ~#023/#024.
 
 ---
 
@@ -859,7 +896,7 @@ Before generating any new issue, verify:
 - [ ] No channels being re-reviewed unless intentional score update
 - [ ] Top 50 references previous issue's state with movement indicators
 - [ ] Hidden Levels channels haven't appeared before
-- [ ] Negative review counter: last was #019 (Dude Perfect, 58); counter at 1 after #020 carried none; MANDATORY by #022
+- [ ] Negative review counter: last was #021 (Troom Troom, 31); counter RESET; next due ~#023/#024
 - [ ] Yob references maintain continuity with past issues
 - [ ] No duplicate Time Capsule subjects
 - [ ] No repeat retro ad concepts (Depth Unlimited™ retired in all forms)
@@ -881,10 +918,10 @@ Options: treat as #004A/#004B, merge, or declare one canonical. Affects continui
 
 ### Outstanding Editorial Commitments (Made in Print)
 - **Hidden Levels — REAL CHANNELS ONLY, MANDATORY FROM #017**: Standing decision 2026-07-03 (see banner atop HIDDEN LEVELS CHANNELS COVERED). Real, verifiable <200K-sub channels, researched before writing. No exceptions, no fictional entries ever again. ✅ **HONORED #017–#020 (REAL RUN #4 — five verified channels; #020 counts secondary-sourced with uncertainty flagged in print; operator spot-check advised).** Standing rule continues every issue.
-- **Non-English Player Profile — MANDATORY EVERY ISSUE**: Binding commitment made in #013, honoured #014 (Porta dos Fundos), #015 (Doña Ángela, 80), #016 (Choque de Cultura, 82), #017 (Dot CSV, Spanish, 81), #018 (Nota Bene, French, 82), #019 (Ibai Llanos, Spanish, 81), and ✅ **FULFILLED #020 (Al-Daheeh / Ahmed El-Ghandour, Arabic, EXCELLENT 81 — FIRST ARABIC PROFILE IN MAGAZINE HISTORY; also discharges the #013 Hidden Levels "Arabic channel" flag at full-profile scale).** Must continue every issue. No skips. Next: #021.
-- **Mandatory Negative Review**: ✓ FULFILLED #015 (Tasty, 50); ✅ FULFILLED #017 (Ridddle, 38); ✅ **FULFILLED #019 (Dude Perfect, MEDIOCRE 58 — "competition with the losing removed").** Counter RESET. Next due by ~#021/#022.
+- **Non-English Player Profile — MANDATORY EVERY ISSUE**: Binding commitment made in #013, honoured #014 (Porta dos Fundos), #015 (Doña Ángela, 80), #016 (Choque de Cultura, 82), #017 (Dot CSV, Spanish, 81), #018 (Nota Bene, French, 82), #019 (Ibai Llanos, Spanish, 81), #020 (Al-Daheeh, Arabic, 81 — first Arabic profile), and ✅ **FULFILLED #021 (Li Ziqi / 李子柒, Chinese, EXCELLENT 87 — AND the FIRST NON-ENGLISH-LANGUAGE CHANNEL EVER TO ENTER THE TOP 50, at NEW #30: the commitment's first structural outcome, not just coverage).** Must continue every issue. No skips. Next: #022.
+- **Mandatory Negative Review**: ✓ FULFILLED #015 (Tasty, 50); ✅ FULFILLED #017 (Ridddle, 38); ✅ FULFILLED #019 (Dude Perfect, 58); ✅ **FULFILLED #021 (Troom Troom, GAME OVER 31 — "the anti-maker").** Counter RESET. Next due by ~#023/#024.
 - **Indian-language AI/education channels — "a proper look, not a token" (NEW, #017 — soft)**: Made in print in Yob's reply to Priya M. in the #017 Save Point — the next time the magazine covers non-English education, Indian-language AI/education channels get a proper look. No hard date. **Distinct from (and additional to) her still-outstanding Indian regional food run promise.**
-- **REAL LETTERS INBOX — FIRST REAL READER LETTER (NEW, #017 — BINDING) → DEFERRED TO #019, STILL BINDING/ROLLING**: yob@ctrl-watch.xyz announced in print in the #017 Save Point; Yob acknowledged in print that all letters to date have been dramatized (per the trust legend). **NOT FULFILLED IN #018 — no genuine reader letter arrived by press time (mailbox verified empty).** The #018 issue handled this HONESTLY rather than faking one: the Save Point intro, the "Pull the Arm" close, and the Now Loading "IN-WORLD · THE INBOX IS OPEN" dispatch all state the promise "stands, un-kept and un-broken" and rolls forward; all five #018 letters remain explicitly dramatized. **NOT FULFILLED IN #019 EITHER — mailbox verified empty again at press time (Gmail checked; only Buttondown subscription confirmations present).** #019 handled it honestly a THIRD time: the Save Point intro keeps stats ("genuine letters received: nil"), the "Set the Record" close reframes the empty inbox as an unset any% world record ("current holder: nobody; current time: infinity"), and the Now Loading dispatch scores it as Yob losing a ranked match to his own spam folder. **NOT FULFILLED IN #020 EITHER — mailbox verified empty a FOURTH time at production time (Gmail checked 2026-10-01; only the 2026-09-24 setup/delivery tests present, no genuine reader mail).** #020 handled it honestly a fourth time: Essay Issue framing — Yob drafting a personal essay, "On Receiving No Letters" ("Montaigne would understand"). **Commitment remains BINDING and ROLLING to #021 — the first genuine letter still prints the moment it exists, badged like a relic.** Running gag arc: fruit machine (#018) → unset world record (#019) → the essay on nothing (#020).
+- **REAL LETTERS INBOX — FIRST REAL READER LETTER (NEW, #017 — BINDING) → DEFERRED TO #019, STILL BINDING/ROLLING**: yob@ctrl-watch.xyz announced in print in the #017 Save Point; Yob acknowledged in print that all letters to date have been dramatized (per the trust legend). **NOT FULFILLED IN #018 — no genuine reader letter arrived by press time (mailbox verified empty).** The #018 issue handled this HONESTLY rather than faking one: the Save Point intro, the "Pull the Arm" close, and the Now Loading "IN-WORLD · THE INBOX IS OPEN" dispatch all state the promise "stands, un-kept and un-broken" and rolls forward; all five #018 letters remain explicitly dramatized. **NOT FULFILLED IN #019 EITHER — mailbox verified empty again at press time (Gmail checked; only Buttondown subscription confirmations present).** #019 handled it honestly a THIRD time: the Save Point intro keeps stats ("genuine letters received: nil"), the "Set the Record" close reframes the empty inbox as an unset any% world record ("current holder: nobody; current time: infinity"), and the Now Loading dispatch scores it as Yob losing a ranked match to his own spam folder. **NOT FULFILLED IN #020 EITHER — mailbox verified empty a FOURTH time at production time (Gmail checked 2026-10-01; only the 2026-09-24 setup/delivery tests present, no genuine reader mail).** #020 handled it honestly a fourth time: Essay Issue framing — Yob drafting a personal essay, "On Receiving No Letters" ("Montaigne would understand"). **#021 UPDATE — THE INBOX FINALLY MADE A NOISE, AND IT WAS A SALES PITCH.** On 2026-10-27 the mailbox received its FIRST REAL HUMAN MAIL in magazine history: a cold GDPR/privacy-policy pitch from "Alex" (saw the Show HN post, misquoted the headline — "bigges"; €29 offer). Per the standing promise it was PRINTED in #021, edited for length, first name only, badged like a relic ("FIRST REAL MAIL — RECEIVED 27 OCTOBER 2026"). Yob's in-print ruling: (a) the duck is broken — the mailbox demonstrably works; (b) a cold pitch is NOT a reader letter — the first-genuine-READER-letter promise stands **UN-KEPT AND UN-BROKEN, rolling to #022, now with proof of postal service**; (c) the site runs cookie-less GoatCounter on purpose, so the one product the first correspondent sold is the one the magazine structurally cannot need. Rated ★★ with an unscored footnote of grudging affection. Operator note: do NOT reply to the pitch from the magazine; no reply was sent at production time. Running gag arc: fruit machine (#018) → unset world record (#019) → the essay on nothing (#020) → "On Receiving One (1) Letter, Concerning Cookies" (#021).
 - **Player Profile of channel under 200K subscribers — by #015**: ✓ **FULFILLED #015 — Sohla and Ham (Sohla El-Waylly, ~56K subs, EXCELLENT 83), full Player Profile not Hidden Levels.** Reader K.'s in-print promise CLOSED; the 83 was held one point below the Top 50 threshold on purpose.
 - **Type 8: The Wrapped Confession (DepthCharge framework)**: Adopted in print in #014 Yob's Save Point. Magazine taxonomy now has Type 7 (Collision, #012) and Type 8 (Wrapped Confession, #014). Future issues may build editorial scaffolding around Type 8. **#016 note:** DepthCharge mused on a "gaming collision" Type in the #016 Save Point; Yob deferred to the concepts desk — NO new Type minted. Type 7/8 numbering integrity holds.
 - **Indian comedy / Hindi-language Player Profile by #016 or #017**: ✅ **FULFILLED #016 ON-THEME — Total Gaming / Ajju Bhai (Hindi Free Fire gameplay, GOOD 74).** Priya M.'s Hindi-profile promise CLOSED (delivered through a gaming creator on the Gaming Issue).
@@ -910,6 +947,13 @@ Options: treat as #004A/#004B, merge, or declare one canonical. Affects continui
 
 ### Channels to Monitor / Watch-list
 - **🚨 exurb1a (88, #21) — OPERATOR DECISION REQUIRED (raised #020)**: Research for the planned #020 Boss Fight surfaced that the 2017 police reports against him (abuse and sexual-assault allegations by a former collaborator, Pieke Roelofs; Dutch prosecutors declined to proceed citing insufficient evidence; no public response from him; never resolved) are documented and persistent. The #020 fight was replaced (Geller vs Jenny) and the safe-list pairing retired unfought. The open question is his standing #21 seat: the drop-criteria precedent is Priority 4 (controversy/ethical concern — MKBHD, #011). NOT acted on autonomously — the magazine has ranked him since #001 and a public de-listing is an operator-level editorial and legal judgment. Flagged in the #020 PR and production report.
+- **🚨 Adam Savage's Tested — OPERATOR DECISION REQUIRED before any future feature (raised #021)**: The planned #021 Boss Fight (Savage vs Furze) was RETIRED UNFOUGHT after research surfaced the June 2020 civil suit by his sister under NY's Child Victims Act (he denied it; privately settled and dismissed without prejudice May 2021; no adjudication; no sponsor fallout found in the record). exurb1a precedent applied. Tested has never been reviewed; any future coverage is an operator-level call. Flagged in the #021 PR and production report.
+- **Colin Furze — future Player Profile candidate (clean, #021 research on file)**: ~13.3M subs per mid-2026 trackers; Guinness records (fastest bumper car 100.33mph 2017 for Top Gear, et al.); the bunker→tunnel→secret-garage serial; planning-permission saga resolved 2022; Warwick honorary degree July 2025. Lost his Boss Fight slot to the Savage retirement through no fault of his own — owed coverage.
+- **Smarter Every Day (85)**: DROPPED #021 — pure displacement from the bottom seats, explicitly not a quality verdict; long tenure; re-entry candidate the moment the 85-tier breathes. Expect reader mail.
+- **Jomboy Media (85)**: DROPPED #021 after two-issue tenure — the turnstile precedent (Coffeezilla/AI Explained one-issue tenures, now this) is a standing structural critique readers track; re-entry candidate; MLB equity conflict-watch flag stays live.
+- **Li Ziqi (87, #30)**: Post-return cadence could not be verified at press time — Consistency 35 priced it. If the channel goes quiet again for multiple issues, the seat becomes a live question; if a regular cadence is verified, the score has upside. Watch.
+- **Wintergatan (82)**: If Marble Machine 3 ever ships — or even reaches a playable public performance — re-evaluation upward is near-automatic. Watch the MM3 build cadence.
+- **DepthCharge column request (#021 — LOGGED, NOT PROMISED)**: After four no-ask issues he invoiced the magazine for a reader-written column (one Hidden Levels slot or a taxonomy desk). Yob logged it in print without promising. **Operator decision.** If granted, it would be the magazine's first reader-written page — precedent-setting either way.
 - **Eddy Burback (83)**: Strong stunt-form work; one big upload tier above current floor would push him into Top 50 cleanly. Re-evaluation candidate by #016.
 - **Porta dos Fundos (82)**: Below Top 50 threshold but the magazine's first Brazilian profile and 26M-sub flagship of non-English comedy. Re-evaluation candidate as non-English coverage deepens.
 - **Techmoan**: Dropped at 85 (#012) — displacement injustice flag still active. Re-entry candidate if output justifies.
@@ -1921,3 +1965,134 @@ Options: treat as #004A/#004B, merge, or declare one canonical. Affects continui
 ---
 
 *Updated post-Issue #020. Twenty issues complete. Maintain strict no-repeat policy going forward.*
+
+---
+
+## CONTINUITY UPDATE — ISSUE #021: THE MAKER ISSUE
+
+### Time Capsule Subjects Added
+| Person | Topics Covered |
+|--------|----------------|
+| Isambard Kingdom Brunel | The chains photograph as proto-thumbnail; the ticketed, failed Great Eastern launch as the original livestreamed failure; the atmospheric railway; shed-scale engineering serials — FIRST ENGINEERS & INVENTORS FIGURE |
+| Thomas Edison | Menlo Park recognized, approvingly, as the first content farm; team credit under one name (Dickson); complains the internet misquotes him — the real Mallory-attested line printed vs the "10,000 ways" paraphrase; kinetoscope irony |
+| Soichiro Honda | Rejected piston rings and metallurgy classes; racing as publicity engine; reacts to his own apocryphal "99% failure" quote; build-fail culture; anti-credentialism |
+| Margaret E. Knight | The 1870 Annan patent interference case — she won because she documented the build; journals/drawings/models as the original build log; Jerry Lawson (#016) attribution echo |
+| Archimedes | Plutarch's engineering-disdain vs the Method's mechanical reasoning; the burning-mirrors legend as the original fake build video; "do not disturb my circles" — sentiment attested, wording later |
+
+### Boss Fight Added
+| Matchup | Winner | Score | Category |
+|---------|--------|-------|----------|
+| Mark Rober vs Stuff Made Here | Mark Rober | 89 vs 86 | The Engineer-Creator |
+
+*(RE-AFFIRMATION fight, #015/#020 precedent — both ranked and previously reviewed; per-category scores from existing review frontmatter, unchanged. Rounds: CQ Rober, Consistency DRAW (52–52 — both pay the same calendar tax), Replay Rober, Community DRAW (79–78, both outsourced), X-Factor Rober narrowly. Decision line: "Rober wins the broadcast. Wighton keeps the bench." No Top 50 movement; pairing retired. NOTE: the originally slated pairing, Adam Savage vs Colin Furze, was RETIRED UNFOUGHT for cause before writing — see the Boss Fight safe-list removal note and Watch-list; the issue carries one dignified nameless sentence.)*
+
+### Channel Reviews Added
+| Channel | Score | Verdict | Top 50 | Notes |
+|---------|-------|---------|--------|-------|
+| Li Ziqi (李子柒) 🇨🇳 | 87 | EXCELLENT | NEW #30 | FIRST NON-ENGLISH-LANGUAGE CHANNEL EVER IN THE TOP 50; mandatory non-English FULFILLED; Consistency 35 (lowest ever carried into the table) outvoted by CQ 96 / Replay 94 / XF 97; litigation-not-burnout arc (sued her MCN Oct 2021, court-mediated settlement Dec 2022, 99% ownership); post-return cadence unverifiable — stated in print; answers Karim A.'s "window or token?" structurally |
+| Simone Giertz | 86 | EXCELLENT | NEW #43 | Deliberate-failure-as-philosophy (shitty robots → TED 2018 → Yetch); Truckla; Every Day Calendar; 2026 Laundry Chair Kickstarter (reported ~$966K, hedged); XF 93; Consistency 74 is the price of shipping objects |
+| Wintergatan | 82 | EXCELLENT | N/A (below 85) | Martin Molin; MMX stopped end-2021, MM3 begun Mar 2022; a decade of funded public non-completion; Community 92 — the audience pays for the failing; the Special Feature's thesis in one channel |
+| Troom Troom | 31 | GAME OVER | N/A | MANDATORY negative FULFILLED — "the anti-maker"; case strictly on the documented record (content-farm model, ~23.8M subs/~10.6B views per vidIQ Oct 2026, language-clone network, ownership unconfirmed, 2018 New Statesman/Vox reception); review deliberately names NO video title (the absence is the argument); no Reardon claim, no revenue figures; third-lowest score in history |
+
+### Boss Fight Channels (scores for Top 50)
+| Channel | Score | Verdict | Top 50 |
+|---------|-------|---------|--------|
+| Mark Rober | 89 | EXCELLENT | holds #13 (no movement) |
+| Stuff Made Here | 86 | EXCELLENT | #37→#38 (↓1, Li Ziqi displacement — unrelated to the fight) |
+
+### Top 50 — Full Change Log
+**Entries:**
+- Li Ziqi (李子柒): NEW at #30 (87) — bottom of the 87-tier; the first non-English-language channel in Top 50 history
+- Simone Giertz: NEW at #43 (86) — bottom of the twelve-deep 86-tier
+
+**Movements (single-seat displacement from the #30 insertion; two-seat for the surviving 85-tier):**
+- JCS #30→#31, Tasting History #31→#32, Breaking Points #32→#33, 12tone #33→#34, Like Stories of Old #34→#35, Nerdwriter1 #35→#36, NileRed #36→#37, Stuff Made Here #37→#38, J. Kenji López-Alt #38→#39, Scott The Woz #39→#40, Drew Gooden #40→#41, Noclip #41→#42 (all ↓1)
+- Binging with Babish #42→#44, Tantacrul #43→#45, Philosophy Tube #44→#46, Real Engineering #45→#47, Chinese Cooking Demystified #46→#48, The Slow Mo Guys #47→#49, Map Men #48→#50 (all ↓2)
+
+**Drops:**
+- Smarter Every Day (85): DROPPED — bottom seats of the 85-tier, Priority 5 displacement; tenure back to the ranking's early years; explicitly not a quality verdict; re-entry candidate
+- Jomboy Media (85): DROPPED — two-issue tenure (in #019, stay of execution #020, out #021); the turnstile precedent confirmed; re-entry candidate; MLB equity conflict-watch stays live
+
+**No change (notable):**
+- Ranks 1–29 unchanged — fourth consecutive calm issue at the top; Mark Rober holds #13 through a Boss Fight win
+
+### Hidden Levels Added — ✅ REAL RUN #5
+| Channel | Approx Subs | Yob's Pick? |
+|---------|-------------|-------------|
+| Usagi Electric (vacuum-tube computers, David Lovett) | ~134K (undated tracker figure, flagged) | Y |
+| Switch & Lever (retro-tech making) | ~152K (undated, flagged) | N |
+| Artisan Makes (hobby machining) | ~146K (conflicting lower figure printed honestly) | N |
+| Wesley Treat (handmade signs / roadside Americana) | ~196–199K (MOST borderline pick in section history, said in print) | N |
+| Turn Wright Machine Works (Keith Fenner, working machine shop) | unverified; "over 100K" in a 2018 trade roundup, staleness printed | N |
+
+*(🚨 All five REAL — standing decision honored a FIFTH time. No non-English channel could be verified under 200K at press time; the slot is unfilled AND SAID SO in print, with the torch carried at full-profile scale (Li Ziqi NEW #30) and leads invited to yob@. Operator spot-check of all counts advised.)*
+
+### Special Feature
+- **Title:** The Failure Engine
+- **Summary:** Why building is the only genre on YouTube where going wrong is the product — iteration as narrative (Stuff Made Here, Giertz, Wintergatan's funded non-completion), the counterfeits (timestamp lies, fake primitive builds, Troom Troom's craft-as-costume), the #019 Dude Perfect inverse, the economics of shown failure → patron trust, and the Edison coda (the real Mallory quote vs the "10,000 ways" fake). NO new framework/Type coined — deliberate, fourth issue running.
+
+### Retro Ads Used
+| Ad Name | Core Concept |
+|---------|-------------|
+| MONTAGE IN A CAN™ | Three months of failure compressed into forty seconds of inspiration |
+| SWARF™ (by the bag) | Artisanal metal shavings for the spotless show bench — Mild Steel / Brass Premium / Inconel Influencer |
+| THE PLANNING PERMISSION™ EXPANSION PACK | Retroactive council approval for the tunnel you already dug |
+| PATENT TROLL UNDER THE BENCH™ | We invented your invention first, retroactively; "Margaret Knight beat us once. SHE DOCUMENTED EVERYTHING." |
+
+### Game Over Trends Roasted
+1. The fake "primitive building" epic — excavator tracks in the hand-dug mud; the crew is off-camera and the pool is a set
+2. The "I Built X in 24 Hours" timestamp lie — the B-roll has three haircuts in it
+3. The reverse-restoration channel — buy it new, rust it on purpose, "restore" it; entropy as a prop
+4. The AI-voiced "genius inventions" gadget-slop compilation — renders sold as products; no hands in the entire video
+5. The shop-tour flex channel — $80K of cast iron as set dressing; a workshop that never makes a chip
+
+### Negative Review Tracker Update
+- **Last negative review:** Issue #021 (Troom Troom, 31)
+- **Counter:** RESET. Next due by ~#023/#024.
+
+### Yob's Save Point — Letter Writers (#021)
+| Writer | Location | Subject | Rating | Outcome |
+|--------|----------|---------|--------|---------|
+| **Alex** (REAL — first real mail in magazine history) | not printed (email) | Cold GDPR/privacy-policy pitch, received 2026-10-27; misquoted the Show HN headline ("bigges" [sic]) | ★★ (2) | **"FIRST REAL MAIL" — printed edited, first name only, badged like a relic.** Yob's ruling: the duck is broken (mailbox works); a cold pitch is NOT a reader letter — the #017 READER-letter promise rolls to #022 un-kept and un-broken; the site runs cookie-less GoatCounter by design, so the one product on offer is the one the magazine cannot need. Unscored footnote of grudging affection. NO reply sent from the magazine. |
+| DepthCharge | Lagos, Nigeria | FIFTH letter — THE PAYOFF: an itemized INVOICE (Type 7, Type 8, four field reports; payment terms: one page) requesting a reader-written column | ★★★★★ (5) | "THE INVOICE" — the first five stars this desk has given to a bill; claim conceded line by line; request LOGGED in the tracker with no promise made ("pages belong to the editor"); operator decision — see Watch-list |
+| Tammy R. | Frisco, Texas | RETURNING (#019) — "wholesome was never the crime, admit it" (Rober vs Dude Perfect) | ★★★★ (4) | Concession made cleanly: wholesome was never charged — frictionless was; "Rober keeps the misses in"; thirty-one points of daylight; Cheat Codes cross-ref |
+| Wojtek P. | Kraków, Poland | NEW WRITER — the hbomberguy 89: "you are fining a bridge for how long the concrete took to cure" | ★★★ (3) | Consistency measures the subscription, not the essay; FoC/Jenny precedent wall held; "declining to call a bridge a road"; door marked, not locked |
+| Halvorsen | Tromsø, Norway | FIFTH letter — "you printed my table; keep it honest, it's already stale" | ★★★★ (4) | FIFTH consecutive concession: THE LOSS COLUMN reprinted with new rows (Smarter Every Day, Jomboy, the nameless retired pairing — kept off-page for cause); Halvorsen formally dubbed the compliance department |
+| Dmitri K. | Tallinn, Estonia | RETURNING (#020) — "the turnstile turned" (Jomboy, two issues) | ★★★ (3) | Confirmed through gritted teeth; cloakroom-ticket line promoted to "load-bearing continuity"; the defence stands but is now a pattern, printed in the Loss Column |
+
+*(Structural note: the first real MAIL arrived and was printed per the #017 promise mechanics; the first real READER letter remains outstanding and BINDING, rolling to #022 — now with proof of postal service. Gag arc: fruit machine (#018) → unset world record (#019) → "On Receiving No Letters" (#020) → "On Receiving One (1) Letter, Concerning Cookies" (#021).)*
+
+### Editorial Commitments — Status Update
+| Commitment | Status |
+|------------|--------|
+| Non-English Player Profile every issue | ✅ FULFILLED #021 (Li Ziqi, Chinese, EXCELLENT 87 — and the FIRST NON-ENGLISH TOP 50 ENTRY, NEW #30) — standing, continues #022 |
+| Mandatory negative review (window ~#021/#022) | ✅ FULFILLED #021 (Troom Troom, GAME OVER 31) — counter reset; next due ~#023/#024 |
+| Hidden Levels — REAL channels only (standing) | ✅ HONORED #021 — REAL RUN #5; tracker-figure counts flagged in print; non-English HL slot unfilled and said so; operator spot-check advised |
+| REAL letters inbox / first genuine READER letter (BINDING, #017) | ⏳ EVOLVED — first real MAIL (cold pitch) received 2026-10-27 and PRINTED badged like a relic; READER-letter promise rolls to #022, un-kept and un-broken, with proof of delivery |
+| DepthCharge column request (NEW, #021) | 🆕 LOGGED, NOT PROMISED — operator decision; would be the magazine's first reader-written page |
+| Indian-language AI/education "proper look" (soft, #017) | OUTSTANDING — not invoked (Maker theme); no hard date |
+| Indian regional FOOD run (aspirational, #015) | OUTSTANDING — still owed a food-adjacent issue |
+| "Rome problem" non-Western seed (Lorenzo B., #018) | PROGRESS — first non-Western Top 50 seat (Li Ziqi #30); Honda + Archimedes in the Time Capsule; al-Jazari flagged as future TC candidate; seed stays live |
+| Type 9 / new Type proposals | HELD — DepthCharge's streak resolved into THE INVOICE (a column request, not a Type); Type 7/8 integrity holds; NO new framework coined (fourth issue running) |
+
+### Notes & Flags for Future Issues
+- **🚨 Adam Savage's Tested — OPERATOR DECISION REQUIRED (raised #021).** Savage vs Furze retired unfought on the documented 2020 suit record (denied; privately settled/dismissed May 2021; no adjudication). exurb1a precedent applied. See Watch-list. Flagged in the #021 PR and production report.
+- **🚨 exurb1a (88, #21) — OPERATOR DECISION STILL PENDING (raised #020).** Unchanged; not featured in #021.
+- **Colin Furze — owed coverage.** Clean record, research on file (~13.3M subs, mid-2026); lost his fight slot through no fault of his own; strong #022+ Player Profile candidate.
+- **FIRST REAL READER LETTER now due #022 — BINDING, ROLLING, and the mailbox provably works.** The first genuine reader letter still prints the moment it exists, badged like a relic (the frame next to Alex's laminated mailshot is literally measured, in print).
+- **DepthCharge column request — operator call.** Logged with the invoice; whatever the decision, it should be answered in print in #022's Save Point.
+- **ENGINEERS & INVENTORS Time Capsule category opened** — seventh consecutive new-category open; deep runway (Watt, Wright brothers, al-Jazari, Carver, Cochrane, Gilbreth, Morgan, Korolev). Legacy pool: 4-figure music reserve ONLY, untouched since #013.
+- **Entry threshold holds at 85; the turnstile is now a confirmed pattern** (Coffeezilla/AI Explained one-issue tenures #019, Jomboy two-issue tenure #021). Dmitri K.'s framing is load-bearing continuity; expect more mail every time seat #50 changes hands.
+- **Smarter Every Day dropped (85)** — pure displacement; re-entry candidate; will generate mail; the Loss Column already carries it.
+- **Li Ziqi cadence watch** — Consistency 35 priced an unverifiable post-return calendar; if verified regular output emerges, score has upside; if silence returns, the seat is a question. Either way it's a story.
+- **Wintergatan (82)** — near-automatic upward re-eval if Marble Machine 3 ships or publicly performs.
+- **Hidden Levels verification caveat (#021)** — research environment could not read live channel pages (fifth consecutive issue); counts are tracker figures flagged in print; **restore direct-read verification if the operator can allowlist youtube.com/socialblade.com for future runs.**
+- **Canonical assets shipped:** /reviews/ for li-ziqi, simone-giertz, wintergatan, troom-troom; /vs/mark-rober-vs-stuff-made-here/. No new concept page — no framework coined (deliberate). /criticism/time-capsule/ routes still do not exist.
+
+---
+
+**Issue #021 complete. Twenty-one issues published.**
+
+---
+
+*Updated post-Issue #021. Twenty-one issues complete. Maintain strict no-repeat policy going forward.*
