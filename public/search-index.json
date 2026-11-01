@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-10-01T06:45:59.461Z",
+  "generatedAt": "2026-11-01T06:31:28.177Z",
   "totals": {
-    "total": 310,
-    "issue": 20,
-    "review": 106,
+    "total": 323,
+    "issue": 21,
+    "review": 110,
     "channel": 17,
-    "time-capsule": 115,
-    "boss-fight": 21,
-    "special": 31
+    "time-capsule": 120,
+    "boss-fight": 22,
+    "special": 33
   },
   "entries": [
     {
@@ -149,6 +149,13 @@
       "subtitle": "YouTube invented one literary form of its own: the video essay. We grade the canon — the monarchs, the economics, and the 89 held at the door.",
       "url": "/issues/020/",
       "issueTag": "#020"
+    },
+    {
+      "type": "issue",
+      "title": "THE MAKER ISSUE",
+      "subtitle": "YouTube is the biggest workshop on earth, and failure is its native genre. We grade the builders — and the hack factory that fakes it.",
+      "url": "/issues/021/",
+      "issueTag": "#021"
     },
     {
       "type": "review",
@@ -614,6 +621,13 @@
     },
     {
       "type": "review",
+      "title": "Li Ziqi (李子柒)",
+      "subtitle": "Chinese Rural Craft / Food · 87/100 · EXCELLENT",
+      "url": "/reviews/li-ziqi/",
+      "issueTag": "#021"
+    },
+    {
+      "type": "review",
       "title": "Like Stories of Old",
       "subtitle": "Philosophy / Video Essay · 86/100 · EXCELLENT",
       "url": "/reviews/like-stories-of-old/",
@@ -824,6 +838,13 @@
     },
     {
       "type": "review",
+      "title": "Simone Giertz",
+      "subtitle": "Invention / Product Design · 86/100 · EXCELLENT",
+      "url": "/reviews/simone-giertz/",
+      "issueTag": "#021"
+    },
+    {
+      "type": "review",
       "title": "Smarter Every Day",
       "subtitle": "Science / Curiosity · 85/100 · EXCELLENT",
       "url": "/reviews/smarter-every-day/",
@@ -956,6 +977,13 @@
       "issueTag": "#009"
     },
     {
+      "type": "review",
+      "title": "Troom Troom",
+      "subtitle": "Craft Content Farm · 31/100 · GAME OVER",
+      "url": "/reviews/troom-troom/",
+      "issueTag": "#021"
+    },
+    {
       "type": "channel",
       "title": "Two Minute Papers",
       "subtitle": "GOOD",
@@ -1010,6 +1038,13 @@
       "subtitle": "Internet History / Archaeology · 84/100 · EXCELLENT",
       "url": "/reviews/whang/",
       "issueTag": "#008"
+    },
+    {
+      "type": "review",
+      "title": "Wintergatan",
+      "subtitle": "Music × Engineering · 82/100 · EXCELLENT",
+      "url": "/reviews/wintergatan/",
+      "issueTag": "#021"
     },
     {
       "type": "time-capsule",
@@ -1817,6 +1852,41 @@
       "issueTag": "#020"
     },
     {
+      "type": "time-capsule",
+      "title": "Isambard Kingdom Brunel",
+      "subtitle": "1806–1859; the chains photograph as proto-thumbnail; the ticketed Great Eastern launch failure as the original livestreamed failure; the atmospheric railway; engineering serials and shed-scale ambition — FIRST ENGINEERS & INVENTORS FIGURE",
+      "url": "/issues/021/",
+      "issueTag": "#021"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Thomas Edison",
+      "subtitle": "1847–1931; Menlo Park as the first content farm, recognized approvingly (the ambivalent/dark slot); team credit under one name (Dickson shot the films); the real Mallory-attested quote vs the \"10,000 ways\" paraphrase — he complains the internet misquotes him; kinetoscope irony",
+      "url": "/issues/021/",
+      "issueTag": "#021"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Soichiro Honda",
+      "subtitle": "1906–1991; rejected piston rings and metallurgy classes; racing as publicity; reacts to his own apocryphal \"99% failure\" quote; build-fail culture; distrust of credentialism — non-Western figure",
+      "url": "/issues/021/",
+      "issueTag": "#021"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Margaret E. Knight",
+      "subtitle": "1838–1914; the 1870 Annan patent interference case; she won because she documented the build (journals, drawings, models) — the build log as proof of authorship; Jerry Lawson (#016) attribution echo",
+      "url": "/issues/021/",
+      "issueTag": "#021"
+    },
+    {
+      "type": "time-capsule",
+      "title": "Archimedes",
+      "subtitle": "c.287–212 BC; Plutarch's engineering-disdain vs the Method's mechanical reasoning; the burning-mirrors legend as the original fake build video attached to a real maker's name; \"do not disturb my circles\" sentiment attested, wording later",
+      "url": "/issues/021/",
+      "issueTag": "#021"
+    },
+    {
       "type": "boss-fight",
       "title": "Dan Carlin vs Joe Rogan",
       "subtitle": "Winner: Dan Carlin",
@@ -1962,6 +2032,13 @@
       "subtitle": "Winner: Jacob Geller",
       "url": "/issues/020/",
       "issueTag": "#020"
+    },
+    {
+      "type": "boss-fight",
+      "title": "Mark Rober vs Stuff Made Here",
+      "subtitle": "Winner: Mark Rober",
+      "url": "/issues/021/",
+      "issueTag": "#021"
     },
     {
       "type": "special",
@@ -2158,6 +2235,20 @@
       "subtitle": "A Channel of One's Own — the essay economy: Woolf's money-and-a-room thesis mapped onto the video essay's funding reality (Patreon patronage, Nebula's creator-owned structure, the runtime drift as economics, the patron-first release pattern, the form auditing itself via the Dec 2023 plagiarism reckoning kept consistent with #018)",
       "url": "/issues/020/",
       "issueTag": "#020"
+    },
+    {
+      "type": "special",
+      "title": "The Failure Engine",
+      "subtitle": "The Failure Engine — why building is the only genre on YouTube where going wrong is the product: iteration as narrative (Stuff Made Here's forensic logs, Giertz's useless-machines philosophy, Wintergatan's decade of funded non-completion), the counterfeit versions (timestamp lies, fake primitive builds, Troom Troom's craft-as-costume), the #019 Dude Perfect inverse, the economics of shown failure → patron trust",
+      "url": "/issues/021/",
+      "issueTag": "#021"
+    },
+    {
+      "type": "special",
+      "title": "coda on Edison's real Mallory-attested quote vs the \"10,000 ways\" paraphrase. NO new framework/Type coined (deliberate, fourth issue running).",
+      "subtitle": "",
+      "url": "/issues/021/",
+      "issueTag": "#021"
     },
     {
       "type": "special",
